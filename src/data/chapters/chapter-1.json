@@ -1,0 +1,831 @@
+{
+  "id": "chapter-1",
+  "chapterNumber": 1,
+  "title": "Programming Concepts & OOP",
+  "description": "Interactive Revision Cheat Sheet & Interview Guide",
+  "estimatedMinutes": 60,
+  "sections": [
+    {
+      "id": "section-1",
+      "title": "Core Programming Concepts",
+      "topics": [
+        {
+          "id": "topic-1",
+          "title": "VARIABLES, REFERENCES & POINTERS",
+          "explanation": "A variable is a named storage location used to store data that can be accessed and modified during program execution. Primitive types generally store the actual value directly. Reference types represent or refer to objects stored elsewhere in memory. A pointer is a variable that stores the memory address of another variable.",
+          "tldr": "Variable হলো data রাখার জন্য নাম দেওয়া একটি memory location। Pointer variable-এর value না, তার memory address ধরে রাখে।",
+          "keyPoints": [
+            "Primitive types store the actual value directly (e.g., int, char, float, double, bool).",
+            "Reference types represent or refer to objects stored elsewhere in memory (e.g., Objects, Arrays, Classes, Strings in many languages).",
+            "The exact memory size of data types depends on the programming language, compiler, and platform. Avoid memorizing sizes as universal facts.",
+            "Address: The memory location of a variable.",
+            "Dereferencing: Accessing the value stored at the memory address held by a pointer.",
+            "Pointer to Pointer: A pointer that stores the address of another pointer."
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "int a = 10;\nint* p = &a;\ncout << p << endl;   // Prints address of a\ncout << *p << endl;  // Prints value: 10\n\nint** q = &p;",
+              "explanation": "Example of pointer and dereferencing in C++."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Important C++ Operators",
+              "headers": ["Operator", "Meaning"],
+              "rows": [
+                ["&variable", "Gets the memory address of a variable"],
+                [
+                  "*pointer",
+                  "Dereferences a pointer to access the value"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-1-1",
+              "statement": "Does every variable directly store the actual data?",
+              "explanation": "No. Value types typically store the value directly, while reference types store or use a reference to access an object.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-1-2",
+              "statement": "What happens if you dereference a null or invalid pointer?",
+              "explanation": "It results in undefined behavior and may crash the program. Never dereference an uninitialized pointer or nullptr.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "topic-2",
+          "title": "JAVASCRIPT VALUE VS REFERENCE",
+          "explanation": "When primitive values are assigned, the value is copied. Objects and arrays behave differently; both variables refer to the same object.",
+          "tldr": "Primitive copy করলে আলাদা value হয়, কিন্তু Object assign করলে সাধারণত একই object-এর reference share হয়।",
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "let a = 10;\nlet b = a;\nb = 20;\nconsole.log(a); // 10\nconsole.log(b); // 20",
+              "explanation": "Primitive Value Copy"
+            },
+            {
+              "language": "javascript",
+              "code": "let userA = { name: \"Bob\" };\nlet userB = userA;\nuserB.name = \"Alice\";\nconsole.log(userA.name); // Alice",
+              "explanation": "Object Reference Copy"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-2-1",
+              "statement": "const prevents object mutation",
+              "explanation": "const prevents reassignment of the variable. It does not automatically make the object immutable. `user.name = \"Alice\";` is valid, but `user = {};` throws an error.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-2-2",
+              "statement": "How can you create a shallow copy of an object?",
+              "explanation": "Use the spread syntax: `const userCopy = { ...user };` or `const copy = [...array];`. Important: Spread syntax creates a shallow copy. Nested objects may still share references.",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "topic-3",
+          "title": "C++ POINTERS & MEMORY",
+          "explanation": "Arrays store elements sequentially in memory, enabling pointer arithmetic where `arr[i]` is equivalent to `*(arr + i)`.",
+          "tldr": "Array-এর elementগুলো sequential memory-তে থাকে, তাই pointer দিয়ে next element access করা যায়।",
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int a = 10;\n    int* p = &a;\n    cout << p << endl;    // Address of a\n    cout << *p << endl;   // Value of a: 10\n    cout << &p << endl;   // Address of pointer p itself\n    int x = a;\n    x = 40;\n    cout << a << endl;    // Still 10\n    *p = 50;\n    cout << a << endl;    // 50\n    return 0;\n}",
+              "explanation": "Basic Pointer Example"
+            },
+            {
+              "language": "cpp",
+              "code": "int arr[3] = {1, 2, 3};\nint* p = arr;\ncout << *p << endl;       // 1\ncout << *(p + 1) << endl; // 2\ncout << *(p + 2) << endl; // 3",
+              "explanation": "Pointer Arithmetic"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-3-1",
+              "statement": "Is pointer arithmetic safe everywhere?",
+              "explanation": "No. Pointer arithmetic should remain within the bounds of the same array or valid memory region.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "topic-4",
+          "title": "COMMON STRING & ARRAY OPERATIONS",
+          "explanation": "These operations frequently appear in coding interviews. Before using a built-in method, ask: Does it modify the original data? Does it return a new value? What is its time complexity? Does it require extra memory? What happens if the element is not found?",
+          "tldr": "Built-in function use করার আগে complexity আর original data change হয় কিনা দেখে নাও।",
+          "keyPoints": [
+            "Essential Operations: Length, Character Access, Uppercase, Lowercase, Find, Search, Contains, Substring, Replace, Split, Join, Trim, Concatenate, Compare, Repeat."
+          ],
+          "traps": [
+            {
+              "id": "trap-4-1",
+              "statement": "Is every built-in operation O(1)?",
+              "explanation": "No. Searching, copying, replacing, sorting, and creating substrings may require O(n) or more operations.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "topic-5",
+          "title": "CONTROL FLOW & LOOPS",
+          "explanation": "Different types of loops serve different purposes based on whether the number of iterations is known and when the condition is checked.",
+          "tldr": "do...while condition false হলেও অন্তত একবার execute হবেই।",
+          "comparisons": [
+            {
+              "title": "Types of Loops",
+              "headers": ["Loop", "Best Use Case", "Condition Check"],
+              "rows": [
+                [
+                  "for",
+                  "Number of iterations is known",
+                  "Before execution"
+                ],
+                [
+                  "while",
+                  "Iterations depend on a condition",
+                  "Before execution"
+                ],
+                [
+                  "do...while",
+                  "Must execute at least once",
+                  "After execution"
+                ]
+              ]
+            }
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "for (int i = 0; i < 5; i++) {\n    cout << i << endl;\n}",
+              "explanation": "Use when the number of iterations is known."
+            },
+            {
+              "language": "cpp",
+              "code": "int i = 0;\nwhile (i < 5) {\n    cout << i << endl;\n    i++;\n}",
+              "explanation": "Use when the number of iterations is unknown."
+            },
+            {
+              "language": "cpp",
+              "code": "int i = 10;\ndo {\n    cout << i << endl;\n} while (i < 5);",
+              "explanation": "Runs the code block before checking the condition. The loop runs once even though the condition is false (Output: 10)."
+            }
+          ],
+          "questions": [
+            {
+              "question": "Which loop guarantees at least one execution?",
+              "answer": "do...while."
+            }
+          ]
+        },
+        {
+          "id": "topic-6",
+          "title": "CALLBACK FUNCTIONS & forEach()",
+          "explanation": "A callback function is a function passed as an argument to another function and executed by that function. `forEach()` executes a callback function once for each element of an array.",
+          "tldr": "forEach() দিয়ে loop করা সহজ, কিন্তু মাঝপথে break করা যায় না।",
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "const numbers = [10, 20, 30];\nfunction logItem(item) {\n    console.log(item);\n}\nnumbers.forEach(logItem);\n\n// Arrow Function Version\nnumbers.forEach((item) => {\n    console.log(item);\n});",
+              "explanation": "Callback and forEach() example"
+            },
+            {
+              "language": "javascript",
+              "code": "const numbers = [1, 2, 3];\nconst result = numbers.map((x) => x * 2);\nconsole.log(result); // [2, 4, 6]",
+              "explanation": "Difference between forEach() and map()"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-6-1",
+              "statement": "You can use break or continue inside forEach().",
+              "explanation": "You generally cannot use break or continue inside a normal forEach() callback. If you need early termination, consider: for, for...of, .some(), .every(), .find().",
+              "category": "common-mistake"
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the difference between forEach() and map()?",
+              "answer": "forEach() is mainly used for side effects. map() transforms elements and returns a new array."
+            }
+          ]
+        },
+        {
+          "id": "topic-7",
+          "title": "TIME COMPLEXITY",
+          "explanation": "Time Complexity describes how the number of operations performed by an algorithm grows as the input size n increases. It does not measure actual execution time in seconds.",
+          "tldr": "Input বাড়লে algorithm-এর কাজ কত দ্রুত বাড়ে, সেটাই Time Complexity।",
+          "comparisons": [
+            {
+              "title": "Common Complexities",
+              "headers": ["Complexity", "Meaning", "Example"],
+              "rows": [
+                ["O(1)", "Constant", "Array index access"],
+                ["O(log n)", "Logarithmic", "Binary search"],
+                ["O(n)", "Linear", "Linear search"],
+                ["O(n log n)", "Linearithmic", "Merge sort"],
+                ["O(n²)", "Quadratic", "Nested loops"]
+              ]
+            }
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "for (int i = 0; i < n; i++) {\n    cout << i;\n}",
+              "explanation": "Example: O(n) - The loop runs n times."
+            },
+            {
+              "language": "cpp",
+              "code": "for (int i = 0; i < n; i++) {\n    for (int j = 0; j < n; j++) {\n        cout << i << j;\n    }\n}",
+              "explanation": "Example: O(n²) - Time Complexity is quadratic."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-7-1",
+              "statement": "Do two loops always mean O(n²)?",
+              "explanation": "No. Consecutive loops result in O(n) + O(n) = O(2n) = O(n). Nested loops may produce O(n²).",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "topic-8",
+          "title": "SPACE COMPLEXITY",
+          "explanation": "Space Complexity measures how an algorithm's memory usage grows as input size increases.",
+          "tldr": "Input বাড়লে algorithm-এর extra memory কত বাড়ে, সেটাই Space Complexity।",
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "int sum = 0;\nfor (int i = 0; i < n; i++) {\n    sum += i;\n}",
+              "explanation": "Time: O(n), Extra Space: O(1)"
+            },
+            {
+              "language": "cpp",
+              "code": "vector<int> result(n);",
+              "explanation": "Example with Extra Array. Extra space: O(n)"
+            }
+          ],
+          "questions": [
+            {
+              "question": "Does input memory always count as extra space?",
+              "answer": "Usually, interviewers distinguish between input space and auxiliary space. Always clarify whether you are discussing total space or extra space used by the algorithm."
+            }
+          ]
+        },
+        {
+          "id": "topic-9",
+          "title": "PRE-INCREMENT VS POST-INCREMENT",
+          "explanation": "Post-Increment (x++): Use the current value first, then increment. Pre-Increment (++x): Increment first, then use the updated value.",
+          "tldr": "x++ আগে use পরে বাড়ে, ++x আগে বাড়ে পরে use হয়।",
+          "comparisons": [
+            {
+              "title": "Quick Comparison",
+              "headers": ["Expression", "Action"],
+              "rows": [
+                ["x++", "Use first, increment later"],
+                ["++x", "Increment first, then use"]
+              ]
+            }
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "int x = 2;\nint value = x++;\ncout << value; // 2\ncout << x;     // 3",
+              "explanation": "Post-Increment Example"
+            },
+            {
+              "language": "cpp",
+              "code": "int x = 2;\nint value = ++x;\ncout << value; // 3\ncout << x;     // 3",
+              "explanation": "Pre-Increment Example"
+            }
+          ],
+          "questions": [
+            {
+              "question": "Are x++ and ++x always interchangeable?",
+              "answer": "No. They produce different results when the expression's value is used."
+            }
+          ]
+        },
+        {
+          "id": "topic-10",
+          "title": "OBJECT-ORIENTED PROGRAMMING CONCEPTS",
+          "explanation": "Object-Oriented Programming (OOP) is a programming paradigm that organizes software around objects. An object combines data (attributes) and behavior (methods). The four pillars are: Encapsulation, Inheritance, Abstraction, Polymorphism.",
+          "tldr": "Class হলো blueprint, Object হলো blueprint থেকে তৈরি real instance। Procedural-এ function main, OOP-তে object main।",
+          "comparisons": [
+            {
+              "title": "Class vs Object",
+              "headers": ["Class", "Object"],
+              "rows": [
+                ["Blueprint", "Instance"],
+                [
+                  "Defines structure",
+                  "Contains actual state"
+                ],
+                [
+                  "Used to create objects",
+                  "Created from a class"
+                ],
+                ["Logical design", "Runtime entity"]
+              ]
+            },
+            {
+              "title": "Procedural Programming vs OOP",
+              "headers": ["Procedural Programming", "OOP"],
+              "rows": [
+                [
+                  "Focuses on functions",
+                  "Focuses on objects"
+                ],
+                [
+                  "Data and functions are separate",
+                  "Data and methods are grouped"
+                ],
+                [
+                  "Good for small programs",
+                  "Good for complex applications"
+                ],
+                ["Less abstraction", "Supports abstraction"],
+                [
+                  "Less data protection",
+                  "Supports encapsulation"
+                ]
+              ]
+            },
+            {
+              "title": "Overloading vs Overriding",
+              "headers": ["Overloading", "Overriding"],
+              "rows": [
+                [
+                  "Same function name",
+                  "Same method signature"
+                ],
+                [
+                  "Different parameters",
+                  "Derived class changes inherited behavior"
+                ],
+                [
+                  "Usually compile-time",
+                  "Runtime polymorphism"
+                ],
+                [
+                  "Same class/scope",
+                  "Base and derived classes"
+                ]
+              ]
+            }
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "class Car {\npublic:\n    string brand;\n    void drive() {\n        cout << \"Driving\";\n    }\n};\n\nCar myCar;",
+              "explanation": "Class and Object example. Car is the class, myCar is the object."
+            },
+            {
+              "language": "cpp",
+              "code": "class Car {\npublic:\n    string brand;\n    string model;\n    Car() {\n        brand = \"Unknown\";\n        model = \"Unknown\";\n    }\n    Car(string b, string m) {\n        brand = b;\n        model = m;\n    }\n};",
+              "explanation": "Constructor Overloading: Default and Parameterized Constructors."
+            },
+            {
+              "language": "cpp",
+              "code": "class Employee {\nprivate:\n    int salary;\npublic:\n    void setSalary(int s) {\n        if (s >= 0) salary = s;\n    }\n    int getSalary() {\n        return salary;\n    }\n};",
+              "explanation": "Encapsulation with Getters and Setters."
+            },
+            {
+              "language": "cpp",
+              "code": "class Animal {\npublic:\n    void eat() { cout << \"Eating\"; }\n};\nclass Dog : public Animal {\npublic:\n    void bark() { cout << \"Barking\"; }\n};",
+              "explanation": "Inheritance Example"
+            },
+            {
+              "language": "cpp",
+              "code": "class Appliance {\npublic:\n    virtual void turnOn() = 0; // Pure Virtual Function\n};\nclass Fan : public Appliance {\npublic:\n    void turnOn() override {\n        cout << \"Fan is spinning.\" << endl;\n    }\n};",
+              "explanation": "Abstraction Example"
+            },
+            {
+              "language": "cpp",
+              "code": "class Animal {\npublic:\n    virtual void makeSound() {\n        cout << \"Generic sound\" << endl;\n    }\n};\nclass Dog : public Animal {\npublic:\n    void makeSound() override {\n        cout << \"Woof!\" << endl;\n    }\n};\n\nAnimal* animal = new Dog();\nanimal->makeSound(); // Woof!",
+              "explanation": "Runtime Polymorphism Example"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-10-1",
+              "statement": "Does a class always consume no memory?",
+              "explanation": "That statement is oversimplified. Objects consume memory for instance data. Static members and implementation details may also require memory.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-10-2",
+              "statement": "Can a constructor have a return type?",
+              "explanation": "No. A constructor does not have a return type, including void.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-10-3",
+              "statement": "Is encapsulation simply making every variable private?",
+              "explanation": "No. The main goal is to control access and protect the object's valid state. Getters and setters should provide meaningful control when necessary.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-10-4",
+              "statement": "What problem can multiple inheritance cause?",
+              "explanation": "It can cause ambiguity, including the Diamond Problem. C++ can handle this using techniques such as virtual inheritance.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "topic-11",
+          "title": "LIBRARY VS NAMESPACE",
+          "explanation": "A library is a collection of reusable code such as functions, classes, utilities, and modules. A namespace creates a logical scope to organize names and avoid naming conflicts.",
+          "tldr": "Library feature দেয়, Namespace name conflict আটকায়।",
+          "comparisons": [
+            {
+              "title": "Library vs Namespace",
+              "headers": ["Library", "Namespace"],
+              "rows": [
+                [
+                  "Collection of reusable code",
+                  "Logical naming scope"
+                ],
+                [
+                  "Provides functionality",
+                  "Prevents naming conflicts"
+                ],
+                [
+                  "Usually imported or linked",
+                  "Used for organization"
+                ]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Does a namespace itself provide functionality?",
+              "answer": "No. A namespace organizes identifiers. The functions and classes inside it provide the actual functionality."
+            }
+          ]
+        },
+        {
+          "id": "topic-12",
+          "title": "CORE PYTHON DATA STRUCTURES",
+          "explanation": "Comparison of Python List, Set, and Tuple.",
+          "tldr": "List change করা যায়, Tuple যায় না, Set duplicate রাখে না।",
+          "comparisons": [
+            {
+              "title": "Python Data Structures Comparison",
+              "headers": ["Feature", "List", "Set", "Tuple"],
+              "rows": [
+                [
+                  "Ordered",
+                  "Yes",
+                  "No positional indexing",
+                  "Yes"
+                ],
+                [
+                  "Mutable",
+                  "Yes",
+                  "Yes",
+                  "No"
+                ],
+                [
+                  "Duplicates",
+                  "Yes",
+                  "No",
+                  "Yes"
+                ],
+                [
+                  "Indexing",
+                  "Yes",
+                  "No",
+                  "Yes"
+                ],
+                ["Syntax", "[]", "{}", "()"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why are sets useful in algorithms?",
+              "answer": "Sets provide efficient average-case membership checking and are useful for duplicate detection and lookup problems."
+            }
+          ]
+        },
+        {
+          "id": "topic-13",
+          "title": "RECURSION",
+          "explanation": "Recursion is a programming technique where a function calls itself to solve smaller versions of the same problem. Every recursive solution requires a Base Case and a Recursive Case.",
+          "tldr": "Function নিজেকে ছোট problem নিয়ে বারবার call করে, Base Case এ গিয়ে থামে।",
+          "comparisons": [
+            {
+              "title": "Recursion vs Iteration",
+              "headers": ["Recursion", "Iteration"],
+              "rows": [
+                ["Function calls itself", "Uses loops"],
+                [
+                  "Uses call stack",
+                  "Usually uses less stack memory"
+                ],
+                [
+                  "Often easier for tree problems",
+                  "Often efficient for simple repetition"
+                ],
+                [
+                  "Risk of stack overflow",
+                  "No recursive stack growth"
+                ]
+              ]
+            }
+          ],
+          "codeSnippets": [
+            {
+              "language": "python",
+              "code": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)",
+              "explanation": "Factorial Example"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-13-1",
+              "statement": "What happens if recursion has no base case?",
+              "explanation": "The function may continue calling itself until the call stack limit is exceeded, causing a stack overflow or recursion error.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-2",
+      "title": "Interview Guide & Flashcards",
+      "topics": [
+        {
+          "id": "topic-14",
+          "title": "COMMON INTERVIEW QUESTIONS",
+          "explanation": "Frequently asked interview questions covering core OOP concepts and logic.",
+          "questions": [
+            {
+              "question": "Q1. What is the difference between a Class and an Object?",
+              "answer": "A class is a blueprint that defines properties and behavior. An object is an instance created from that class and contains actual runtime state."
+            },
+            {
+              "question": "Q2. What is a Constructor?",
+              "answer": "A constructor is a special member function that automatically executes when an object is created. It initializes the object's state and performs setup."
+            },
+            {
+              "question": "Q3. What is the difference between Overloading and Overriding?",
+              "answer": "Overloading uses the same function name with different parameter lists and is generally resolved at compile time. Overriding occurs when a derived class provides its own implementation of an inherited method and supports runtime polymorphism."
+            },
+            {
+              "question": "Q4. Why do we use Getters and Setters?",
+              "answer": "Getters and setters provide controlled access to object data. They allow: Validation, Data protection, Controlled modification, Better maintainability."
+            },
+            {
+              "question": "Q5. What are the Four Pillars of OOP?",
+              "answer": "Encapsulation, Inheritance, Abstraction, Polymorphism."
+            },
+            {
+              "question": "Q6. What is the difference between Abstraction and Encapsulation?",
+              "answer": "Abstraction hides unnecessary implementation details and exposes essential functionality. Encapsulation controls access to data and groups data with related methods."
+            },
+            {
+              "question": "Q7. What is Runtime Polymorphism?",
+              "answer": "Runtime polymorphism occurs when the method to execute is determined during program execution based on the object's actual runtime type. In C++, it is commonly achieved using: virtual, Method overriding, Base class pointers or references."
+            }
+          ]
+        },
+        {
+          "id": "topic-15",
+          "title": "RAPID REVISION FLASHCARDS",
+          "explanation": "Quick flashcards for rapid revision of core concepts.",
+          "flashcards": [
+            {
+              "id": "fc-1",
+              "question": "What is a Variable?",
+              "answer": "A named storage location used to hold data."
+            },
+            {
+              "id": "fc-2",
+              "question": "What is a Pointer?",
+              "answer": "A variable that stores the memory address of another variable."
+            },
+            {
+              "id": "fc-3",
+              "question": "What is a Reference Type?",
+              "answer": "A type that refers to an object rather than directly storing an independent primitive value."
+            },
+            {
+              "id": "fc-4",
+              "question": "What is Time Complexity?",
+              "answer": "A measure of how the number of operations grows as input size increases."
+            },
+            {
+              "id": "fc-5",
+              "question": "What is Space Complexity?",
+              "answer": "A measure of how memory usage grows as input size increases."
+            },
+            {
+              "id": "fc-6",
+              "question": "What is the difference between ++x and x++?",
+              "answer": "++x increments first and then uses the value. x++ uses the value first and then increments."
+            },
+            {
+              "id": "fc-7",
+              "question": "What is a Callback Function?",
+              "answer": "A function passed to another function to be executed by that function."
+            },
+            {
+              "id": "fc-8",
+              "question": "What is a Class?",
+              "answer": "A blueprint that defines the properties and behavior of objects."
+            },
+            {
+              "id": "fc-9",
+              "question": "What is an Object?",
+              "answer": "An instance of a class."
+            },
+            {
+              "id": "fc-10",
+              "question": "What is a Constructor?",
+              "answer": "A special member function that automatically runs when an object is created."
+            },
+            {
+              "id": "fc-11",
+              "question": "What are the Four Pillars of OOP?",
+              "answer": "Encapsulation, Inheritance, Abstraction, Polymorphism."
+            },
+            {
+              "id": "fc-12",
+              "question": "What is Encapsulation?",
+              "answer": "Bundling data and methods together while controlling access to internal data."
+            },
+            {
+              "id": "fc-13",
+              "question": "What is Inheritance?",
+              "answer": "Allowing a derived class to reuse and extend features from a base class."
+            },
+            {
+              "id": "fc-14",
+              "question": "What is Abstraction?",
+              "answer": "Hiding unnecessary implementation details while exposing essential functionality."
+            },
+            {
+              "id": "fc-15",
+              "question": "What is Polymorphism?",
+              "answer": "Allowing the same interface to behave differently depending on the object or arguments."
+            },
+            {
+              "id": "fc-16",
+              "question": "What enables Runtime Polymorphism in C++?",
+              "answer": "Virtual functions and method overriding."
+            },
+            {
+              "id": "fc-17",
+              "question": "What is the difference between Overloading and Overriding?",
+              "answer": "Overloading uses the same function name with different parameters. Overriding provides a new implementation of an inherited method."
+            },
+            {
+              "id": "fc-18",
+              "question": "What are the two essential parts of Recursion?",
+              "answer": "Base Case, Recursive Case."
+            }
+          ]
+        },
+        {
+          "id": "topic-16",
+          "title": "FINAL INTERVIEW TRAP CHECKLIST & STRATEGY",
+          "explanation": "A checklist of common interview traps and an answering strategy using a One-Line Memory Map.",
+          "keyPoints": [
+            "For most Computer Science interview questions, use this structure: 1. Definition 2. Key Mechanism 3. Example 4. Edge Case or Difference."
+          ],
+          "traps": [
+            {
+              "id": "trap-16-1",
+              "statement": "\"Nested loops always mean O(n²).\"",
+              "explanation": "Consecutive loops can still be O(n).",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-16-2",
+              "statement": "\"const makes JavaScript objects immutable.\"",
+              "explanation": "const prevents reassignment but object properties may still change.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-16-3",
+              "statement": "\"A class never uses memory.\"",
+              "explanation": "This statement is oversimplified. Objects clearly occupy memory, and static members or implementation details may also require memory.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-16-4",
+              "statement": "\"Primitive types always have the same size.\"",
+              "explanation": "Memory size can depend on language, compiler, architecture, and platform.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-16-5",
+              "statement": "\"forEach() supports break.\"",
+              "explanation": "Use for, for...of, .some(), or .find() when early termination is needed.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-16-6",
+              "statement": "\"Recursion only needs a recursive call.\"",
+              "explanation": "Recursion must have a proper base case.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-16-7",
+              "statement": "\"Overloading and Overriding are the same.\"",
+              "explanation": "Overloading is based on different parameters. Overriding replaces inherited behavior in a derived class.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-16-8",
+              "statement": "\"Making all variables private automatically means good encapsulation.\"",
+              "explanation": "Good encapsulation means meaningful control over access and object state.",
+              "category": "conceptual"
+            }
+          ],
+          "memoryMap": {
+            "nodes": [
+              {
+                "id": "node-1",
+                "label": "Variable",
+                "description": "Stores data"
+              },
+              {
+                "id": "node-2",
+                "label": "Pointer",
+                "description": "Stores address"
+              },
+              {
+                "id": "node-3",
+                "label": "Reference",
+                "description": "Refers to existing object"
+              },
+              {
+                "id": "node-4",
+                "label": "Time Complexity",
+                "description": "How operations grow"
+              },
+              {
+                "id": "node-5",
+                "label": "Space Complexity",
+                "description": "How memory grows"
+              },
+              {
+                "id": "node-6",
+                "label": "Class",
+                "description": "Blueprint"
+              },
+              {
+                "id": "node-7",
+                "label": "Object",
+                "description": "Instance"
+              },
+              {
+                "id": "node-8",
+                "label": "Constructor",
+                "description": "Initializes object"
+              },
+              {
+                "id": "node-9",
+                "label": "Encapsulation",
+                "description": "Controls data access"
+              },
+              {
+                "id": "node-10",
+                "label": "Inheritance",
+                "description": "Reuses parent features"
+              },
+              {
+                "id": "node-11",
+                "label": "Abstraction",
+                "description": "Hides complexity"
+              },
+              {
+                "id": "node-12",
+                "label": "Polymorphism",
+                "description": "Same interface, different behavior"
+              },
+              {
+                "id": "node-13",
+                "label": "Recursion",
+                "description": "Function calls itself"
+              }
+            ],
+            "connections": []
+          }
+        }
+      ]
+    }
+  ]
+}
