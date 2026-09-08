@@ -1,0 +1,740 @@
+{
+  "id": "chapter-7",
+  "chapterNumber": 7,
+  "title": "Computer Networks",
+  "description": "Interactive Interview Revision Cheat Sheet covering the URL navigation flow, conceptual network models, transport protocols, core internet concepts, HTTP status codes, addressing, browser storage, and web authentication.",
+  "icon": "globe",
+  "estimatedMinutes": 45,
+  "sections": [
+    {
+      "id": "sec-1",
+      "title": "PART 1: 🚀 WHAT HAPPENS WHEN YOU TYPE A URL?",
+      "description": "Step-by-step walkthrough of what occurs when a user types a URL into a web browser.",
+      "topics": [
+        {
+          "id": "topic-1-1",
+          "title": "What Happens When You Type a URL Into a Browser?",
+          "explanation": "This is one of the most common networking interview questions.\n\nExample URL:\nhttps://www.google.com/search\nA URL typically contains:\nProtocol → https\nDomain   → www.google.com\nPath     → /search\n\nStep 1: Browser Parses the URL\nThe browser identifies:\nProtocol → HTTP or HTTPS\nDomain Name → www.google.com\nPath → /search\nPort → Usually 443 for HTTPS or 80 for HTTP\n\nExample:\nhttps://www.google.com/search\n│       │              │\n│       │              └── Path\n│       └───────────────── Domain\n└───────────────────────── Protocol\n\nStep 2: DNS Lookup\nThe browser needs the server's IP address because computers communicate using IP addresses.\nExample:\nwww.google.com\n      ↓\nDNS Lookup\n      ↓\n142.x.x.x\n\nThe browser may check:\nBrowser DNS cache\nOperating system cache\nLocal network/router cache\nDNS resolver\nOther DNS servers if necessary\n\nSimplified DNS Flow:\nBrowser\n   ↓\nDNS Cache?\n   ↓\nDNS Resolver\n   ↓\nFind IP Address\n   ↓\nReturn IP\n\nStep 3: Establish a Connection\nOnce the browser knows the IP address, it needs to communicate with the server.\nFor TCP-based communication, a connection is established using the:\nTCP 3-Way Handshake\n\nClient                      Server\nSYN        ───────────────►\n           ◄─────────────── SYN + ACK\nACK        ───────────────►\n\nStep-by-Step:\n1. SYN\nThe client asks:\n\"Can we start a connection?\"\n2. SYN + ACK\nThe server replies:\n\"Yes, I received your request. I am ready too.\"\n3. ACK\nThe client confirms:\n\"Connection confirmed.\"\nAfter this, the TCP connection is established.\n\nStep 4: Browser Sends HTTP Request\nThe browser sends an HTTP request to the server.\nExample:\nGET / HTTP/1.1\nHost: example.com\nUser-Agent: Chrome\n\nThe request may include:\nHTTP Method\nHeaders\nCookies\nAuthentication information\nRequest body for some methods\n\nExample:\nBrowser\n   ↓\nGET /products\n   ↓\nWeb Server\n\nStep 5: Server Processes the Request\nThe server receives the request and performs the required logic.\nExample architecture:\nBrowser\n   ↓\nWeb Server\n   ↓\nBackend Application\n   ↓\nDatabase\n   ↓\nBackend Application\n   ↓\nHTTP Response\n\nThe server may:\nAuthenticate the user\nRun backend logic\nQuery a database\nCall another API\nGenerate HTML\nReturn JSON\n\nExample response:\nHTTP/1.1 200 OK\nContent-Type: text/html\nOr:\n{\n  \"message\": \"Success\"\n}\n\nStep 6: Browser Receives the Response\nThe browser receives resources such as:\nHTML\nCSS\nJavaScript\nImages\nFonts\n\nExample:\nServer Response\n      ↓\nHTML\n      ↓\nCSS\n      ↓\nJavaScript\n      ↓\nImages / Fonts\n\nStep 7: Browser Renders the Page\nThe browser processes the resources and renders the page.\nSimplified rendering flow:\nHTML\n ↓\nDOM\nCSS\n ↓\nCSSOM\nDOM + CSSOM\n ↓\nRender Tree\n ↓\nLayout\n ↓\nPaint\n ↓\nDisplay on Screen\n\nJavaScript may also:\nModify the DOM\nFetch more data\nAdd interactivity\nUpdate the UI",
+          "tldr": "Browser প্রথমে URL দেখে বুঝে কোন protocol, domain এবং resource request করা হয়েছে। DNS domain name-কে IP address-এ convert করে। TCP connection শুরু করতে Client এবং Server তিনটি message exchange করে: SYN → SYN-ACK → ACK। Browser server-কে HTTP request পাঠিয়ে বলে কোন resource দরকার। Server request process করে, দরকার হলে database থেকে data এনে response পাঠায়। Browser HTML থেকে DOM বানায়, CSS apply করে, JavaScript চালায় এবং শেষে page screen-এ দেখায়।",
+          "keyPoints": [
+            "1. User enters URL",
+            "2. Browser parses URL",
+            "3. DNS resolves domain to IP",
+            "4. TCP connection is established",
+            "5. TLS handshake happens for HTTPS",
+            "6. Browser sends HTTP request",
+            "7. Server processes request",
+            "8. Server sends HTTP response",
+            "9. Browser builds DOM and CSSOM",
+            "10. Browser runs JavaScript",
+            "11. Page is rendered"
+          ],
+          "examples": ["https://www.google.com/search", "GET /products"],
+          "codeSnippets": [
+            {
+              "language": "http",
+              "code": "GET / HTTP/1.1\nHost: example.com\nUser-Agent: Chrome",
+              "explanation": "Browser HTTP Request format"
+            },
+            {
+              "language": "json",
+              "code": "{\n  \"message\": \"Success\"\n}",
+              "explanation": "Example JSON API response"
+            }
+          ],
+          "questions": [
+            {
+              "question": "What happens when you type a URL into a browser?",
+              "answer": "When a user enters a URL, the browser first parses it and performs a DNS lookup to find the server's IP address. It then establishes a connection, typically using TCP, and for HTTPS performs a TLS handshake. The browser sends an HTTP request, the server processes it and returns a response. Finally, the browser processes HTML, CSS, and JavaScript and renders the webpage."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-1-1",
+              "statement": "The browser always contacts a DNS server.",
+              "explanation": "No. The browser may already have the IP address cached. It only performs a network DNS lookup if the required DNS information is not available in cache.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-1-2",
+              "statement": "For HTTPS, establishing a TCP connection is the complete connection process.",
+              "explanation": "For HTTPS, establishing a TCP connection is not the complete process. After TCP connection establishment, the client and server also perform a TLS Handshake to establish encryption, certificate verification, and secure session keys.",
+              "category": "conceptual"
+            }
+          ],
+          "memoryMap": {
+            "nodes": [
+              { "id": "1", "label": "User Enters URL" },
+              { "id": "2", "label": "Browser Parses URL" },
+              { "id": "3", "label": "DNS Resolves Domain to IP" },
+              { "id": "4", "label": "TCP Connection Established" },
+              { "id": "5", "label": "TLS Handshake (HTTPS)" },
+              { "id": "6", "label": "Browser Sends HTTP Request" },
+              { "id": "7", "label": "Server Processes Request" },
+              { "id": "8", "label": "Server Sends HTTP Response" },
+              { "id": "9", "label": "Browser Builds DOM & CSSOM" },
+              { "id": "10", "label": "Browser Runs JavaScript" },
+              { "id": "11", "label": "Page is Rendered" }
+            ],
+            "connections": [
+              { "from": "1", "to": "2" },
+              { "from": "2", "to": "3" },
+              { "from": "3", "to": "4" },
+              { "from": "4", "to": "5" },
+              { "from": "5", "to": "6" },
+              { "from": "6", "to": "7" },
+              { "from": "7", "to": "8" },
+              { "from": "8", "to": "9" },
+              { "from": "9", "to": "10" },
+              { "from": "10", "to": "11" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "sec-2",
+      "title": "PART 2: 🧱 NETWORK CONCEPTUAL MODELS",
+      "description": "Understanding layer-based abstractions: OSI Model vs TCP/IP Model.",
+      "topics": [
+        {
+          "id": "topic-2-1",
+          "title": "Why Do We Use Network Layers?",
+          "explanation": "Networking is divided into layers to make communication: Easier to understand, Easier to design, Easier to troubleshoot, More modular. Each layer has a specific responsibility.",
+          "keyPoints": [
+            "Easier to understand",
+            "Easier to design",
+            "Easier to troubleshoot",
+            "More modular",
+            "Each layer has a specific responsibility"
+          ]
+        },
+        {
+          "id": "topic-2-2",
+          "title": "OSI Model — 7 Layers",
+          "explanation": "The OSI Model is a conceptual networking model with 7 layers:\n7. Application\n6. Presentation\n5. Session\n4. Transport\n3. Network\n2. Data Link\n1. Physical\n\nA common mnemonic: All People Seem To Need Data Processing\n\nLayer 7: Application Layer\nProvides network services to applications. Common protocols: HTTP, HTTPS, FTP, SMTP, DNS, SSH.\n\nLayer 6: Presentation Layer\nHandles: Data formatting, Encryption, Decryption, Compression.\n\nLayer 5: Session Layer\nManages communication sessions between devices. It can: Start sessions, Maintain sessions, End sessions.\n\nLayer 4: Transport Layer\nHandles communication between applications. Common protocols: TCP, UDP. Responsibilities include: Reliability, Flow control, Error handling, Segmentation, Port numbers.\nImportant Note: TCP does not simply 'break data into packets.' At the transport layer, TCP handles segments. Lower layers encapsulate the data into packets and frames.\n\nLayer 3: Network Layer\nHandles: IP addressing, Routing, Communication between networks. Example protocol: IP. Routers mainly operate at this layer.\n\nLayer 2: Data Link Layer\nHandles communication within a local network. Uses: MAC addresses, Frames. Common technologies: Ethernet, Wi-Fi. Switches commonly operate at this layer.\n\nLayer 1: Physical Layer\nTransmits raw bits using physical signals. Examples: Ethernet cables, Fiber optics, Radio signals, Network hardware.",
+          "tldr": "Application Layer application-কে network service ব্যবহার করতে দেয়। Data কীভাবে format, encrypt বা compress হবে তা Presentation Layer handle করে। Session Layer দুই device-এর communication session manage করে। Transport Layer data delivery এবং TCP/UDP communication handle করে। IP address ব্যবহার করে data কোন network path দিয়ে যাবে তা Network Layer handle করে। একই local network-এর device-এর মধ্যে MAC address ব্যবহার করে Data Link Layer-এ communication হয়। Physical Layer আসল signal বা raw bits transmit করে।",
+          "keyPoints": [
+            "Layer 7: Application (HTTP, HTTPS, DNS)",
+            "Layer 6: Presentation (Formatting, Encryption, Compression)",
+            "Layer 5: Session (Manage sessions)",
+            "Layer 4: Transport (TCP/UDP segments, Port numbers)",
+            "Layer 3: Network (IP, Routers, Packets)",
+            "Layer 2: Data Link (MAC, Switches, Frames)",
+            "Layer 1: Physical (Bits, Signals, Cables)"
+          ]
+        },
+        {
+          "id": "topic-2-3",
+          "title": "TCP/IP Model — 4 Layers & Model Comparison",
+          "explanation": "The TCP/IP model is a more practical model used to describe Internet networking:\n4. Application (HTTP, HTTPS, DNS, SMTP, FTP)\n3. Transport (TCP, UDP - Handles communication between applications)\n2. Internet (IP - Handles routing between networks)\n1. Network Access (Ethernet, Wi-Fi - Handles network communication technologies)",
+          "tldr": "OSI শেখা ও troubleshooting-এর জন্য useful, TCP/IP বাস্তব Internet communication-এর জন্য বেশি practical।",
+          "comparisons": [
+            {
+              "title": "OSI vs TCP/IP",
+              "headers": ["Feature", "OSI Model", "TCP/IP Model"],
+              "rows": [
+                ["Layers", "7", "4"],
+                [
+                  "Type",
+                  "Conceptual / Reference Model",
+                  "Practical Internet Model"
+                ],
+                ["Detail", "More detailed", "Simpler"],
+                [
+                  "Usage",
+                  "Learning & troubleshooting",
+                  "Real-world networking"
+                ],
+                [
+                  "Implementation",
+                  "Rarely implemented exactly",
+                  "Closely reflects Internet protocols"
+                ]
+              ]
+            },
+            {
+              "title": "OSI to TCP/IP Mapping",
+              "headers": ["OSI", "TCP/IP"],
+              "rows": [
+                ["Application", "Application"],
+                ["Presentation", "Application"],
+                ["Session", "Application"],
+                ["Transport", "Transport"],
+                ["Network", "Internet"],
+                ["Data Link", "Network Access"],
+                ["Physical", "Network Access"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-2-1",
+              "statement": "The OSI model is what is directly implemented on the modern Internet.",
+              "explanation": "Real-world Internet protocols are generally described using the TCP/IP model, while the OSI model is mainly used as a conceptual reference for learning and troubleshooting.",
+              "category": "conceptual"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-3",
+      "title": "PART 3: 🚚 TCP VS UDP",
+      "description": "Comparison of primary Transport Layer protocols: Transmission Control Protocol and User Datagram Protocol.",
+      "topics": [
+        {
+          "id": "topic-3-1",
+          "title": "TCP vs UDP",
+          "explanation": "TCP — Transmission Control Protocol:\nTCP is a reliable, connection-oriented transport protocol. It provides connection establishment, ordered delivery, error detection, retransmission, flow control, and congestion control.\nFlow: Application Data → Split into Segments → Send to Receiver → Receiver Confirms Delivery → Lost Data? → Retransmit if Necessary. Common uses: Web browsing, HTTPS, Email, File transfer, Database communication.\n\nUDP — User Datagram Protocol:\nUDP is a connectionless transport protocol designed for low-overhead communication. It generally does not provide connection establishment, guaranteed delivery, ordered delivery, or automatic retransmission. This reduces overhead and can reduce latency. Common uses: Online gaming, Voice calls, Video calls, Live streaming, DNS queries. Applications using UDP can implement their own reliability mechanisms if required.",
+          "tldr": "TCP reliable এবং ordered data delivery নিশ্চিত করে। UDP speed এবং low latency-এর জন্য ভালো, কিন্তু TCP-এর মতো delivery guarantee দেয় না।",
+          "keyPoints": [
+            "TCP is connection-oriented, reliable, maintains order, and retransmits lost packets.",
+            "UDP is connectionless, lightweight, has lower latency, but offers no delivery or ordering guarantees.",
+            "TCP segments data at the transport layer.",
+            "UDP is preferred for real-time applications where packet loss is acceptable over latency."
+          ],
+          "comparisons": [
+            {
+              "title": "TCP vs UDP",
+              "headers": ["Feature", "TCP", "UDP"],
+              "rows": [
+                ["Connection", "Connection-oriented", "Connectionless"],
+                ["Reliability", "Reliable delivery", "No delivery guarantee"],
+                ["Order", "Maintains order", "Order not guaranteed"],
+                ["Retransmission", "Yes", "No built-in guarantee"],
+                ["Overhead", "Higher", "Lower"],
+                [
+                  "Speed / Latency",
+                  "Usually higher overhead",
+                  "Lower overhead"
+                ],
+                ["Common Use", "Web, email, files", "Games, VoIP, streaming"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the difference between TCP and UDP?",
+              "answer": "TCP is connection-oriented and provides reliable, ordered delivery using acknowledgments and retransmissions. UDP is connectionless and has lower overhead but does not guarantee delivery or ordering. TCP is commonly used when accuracy matters, while UDP is often preferred for real-time applications where low latency is more important."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-3-1",
+              "statement": "UDP is always faster than TCP.",
+              "explanation": "UDP has less protocol overhead and does not require TCP-style reliability mechanisms, which can reduce latency. However, real-world performance depends on the application and network conditions.",
+              "category": "interview-gotcha"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-4",
+      "title": "PART 4: 🌍 CORE INTERNET CONCEPTS",
+      "description": "Essential network standards: IP Addressing, Domain Name System, and HTTP vs HTTPS.",
+      "topics": [
+        {
+          "id": "topic-4-1",
+          "title": "IP Address (IPv4 vs IPv6)",
+          "explanation": "An IP Address is a logical address used to identify devices and route data across networks.\n\nIPv4:\nUses 32-bit addresses (e.g., 192.168.1.1). Structure: 8 bits . 8 bits . 8 bits . 8 bits. Total theoretical address space: 2³² ≈ 4.3 billion addresses.\n\nIPv6:\nUses 128-bit addresses (e.g., 2001:0db8:85a3:0000:0000:8a2e:0370:7334). Total theoretical address space: 2¹²⁸ addresses, providing an extremely large address space.",
+          "tldr": "IPv4-এর address কম, তাই ভবিষ্যতের জন্য IPv6 অনেক বড় address space দেয়।",
+          "comparisons": [
+            {
+              "title": "IPv4 vs IPv6",
+              "headers": ["Feature", "IPv4", "IPv6"],
+              "rows": [
+                ["Address Size", "32-bit", "128-bit"],
+                ["Format", "Decimal", "Hexadecimal"],
+                ["Example", "192.168.1.1", "2001:db8::1"],
+                ["Address Space", "2³²", "2¹²⁸"],
+                [
+                  "Main Goal",
+                  "Original Internet addressing",
+                  "Larger address space"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-4-1",
+              "statement": "IPv4 and IPv6 can communicate directly with each other natively.",
+              "explanation": "They are different protocols, so transition mechanisms such as dual-stack, tunneling, or translation may be used depending on the network architecture.",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "topic-4-2",
+          "title": "DNS — Domain Name System",
+          "explanation": "DNS translates human-readable domain names into IP addresses (e.g., google.com → DNS → IP Address). Humans remember names like google.com, whereas computers route traffic using IP addresses.\nAnalogy: DNS is the Internet's phonebook (Name → Phone Number corresponds to Domain → IP Address).",
+          "tldr": "DNS website-এর নামকে IP address-এ convert করে।",
+          "traps": [
+            {
+              "id": "trap-4-2",
+              "statement": "If DNS is completely down, communication to a remote server is entirely impossible.",
+              "explanation": "Users may be unable to resolve domain names to IP addresses. However, if the IP address is already known or cached, direct communication may still be technically possible depending on the service configuration.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "topic-4-3",
+          "title": "HTTP vs HTTPS",
+          "explanation": "HTTP (HyperText Transfer Protocol) transfers data without TLS encryption. Potential risks include data interception, data modification by attackers, and lack of server identity verification.\n\nHTTPS (HTTP Secure) uses HTTP + TLS. It provides Encryption, Integrity, and Server authentication.\n\nImportant Interview Note:\nPeople often say 'HTTPS uses SSL.' Modern HTTPS primarily uses TLS. SSL is the older protocol family and is deprecated.",
+          "tldr": "HTTPS TLS ব্যবহার করে data encrypt এবং secure communication নিশ্চিত করে।",
+          "traps": [
+            {
+              "id": "trap-4-3",
+              "statement": "HTTPS means a website is automatically trustworthy or malware-free.",
+              "explanation": "No. HTTPS secures communication between the client and server. It does not guarantee that the website itself is safe or trustworthy.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-5",
+      "title": "PART 5: 📡 HTTP STATUS CODES",
+      "description": "Overview of HTTP response code categories, specific codes, and common interview distinctions.",
+      "topics": [
+        {
+          "id": "topic-5-1",
+          "title": "HTTP Status Code Categories & Critical Codes",
+          "explanation": "Status Code Categories:\n1xx → Informational (Request received, processing continues)\n2xx → Success (Request completed successfully)\n3xx → Redirection (Further action needed to complete request)\n4xx → Client Error (Problem with request)\n5xx → Server Error (Server failed to fulfill request)\n\nKey Codes:\n200 OK: Request completed successfully.\n201 Created: A new resource was successfully created.\n204 No Content: Request succeeded, but there is no response body.\n301 Moved Permanently: The resource has permanently moved to another URL.\n302 Found: Temporary redirect behavior.\n400 Bad Request: The request is invalid.\n401 Unauthorized: Authentication is missing or invalid.\n403 Forbidden: The user is authenticated but does not have permission.\n404 Not Found: The requested resource does not exist.\n500 Internal Server Error: The server encountered an unexpected error.\n502 Bad Gateway: A server acting as a gateway/proxy received an invalid response from an upstream server.\n503 Service Unavailable: The server is temporarily unavailable.",
+          "tldr": "2xx → Success, 3xx → Redirect, 4xx → Client Problem, 5xx → Server Problem.",
+          "comparisons": [
+            {
+              "title": "Status Code Quick Table",
+              "headers": ["Code", "Meaning"],
+              "rows": [
+                ["200", "OK"],
+                ["201", "Created"],
+                ["204", "No Content"],
+                ["301", "Moved Permanently"],
+                ["400", "Bad Request"],
+                ["401", "Authentication problem"],
+                ["403", "Permission denied"],
+                ["404", "Not Found"],
+                ["500", "Internal Server Error"],
+                ["502", "Bad Gateway"],
+                ["503", "Service Unavailable"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-5-1",
+              "statement": "HTTP 401 means you are not permitted to view the resource.",
+              "explanation": "Despite the name 'Unauthorized', HTTP 401 generally means authentication is required or invalid ('Who are you?'). 403 Forbidden means the server knows who you are, but you do not have permission ('Permission denied').",
+              "category": "interview-gotcha"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-6",
+      "title": "PART 6: 🔌 MAC ADDRESS VS IP ADDRESS",
+      "description": "Comparison between Link-layer physical addresses and Network-layer logical addresses.",
+      "topics": [
+        {
+          "id": "topic-6-1",
+          "title": "MAC Address vs IP Address",
+          "explanation": "MAC Address:\nA MAC Address is a hardware-level address associated with a network interface (e.g., 00:1A:2B:3C:4D:5E). MAC addresses are primarily used for communication on local networks at the data link layer.\n\nIP Address:\nAn IP Address is a logical network address used for routing data across networks at the network layer (e.g., 192.168.1.10). IP addresses may change depending on network configuration.",
+          "tldr": "MAC local network-এ device/interface identify করে, আর IP different network-এর মধ্যে routing-এর জন্য ব্যবহার হয়।",
+          "comparisons": [
+            {
+              "title": "MAC vs IP",
+              "headers": ["Feature", "MAC Address", "IP Address"],
+              "rows": [
+                ["Type", "Link-layer address", "Network-layer address"],
+                [
+                  "Used For",
+                  "Local network delivery",
+                  "Routing across networks"
+                ],
+                ["Scope", "Local network", "Across networks"],
+                [
+                  "Assigned To",
+                  "Network interface",
+                  "Device/interface configuration"
+                ],
+                [
+                  "Can Change",
+                  "Usually stable, but can be changed/spoofed",
+                  "Can be static or dynamic"
+                ]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the difference between a MAC address and an IP address?",
+              "answer": "A MAC address is mainly used for local network communication at the data link layer, while an IP address is a logical address used for routing data across different networks."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-6-1",
+              "statement": "A MAC address is always permanently assigned and can never change.",
+              "explanation": "Modern systems can use MAC randomization, software-configured MAC addresses, and virtual network interfaces.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-7",
+      "title": "PART 7: 🍪 COOKIES, SESSION & LOCALSTORAGE",
+      "description": "Client-side and server-side state persistence mechanisms.",
+      "topics": [
+        {
+          "id": "topic-7-1",
+          "title": "Cookies, LocalStorage, and Sessions",
+          "explanation": "Cookies:\nSmall pieces of data stored by the browser. Cookies can be automatically included with HTTP requests when applicable based on their attributes and request context. Common uses: Authentication, Session identifiers, Preferences, Tracking.\nImportant security flags:\n- HttpOnly: JavaScript cannot directly access the cookie. Useful for reducing token exposure to many XSS attacks.\n- Secure: Cookie should only be sent over HTTPS.\n- SameSite: Helps control when cookies are sent in cross-site requests. Useful for reducing CSRF risks.\n\nLocalStorage:\nBrowser storage accessible through JavaScript (e.g., localStorage.setItem('theme', 'dark')). Common uses: Theme preference, UI settings, Non-sensitive cached application data. LocalStorage is not automatically sent with HTTP requests.\n\nSession:\nA session-based authentication system usually stores user session data on the server. The browser stores a Session ID (usually as a cookie). The server receives the ID and looks up the actual user session data.",
+          "tldr": "LocalStorage JavaScript দিয়ে access করা যায়, কিন্তু HttpOnly cookie JavaScript দিয়ে পড়া যায় না। Session auth-এ browser শুধু session ID রাখে, আসল session data server-side থাকে।",
+          "comparisons": [
+            {
+              "title": "Cookies vs LocalStorage",
+              "headers": ["Feature", "Cookies", "LocalStorage"],
+              "rows": [
+                [
+                  "Automatically sent with HTTP requests",
+                  "Yes, when applicable",
+                  "No"
+                ],
+                ["JavaScript Access", "Depends on HttpOnly", "Yes"],
+                [
+                  "Common Use",
+                  "Authentication/session ID",
+                  "Preferences/app data"
+                ],
+                ["Server Access", "Sent in HTTP request", "Not automatically"],
+                ["Storage Scope", "Browser-managed", "Browser-managed"]
+              ]
+            },
+            {
+              "title": "Cookies vs Session",
+              "headers": ["Cookies", "Session"],
+              "rows": [
+                [
+                  "Stored in browser",
+                  "Session data typically stored server-side"
+                ],
+                [
+                  "Small client-side identifier/data",
+                  "Can store larger server-side state"
+                ],
+                [
+                  "Sent with requests when applicable",
+                  "Server uses session ID to locate data"
+                ],
+                [
+                  "Can persist based on expiry settings",
+                  "Ends based on expiry/logout/server policy"
+                ]
+              ]
+            }
+          ],
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "localStorage.setItem(\"theme\", \"dark\");",
+              "explanation": "Storing data in LocalStorage"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-7-1",
+              "statement": "LocalStorage is completely safe for storing JWT authentication tokens.",
+              "explanation": "LocalStorage is easy to use but JavaScript can access it, so an XSS vulnerability may expose tokens. HTTP-only cookies prevent JavaScript from directly reading the token, but cookie-based authentication requires careful CSRF protection and cookie configuration.",
+              "category": "interview-gotcha"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-8",
+      "title": "PART 8: ⚡ CACHE VS LOCALSTORAGE",
+      "description": "Distinction between resource caching and application data storage.",
+      "topics": [
+        {
+          "id": "topic-8-1",
+          "title": "Browser Cache vs LocalStorage",
+          "explanation": "Browser Cache:\nBrowser cache stores resources to improve performance. Examples: Images, CSS, JavaScript, Fonts, API responses in some caching strategies. On the first visit, CSS is downloaded; on the next visit, cached CSS is used.\n\nLocalStorage:\nStores key-value application data managed directly via JavaScript.",
+          "tldr": "Cache speed বাড়ায়, LocalStorage application-এর data store করে।",
+          "comparisons": [
+            {
+              "title": "Cache vs LocalStorage",
+              "headers": ["Feature", "Cache", "LocalStorage"],
+              "rows": [
+                ["Purpose", "Improve performance", "Store application data"],
+                ["Stores", "Website resources/responses", "Key-value data"],
+                ["Managed By", "Browser + HTTP caching rules", "JavaScript"],
+                ["Example", "CSS, images", "Theme preference"]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-9",
+      "title": "PART 9: 📬 HTTP GET VS POST",
+      "description": "Differences, security implications, and specifications of HTTP GET and POST methods.",
+      "topics": [
+        {
+          "id": "topic-9-1",
+          "title": "GET vs POST",
+          "explanation": "GET:\nPrimarily used to retrieve data (e.g., GET /users). Query parameters can be included in the URL (e.g., /users?page=1).\n\nPOST:\nCommonly used to create or submit data (e.g., POST /users) sending data in the request body.\n\nSecurity & Limits:\nPOST data is not automatically encrypted without HTTPS. Also, there is no universal HTTP specification limit for URL length in GET; practical limits depend on browsers, servers, proxies, and infrastructure.",
+          "tldr": "GET data retrieve করার জন্য, POST data submit বা create করার জন্য ব্যবহার হয়। Security-এর জন্য HTTPS দরকার।",
+          "codeSnippets": [
+            {
+              "language": "http",
+              "code": "POST /users\n\n{\n  \"name\": \"John\",\n  \"email\": \"john@example.com\"\n}",
+              "explanation": "POST request with payload"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "GET vs POST",
+              "headers": ["Feature", "GET", "POST"],
+              "rows": [
+                ["Main Purpose", "Retrieve data", "Submit/create data"],
+                ["Request Body", "Typically not used", "Commonly used"],
+                ["Data Location", "URL/query parameters", "Request body"],
+                ["URL Visible", "Yes", "Body not visible in URL"],
+                [
+                  "Cache Behavior",
+                  "Can be cacheable",
+                  "Depends on configuration"
+                ],
+                [
+                  "Idempotency",
+                  "Intended to be safe/read-only",
+                  "Not necessarily idempotent"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-9-1",
+              "statement": "POST is automatically secure because data is hidden in the request body.",
+              "explanation": "No. POST data is not automatically encrypted. HTTPS is required to encrypt data during transmission.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-9-2",
+              "statement": "The HTTP specification defines a strict fixed size limit for GET URLs.",
+              "explanation": "There is no universal HTTP specification limit for URL length. Practical limits depend on browsers, servers, proxies, and infrastructure.",
+              "category": "interview-gotcha"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-10",
+      "title": "PART 10: 🔐 AUTHENTICATION — JWT VS SESSION",
+      "description": "Deep dive into stateful Session-based authentication vs stateless JWT-based authentication.",
+      "topics": [
+        {
+          "id": "topic-10-1",
+          "title": "Session-Based vs JWT-Based Authentication",
+          "explanation": "Session-Based Authentication Flow:\n1. User Logs In → 2. Server Verifies Credentials → 3. Server Creates Session → 4. Browser Stores Session ID → 5. Browser Sends Session ID → 6. Server Finds Session.\nBoth browser cookie and server session store work together to maintain login state.\n\nJWT-Based Authentication Flow:\n1. User Logs In → 2. Server Verifies Credentials → 3. Server Creates JWT → 4. Browser Stores JWT → 5. Browser Sends JWT → 6. Server Verifies JWT.\nThe JWT itself represents authentication information. As long as the token is valid, the user remains authenticated.\n\nWhere Should JWT Be Stored?\n- LocalStorage: Easy to use → Accessible to JavaScript → Potential XSS exposure.\n- HttpOnly Cookie: Not directly accessible to JavaScript → Can reduce token theft via XSS → Requires proper CSRF and cookie configuration.",
+          "tldr": "JWT auth-এ server token verify করে। Session auth-এ server session ID দিয়ে session data খুঁজে বের করে।",
+          "codeSnippets": [
+            {
+              "language": "json",
+              "code": "{\n  \"userId\": \"123\",\n  \"role\": \"user\"\n}",
+              "explanation": "Example JWT payload claims"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Session vs JWT",
+              "headers": ["Feature", "Session", "JWT"],
+              "rows": [
+                [
+                  "Server State",
+                  "Usually stateful",
+                  "Often stateless verification"
+                ],
+                ["Browser Stores", "Session ID", "Token"],
+                ["Server Checks", "Session store", "Token signature/claims"],
+                [
+                  "Scaling",
+                  "Requires session strategy",
+                  "Easier stateless verification in many cases"
+                ],
+                [
+                  "Revocation",
+                  "Often straightforward server-side",
+                  "Requires additional strategy for immediate revocation"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-10-1",
+              "statement": "JWT automatically makes an application more secure than sessions.",
+              "explanation": "No. Security depends on the implementation. JWT and sessions have different trade-offs involving token storage, expiration, revocation, CSRF, XSS, and server-side state.",
+              "category": "conceptual"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-11",
+      "title": "RAPID REVISION & INTERVIEW CHEAT SHEET",
+      "description": "Consolidated interview Q&As, flashcards, quick summaries, and the golden interview answering framework.",
+      "topics": [
+        {
+          "id": "topic-11-1",
+          "title": "Production Networking Interview Q&A, Flashcards & Golden Flow",
+          "explanation": "Network Interview Golden Flow:\nWhen answering a networking question, follow this structure:\nDefinition → How It Works → Example → Trade-off\n\nExample Question: TCP vs UDP?\nStrong Answer: 'TCP is a connection-oriented transport protocol that provides reliable and ordered delivery using acknowledgments and retransmissions. For example, it is commonly used for web and file communication. UDP is connectionless and has lower overhead but does not guarantee delivery, making it useful for real-time applications such as gaming and voice communication.'\n\nMost Important Network Topics For CS Interviews:\nMake sure you can confidently explain:\n- What happens when you type a URL\n- DNS\n- TCP vs UDP\n- TCP 3-way handshake\n- OSI vs TCP/IP\n- IPv4 vs IPv6\n- HTTP vs HTTPS\n- Common HTTP status codes\n- MAC vs IP Address\n- Cookies vs LocalStorage\n- Session vs JWT\n- GET vs POST\n- 401 vs 403\n- Browser rendering basics\n- TLS handshake basics\n\nInterview Tip: Do not try to memorize networking as isolated definitions. Remember the complete flow: URL → DNS → IP → TCP → TLS → HTTP → Server → Response → Browser Rendering.",
+          "keyPoints": [
+            "URL: Browser parses protocol + domain + path",
+            "DNS: Domain → IP Address",
+            "TCP: Reliable connection (SYN → SYN-ACK → ACK)",
+            "TLS: Secure HTTPS communication",
+            "HTTP: Browser sends request",
+            "Server: Processes request",
+            "Response: HTML / CSS / JS / JSON",
+            "Browser: DOM + CSSOM → Render → Display",
+            "OSI: 7 Layers",
+            "TCP/IP: 4 Layers",
+            "TCP: Reliable + Ordered",
+            "UDP: Low Overhead + No Delivery Guarantee",
+            "IPv4: 32-bit",
+            "IPv6: 128-bit",
+            "401: Authentication Problem",
+            "403: Permission Problem",
+            "404: Not Found",
+            "500: Server Error",
+            "Cookie: Can be sent with HTTP requests",
+            "LocalStorage: JavaScript-managed browser storage",
+            "Session: Server-side state + Session ID",
+            "JWT: Signed token verified by server"
+          ],
+          "questions": [
+            {
+              "question": "What happens when you type a URL into a browser?",
+              "answer": "The browser parses the URL and performs a DNS lookup to resolve the domain name to an IP address. It establishes a network connection, and for HTTPS performs a TLS handshake. The browser sends an HTTP request, the server processes it and returns a response. Finally, the browser processes HTML, CSS, and JavaScript and renders the page."
+            },
+            {
+              "question": "What is the difference between TCP and UDP?",
+              "answer": "TCP is connection-oriented and provides reliable, ordered delivery using mechanisms such as acknowledgments and retransmissions. UDP is connectionless and has lower overhead but does not guarantee delivery or ordering. TCP is commonly used when reliability matters, while UDP is often used for real-time applications."
+            },
+            {
+              "question": "What is DNS?",
+              "answer": "DNS translates human-readable domain names into IP addresses so clients can locate servers on a network."
+            },
+            {
+              "question": "What is the difference between HTTP and HTTPS?",
+              "answer": "HTTP transfers application data without TLS encryption. HTTPS uses HTTP over TLS to provide encryption, integrity, and server authentication."
+            },
+            {
+              "question": "What is the difference between a MAC address and an IP address?",
+              "answer": "A MAC address is mainly used for local network communication at the data link layer, while an IP address is a logical address used to route traffic across networks."
+            },
+            {
+              "question": "What is the difference between Cookies and LocalStorage?",
+              "answer": "Cookies can be automatically sent with HTTP requests depending on their configuration, while LocalStorage is accessed through JavaScript and is not automatically sent to the server. Cookies are commonly used for authentication and session identifiers, while LocalStorage is often used for application preferences."
+            },
+            {
+              "question": "What is the difference between Session and JWT authentication?",
+              "answer": "Session authentication usually stores session state on the server and the browser keeps a session identifier. JWT authentication uses a signed token that the server verifies on each request, often without requiring server-side session state."
+            },
+            {
+              "question": "What is the difference between GET and POST?",
+              "answer": "GET is primarily used to retrieve data and commonly uses query parameters. POST is commonly used to submit or create data using the request body. Neither method automatically provides encryption; HTTPS is responsible for encrypting data in transit."
+            }
+          ],
+          "flashcards": [
+            {
+              "id": "fc-1",
+              "question": "What does DNS do?",
+              "answer": "DNS converts a domain name into an IP address.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-2",
+              "question": "What are the three steps of the TCP handshake?",
+              "answer": "SYN → SYN + ACK → ACK",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-3",
+              "question": "What is the main difference between TCP and UDP?",
+              "answer": "TCP provides reliable, ordered delivery. UDP has lower overhead but does not guarantee delivery or ordering.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-4",
+              "question": "What is HTTPS?",
+              "answer": "HTTPS is HTTP over TLS, providing encryption, integrity, and server authentication.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-5",
+              "question": "What is the difference between IPv4 and IPv6?",
+              "answer": "IPv4 uses 32-bit addresses, while IPv6 uses 128-bit addresses and provides a much larger address space.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-6",
+              "question": "What is the difference between MAC and IP?",
+              "answer": "MAC is mainly used for local network delivery, while IP is used for routing across networks.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-7",
+              "question": "What is the difference between 401 and 403?",
+              "answer": "401 → Authentication missing or invalid; 403 → Authenticated but permission denied",
+              "difficulty": "medium"
+            }
+          ],
+          "memoryMap": {
+            "nodes": [
+              { "id": "mm-1", "label": "USER TYPES URL" },
+              { "id": "mm-2", "label": "DNS" },
+              { "id": "mm-3", "label": "GET IP ADDRESS" },
+              { "id": "mm-4", "label": "TCP CONNECTION" },
+              { "id": "mm-5", "label": "TLS (HTTPS)" },
+              { "id": "mm-6", "label": "HTTP REQUEST" },
+              { "id": "mm-7", "label": "SERVER PROCESSING" },
+              { "id": "mm-8", "label": "DATABASE / SERVICES" },
+              { "id": "mm-9", "label": "HTTP RESPONSE" },
+              { "id": "mm-10", "label": "HTML + CSS + JS" },
+              { "id": "mm-11", "label": "BROWSER RENDERING" },
+              { "id": "mm-12", "label": "WEBPAGE 🎉" }
+            ],
+            "connections": [
+              { "from": "mm-1", "to": "mm-2" },
+              { "from": "mm-2", "to": "mm-3" },
+              { "from": "mm-3", "to": "mm-4" },
+              { "from": "mm-4", "to": "mm-5" },
+              { "from": "mm-5", "to": "mm-6" },
+              { "from": "mm-6", "to": "mm-7" },
+              { "from": "mm-7", "to": "mm-8" },
+              { "from": "mm-8", "to": "mm-9" },
+              { "from": "mm-9", "to": "mm-10" },
+              { "from": "mm-10", "to": "mm-11" },
+              { "from": "mm-11", "to": "mm-12" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

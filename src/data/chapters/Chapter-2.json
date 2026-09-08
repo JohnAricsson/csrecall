@@ -1,0 +1,1039 @@
+{
+  "id": "ch-2",
+  "chapterNumber": 2,
+  "title": "DATA STRUCTURES, GRAPHS & HASHING",
+  "description": "Interactive Revision Cheat Sheet & Interview Guide covering linear and non-linear data structures, graphs, hashing, patterns, interview Q&A, and memory maps.",
+  "estimatedMinutes": 100,
+  "sections": [
+    {
+      "id": "sec-overview",
+      "title": "Data Structures Overview",
+      "description": "Foundational introduction to data structures and their primary categories.",
+      "topics": [
+        {
+          "id": "top-ds-overview",
+          "title": "DATA STRUCTURES OVERVIEW",
+          "explanation": "Data structure is a way of organizing and storing data so that it can be accessed and modified efficiently.\nThe main categories are:\n->Linear Data Structures : Elements are arranged sequentially. Examples: Arrays, Strings, Linked Lists, Stacks, Queues. \n->Non-Linear Data Structures : Elements are organized hierarchically or as networks. Examples: Trees, Heaps, Graphs, Hash Tables",
+          "tldr": "Data Structure হলো data এমনভাবে organize করা যাতে efficiently use করা যায়।",
+          "questions": [
+            {
+              "question": "Is a Hash Table linear or non-linear?",
+              "answer": "It is usually categorized separately as a hash-based data structure. Unlike arrays or linked lists, it uses a hash function to determine where data is stored."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-ds-overview-1",
+              "statement": "Is a Hash Table linear or non-linear?",
+              "explanation": "It is usually categorized separately as a hash-based data structure. Unlike arrays or linked lists, it uses a hash function to determine where data is stored.",
+              "category": "conceptual"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-linear-ds",
+      "title": "PART 1: LINEAR DATA STRUCTURES",
+      "description": "Sequential memory and node-based linear data structures.",
+      "topics": [
+        {
+          "id": "top-arrays",
+          "title": "ARRAYS",
+          "explanation": "What is an Array?\nAn array is a collection of elements stored in contiguous memory locations. Because elements are stored continuously, an element can be accessed directly using its index.\nMemory Layout\n[10] [20] [30] [40]\n ↓\nContiguous Memory",
+          "tldr": "Array index দিয়ে খুব fast access দেয়, কিন্তু মাঝখানে insert/delete করতে shifting লাগে।",
+          "keyPoints": [
+            "Fast index access: O(1)",
+            "Cache-friendly due to contiguous memory",
+            "Simple implementation",
+            "Fixed size for traditional arrays",
+            "Insertions and deletions may require shifting",
+            "Searching for an arbitrary value is O(n)"
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "#include \nusing namespace std;\nint main() {\n    int arr[10] = {10, 20, 30, 40, 50};\n    int size = 5;\n    // 1. Traversal\n    cout << \"Array: \";\n    for (int i = 0; i < size; i++) {\n        cout << arr[i] << \" \";\n    }\n    cout << endl;\n    // 2. Insert 25 at index 2\n    int insertIndex = 2;\n    int newValue = 25;\n    for (int i = size; i > insertIndex; i--) {\n        arr[i] = arr[i - 1];\n    }\n    arr[insertIndex] = newValue;\n    size++;\n    // 3. Delete element at index 4\n    int deleteIndex = 4;\n    for (int i = deleteIndex; i < size - 1; i++) {\n        arr[i] = arr[i + 1];\n    }\n    size--;\n    return 0;\n}",
+              "explanation": "C++ Array Operations traversal, insertion with shift, and deletion with shift."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Array Operations",
+              "headers": [
+                "Operation",
+                "Time Complexity",
+                "Space Complexity",
+                "Notes"
+              ],
+              "rows": [
+                ["Access by Index", "O(1)", "O(1)", "Direct access"],
+                ["Search by Value", "O(n)", "O(1)", "Linear search"],
+                ["Traversal", "O(n)", "O(1)", "Visit all elements"],
+                ["Insert at End", "O(1)", "O(1)", "If capacity exists"],
+                [
+                  "Insert at Beginning/Middle",
+                  "O(n)",
+                  "O(1)",
+                  "Requires shifting"
+                ],
+                ["Delete at End", "O(1)", "O(1)", "Usually direct"],
+                [
+                  "Delete at Beginning/Middle",
+                  "O(n)",
+                  "O(1)",
+                  "Requires shifting"
+                ]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is array searching always O(1)?",
+              "answer": "No. Accessing by index is O(1), but searching for a value using linear search is O(n)."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-array-1",
+              "statement": "Array lookup and array search are both O(1).",
+              "explanation": "Access by index is O(1). Searching for a value is usually O(n).",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-strings",
+          "title": "STRINGS",
+          "explanation": "String is a sequence/array of characters.\nExample:\n\"hello\"\nConceptually:\n[h] [e] [l] [l] [o]\nImportant Note: Strings are immutable in many languages (e.g., JavaScript, Python). This means that once a string is created, its characters cannot be changed directly. Instead, operations that modify a string typically create a new string.",
+          "tldr": "JavaScript string-এর character direct change করা যায় না কারণ String immutable।",
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "let word = \"hello\";\nword[0] = \"y\";\nconsole.log(word);\n// \"hello\"\n\nword = \"y\" + word.slice(1);\nconsole.log(word);\n// \"yello\"",
+              "explanation": "Demonstration of string immutability in JavaScript."
+            }
+          ],
+          "questions": [
+            {
+              "question": "Does immutability mean a variable cannot be reassigned?",
+              "answer": "No. The string value is immutable, but a variable can be reassigned to a new string."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-string-1",
+              "statement": "Does immutability mean a variable cannot be reassigned?",
+              "explanation": "No. The string value is immutable, but a variable can be reassigned to a new string.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-vector",
+          "title": "DYNAMIC ARRAYS — C++ VECTOR",
+          "explanation": "Vector is a dynamic array in C++. Unlike a traditional fixed-size array, a vector can grow automatically. When a vector runs out of capacity: A larger memory block is allocated. Existing elements are moved or copied. The old memory is released. The vector continues using the new block.",
+          "tldr": "vector::push_back() সাধারণত O(1), তবে resize হলে existing elements copy/move করতে O(n) লাগে।",
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "#include \nvector numbers = {1, 2, 3};\nnumbers.push_back(4);",
+              "explanation": "Vector initialization and push_back example."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Vector Complexity",
+              "headers": ["Operation", "Complexity"],
+              "rows": [
+                ["Access by Index", "O(1)"],
+                ["push_back()", "O(1)"],
+                ["Insert at Middle", "O(n)"],
+                ["Delete at Middle", "O(n)"],
+                ["Search", "O(n)"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is every push_back() operation strictly O(1)?",
+              "answer": "No. It is amortized O(1). A resize operation may require moving O(n) elements."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-vec-1",
+              "statement": "Every vector push_back() is O(1).",
+              "explanation": "It is amortized O(1). Resizing can take O(n).",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-linked-lists",
+          "title": "LINKED LISTS",
+          "explanation": "A linked list is a linear data structure where elements are stored in nodes. Each node contains data and a pointer/reference to another node. Unlike arrays, nodes do not need to be stored contiguously in memory.\n->Singly Linked List: Each node points to the next node.\n->Doubly Linked List: Each node contains pointers to both next and previous nodes, allowing traversal in both directions at the cost of additional pointer memory.\n\n Important Note: In C++, struct and class are identical in capability; the only default difference is that struct members are public by default, whereas class members are private.",
+          "tldr": "Array fast indexing দেয়, Linked List fast insertion/deletion দিতে পারে যদি node আগে থেকেই জানা থাকে।",
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "#include \nusing namespace std;\nstruct Node {\n    int data;\n    Node* next;\n};\n// Insert at head\nvoid insertAtHead(Node*& head, int value) {\n    Node* newNode = new Node();\n    newNode->data = value;\n    newNode->next = head;\n    head = newNode;\n}\n// Delete first node containing value\nvoid deleteNode(Node*& head, int value) {\n    if (head == nullptr) {\n        return;\n    }\n    // Delete head\n    if (head->data == value) {\n        Node* temp = head;\n        head = head->next;\n        delete temp;\n        return;\n    }\n    Node* current = head;\n    while (\n        current->next != nullptr &&\n        current->next->data != value\n    ) {\n        current = current->next;\n    }\n    if (current->next != nullptr) {\n        Node* toDelete = current->next;\n        current->next = current->next->next;\n        delete toDelete;\n    }\n}",
+              "explanation": "C++ Singly Linked List insertion and deletion implementations."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Linked List Operations",
+              "headers": ["Operation", "Time Complexity"],
+              "rows": [
+                ["Access/Search by Position", "O(n)"],
+                ["Insert at Head", "O(1)"],
+                ["Delete at Head", "O(1)"],
+                ["Insert After Known Node", "O(1)"],
+                ["Delete After Known Node", "O(1)"],
+                ["Find Node by Value", "O(n)"],
+                ["Insert/Delete at Index", "O(n) if traversal is needed"]
+              ]
+            },
+            {
+              "title": "Array vs Linked List",
+              "headers": ["Feature", "Array", "Linked List"],
+              "rows": [
+                ["Memory Layout", "Contiguous", "Non-contiguous"],
+                ["Index Access", "O(1)", "O(n)"],
+                ["Insert at Beginning", "O(n)", "O(1)"],
+                ["Insert at Known Node", "Not applicable", "O(1)"],
+                ["Memory Overhead", "Low", "Higher due to pointers"],
+                ["Cache Performance", "Better", "Usually worse"]
+              ]
+            },
+            {
+              "title": "struct vs class Default Access",
+              "headers": ["Type", "Default Access"],
+              "rows": [
+                ["struct", "public"],
+                ["class", "private"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is insertion in a linked list always O(1)?",
+              "answer": "No. It is O(1) only when the insertion position or node reference is already known. Finding the position may take O(n)."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-ll-1",
+              "statement": "Linked List insertion is always O(1).",
+              "explanation": "It is O(1) only when the insertion position is already known.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-stack",
+          "title": "STACK",
+          "explanation": "Stack is a linear data structure that strictly follows the Last In, First Out (LIFO) principle—the last element inserted is the first one to be removed.\n\nCore Operations: Push (insert onto top), Pop (remove from top), and Top/Peek (inspect top element), all running in O(1) time.\nCommon Applications: Function call stacks & recursion, undo/redo mechanisms, balanced parentheses parsing, arithmetic expression evaluation, browser history navigation, and Depth-First Search (DFS).",
+          "tldr": "Stack-এ যেটা সবশেষে ঢোকে, সেটাই আগে বের হয়।",
+          "examples": ["Input: hello\nStack: h e l l o\nOutput: olleh"],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "#include \n#include \n#include \nusing namespace std;\nvoid reverseString(string& str) {\n    stack s;\n    for (char ch : str) {\n        s.push(ch);\n    }\n    for (int i = 0; i < str.length(); i++) {\n        str[i] = s.top();\n        s.pop();\n    }\n}",
+              "explanation": "Reverse a String Using Stack."
+            }
+          ],
+          "questions": [
+            {
+              "question": "What happens if you call pop() on an empty stack?",
+              "answer": "It is invalid. Always check whether the stack is empty before accessing or removing elements."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-stack-1",
+              "statement": "What happens if you call pop() on an empty stack?",
+              "explanation": "It is invalid. Always check whether the stack is empty before accessing or removing elements.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-queue",
+          "title": "QUEUE",
+          "explanation": "A queue is a linear data structure that follows the First In, First Out (FIFO) principle—the first element added is the first one to be processed.\n\nCore Operations: Enqueue (insert at rear), Dequeue (remove from front), and Front/Peek (inspect front element), all operating in O(1) time.\nCommon Applications: CPU task scheduling, print spoolers, asynchronous message buffering, request handling pipelines, Breadth-First Search (BFS), and producer-consumer architectures.",
+          "tldr": "Queue-তে যেটা প্রথমে ঢোকে, সেটাই সবার আগে বের হয় (FIFO)।",
+          "examples": [
+            "Enqueue: 10 -> 20 -> 30\nQueue State: [Front: 10, 20, 30: Rear]\nDequeue: 10 (Front moves to 20)"
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <queue>\nusing namespace std;\n\nint main() {\n    queue<int> q;\n    // Enqueue\n    q.push(10);\n    q.push(20);\n    q.push(30);\n\n    // Front element\n    cout << \"Front: \" << q.front() << endl; // 10\n\n    // Dequeue and Traversal\n    while (!q.empty()) {\n        cout << q.front() << \" \";\n        q.pop();\n    }\n    return 0;\n}",
+              "explanation": "C++ Queue standard operations: push (enqueue), pop (dequeue), and front inspection."
+            }
+          ]
+        },
+        {
+          "id": "top-circular-queue",
+          "title": "CIRCULAR QUEUE",
+          "explanation": "Circular queue is a linear data structure where the last position is connected back to the first position to form a ring. It overcomes the limitation of regular array-based queues by reusing vacated memory slots at the front after dequeue operations, utilizing modulo arithmetic (e.g., (index + 1) % capacity) for pointer transitions.",
+          "tldr": "Queue-এর শেষ index থেকে আবার শুরুতে ফিরে আসলে সেটাই Circular Queue।",
+          "questions": [
+            {
+              "question": "Why use a circular queue?",
+              "answer": "It efficiently reuses empty spaces created after dequeue operations."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-cq-1",
+              "statement": "Why use a circular queue?",
+              "explanation": "It efficiently reuses empty spaces created after dequeue operations.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-stack-vs-queue",
+          "title": "STACK VS QUEUE",
+          "explanation": "Stack (LIFO) and Queue (FIFO) are fundamental linear structures with contrasting access models: Stacks restrict insertion and deletion to a single end (Top), whereas Queues enforce two-ended access (Enqueue at Rear, Dequeue from Front).",
+          "comparisons": [
+            {
+              "title": "Stack vs Queue",
+              "headers": ["Stack", "Queue"],
+              "rows": [
+                ["LIFO", "FIFO"],
+                ["Add/remove at top", "Add at rear, remove from front"],
+                ["Uses stack logic", "Uses queue logic"],
+                ["DFS", "BFS"],
+                ["Undo", "Scheduling"]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-non-linear-ds",
+      "title": "PART 2: NON-LINEAR DATA STRUCTURES",
+      "description": "Hierarchical, priority, and network data structures.",
+      "topics": [
+        {
+          "id": "top-trees",
+          "title": "TREES",
+          "explanation": "A tree is a non-linear hierarchical data structure consisting of nodes connected by directed or undirected edges, forming an acyclic structure. Key terminology includes Root (uppermost node), Parent/Child (hierarchical connections), Leaves (nodes with zero children), Subtrees, Depth (distance from root), and Height (longest path to a leaf).",
+          "tldr": "Tree হলো parent-child relationship দিয়ে তৈরি hierarchical structure।",
+          "questions": [
+            {
+              "question": "Can a tree contain cycles?",
+              "answer": "A standard tree does not contain cycles."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-tree-1",
+              "statement": "Can a tree contain cycles?",
+              "explanation": "A standard tree does not contain cycles.",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "top-binary-tree",
+          "title": "BINARY TREE",
+          "explanation": "A binary tree is a hierarchical tree data structure in which every node has at most two children, referred to as the left child and the right child. Unlike binary search trees, a generic binary tree enforces no specific ordering constraint on its stored values."
+        },
+        {
+          "id": "top-bst",
+          "title": "12. BINARY SEARCH TREE (BST)",
+          "explanation": "A Binary Search Tree (BST) stores smaller values in the left subtree and larger values in the right subtree. This enables fast O(log n) average search, insert, and delete.",
+          "tldr": "BST-তে ছোট value left, বড় value right। Balanced হলে fast, skewed হলে slow।",
+          "comparisons": [
+            {
+              "title": "BST Operations (Average Case)",
+              "headers": ["Operation", "Complexity"],
+              "rows": [
+                ["Search", "O(log n)"],
+                ["Insert", "O(log n)"],
+                ["Delete", "O(log n)"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is BST search always O(log n)?",
+              "answer": "No. In a skewed BST, search can degrade to O(n)."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-bst-1",
+              "statement": "BST operations are always O(log n).",
+              "explanation": "A skewed BST can degrade to O(n).",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-tree-traversals",
+          "title": "TREE TRAVERSALS",
+          "explanation": "Tree traversal algorithms systematically visit every node in O(n) time.\n\n- Depth-First Traversals:\n  • Inorder (Left → Root → Right): Yields values in sorted ascending order for valid BSTs.\n  • Preorder (Root → Left → Right): Commonly used for copying, serialization, and prefix expression trees.\n  • Postorder (Left → Right → Root): Processes descendants before ancestors, ideal for deletion and postfix tree evaluations.\n\n- Breadth-First Traversal:\n  • Level-Order: Explores the tree level by level using an explicit FIFO Queue.",
+          "tldr": "Inorder BST sorted দেয়, Preorder root আগে, Postorder root শেষে, Level Order level ধরে চলে।",
+          "comparisons": [
+            {
+              "title": "Traversal Comparison",
+              "headers": ["Traversal", "Order", "Main Use"],
+              "rows": [
+                ["Inorder", "Left → Root → Right", "Sorted BST output"],
+                ["Preorder", "Root → Left → Right", "Copy/serialize"],
+                ["Postorder", "Left → Right → Root", "Process children first"],
+                ["Level Order", "Level by Level", "BFS traversal"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Does inorder traversal always produce sorted output?",
+              "answer": "No. It produces sorted output only when the tree is a valid BST."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-trav-1",
+              "statement": "Inorder traversal always returns sorted values.",
+              "explanation": "Only for a valid Binary Search Tree.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-heaps",
+          "title": "HEAPS",
+          "explanation": "A heap is a specialized complete binary tree that satisfies the heap property.\nMax Heap: every parent node is greater than or equal to its children, placing the maximum element at the root.\nMin Heap: every parent node is less than or equal to its children, placing the minimum element at the root."
+        },
+        {
+          "id": "top-priority-queue",
+          "title": "15. PRIORITY QUEUE",
+          "explanation": "A priority queue is an abstract data type where each element has an assigned priority, ensuring that higher-priority elements are dequeued before lower-priority ones, regardless of arrival order.",
+          "tldr": "Heap সব data sort করে রাখে না—শুধু top priority element efficiently রাখে।",
+          "comparisons": [
+            {
+              "title": "Heap Operation Complexity",
+              "headers": ["Operation", "Complexity"],
+              "rows": [
+                ["Peek Top", "O(1)"],
+                ["Insert", "O(log n)"],
+                ["Remove Top", "O(log n)"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is a heap fully sorted?",
+              "answer": "No. Only the parent-child heap property is guaranteed."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-heap-1",
+              "statement": "A Heap is fully sorted.",
+              "explanation": "A Heap only guarantees parent-child ordering.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-graphs-intro",
+          "title": "GRAPHS",
+          "explanation": "A graph G = (V, E) is a non-linear data structure comprising a set of vertices (nodes) and edges (connections between vertices). Graphs can be directed (edges have fixed one-way direction) or undirected (bidirectional edges), as well as weighted (edges carry numerical costs) or unweighted. Unlike trees, graphs can contain cycles, self-loops, and multiple disconnected components."
+        },
+        {
+          "id": "top-adj-matrix",
+          "title": "17. ADJACENCY MATRIX",
+          "explanation": "An adjacency matrix represents a graph using a 2D array of size V × V, where cell matrix[u][v] indicates the presence (or weight) of an edge between vertices u and v. It is best suited for dense graphs.",
+          "tldr": "Matrix edge আছে কিনা fast check করে, কিন্তু অনেক memory নেয়।",
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "#include \nusing namespace std;\nint main() {\n    int V = 4;\n    int matrix[4][4] = {0};\n    // Undirected edge: 0 -- 1\n    matrix[0][1] = 1;\n    matrix[1][0] = 1;\n    // Undirected edge: 1 -- 2\n    matrix[1][2] = 1;\n    matrix[2][1] = 1;\n    if (matrix[0][1] == 1) {\n        cout << \"Connected\";\n    }\n    return 0;\n}",
+              "explanation": "C++ Adjacency Matrix representation."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Adjacency Matrix Complexity",
+              "headers": ["Operation", "Complexity"],
+              "rows": [
+                ["Check Edge", "O(1)"],
+                ["Find All Neighbors", "O(V)"],
+                ["Space", "O(V²)"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is an adjacency matrix good for sparse graphs?",
+              "answer": "Usually no, because it still uses O(V²) memory even when there are few edges."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-adjmat-1",
+              "statement": "Is an adjacency matrix good for sparse graphs?",
+              "explanation": "Usually no, because it still uses O(V²) memory even when there are few edges.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-adj-list",
+          "title": "ADJACENCY LIST",
+          "explanation": "An adjacency list represents a graph as an array or vector of collections, where index u stores a dynamic list of all immediate neighbors adjacent to vertex u. By allocating memory proportional only to existing edges, it achieves optimal O(V + E) space efficiency, making it the industry standard representation for sparse graphs.",
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "#include \n#include \nusing namespace std;\nint main() {\n    int V = 4;\n    vector adjList[V];\n    // Edge: 0 -- 1\n    adjList[0].push_back(1);\n    adjList[1].push_back(0);\n    // Edge: 1 -- 2\n    adjList[1].push_back(2);\n    adjList[2].push_back(1);\n    cout << \"Neighbors of 1: \";\n    for (int neighbor : adjList[1]) {\n        cout << neighbor << \" \";\n    }\n    return 0;\n}",
+              "explanation": "C++ Adjacency List representation."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Adjacency List Complexity",
+              "headers": ["Operation", "Complexity"],
+              "rows": [
+                ["Access Neighbor List", "O(1)"],
+                ["Check Edge", "O(degree)"],
+                ["Traverse Neighbors", "O(degree)"],
+                ["Space", "O(V + E)"]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "top-adj-matrix-vs-list",
+          "title": "ADJACENCY MATRIX VS ADJACENCY LIST",
+          "explanation": "Adjacency Matrix offers O(1) edge checks but wastes O(V²) space, making it ideal for dense graphs. Adjacency List uses O(V + E) space and iterates neighbors faster, but edge lookups take O(degree) time, making it ideal for sparse graphs.",
+          "tldr": "Dense graph হলে Matrix, Sparse graph হলে List বেশি ভালো।",
+          "comparisons": [
+            {
+              "title": "Adjacency Matrix vs Adjacency List",
+              "headers": ["Feature", "Matrix", "List"],
+              "rows": [
+                ["Space", "O(V²)", "O(V + E)"],
+                ["Edge Lookup", "O(1)", "O(degree)"],
+                ["Neighbor Traversal", "O(V)", "O(degree)"],
+                ["Dense Graph", "Good", "Acceptable"],
+                ["Sparse Graph", "Wasteful", "Best choice"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Which representation is generally preferred for sparse graphs?",
+              "answer": "Adjacency List because it uses O(V + E) space."
+            }
+          ]
+        },
+        {
+          "id": "top-graph-visited",
+          "title": "GRAPH VISITED ARRAY",
+          "explanation": "Graphs can have cycles, so a visited tracker (array or set) is required to prevent infinite loops and re-processing nodes. For disconnected graphs, loop through all vertices to start traversals from every unvisited component.",
+          "tldr": "Graph-এ cycle থাকতে পারে, তাই একই node বারবার না যেতে visited লাগে।",
+          "questions": [
+            {
+              "question": "Does BFS from one node always visit the entire graph?",
+              "answer": "No. It only visits the connected component containing the starting node."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-vis-1",
+              "statement": "A visited array is optional in cyclic graphs.",
+              "explanation": "Without visited tracking, traversal may repeat nodes indefinitely.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-bfs",
+          "title": "BREADTH-FIRST SEARCH (BFS)",
+          "explanation": "BFS traverses a graph level-by-level using a FIFO Queue, guaranteeing the shortest path in unweighted graphs in O(V + E) time. Crucially, mark nodes as visited immediately when enqueuing—not dequeuing—to prevent duplicate entries and memory overflow.",
+          "tldr": "BFS Queue ব্যবহার করে এবং level by level explore করে।",
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "#include \n#include \n#include \nusing namespace std;\nvoid BFS(\n    int startNode,\n    vector adjList[],\n    int V\n) {\n    vector visited(V, false);\n    queue q;\n    visited[startNode] = true;\n    q.push(startNode);\n    while (!q.empty()) {\n        int current = q.front();\n        q.pop();\n        cout << current << \" \";\n        for (int neighbor : adjList[current]) {\n            if (!visited[neighbor]) {\n                visited[neighbor] = true;\n                q.push(neighbor);\n            }\n        }\n    }\n}",
+              "explanation": "C++ BFS implementation using a queue."
+            }
+          ],
+          "questions": [
+            {
+              "question": "Does BFS always find the shortest path?",
+              "answer": "BFS finds the shortest path in terms of number of edges in an unweighted graph. For weighted graphs, use algorithms such as Dijkstra when appropriate."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-bfs-1",
+              "statement": "BFS finds the shortest path in every graph.",
+              "explanation": "BFS finds the shortest path in unweighted graphs or when all edges have equal cost.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-dfs",
+          "title": "DEPTH-FIRST SEARCH (DFS)",
+          "explanation": "Depth-First Search (DFS) explores a graph by traversing as deeply as possible along each branch before backtracking, utilizing a LIFO Stack or recursive call stack. Operating in O(V + E) time, it serves as the foundation for cycle detection, topological sorting, connected component discovery, and maze-solving algorithms.",
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "#include \n#include \n#include \nusing namespace std;\nvoid DFS(\n    int startNode,\n    vector adjList[],\n    int V\n) {\n    vector visited(V, false);\n    stack s;\n    s.push(startNode);\n    while (!s.empty()) {\n        int current = s.top();\n        s.pop();\n        if (visited[current]) {\n            continue;\n        }\n        visited[current] = true;\n        cout << current << \" \";\n        for (\n            int i = adjList[current].size() - 1;\n            i >= 0;\n            i--\n        ) {\n            int neighbor = adjList[current][i];\n            if (!visited[neighbor]) {\n                s.push(neighbor);\n            }\n        }\n    }\n}",
+              "explanation": "Iterative C++ DFS implementation using an explicit stack."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-dfs-1",
+              "statement": "DFS always uses an explicit stack.",
+              "explanation": "DFS can use either an explicit stack or recursion.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-bfs-vs-dfs",
+          "title": "BFS VS DFS",
+          "explanation": "BFS uses a Queue to explore neighbors level-by-level, making it ideal for shortest path discovery in unweighted graphs. DFS uses a Stack (or recursion) to explore deeply down a single path before backtracking, making it the superior paradigm for connectivity, topological sorting, and cycle analysis.",
+          "tldr": "BFS আগে কাছের সব node দেখে, DFS আগে এক path যতদূর সম্ভব যায়।",
+          "comparisons": [
+            {
+              "title": "BFS vs DFS",
+              "headers": ["BFS", "DFS"],
+              "rows": [
+                ["Uses Queue", "Uses Stack/Recursion"],
+                ["Level by Level", "Goes Deep First"],
+                ["FIFO", "LIFO"],
+                [
+                  "Good for shortest path in unweighted graph",
+                  "Good for deep exploration"
+                ],
+                ["O(V + E)", "O(V + E)"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Which is better, BFS or DFS?",
+              "answer": "Neither is always better. The choice depends on the problem. Use BFS for level-based exploration and shortest paths in unweighted graphs. Use DFS for deep exploration, cycle detection, and topological problems."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-hashing",
+      "title": "PART 3: HASHING",
+      "description": "Hash tables, collision handling, and container differences.",
+      "topics": [
+        {
+          "id": "top-hashing-fundamentals",
+          "title": "HASHING FUNDAMENTALS",
+          "explanation": "Hashing uses a hash function to map keys to table indices, giving average O(1) insert, search, and delete. When distinct keys map to the same index (a collision), it is resolved via Separate Chaining (buckets hold linked lists/trees) or Open Addressing (probing next slots linearly or quadratically). Performance degrades to O(n) if excessive collisions overload buckets.",
+          "tldr": "Hashing average-এ খুব fast, কিন্তু collision বেশি হলে O(n) পর্যন্ত slow হতে পারে।",
+          "comparisons": [
+            {
+              "title": "Hashing Complexity",
+              "headers": ["Operation", "Average", "Worst Case"],
+              "rows": [
+                ["Insert", "O(1)", "O(n)"],
+                ["Search", "O(1)", "O(n)"],
+                ["Delete", "O(1)", "O(n)"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Does hashing guarantee O(1) lookup?",
+              "answer": "No. O(1) is average-case performance. The worst case can be O(n)."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-hash-1",
+              "statement": "Hash Tables always guarantee O(1).",
+              "explanation": "O(1) is average-case. Worst-case performance can be O(n).",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-hashmap-vs-hashset",
+          "title": "HASHMAP VS HASHSET",
+          "explanation": "HashMap stores distinct Key-Value pairs, allowing fast lookups, updates, and indexing based on the key.\nHashSet stores only individual unique elements without associated values, primarily used for fast O(1) membership testing and duplicate filtering.",
+          "tldr": "Map key-value রাখে, Set শুধু unique value রাখে।",
+          "comparisons": [
+            {
+              "title": "HashMap vs HashSet",
+              "headers": ["HashMap", "HashSet"],
+              "rows": [
+                ["Key-value pairs", "Values only"],
+                ["Lookup by key", "Membership checking"],
+                ["Duplicate keys not allowed", "Duplicate values not allowed"],
+                ["Example: Map", "Example: Set"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "When should you use a HashSet instead of a HashMap?",
+              "answer": "Use a HashSet when you only need fast membership checking or duplicate detection and do not need associated values."
+            }
+          ]
+        },
+        {
+          "id": "top-cpp-containers",
+          "title": "C++ HASHMAP & HASHSET (unordered vs ordered)",
+          "explanation": "In C++, unordered_map and unordered_set are implemented via Hash Tables, offering average O(1) time complexity but no element ordering.\nIn contrast, map and set are implemented via Self-Balancing Binary Search Trees , guaranteeing elements remain sorted and operations execute in strict O(log n) time.",
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "#include \n#include <unordered_map>\nusing namespace std;\nint main() {\n    unordered_map<int, int> mp;\n    mp[1] = 10;\n    mp[2] = 20;\n    cout << mp[1];\n    return 0;\n}",
+              "explanation": "C++ unordered_map example."
+            },
+            {
+              "language": "cpp",
+              "code": "#include \n#include <unordered_set>\nusing namespace std;\nint main() {\n    unordered_set st;\n    st.insert(10);\n    st.insert(20);\n    if (st.find(10) != st.end()) {\n        cout << \"10 exists\";\n    }\n    return 0;\n}",
+              "explanation": "C++ unordered_set example."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "C++ Container Comparison",
+              "headers": ["Container", "Typical Structure", "Lookup"],
+              "rows": [
+                ["unordered_map", "Hash Table", "Average O(1)"],
+                ["unordered_set", "Hash Table", "Average O(1)"],
+                ["map", "Balanced Tree", "O(log n)"],
+                ["set", "Balanced Tree", "O(log n)"]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-patterns-and-cheatsheets",
+      "title": "PART 4: COMMON HASHING INTERVIEW PROBLEMS & CHEAT SHEETS",
+      "description": "Interview patterns, frequency counters, and revision cheat sheets.",
+      "topics": [
+        {
+          "id": "top-pattern-frequency-counter",
+          "title": "PROBLEM 1 — FREQUENCY COUNTER",
+          "tldr": "Count করতে হলে বেশিরভাগ সময় HashMap/Frequency Counter useful।",
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "const arr = [1, 2, 2, 3, 3, 3];\nconst freq = new Map();\nfor (const num of arr) {\n    freq.set(\n        num,\n        (freq.get(num) || 0) + 1\n    );\n}\nconsole.log(freq);",
+              "explanation": "JavaScript Frequency Counter implementation."
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why is hashing better than nested loops for frequency counting?",
+              "answer": "Hashing can reduce the solution from O(n²) to O(n) average time by storing counts during a single traversal."
+            }
+          ]
+        },
+        {
+          "id": "top-pattern-two-sum",
+          "title": "PROBLEM 2 — TWO SUM",
+          "tldr": "Target থেকে current number বাদ দিয়ে complement Map-এ আছে কিনা check করো।",
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "function twoSum(nums, target) {\n    const map = new Map();\n    for (let i = 0; i < nums.length; i++) {\n        const complement =\n            target - nums[i];\n        if (map.has(complement)) {\n            return [\n                map.get(complement),\n                i\n            ];\n        }\n        map.set(nums[i], i);\n    }\n    return [];\n}\nconsole.log(\n    twoSum([2, 7, 11, 15], 9)\n);\n// [0, 1]",
+              "explanation": "JavaScript Two Sum solution using Map."
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why check the complement before adding the current element?",
+              "answer": "This avoids incorrectly using the same element twice when the problem requires two different indices."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-twosum-1",
+              "statement": "Why check the complement before adding the current element?",
+              "explanation": "This avoids incorrectly using the same element twice when the problem requires two different indices.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-pattern-duplicate-detection",
+          "title": "PROBLEM 3 — DUPLICATE DETECTION",
+          "tldr": "আগে Set-এ আছে কিনা check করো, থাকলে duplicate পাওয়া গেছে।",
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "function hasDuplicate(arr) {\n    const set = new Set();\n    for (const num of arr) {\n        if (set.has(num)) {\n            return true;\n        }\n        set.add(num);\n    }\n    return false;\n}\n\n// Short Version\nconst hasDuplicate = (arr) => new Set(arr).size !== arr.length;",
+              "explanation": "JavaScript Duplicate Detection using Set."
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why not use nested loops?",
+              "answer": "Nested loops take O(n²), while a HashSet solution takes O(n) average time."
+            }
+          ]
+        },
+        {
+          "id": "top-pattern-char-frequency",
+          "title": "PROBLEM 4 — CHARACTER FREQUENCY",
+          "tldr": "String-এর character count দরকার হলে Map ব্যবহার করো।",
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "function charCount(str) {\n    const map = new Map();\n    for (const ch of str) {\n        map.set(\n            ch,\n            (map.get(ch) || 0) + 1\n        );\n    }\n    return map;\n}\nconsole.log(\n    charCount(\"hello\")\n);",
+              "explanation": "Character frequency count in JavaScript."
+            }
+          ],
+          "questions": [
+            {
+              "question": "How can frequency counting help solve anagrams?",
+              "answer": "Two strings are anagrams if they contain the same characters with the same frequencies."
+            }
+          ]
+        },
+        {
+          "id": "top-hashing-cheatsheet",
+          "title": "HASHING PROBLEM-SOLVING CHEAT SHEET",
+          "explanation": "A decision framework for selecting hashing strategies in technical interviews:\n- Frequency / Counting → HashMap\n- Duplicate Detection / Uniqueness → HashSet\n- Instant Membership / Existence Check → HashSet\n- Target Complement / Pair Search → HashMap\n- Subarray Sum / Prefix Sum → HashMap (Prefix Sum → Index/Count)\n- Unweighted Shortest Path → BFS\n- Exhaustive Path Search / Backtracking → DFS\n- Extreme Priority Tracking (Min/Max) → Heap / Priority Queue\n- Direct Contiguous Index Access → Array"
+        },
+        {
+          "id": "top-interview-qa",
+          "title": "HIGH-FREQUENCY INTERVIEW Q&A",
+          "questions": [
+            {
+              "question": "When should you use an Adjacency Matrix vs Adjacency List?",
+              "answer": "Use an Adjacency Matrix when the graph is dense or when O(1) edge lookup is important. Use an Adjacency List when the graph is sparse because it uses O(V + E) space."
+            },
+            {
+              "question": "Why do graph traversals use a visited array?",
+              "answer": "Graphs can contain cycles and multiple paths. A visited array prevents nodes from being processed repeatedly and avoids infinite loops."
+            },
+            {
+              "question": "What is the main difference between BFS and DFS?",
+              "answer": "BFS uses a Queue and explores level by level. DFS uses a Stack or Recursion and explores one path deeply before backtracking."
+            },
+            {
+              "question": "Array vs Linked List?",
+              "answer": "Arrays use contiguous memory and provide O(1) index access. Linked lists use nodes connected by pointers and provide efficient insertion or deletion when the position is already known."
+            },
+            {
+              "question": "What is a Hash Collision?",
+              "answer": "A collision occurs when two different keys are mapped to the same hash table index. Common solutions include Separate Chaining and Open Addressing."
+            },
+            {
+              "question": "Why can a Hash Table become O(n)?",
+              "answer": "A poor hash function or too many collisions can place many keys in the same bucket or probe sequence, making lookup linear."
+            },
+            {
+              "question": "What is the difference between a Heap and a BST?",
+              "answer": "A Heap only guarantees the parent-child priority relationship. A BST guarantees ordering between the left subtree, node, and right subtree."
+            }
+          ]
+        },
+        {
+          "id": "top-flashcards-and-traps",
+          "title": "RAPID REVISION FLASHCARDS & FINAL TRAPS",
+          "flashcards": [
+            {
+              "id": "fc-1",
+              "question": "What is the biggest advantage of an Array?",
+              "answer": "O(1) direct access using an index.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-2",
+              "question": "When is Linked List insertion O(1)?",
+              "answer": "When the insertion position or node reference is already known.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-3",
+              "question": "What principle does a Stack follow?",
+              "answer": "LIFO — Last In, First Out.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-4",
+              "question": "What principle does a Queue follow?",
+              "answer": "FIFO — First In, First Out.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-5",
+              "question": "Which data structure does BFS use?",
+              "answer": "Queue.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-6",
+              "question": "Which data structure does DFS use?",
+              "answer": "Stack or Recursion.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-7",
+              "question": "What is the average lookup time of a Hash Table?",
+              "answer": "O(1).",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-8",
+              "question": "What is a Hash Collision?",
+              "answer": "When two different keys map to the same table index.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-9",
+              "question": "When does BFS find the shortest path?",
+              "answer": "In an unweighted graph, where each edge has equal cost.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-10",
+              "question": "What is the difference between HashMap and HashSet?",
+              "answer": "HashMap stores key-value pairs. HashSet stores only unique values.",
+              "difficulty": "easy"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-final-1",
+              "statement": "Array lookup and array search are both O(1).",
+              "explanation": "Access by index is O(1). Searching for a value is usually O(n).",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-2",
+              "statement": "Linked List insertion is always O(1).",
+              "explanation": "It is O(1) only when the insertion position is already known.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-3",
+              "statement": "Every vector push_back() is O(1).",
+              "explanation": "It is amortized O(1). Resizing can take O(n).",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-4",
+              "statement": "BST operations are always O(log n).",
+              "explanation": "A skewed BST can degrade to O(n).",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-5",
+              "statement": "Inorder traversal always returns sorted values.",
+              "explanation": "Only for a valid Binary Search Tree.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-6",
+              "statement": "A Heap is fully sorted.",
+              "explanation": "A Heap only guarantees parent-child ordering.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-7",
+              "statement": "BFS finds the shortest path in every graph.",
+              "explanation": "BFS finds the shortest path in unweighted graphs or when all edges have equal cost.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-8",
+              "statement": "DFS always uses an explicit stack.",
+              "explanation": "DFS can use either an explicit stack or recursion.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-9",
+              "statement": "A visited array is optional in cyclic graphs.",
+              "explanation": "Without visited tracking, traversal may repeat nodes indefinitely.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-10",
+              "statement": "Hash Tables always guarantee O(1).",
+              "explanation": "O(1) is average-case. Worst-case performance can be O(n).",
+              "category": "common-mistake"
+            }
+          ],
+          "memoryMap": {
+            "nodes": [
+              { "id": "ds", "label": "DATA STRUCTURES" },
+              { "id": "linear", "label": "Linear" },
+              {
+                "id": "arr",
+                "label": "Array",
+                "description": "Index Access: O(1), Search: O(n)"
+              },
+              {
+                "id": "vec",
+                "label": "Vector",
+                "description": "Dynamic Array, push_back(): Amortized O(1)"
+              },
+              {
+                "id": "ll",
+                "label": "Linked List",
+                "description": "Non-contiguous Nodes, Insert at Known Node: O(1)"
+              },
+              { "id": "stk", "label": "Stack", "description": "LIFO" },
+              { "id": "que", "label": "Queue", "description": "FIFO" },
+              { "id": "non-linear", "label": "Non-Linear" },
+              {
+                "id": "tree",
+                "label": "Tree",
+                "description": "Binary Tree, BST"
+              },
+              {
+                "id": "heap",
+                "label": "Heap",
+                "description": "Max Heap, Min Heap"
+              },
+              {
+                "id": "graph",
+                "label": "Graph",
+                "description": "Matrix, List, BFS → Queue, DFS → Stack"
+              },
+              {
+                "id": "hashing",
+                "label": "Hashing",
+                "description": "Hash Function, Hash Table, Collision, HashMap, HashSet"
+              }
+            ],
+            "connections": [
+              { "from": "ds", "to": "linear" },
+              { "from": "linear", "to": "arr" },
+              { "from": "linear", "to": "vec" },
+              { "from": "linear", "to": "ll" },
+              { "from": "linear", "to": "stk" },
+              { "from": "linear", "to": "que" },
+              { "from": "ds", "to": "non-linear" },
+              { "from": "non-linear", "to": "tree" },
+              { "from": "non-linear", "to": "heap" },
+              { "from": "non-linear", "to": "graph" },
+              { "from": "ds", "to": "hashing" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

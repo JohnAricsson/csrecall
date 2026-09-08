@@ -12,7 +12,7 @@
         {
           "id": "topic-1",
           "title": "VARIABLES, REFERENCES & POINTERS",
-          "explanation": "A variable is a named storage location used to store data that can be accessed and modified during program execution. Primitive types generally store the actual value directly. Reference types represent or refer to objects stored elsewhere in memory. A pointer is a variable that stores the memory address of another variable.",
+          "explanation": "Variable is a named storage location used to store data that can be accessed and modified during program execution. There are 2 types of Variables: \n ->Primitive types generally store the actual value directly. \n->Reference types represent or refer to objects stored elsewhere in memory. \n Pointer: pointer is a variable that stores the memory address of another variable.",
           "tldr": "Variable হলো data রাখার জন্য নাম দেওয়া একটি memory location। Pointer variable-এর value না, তার memory address ধরে রাখে।",
           "keyPoints": [
             "Primitive types store the actual value directly (e.g., int, char, float, double, bool).",
@@ -25,7 +25,7 @@
           "codeSnippets": [
             {
               "language": "cpp",
-              "code": "int a = 10;\nint* p = &a;\ncout << p << endl;   // Prints address of a\ncout << *p << endl;  // Prints value: 10\n\nint** q = &p;",
+              "code": "int a = 10;\nint* p = &a;\ncout << p << endl;   // Prints address of a\ncout << *p << endl;  // Prints value: 10\n\nint** q = &p; //pointer to pointer",
               "explanation": "Example of pointer and dereferencing in C++."
             }
           ],
@@ -35,10 +35,7 @@
               "headers": ["Operator", "Meaning"],
               "rows": [
                 ["&variable", "Gets the memory address of a variable"],
-                [
-                  "*pointer",
-                  "Dereferences a pointer to access the value"
-                ]
+                ["*pointer", "Dereferences a pointer to access the value"]
               ]
             }
           ],
@@ -60,7 +57,7 @@
         {
           "id": "topic-2",
           "title": "JAVASCRIPT VALUE VS REFERENCE",
-          "explanation": "When primitive values are assigned, the value is copied. Objects and arrays behave differently; both variables refer to the same object.",
+          "explanation": "In JavaScript, primitive values (like numbers, strings, booleans) are copied by value, meaning each variable holds its own copy of the data. Objects (including arrays and functions) are copied by reference, meaning multiple variables can refer to the same object in memory.",
           "tldr": "Primitive copy করলে আলাদা value হয়, কিন্তু Object assign করলে সাধারণত একই object-এর reference share হয়।",
           "codeSnippets": [
             {
@@ -92,7 +89,7 @@
         {
           "id": "topic-3",
           "title": "C++ POINTERS & MEMORY",
-          "explanation": "Arrays store elements sequentially in memory, enabling pointer arithmetic where `arr[i]` is equivalent to `*(arr + i)`.",
+          "explanation": "Arrays store elements sequentially in memory, enabling pointer arithmetic access.",
           "tldr": "Array-এর elementগুলো sequential memory-তে থাকে, তাই pointer দিয়ে next element access করা যায়।",
           "codeSnippets": [
             {
@@ -118,10 +115,10 @@
         {
           "id": "topic-4",
           "title": "COMMON STRING & ARRAY OPERATIONS",
-          "explanation": "These operations frequently appear in coding interviews. Before using a built-in method, ask: Does it modify the original data? Does it return a new value? What is its time complexity? Does it require extra memory? What happens if the element is not found?",
+          "explanation": "Essential Operations: Length, Character Access, Uppercase, Lowercase, Find, Search, Contains, Substring, Replace, Split, Join, Trim, Concatenate, Compare, Repeat.",
           "tldr": "Built-in function use করার আগে complexity আর original data change হয় কিনা দেখে নাও।",
           "keyPoints": [
-            "Essential Operations: Length, Character Access, Uppercase, Lowercase, Find, Search, Contains, Substring, Replace, Split, Join, Trim, Concatenate, Compare, Repeat."
+            " strings are immutable in languages like Python, Java, and JavaScript, methods like Replace, Trim, and Substring never change the original data—they allocate extra memory to return a new copy in O(n) time. Meanwhile, Length and Character Access run in instant O(1) time without new memory, and search methods like Find or Contains take O(n) time while returning -1, false, or an error if the item is missing."
           ],
           "traps": [
             {
@@ -142,21 +139,13 @@
               "title": "Types of Loops",
               "headers": ["Loop", "Best Use Case", "Condition Check"],
               "rows": [
-                [
-                  "for",
-                  "Number of iterations is known",
-                  "Before execution"
-                ],
+                ["for", "Number of iterations is known", "Before execution"],
                 [
                   "while",
                   "Iterations depend on a condition",
                   "Before execution"
                 ],
-                [
-                  "do...while",
-                  "Must execute at least once",
-                  "After execution"
-                ]
+                ["do...while", "Must execute at least once", "After execution"]
               ]
             }
           ],
@@ -187,7 +176,7 @@
         {
           "id": "topic-6",
           "title": "CALLBACK FUNCTIONS & forEach()",
-          "explanation": "A callback function is a function passed as an argument to another function and executed by that function. `forEach()` executes a callback function once for each element of an array.",
+          "explanation": "A callback function is a function passed as an argument to another function and executed by that function. \n`forEach()` executes a callback function once for each element of an array.",
           "tldr": "forEach() দিয়ে loop করা সহজ, কিন্তু মাঝপথে break করা যায় না।",
           "codeSnippets": [
             {
@@ -282,7 +271,7 @@
         {
           "id": "topic-9",
           "title": "PRE-INCREMENT VS POST-INCREMENT",
-          "explanation": "Post-Increment (x++): Use the current value first, then increment. Pre-Increment (++x): Increment first, then use the updated value.",
+          "explanation": "Post-Increment (x++): Use the current value first, then increment.\nPre-Increment (++x): Increment first, then use the updated value.",
           "tldr": "x++ আগে use পরে বাড়ে, ++x আগে বাড়ে পরে use হয়।",
           "comparisons": [
             {
@@ -316,7 +305,7 @@
         {
           "id": "topic-10",
           "title": "OBJECT-ORIENTED PROGRAMMING CONCEPTS",
-          "explanation": "Object-Oriented Programming (OOP) is a programming paradigm that organizes software around objects. An object combines data (attributes) and behavior (methods). The four pillars are: Encapsulation, Inheritance, Abstraction, Polymorphism.",
+          "explanation": "Object-Oriented Programming (OOP) is a programming paradigm that organizes software around objects. An object combines data (attributes) and behavior (methods).\nThe four pillars are: Encapsulation, Inheritance, Abstraction, Polymorphism.",
           "tldr": "Class হলো blueprint, Object হলো blueprint থেকে তৈরি real instance। Procedural-এ function main, OOP-তে object main।",
           "comparisons": [
             {
@@ -324,14 +313,8 @@
               "headers": ["Class", "Object"],
               "rows": [
                 ["Blueprint", "Instance"],
-                [
-                  "Defines structure",
-                  "Contains actual state"
-                ],
-                [
-                  "Used to create objects",
-                  "Created from a class"
-                ],
+                ["Defines structure", "Contains actual state"],
+                ["Used to create objects", "Created from a class"],
                 ["Logical design", "Runtime entity"]
               ]
             },
@@ -339,52 +322,34 @@
               "title": "Procedural Programming vs OOP",
               "headers": ["Procedural Programming", "OOP"],
               "rows": [
-                [
-                  "Focuses on functions",
-                  "Focuses on objects"
-                ],
+                ["Focuses on functions", "Focuses on objects"],
                 [
                   "Data and functions are separate",
                   "Data and methods are grouped"
                 ],
-                [
-                  "Good for small programs",
-                  "Good for complex applications"
-                ],
+                ["Good for small programs", "Good for complex applications"],
                 ["Less abstraction", "Supports abstraction"],
-                [
-                  "Less data protection",
-                  "Supports encapsulation"
-                ]
+                ["Less data protection", "Supports encapsulation"]
               ]
             },
             {
               "title": "Overloading vs Overriding",
               "headers": ["Overloading", "Overriding"],
               "rows": [
-                [
-                  "Same function name",
-                  "Same method signature"
-                ],
+                ["Same function name", "Same method signature"],
                 [
                   "Different parameters",
                   "Derived class changes inherited behavior"
                 ],
-                [
-                  "Usually compile-time",
-                  "Runtime polymorphism"
-                ],
-                [
-                  "Same class/scope",
-                  "Base and derived classes"
-                ]
+                ["Usually compile-time", "Runtime polymorphism"],
+                ["Same class/scope", "Base and derived classes"]
               ]
             }
           ],
           "codeSnippets": [
             {
               "language": "cpp",
-              "code": "class Car {\npublic:\n    string brand;\n    void drive() {\n        cout << \"Driving\";\n    }\n};\n\nCar myCar;",
+              "code": "class Car {\npublic:\n    string brand;\n    void drive() {\n        cout << \"Driving\";\n    }\n};\n\n int main(){\n    Car myCar;\n    return 0;\n}",
               "explanation": "Class and Object example. Car is the class, myCar is the object."
             },
             {
@@ -443,25 +408,16 @@
         {
           "id": "topic-11",
           "title": "LIBRARY VS NAMESPACE",
-          "explanation": "A library is a collection of reusable code such as functions, classes, utilities, and modules. A namespace creates a logical scope to organize names and avoid naming conflicts.",
+          "explanation": "Library is a collection of reusable code such as functions, classes, utilities, and modules. \nNamespace creates a logical scope to organize names and avoid naming conflicts.",
           "tldr": "Library feature দেয়, Namespace name conflict আটকায়।",
           "comparisons": [
             {
               "title": "Library vs Namespace",
               "headers": ["Library", "Namespace"],
               "rows": [
-                [
-                  "Collection of reusable code",
-                  "Logical naming scope"
-                ],
-                [
-                  "Provides functionality",
-                  "Prevents naming conflicts"
-                ],
-                [
-                  "Usually imported or linked",
-                  "Used for organization"
-                ]
+                ["Collection of reusable code", "Logical naming scope"],
+                ["Provides functionality", "Prevents naming conflicts"],
+                ["Usually imported or linked", "Used for organization"]
               ]
             }
           ],
@@ -482,30 +438,10 @@
               "title": "Python Data Structures Comparison",
               "headers": ["Feature", "List", "Set", "Tuple"],
               "rows": [
-                [
-                  "Ordered",
-                  "Yes",
-                  "No positional indexing",
-                  "Yes"
-                ],
-                [
-                  "Mutable",
-                  "Yes",
-                  "Yes",
-                  "No"
-                ],
-                [
-                  "Duplicates",
-                  "Yes",
-                  "No",
-                  "Yes"
-                ],
-                [
-                  "Indexing",
-                  "Yes",
-                  "No",
-                  "Yes"
-                ],
+                ["Ordered", "Yes", "No positional indexing", "Yes"],
+                ["Mutable", "Yes", "Yes", "No"],
+                ["Duplicates", "Yes", "No", "Yes"],
+                ["Indexing", "Yes", "No", "Yes"],
                 ["Syntax", "[]", "{}", "()"]
               ]
             }
@@ -528,18 +464,12 @@
               "headers": ["Recursion", "Iteration"],
               "rows": [
                 ["Function calls itself", "Uses loops"],
-                [
-                  "Uses call stack",
-                  "Usually uses less stack memory"
-                ],
+                ["Uses call stack", "Usually uses less stack memory"],
                 [
                   "Often easier for tree problems",
                   "Often efficient for simple repetition"
                 ],
-                [
-                  "Risk of stack overflow",
-                  "No recursive stack growth"
-                ]
+                ["Risk of stack overflow", "No recursive stack growth"]
               ]
             }
           ],

@@ -1,0 +1,647 @@
+{
+  "id": "chapter-11",
+  "chapterNumber": 11,
+  "title": "Software Engineering Practices",
+  "description": "Modern Interview Revision Cheat Sheet",
+  "estimatedMinutes": 60,
+  "sections": [
+    {
+      "id": "sec-version-control-git",
+      "title": "PART 1: VERSION CONTROL & GIT",
+      "topics": [
+        {
+          "id": "topic-git-basics-concepts",
+          "title": "Git / Version Control & Essential Git Concepts",
+          "explanation": "Version Control is a system that tracks changes to files over time. It allows developers to track code changes, view history, collaborate with others, restore previous versions, and develop features safely in separate branches. Git is the most widely used distributed version control system. Key concepts include git commit (saves a snapshot of staged changes locally), git branch (creates an independent line of development), git merge (combines changes from one branch into another), git push (uploads local commits to a remote repository), and git pull (downloads and integrates changes from a remote repository).",
+          "tldr": "Version Control দিয়ে code-এর পরিবর্তনের history রাখা যায় এবং team-এর সাথে safely কাজ করা যায়। Code change → Add → Commit → Push।",
+          "keyPoints": [
+            "A commit saves a snapshot of staged changes in the Git history: Working Directory → Staging Area → Commit → Git History.",
+            "A commit is local by default; it does not automatically upload your changes to GitHub.",
+            "A branch creates an independent line of development without directly affecting the main branch.",
+            "Merge combines changes from one branch into another.",
+            "git push uploads local commits to a remote repository; git pull downloads and integrates changes from a remote repository.",
+            "Typical Git workflow: Edit Code → git status → git add → git commit → git push."
+          ],
+          "codeSnippets": [
+            {
+              "language": "bash",
+              "code": "git add .\ngit commit -m \"Add user authentication\"",
+              "explanation": "Example of staging changes and creating a commit."
+            },
+            {
+              "language": "bash",
+              "code": "git branch feature/login\ngit switch feature/login\n# Or:\ngit switch -c feature/login",
+              "explanation": "Creating and switching to a new branch."
+            },
+            {
+              "language": "bash",
+              "code": "git switch main\ngit merge feature/login",
+              "explanation": "Merging a feature branch into main."
+            },
+            {
+              "language": "bash",
+              "code": "git push origin main",
+              "explanation": "Pushing local commits to remote repository."
+            },
+            {
+              "language": "bash",
+              "code": "git status\ngit add .\ngit commit -m \"Implement login API\"\ngit push origin main",
+              "explanation": "Typical Git Workflow Example."
+            },
+            {
+              "language": "bash",
+              "code": "# Check repository status\ngit status\n# See commit history\ngit log\n# Stage all changes\ngit add .\n# Create a commit\ngit commit -m \"Your message\"\n# Create a branch\ngit branch feature-name\n# Switch branch\ngit switch feature-name\n# Create and switch to a branch\ngit switch -c feature-name\n# Merge a branch\ngit merge feature-name\n# Download remote changes\ngit pull\n# Upload commits\ngit push",
+              "explanation": "Common Git Commands."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Git vs GitHub",
+              "headers": ["Git", "GitHub"],
+              "rows": [
+                ["Version control system", "Online platform"],
+                ["Runs locally", "Hosted online"],
+                ["Tracks changes", "Stores Git repositories"],
+                ["Can work offline", "Requires network for remote operations"],
+                [
+                  "Created repository history",
+                  "Enables collaboration and hosting"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-git-without-github",
+              "statement": "Can Git work without GitHub?",
+              "explanation": "Yes. Git works independently on your local machine. GitHub is a platform for hosting Git repositories remotely and collaborating with others.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-fetch-vs-pull",
+              "statement": "What is the difference between git fetch and git pull?",
+              "explanation": "git fetch downloads remote changes without automatically merging them into your current branch. git pull typically fetches and then integrates the changes.",
+              "category": "interview-gotcha"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-cicd",
+      "title": "PART 2: CI/CD",
+      "topics": [
+        {
+          "id": "topic-cicd-fundamentals",
+          "title": "CI/CD",
+          "explanation": "CI (Continuous Integration) means developers frequently integrate code changes into a shared repository, where automated checks such as builds and tests are run. CD usually refers to Continuous Delivery or Continuous Deployment. Continuous Delivery automatically prepares and validates code for release, but production deployment may require manual approval. Continuous Deployment automatically deploys code to production when all required checks pass.",
+          "tldr": "CI code check করে, আর CD tested code release/deploy করার process automate করে।",
+          "keyPoints": [
+            "Typical CI Flow: Developer Pushes Code → Build Application → Run Tests → Run Checks → Report Result.",
+            "CI Benefits: Finds bugs early, prevents broken code from spreading, improves team collaboration, encourages frequent integration.",
+            "CI/CD Flow: Code → Build → Test → Validate → Deploy.",
+            "Easy Memory: CI = Build + Test; CD = Deliver / Deploy."
+          ],
+          "traps": [
+            {
+              "id": "trap-delivery-vs-deployment",
+              "statement": "What is the difference between Continuous Delivery and Continuous Deployment?",
+              "explanation": "Continuous Delivery prepares every validated change for release, while Continuous Deployment automatically releases validated changes to production.",
+              "category": "interview-gotcha"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-methodologies-frameworks",
+      "title": "PART 3 & 4: SOFTWARE DEVELOPMENT METHODOLOGIES & AGILE FRAMEWORKS",
+      "topics": [
+        {
+          "id": "topic-waterfall-vs-agile",
+          "title": "Waterfall Model vs Agile",
+          "explanation": "Waterfall is a linear software development model where phases (Requirements → Design → Development → Testing → Deployment) are completed in sequence, with one phase substantially completed before moving to the next. Agile is an iterative and incremental approach where teams develop software in small cycles (Small Feature → Build → Test → Feedback → Improve → Next Feature) and continuously adapt based on feedback.",
+          "tldr": "সব requirement আগে fix করে এক ধাপ শেষ করে পরের ধাপে যাওয়া = Waterfall। ছোট ছোট অংশে software বানানো, feedback নেওয়া এবং improve করা = Agile।",
+          "keyPoints": [
+            "Waterfall Advantages: Simple structure, clear documentation, easy to understand, useful when requirements are stable.",
+            "Waterfall Disadvantages: Difficult to adapt to changes, feedback may come late, problems may be discovered later, less suitable for rapidly changing requirements.",
+            "Key Agile Principles: Small iterations, frequent feedback, continuous improvement, working software, collaboration, adaptation to change.",
+            "Easy Memory: Waterfall = Step by Step; Agile = Small Cycles + Feedback + Improvement."
+          ],
+          "comparisons": [
+            {
+              "title": "Waterfall vs Agile",
+              "headers": ["Waterfall", "Agile"],
+              "rows": [
+                ["Linear approach", "Iterative approach"],
+                ["Sequential phases", "Small development cycles"],
+                ["Less flexible", "More adaptable"],
+                ["Changes can be expensive", "Changes are expected"],
+                ["Feedback often later", "Frequent feedback"],
+                [
+                  "Best for stable requirements",
+                  "Best for changing requirements"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-agile-planning",
+              "statement": "Does Agile mean no planning?",
+              "explanation": "No. Agile requires planning, but planning is iterative and can adapt as requirements and priorities change.",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "topic-agile-frameworks",
+          "title": "Agile Frameworks: Scrum, Kanban, XP, FDD & RAD",
+          "explanation": "Scrum organizes development into fixed-length Sprints (commonly 1 to 4 weeks) with dedicated roles (Product Owner, Scrum Master, Developers) and events (Sprint Planning, Daily Scrum, Sprint Review, Retrospective). Kanban is a visual workflow management method focused on continuous delivery and controlling work in progress using WIP limits on boards (To Do → In Progress → Done). Extreme Programming (XP) focuses heavily on engineering practices, code quality, and frequent feedback via Pair Programming, TDD, and CI. Feature-Driven Development (FDD) organizes development around small, client-valued features. RAD emphasizes rapid prototyping and fast user feedback.",
+          "tldr": "নির্দিষ্ট সময়ের Sprint ধরে কাজ করা = Scrum। To Do → In Progress → Done board দিয়ে continuous কাজ track করা = Kanban। ভালো code quality, testing এবং frequent feedback-এর উপর বেশি focus = XP। RAD আগে দ্রুত prototype বানায়, Agile ছোট ছোট working feature regularly deliver করে।",
+          "keyPoints": [
+            "WIP Limit in Kanban restricts how many tasks can be actively worked on at the same time to prevent too much multitasking, bottlenecks, and unfinished work accumulation.",
+            "Important XP Practices: Pair Programming (Developer A writes code while Developer B reviews/navigates), Test-Driven Development (Write Test → Test Fails → Write Code → Test Passes → Refactor), and Continuous Integration.",
+            "Memory Trick: Scrum → Sprints; Kanban → Flow; XP → Code Quality; FDD → Features; RAD → Prototype Fast."
+          ],
+          "examples": [
+            "FDD Features: Feature: User Registration, Feature: Product Search, Feature: Order Tracking"
+          ],
+          "comparisons": [
+            {
+              "title": "Agile Framework Quick Comparison",
+              "headers": ["Framework", "Main Focus"],
+              "rows": [
+                ["Scrum", "Fixed-length Sprints"],
+                ["Kanban", "Continuous workflow"],
+                ["XP", "Engineering practices and code quality"],
+                ["FDD", "Small feature-based development"]
+              ]
+            },
+            {
+              "title": "RAD vs Agile",
+              "headers": ["RAD", "Agile"],
+              "rows": [
+                ["Rapid prototyping", "Iterative delivery"],
+                [
+                  "Strong focus on quick prototypes",
+                  "Strong focus on working increments"
+                ],
+                ["Heavy user feedback", "Frequent collaboration and feedback"],
+                ["Fast development", "Continuous adaptation"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-scrum-vs-agile",
+              "statement": "Is Scrum the same as Agile?",
+              "explanation": "No. Agile is a broader approach or mindset, while Scrum is one specific framework used to apply Agile principles.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-scrum-vs-kanban",
+              "statement": "What is a major difference between Scrum and Kanban?",
+              "explanation": "Scrum uses time-boxed Sprints, while Kanban focuses on continuous workflow and managing work in progress.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-rad-vs-agile",
+              "statement": "Are RAD and Agile exactly the same?",
+              "explanation": "No. Both support iterative development and feedback, but RAD focuses more heavily on rapid prototyping, while Agile focuses on iterative delivery and adaptation.",
+              "category": "conceptual"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-sdlc-requirements",
+      "title": "PART 5 & 6: SDLC & REQUIREMENTS ENGINEERING",
+      "topics": [
+        {
+          "id": "topic-sdlc-lifecycle",
+          "title": "Software Development Life Cycle (SDLC)",
+          "explanation": "SDLC is a structured process for planning, building, testing, deploying, and maintaining software through sequential phases: Requirements, Design, Implementation, Testing, Deployment, and Maintenance.",
+          "tldr": "Software বানানোর পুরো lifecycle = Requirement → Design → Code → Test → Deploy → Maintain।",
+          "keyPoints": [
+            "Phase 1 — Requirements: Understand user needs, business goals, system features, and constraints.",
+            "Phase 2 — Design: Plan system architecture, database design, API design, UI/UX, and security design.",
+            "Phase 3 — Implementation: Developers write code, create APIs, build database models, implement UI, and review code.",
+            "Phase 4 — Testing: Verify functionality via unit, integration, system, security, and performance testing.",
+            "Phase 5 — Deployment: Release software (backend, frontend, infrastructure, migrations).",
+            "Phase 6 — Maintenance: Fix bugs, improve performance, add features, update dependencies, and improve security."
+          ],
+          "traps": [
+            {
+              "id": "trap-sdlc-after-deployment",
+              "statement": "Does SDLC end after deployment?",
+              "explanation": "No. Maintenance is an important SDLC phase that includes bug fixes, updates, security patches, and improvements.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "topic-functional-vs-non-functional",
+          "title": "Functional vs Non-Functional Requirements",
+          "explanation": "Functional requirements describe what the system must do, while Non-Functional requirements describe how well the system should perform or what quality constraints it must meet.",
+          "tldr": "Feature কী করে = Functional, Feature কত ভালোভাবে কাজ করে = Non-Functional।",
+          "keyPoints": [
+            "Common Non-Functional Requirements: Performance, Security, Scalability, Reliability, Availability, Maintainability, Usability.",
+            "Easy Memory: Functional = WHAT; Non-Functional = HOW WELL."
+          ],
+          "examples": [
+            "Functional Examples: Users must be able to log in, reset passwords, admins must be able to delete users.",
+            "Non-Functional Examples: The page should load within 2 seconds, support 10,000 users, securely protect passwords, maintain high availability."
+          ],
+          "comparisons": [
+            {
+              "title": "Functional vs Non-Functional",
+              "headers": ["Functional", "Non-Functional"],
+              "rows": [
+                ["What the system does", "How well the system works"],
+                ["Login", "Login response time"],
+                ["Place order", "System availability"],
+                ["Send email", "Email delivery performance"],
+                ["Upload file", "File upload security"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-security-req-type",
+              "statement": "Is security a functional or non-functional requirement?",
+              "explanation": "Security is generally considered a non-functional requirement because it describes a quality attribute or constraint. However, specific security features can also create functional requirements.",
+              "category": "interview-gotcha"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-software-testing",
+      "title": "PART 7: SOFTWARE TESTING",
+      "topics": [
+        {
+          "id": "topic-testing-levels-pyramid",
+          "title": "Software Testing Levels & Testing Pyramid",
+          "explanation": "Testing is organized from small components to the complete system across four levels: Unit Testing (tests small, isolated parts like functions or components), Integration Testing (checks whether multiple components work correctly together), System Testing (tests the complete integrated application as a whole), and Acceptance Testing (checks whether software satisfies business and user requirements). The Testing Pyramid advocates for many unit tests at the base, some integration tests in the middle, and fewer end-to-end tests at the top.",
+          "tldr": "Unit → Integration → পুরো System → Business requirement check। নিচে বেশি Unit Test, মাঝখানে কিছু Integration Test, উপরে কম E2E Test।",
+          "keyPoints": [
+            "Unit Testing advantages: Fast, isolated, easy to debug, cheap to run, easy to automate.",
+            "Why use more unit tests: Speed (run quickly), Easy Debugging (easy to locate), Lower Cost (cheaper to run/maintain/debug), Early Bug Detection (found before integration).",
+            "End-to-End Tests test realistic user flows but are often slower, more expensive, more fragile, and harder to debug."
+          ],
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "function add(a, b) {\n  return a + b;\n}\n\n// Unit test:\nexpect(add(2, 3)).toBe(5);",
+              "explanation": "Unit testing a small, isolated function."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Testing Levels Comparison",
+              "headers": ["Testing Level", "Tests"],
+              "rows": [
+                ["Unit", "Smallest component"],
+                ["Integration", "Components together"],
+                ["System", "Complete application"],
+                ["Acceptance", "Business/user requirements"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-unit-test-db",
+              "statement": "Does unit testing require a real database?",
+              "explanation": "Usually no. Unit tests should isolate the unit being tested, so dependencies are often mocked or replaced with test doubles.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-acceptance-purpose",
+              "statement": "Is Acceptance Testing only about finding technical bugs?",
+              "explanation": "No. Its main purpose is to verify whether the system satisfies business and user requirements.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-only-unit-tests",
+              "statement": "Should you only write unit tests?",
+              "explanation": "No. Unit tests are important, but they cannot verify all component interactions or complete user workflows. A balanced testing strategy uses multiple test levels.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-engineering-concepts-principles",
+      "title": "PART 8: IMPORTANT SOFTWARE ENGINEERING CONCEPTS",
+      "topics": [
+        {
+          "id": "topic-architecture-debt-practices",
+          "title": "Technical Debt, Code Review, Scaling & Architecture",
+          "explanation": "Technical Debt is the future cost created by choosing a quick or suboptimal solution today instead of a cleaner and more maintainable solution. Code Review is the process of reviewing code changes before merging to identify bugs, security issues, design flaws, and style problems. Scaling can be Vertical (making one server more powerful: bigger CPU, RAM, storage) or Horizontal (adding more servers behind a load balancer). Architecture can be Monolithic (all major features reside in one application) or Microservices (features separated into independently deployed services).",
+          "tldr": "আজকে shortcut নিলে ভবিষ্যতে বেশি time এবং cost লাগতে পারে = Technical Debt। Monolith = সব এক app, Microservices = feature অনুযায়ী আলাদা service।",
+          "keyPoints": [
+            "Technical debt common causes: Rushed development, skipping tests, poor architecture, duplicate code, outdated dependencies, poor documentation, temporary solutions becoming permanent.",
+            "Technical debt can be an intentional business decision to validate ideas quickly, meet deadlines, or build an MVP; it must be tracked and paid back before becoming unmanageable.",
+            "Code Review workflow: Developer → Create Branch → Write Code → Pull Request → Code Review → Approve → Merge.",
+            "Vertical Scaling = Bigger Server; Horizontal Scaling = More Servers."
+          ],
+          "comparisons": [
+            {
+              "title": "Monolith vs Microservices",
+              "headers": ["Monolith", "Microservices"],
+              "rows": [
+                ["One application", "Multiple services"],
+                ["Easier to start", "More complex"],
+                ["Simple deployment", "Multiple deployments"],
+                ["Scale entire app", "Scale services independently"],
+                ["Less distributed complexity", "More operational complexity"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-debt-cause",
+              "statement": "Is all technical debt caused by bad developers?",
+              "explanation": "No. Technical debt can be an intentional business decision. The problem occurs when debt is ignored and accumulates without a plan to address it.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-review-scope",
+              "statement": "Is code review only for finding bugs?",
+              "explanation": "No. Code review also improves code quality, knowledge sharing, consistency, maintainability, and team collaboration.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-microservices-default",
+              "statement": "Should every large application use Microservices?",
+              "explanation": "No. Microservices add significant complexity. A well-designed modular monolith is often a better choice until independent scaling and organizational needs justify microservices.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "topic-software-principles",
+          "title": "Engineering Principles: DRY, KISS, YAGNI & SOLID",
+          "explanation": "Core design principles for writing clean, maintainable, and extensible software. DRY avoids unnecessary duplication of knowledge or logic. KISS prefers simple and understandable solutions over unnecessary complexity. YAGNI avoids building functionality before it is actually needed. SOLID outlines five object-oriented design principles to maximize flexibility and maintainability.",
+          "tldr": "একই logic অযথা বারবার না লিখে reusable করা = DRY। অযথা complex না করে যতটা সম্ভব simple solution রাখা = KISS। ভবিষ্যতে লাগতে পারে ভেবে অযথা feature আগে থেকে বানিও না = YAGNI।",
+          "keyPoints": [
+            "DRY (Don't Repeat Yourself): Avoids logic duplication. Trap: Do not force unrelated code into one abstraction; over-abstraction harms readability.",
+            "KISS (Keep It Simple, Stupid): Prefer simple maintainable solutions over 10 layers of abstraction for a simple requirement.",
+            "YAGNI (You Aren't Gonna Need It): Build what is needed now rather than speculative future features.",
+            "S — Single Responsibility Principle: A class or module should have one clear responsibility.",
+            "O — Open/Closed Principle: Software should be open for extension but closed for unnecessary modification.",
+            "L — Liskov Substitution Principle: Subtypes should be usable where base types are expected without breaking correct behavior.",
+            "I — Interface Segregation Principle: Do not force clients to depend on interfaces they do not need.",
+            "D — Dependency Inversion Principle: High-level modules should depend on abstractions rather than concrete implementations."
+          ],
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "// Bad:\nconst adminDiscount = price * 0.1;\nconst userDiscount = price * 0.1;\n\n// Better:\nfunction calculateDiscount(price, rate) {\n  return price * rate;\n}",
+              "explanation": "DRY Principle demonstration."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-qa-flashcards-summary",
+      "title": "PART 9: RAPID INTERVIEW Q&A, FLASHCARDS & REVISION",
+      "topics": [
+        {
+          "id": "topic-interview-qa",
+          "title": "Rapid Interview Q&A",
+          "explanation": "High-frequency interview questions and answers summarizing software engineering concepts.",
+          "questions": [
+            {
+              "question": "Q1: What is the difference between Git and GitHub?",
+              "answer": "Git is a distributed version control system that tracks code changes. GitHub is an online platform for hosting Git repositories and collaborating with developers."
+            },
+            {
+              "question": "Q2: What is a Git Commit?",
+              "answer": "A Git commit records a snapshot of staged changes in the local repository history."
+            },
+            {
+              "question": "Q3: What is a Git Branch?",
+              "answer": "A branch is an independent line of development that allows developers to work on features or fixes without directly changing another branch."
+            },
+            {
+              "question": "Q4: What is CI/CD?",
+              "answer": "CI automatically builds and tests code changes frequently. CD automates the delivery or deployment process after the required checks pass."
+            },
+            {
+              "question": "Q5: What is the difference between Continuous Delivery and Continuous Deployment?",
+              "answer": "Continuous Delivery prepares validated changes for release, while Continuous Deployment automatically releases validated changes to production."
+            },
+            {
+              "question": "Q6: What is Technical Debt?",
+              "answer": "Technical debt is the future maintenance cost caused by choosing a quick or suboptimal solution instead of a cleaner and more maintainable one."
+            },
+            {
+              "question": "Q7: Why are Unit Tests important?",
+              "answer": "Unit tests are fast and isolated, making it easier to detect and debug problems in individual components early."
+            },
+            {
+              "question": "Q8: What is the difference between Functional and Non-Functional Requirements?",
+              "answer": "Functional requirements describe what the system does, while non-functional requirements describe how well the system performs and its quality constraints."
+            },
+            {
+              "question": "Q9: What is the difference between Scrum and Kanban?",
+              "answer": "Scrum organizes work into fixed-length Sprints, while Kanban uses a continuous workflow and visualizes work while limiting work in progress."
+            },
+            {
+              "question": "Q10: What is Agile?",
+              "answer": "Agile is an iterative approach to software development that emphasizes working software, frequent feedback, collaboration, and adapting to change."
+            }
+          ]
+        },
+        {
+          "id": "topic-revision-flashcards",
+          "title": "Rapid Revision Flashcards & Golden Traps",
+          "explanation": "Quick revision flashcards and common traps for interview prep.",
+          "tldr": "একজন ভালো Software Engineer শুধু code লেখে না। সে Git দিয়ে collaboration করে, CI/CD দিয়ে automation করে, Agile process follow করে, requirements বোঝে, testing করে এবং clean, maintainable code লেখে।",
+          "comparisons": [
+            {
+              "title": "Final Cheat Sheet",
+              "headers": ["Topic", "Remember This"],
+              "rows": [
+                ["Git", "Tracks code changes"],
+                ["GitHub", "Hosts Git repositories"],
+                ["Commit", "Saves staged changes to history"],
+                ["Branch", "Separate development line"],
+                ["Merge", "Combines branches"],
+                ["CI", "Build + Test"],
+                ["Continuous Delivery", "Ready for release"],
+                ["Continuous Deployment", "Automatically deploy"],
+                ["Waterfall", "Sequential"],
+                ["Agile", "Iterative + Adaptive"],
+                ["Scrum", "Sprints"],
+                ["Kanban", "Continuous flow"],
+                ["XP", "Engineering quality"],
+                ["RAD", "Rapid prototyping"],
+                ["FDD", "Feature-focused"],
+                ["SDLC", "Requirements → Maintain"],
+                ["Functional Requirement", "What"],
+                ["Non-Functional Requirement", "How well"],
+                ["Unit Test", "Small component"],
+                ["Integration Test", "Components together"],
+                ["System Test", "Complete system"],
+                ["Acceptance Test", "Business requirements"],
+                ["Technical Debt", "Shortcut now, cost later"],
+                ["DRY", "Avoid unnecessary duplication"],
+                ["KISS", "Keep solutions simple"],
+                ["YAGNI", "Build only what is needed"],
+                ["SOLID", "Maintainable object-oriented design"]
+              ]
+            }
+          ],
+          "flashcards": [
+            {
+              "id": "fc-1",
+              "question": "Git vs GitHub?",
+              "answer": "Git = Version Control; GitHub = Repository Hosting + Collaboration",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-2",
+              "question": "CI vs CD?",
+              "answer": "CI ↓ Build + Test; CD ↓ Deliver / Deploy",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-3",
+              "question": "Waterfall vs Agile?",
+              "answer": "Waterfall ↓ Sequential; Agile ↓ Iterative",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-4",
+              "question": "Scrum vs Kanban?",
+              "answer": "Scrum = Sprints; Kanban = Continuous Flow",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-5",
+              "question": "Functional vs Non-Functional?",
+              "answer": "Functional = WHAT; Non-Functional = HOW WELL",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-6",
+              "question": "Testing Levels?",
+              "answer": "Unit ↓ Integration ↓ System ↓ Acceptance",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-7",
+              "question": "What is Technical Debt?",
+              "answer": "Shortcut Today ↓ More Maintenance ↓ More Cost Later",
+              "difficulty": "medium"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-gt-1",
+              "statement": "Git = GitHub",
+              "explanation": "Wrong. Git works independently. GitHub is a remote hosting and collaboration platform.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-gt-2",
+              "statement": "CD Always Means Continuous Deployment",
+              "explanation": "Wrong. CD can mean Continuous Delivery or Continuous Deployment. Always clarify the context.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-gt-3",
+              "statement": "Agile Means No Planning",
+              "explanation": "Wrong. Agile uses planning, but allows plans to adapt.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-gt-4",
+              "statement": "Scrum = Agile",
+              "explanation": "Wrong. Agile is a broad approach, while Scrum is a specific framework.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-gt-5",
+              "statement": "More Tests Always Means Better Quality",
+              "explanation": "Not Necessarily. Test quality and coverage of important behavior matter more than simply having a large number of tests.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-gt-6",
+              "statement": "Unit Tests Can Replace All Other Tests",
+              "explanation": "Wrong. Use a balanced testing strategy.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-gt-7",
+              "statement": "Microservices Automatically Make Software Better",
+              "explanation": "Wrong. Microservices provide flexibility but increase infrastructure and operational complexity.",
+              "category": "conceptual"
+            }
+          ],
+          "memoryMap": {
+            "nodes": [
+              {
+                "id": "mm-swe",
+                "label": "SOFTWARE ENGINEERING PRACTICES",
+                "description": "Core practices and knowledge"
+              },
+              {
+                "id": "mm-git",
+                "label": "GIT",
+                "description": "Version Control: Commit, Branch, Merge, Pull, Push"
+              },
+              {
+                "id": "mm-cicd",
+                "label": "CI/CD",
+                "description": "Automation: Build, Test, Deploy"
+              },
+              {
+                "id": "mm-methods",
+                "label": "METHODOLOGIES",
+                "description": "Waterfall and Agile (Scrum, Kanban, XP, FDD)"
+              },
+              {
+                "id": "mm-sdlc",
+                "label": "SDLC",
+                "description": "Requirements, Design, Implementation, Testing, Deployment, Maintenance"
+              },
+              {
+                "id": "mm-reqs",
+                "label": "REQUIREMENTS",
+                "description": "Functional (What) and Non-Functional (How Well)"
+              },
+              {
+                "id": "mm-testing",
+                "label": "TESTING",
+                "description": "Unit, Integration, System, Acceptance"
+              },
+              {
+                "id": "mm-quality",
+                "label": "CODE QUALITY",
+                "description": "Technical Debt, Code Review, DRY, KISS, YAGNI, SOLID"
+              }
+            ],
+            "connections": [
+              { "from": "mm-swe", "to": "mm-git" },
+              { "from": "mm-swe", "to": "mm-cicd" },
+              { "from": "mm-swe", "to": "mm-methods" },
+              { "from": "mm-swe", "to": "mm-sdlc" },
+              { "from": "mm-swe", "to": "mm-reqs" },
+              { "from": "mm-swe", "to": "mm-testing" },
+              { "from": "mm-swe", "to": "mm-quality" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,569 @@
+{
+  "id": "ch-9",
+  "chapterNumber": 9,
+  "title": "Operating Systems & System Design",
+  "description": "Modern Interview Revision Cheat Sheet covering OS fundamentals, processes, threads, concurrency, deadlock, virtual memory, and core system design concepts.",
+  "estimatedMinutes": 60,
+  "sections": [
+    {
+      "id": "sec-operating-systems",
+      "title": "PART 1: OPERATING SYSTEMS",
+      "description": "OS fundamentals, process management, concurrency, synchronization, deadlocks, and memory management.",
+      "topics": [
+        {
+          "id": "top-os-fundamentals",
+          "title": "1. Fundamentals of Operating Systems (OS)",
+          "explanation": "🖥️ What is an Operating System?\nAn Operating System (OS) is the main system software that acts as a bridge between computer hardware and applications[cite: 4].\nIt manages hardware resources and provides services that allow applications to run without directly controlling hardware[cite: 4].\n\nThe OS Manages:\nCPU\nRAM / Memory\nStorage\nInput/Output devices\nProcesses\nFiles\nNetwork resources[cite: 4]\n\nBasic Architecture:\nApplications\n     ↓\nOperating System\n     ↓\nHardware[cite: 4]\n\nWithout an OS, application developers would need to write complex hardware-specific code to perform basic operations[cite: 4].\n\nExamples of Operating Systems:\nWindows\nLinux\nmacOS\nAndroid\niOS[cite: 4]\n\nMain Responsibilities of an OS:\n1️⃣ Process Management: Creates processes, Schedules processes, Allocates CPU time, Terminates processes[cite: 4]\n2️⃣ Memory Management: Allocates memory, Frees unused memory, Manages virtual memory, Protects process memory[cite: 4]\n3️⃣ File Management: Manages files, Directories, Storage permissions[cite: 4]\n4️⃣ Device Management: Communicates with Keyboard, Mouse, Disk, Printer, Network devices[cite: 4]",
+          "tldr": "OS হলো Hardware আর Application-এর মাঝখানের manager, যা computer-এর সব resource manage করে[cite: 4]。",
+          "questions": [
+            {
+              "question": "Is an Operating System just software for running applications?",
+              "answer": "No. An OS also manages hardware resources, processes, memory, files, devices, and security[cite: 4]."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-os-1",
+              "statement": "An Operating System is just software for running applications.",
+              "explanation": "No. An OS also manages hardware resources, processes, memory, files, devices, and security[cite: 4].",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "top-process-vs-thread",
+          "title": "2. Process vs Thread & 3. Process vs Thread — Comparison",
+          "explanation": "🔵 Process\nA Process is a program that is currently executing[cite: 4].\nEach process normally has its own:\nMemory space\nResources\nExecution context[cite: 4]\nExample: If you open Chrome, VS Code, Spotify, they usually run as separate processes[cite: 4].\nProcess Concept: Program → Execution Starts → Process[cite: 4]\nNormally: Process A ✗ Cannot directly access Process B Memory[cite: 4]\n\n🟢 Thread\nA Thread is the smallest unit of execution inside a process[cite: 4].\nA process can contain multiple threads[cite: 4].\nThreads inside the same process typically share: Code, Heap memory, Global variables, Open resources[cite: 4].\nHowever, each thread has its own: Stack, Registers, Program counter[cite: 4].\nExample: A browser may use different threads for User interface, Rendering, Background tasks, Network operations[cite: 4].",
+          "tldr": "Process হলো চলমান পুরো program, আর Thread হলো সেই program-এর ভিতরের execution unit[cite: 4]। Process আলাদা memory ব্যবহার করে, Thread একই process-এর memory share করে[cite: 4]。",
+          "comparisons": [
+            {
+              "title": "Process vs Thread — Comparison",
+              "headers": ["Process", "Thread"],
+              "rows": [
+                [
+                  "Independent running program",
+                  "Execution unit inside a process"
+                ],
+                ["Has separate memory space", "Shares process memory"],
+                ["More heavyweight", "More lightweight"],
+                ["Communication is slower", "Communication is faster"],
+                [
+                  "Process creation is more expensive",
+                  "Thread creation is usually cheaper"
+                ],
+                ["Better isolation", "Less isolation"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Do threads share everything?",
+              "answer": "No. Threads typically share process resources such as code and heap, but each thread has its own stack, registers, and execution state[cite: 4]."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-thread-share-all",
+              "statement": "Threads share everything within a process.",
+              "explanation": "No. Threads typically share process resources such as code and heap, but each thread has its own stack, registers, and execution state[cite: 4].",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-process-lifecycle",
+          "title": "4. Process Lifecycle",
+          "explanation": "A process moves through different states while executing[cite: 4].\n\nProcess States Flow:\nNew → Ready → Running → Waiting / Blocked → Ready → Running → Terminated[cite: 4]\n\n🆕 New\nThe process is being created by the OS[cite: 4]. Program → Process Creation → New[cite: 4]\n\n🟡 Ready\nThe process is ready to run but is waiting for CPU time[cite: 4]. Ready → Waiting for CPU[cite: 4]\n\n🟢 Running\nThe CPU is currently executing the process[cite: 4]. CPU → Executing Process[cite: 4]\n\n🔵 Waiting / Blocked\nThe process cannot continue until an event occurs[cite: 4].\nExamples: File read, Database response, Network response, User input, Disk I/O[cite: 4]. Process → Waiting for I/O → Blocked[cite: 4]\n\n🔴 Terminated\nThe process has finished normally, or been stopped because of an error[cite: 4]. The OS then releases its resources[cite: 4].",
+          "tldr": "Ready মানে CPU পাওয়ার অপেক্ষায়, আর Waiting/Blocked মানে কোনো event বা I/O-এর অপেক্ষায়[cite: 4]。",
+          "questions": [
+            {
+              "question": "What is the difference between Ready and Waiting?",
+              "answer": "A Ready process is waiting only for CPU time. A Waiting/Blocked process is waiting for an external event or resource, such as I/O completion[cite: 4]."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-ready-vs-waiting",
+              "statement": "Ready and Waiting are the same state.",
+              "explanation": "A Ready process is waiting only for CPU time. A Waiting/Blocked process is waiting for an external event or resource, such as I/O completion[cite: 4].",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-context-switching",
+          "title": "5. Context Switching",
+          "explanation": "🔄 What is Context Switching?\nContext Switching happens when the OS pauses one process or thread and switches the CPU to another[cite: 4].\nThe OS saves the current execution state and restores the state of another process or thread[cite: 4].\n\nContext May Include:\nCPU registers\nProgram counter\nStack information\nProcess/thread state[cite: 4]\n\nFlow:\nProcess A Running → Save Context → Load Context → Process B Running[cite: 4]\n\nWhy is Context Switching Needed?\nIt enables: Multitasking, Fair CPU scheduling, Responsive systems, Concurrent execution[cite: 4].\n\nPerformance Cost:\nContext switching has overhead[cite: 4].\nCPU Time → Save State → Load State → Resume Another Task[cite: 4]\nDuring switching, the CPU is not doing useful application work[cite: 4]. Frequent context switching can reduce performance[cite: 4].",
+          "tldr": "এক process/thread pause করে আরেকটাকে CPU দেওয়াই Context Switching[cite: 4]。",
+          "questions": [
+            {
+              "question": "Is context switching free?",
+              "answer": "No. It has performance overhead because the OS must save and restore execution state, and frequent switching can reduce efficiency[cite: 4]."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-context-switch-cost",
+              "statement": "Context switching has zero performance overhead.",
+              "explanation": "No. It has performance overhead because the OS must save and restore execution state, and frequent switching can reduce efficiency[cite: 4].",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "top-multiprocessing-vs-multithreading",
+          "title": "6. Multiprocessing vs Multithreading",
+          "explanation": "🖥️ Multiprocessing\nMultiprocessing uses multiple processes[cite: 4]. Each process has separate memory and stronger isolation[cite: 4].\nAdvantages: Better isolation, Can use multiple CPU cores, One process crash may not affect others[cite: 4].\nDisadvantages: Higher memory usage, IPC can be more expensive[cite: 4].\n\n🧵 Multithreading\nMultithreading uses multiple threads inside one process[cite: 4].\nAdvantages: Lightweight, Fast communication, Shared memory[cite: 4].\nDisadvantages: Race conditions, Synchronization complexity, A serious process failure can affect all threads[cite: 4].",
+          "tldr": "Multiprocessing = আলাদা আলাদা process, Multithreading = একই process-এর ভিতরে অনেক thread[cite: 4]。",
+          "comparisons": [
+            {
+              "title": "Multiprocessing vs Multithreading",
+              "headers": ["Multiprocessing", "Multithreading"],
+              "rows": [
+                ["Multiple processes", "Multiple threads"],
+                ["Separate memory", "Shared process memory"],
+                ["Strong isolation", "Less isolation"],
+                ["More memory", "Less memory"],
+                ["Communication through IPC", "Shared memory communication"],
+                ["Higher overhead", "Lower overhead"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Does multithreading always mean true parallel execution?",
+              "answer": "No. Concurrency and parallelism are different. True parallel execution depends on factors such as CPU cores and how threads are scheduled[cite: 4]."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-multithreading-parallel",
+              "statement": "Multithreading always means true parallel execution.",
+              "explanation": "No. Concurrency and parallelism are different. True parallel execution depends on factors such as CPU cores and how threads are scheduled[cite: 4].",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-concurrency-and-synchronization",
+          "title": "7. Concurrency and Synchronization",
+          "explanation": "When multiple threads access shared resources, problems can occur[cite: 4].\nExample: Shared Balance = $100. Thread A → Withdraw $50, Thread B → Withdraw $50. Without proper synchronization: Race Condition ❌[cite: 4]\n\n⚠️ Race Condition\nA Race Condition happens when multiple threads access shared data concurrently and the final result depends on execution timing[cite: 4].\nExample:\nCounter = 0\nThread A → Reads 0\nThread B → Reads 0\nThread A → Writes 1\nThread B → Writes 1\nFinal Result = 1 ❌ (Expected = 2)[cite: 4]\n\n🔒 Mutex\nA Mutex is a synchronization mechanism that allows only one thread to access a critical section at a time[cite: 4].\nFlow:\nThread A → Lock → Access Shared Data → Unlock\nThread B → Wait for Lock[cite: 4]",
+          "tldr": "একই shared data একসাথে অনেক thread change করলে race condition হতে পারে। Mutex দিয়ে একবারে একজনকে access দেওয়া হয়[cite: 4]。",
+          "questions": [
+            {
+              "question": "Does shared memory make multithreading easier?",
+              "answer": "Communication is faster, but shared memory introduces synchronization problems such as race conditions and deadlocks[cite: 4]."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-shared-memory-easy",
+              "statement": "Shared memory makes multithreading completely straightforward and problem-free.",
+              "explanation": "Communication is faster, but shared memory introduces synchronization problems such as race conditions and deadlocks[cite: 4].",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-deadlock-and-coffman",
+          "title": "8. Deadlock, 9. The Four Coffman Conditions & 10. Deadlock Prevention",
+          "explanation": "8. Deadlock\n🔒 What is Deadlock?\nA Deadlock happens when two or more processes or threads are permanently waiting for each other, so none of them can continue[cite: 4].\nSimple Example: Process A holds Resource 1 and waits for Resource 2; Process B holds Resource 2 and waits for Resource 1. Result: Both Wait Forever ❌[cite: 4]\n\n9. The Four Coffman Conditions\nA deadlock can occur only when all four conditions exist at the same time[cite: 4]:\n1️⃣ Mutual Exclusion: A resource can be used by only one process or thread at a time[cite: 4].\n2️⃣ Hold and Wait: A process holds one resource while waiting for another[cite: 4].\n3️⃣ No Preemption: The resource cannot simply be forcefully taken away; the process must release it[cite: 4].\n4️⃣ Circular Wait: Processes form a circular dependency (e.g., A → B → C → A)[cite: 4].\nRemember: M H N C[cite: 4]\n\n10. How to Prevent Deadlock\nDeadlock prevention means breaking at least one Coffman condition[cite: 4].\nCommon Approaches:\n- Break Hold and Wait: Request all required resources at once[cite: 4].\n- Break Circular Wait: Require resources to be requested in a fixed order (e.g., Always Lock Resource A Before Resource B)[cite: 4].\n- Allow Preemption: In some situations, resources can be released or reassigned[cite: 4].\nDeadlock Handling Strategies: 1. Prevention, 2. Avoidance, 3. Detection and Recovery, 4. Ignore It[cite: 4].",
+          "tldr": "চারটা condition একসাথে থাকলে deadlock হতে পারে[cite: 4]。",
+          "questions": [
+            {
+              "question": "Can deadlock occur if one Coffman condition is missing?",
+              "answer": "No. All four Coffman conditions must be present for a classic deadlock to occur[cite: 4]."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-deadlock-conditions",
+              "statement": "Deadlock can still occur even if one of the Coffman conditions is broken.",
+              "explanation": "No. All four Coffman conditions must be present for a classic deadlock to occur[cite: 4].",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "top-virtual-memory-paging-thrashing",
+          "title": "11. Virtual Memory, 12. Paging, 13. Page Fault & 14. Thrashing",
+          "explanation": "11. Virtual Memory\nVirtual Memory allows each process to use a large virtual address space while the OS manages the mapping to physical memory and storage[cite: 4]. Allows running programs even when total memory exceeds available RAM[cite: 4].\nFlow: Program → Virtual Memory → OS Memory Management → RAM + Disk Storage[cite: 4]\n\n12. Paging\nPaging divides memory into fixed-size blocks[cite: 4]:\n- Pages: Fixed-size block of virtual memory[cite: 4].\n- Frames: Fixed-size block of physical RAM[cite: 4].\nThe OS maps pages to frames to simplify allocation, support virtual memory, reduce external fragmentation, and allow non-contiguous allocation[cite: 4].\n\n13. Page Fault\n⚠️ What is a Page Fault?\nA Page Fault occurs when a program tries to access a memory page that is not currently loaded into physical RAM[cite: 4].\nFlow: Program Requests Page → Page Not in RAM → Page Fault → OS Locates Page → Load into RAM → Resume Program[cite: 4].\nImportant Point: Page Fault ≠ Program Error. It is a normal part of virtual memory management unless excessive[cite: 4].\n\n14. Thrashing\n🔥 What is Thrashing?\nThrashing happens when the system spends most of its time moving pages between RAM and storage instead of executing useful work[cite: 4].\nCauses: Not enough RAM, too many running processes, excessive memory usage, poor memory management[cite: 4].\nSolutions: Add more RAM, reduce running processes, improve memory usage, adjust system memory management[cite: 4].",
+          "tldr": "Virtual Memory-এর block হলো Page, আর RAM-এর block হলো Frame[cite: 4]। দরকারি page RAM-এ না থাকলে Page Fault হয়, OS সেটাকে load করে[cite: 4]। RAM কম হলে system বারবার RAM আর disk-এর মধ্যে data আনা-নেওয়া করে, তাই computer খুব slow হয়ে যায়[cite: 4]。",
+          "questions": [
+            {
+              "question": "Are pages and frames the same thing?",
+              "answer": "They are both fixed-size blocks, but a page belongs to virtual memory while a frame belongs to physical RAM[cite: 4]."
+            },
+            {
+              "question": "Does a page fault mean the application crashed?",
+              "answer": "No. A page fault is normally handled by the operating system. It becomes a serious performance issue only when page faults happen excessively[cite: 4]."
+            },
+            {
+              "question": "What is the difference between a page fault and thrashing?",
+              "answer": "A page fault is a single event where a required page is not in RAM. Thrashing is excessive paging that severely reduces system performance[cite: 4]."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-page-fault-crash",
+              "statement": "A page fault means the application crashed.",
+              "explanation": "No. A page fault is normally handled by the operating system. It becomes a serious performance issue only when page faults happen excessively[cite: 4].",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-os-flashcards",
+          "title": "OS Rapid Revision Flashcards",
+          "explanation": "Rapid revision flashcards covering core operating system interview concepts[cite: 4].",
+          "flashcards": [
+            {
+              "id": "fc-os-1",
+              "question": "What is an Operating System?",
+              "answer": "An OS manages hardware resources and provides services that allow applications to run (Applications → Operating System → Hardware)[cite: 4].",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-os-2",
+              "question": "Process vs Thread?",
+              "answer": "Process = Independent Program Execution + Separate Memory. Thread = Execution Unit Inside Process + Shared Process Resources[cite: 4].",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-os-3",
+              "question": "What is Context Switching?",
+              "answer": "The OS saves the state of one process/thread and loads another so the CPU can switch execution[cite: 4].",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-os-4",
+              "question": "What are the four Coffman conditions?",
+              "answer": "Mutual Exclusion, Hold and Wait, No Preemption, Circular Wait[cite: 4].",
+              "difficulty": "hard"
+            },
+            {
+              "id": "fc-os-5",
+              "question": "What is a Page Fault?",
+              "answer": "A required memory page is not currently in RAM, so the OS loads it from storage[cite: 4].",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-os-6",
+              "question": "What is Thrashing?",
+              "answer": "Excessive paging between RAM and disk causes the system to spend more time managing memory than executing programs[cite: 4].",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-os-7",
+              "question": "Ready vs Waiting?",
+              "answer": "Ready = Waiting for CPU. Waiting / Blocked = Waiting for Event or I/O[cite: 4].",
+              "difficulty": "easy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-system-design",
+      "title": "PART 2: SYSTEM DESIGN FUNDAMENTALS",
+      "description": "Scalability, load balancing, architectural patterns, reliability, and high availability.",
+      "topics": [
+        {
+          "id": "top-system-design-intro-and-scaling",
+          "title": "15. What is System Design?, 16. Scalability, 17. Vertical Scaling & 18. Horizontal Scaling",
+          "explanation": "15. What is System Design?\nSystem Design is the process of designing the architecture, components, interfaces, data flow, and infrastructure of a software system[cite: 4].\nFocuses on building systems that are: Scalable, Reliable, Available, Maintainable, Performant[cite: 4].\nExample: Users → Load Balancer → Application Servers → Database → Cache / Storage[cite: 4]\n\n16. Scalability\nScalability is the ability of a system to handle increased workload without unacceptable performance degradation[cite: 4]. Approaches: Vertical Scaling and Horizontal Scaling[cite: 4].\n\n17. Vertical Scaling — Scale Up\nVertical Scaling means making one server more powerful (upgrade CPU, RAM, Storage)[cite: 4].\nAdvantages: Simple architecture, easy to implement, less distributed-system complexity[cite: 4].\nDisadvantages: Hardware limits, expensive, single point of failure, limited scaling capacity[cite: 4].\n\n18. Horizontal Scaling — Scale Out\nHorizontal Scaling means adding more servers and distributing workload between them (Users → Load Balancer → Server 1..4)[cite: 4].\nAdvantages: Handles larger workloads, better availability, better fault tolerance, can add servers gradually[cite: 4].\nDisadvantages: More complex architecture, requires coordination, distributed data challenges, operational complexity[cite: 4].",
+          "tldr": "System Design হলো অনেক user এবং বড় traffic handle করার জন্য পুরো system-এর architecture plan করা[cite: 4]। একই server-কে আরও powerful করা = Vertical Scaling[cite: 4]। Server powerful করার বদলে নতুন নতুন server add করা = Horizontal Scaling[cite: 4]。",
+          "comparisons": [
+            {
+              "title": "Vertical vs Horizontal Scaling",
+              "headers": ["Vertical Scaling", "Horizontal Scaling"],
+              "rows": [
+                ["Scale Up", "Scale Out"],
+                ["Upgrade one server", "Add more servers"],
+                ["Simpler", "More complex"],
+                ["Hardware limit", "Can scale further"],
+                ["Possible single point of failure", "Better fault tolerance"],
+                [
+                  "Less distributed complexity",
+                  "Requires distributed architecture"
+                ]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is horizontal scaling always better than vertical scaling?",
+              "answer": "No. Vertical scaling is often simpler and suitable for smaller systems. Horizontal scaling is useful when higher scale, availability, or fault tolerance is required[cite: 4]."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-horizontal-scaling-always-better",
+              "statement": "Horizontal scaling is always superior to vertical scaling for all systems.",
+              "explanation": "No. Vertical scaling is often simpler and suitable for smaller systems. Horizontal scaling is useful when higher scale, availability, or fault tolerance is required[cite: 4].",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "top-load-balancer",
+          "title": "20. Load Balancer",
+          "explanation": "⚖️ What is a Load Balancer?\nA Load Balancer sits between clients and backend servers and distributes incoming requests across available servers[cite: 4].\nArchitecture: Users → Load Balancer → Server 1, Server 2, Server 3[cite: 4]\n\nBenefits:\n⚡ Performance: Traffic is distributed (e.g. 1000 requests divided across 3 servers)[cite: 4].\n🛡️ Reliability: If Server 2 fails, traffic is routed to Server 1 & 3[cite: 4].\n📈 Scalability: New servers can be added during high traffic[cite: 4].\n\nCommon Load Balancing Strategies:\n- Round Robin: Requests are distributed sequentially (Request 1 → Server A, Request 2 → Server B, etc.)[cite: 4].\n- Least Connections: Send new requests to the server with fewer active connections[cite: 4].",
+          "questions": [
+            {
+              "question": "Does a Load Balancer automatically solve every scalability problem?",
+              "answer": "No. Backend services, databases, caching, and other infrastructure components may also become bottlenecks[cite: 4]."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-lb-solves-all",
+              "statement": "A Load Balancer automatically solves every scalability problem.",
+              "explanation": "No. Backend services, databases, caching, and other infrastructure components may also become bottlenecks[cite: 4].",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-monolith-vs-microservices-and-gateway",
+          "title": "21. Monolithic, 22. Microservices Architecture, 23. Comparison & 24. API Gateway",
+          "explanation": "21. Monolithic Architecture\nA Monolithic application contains major application features inside one deployable application (Auth, Products, Orders, Payments, Notifications)[cite: 4].\nAdvantages: Simple to build/deploy initially, easier for small teams, easier testing[cite: 4].\nDisadvantages: Large codebase can become difficult to maintain, scaling individual features is difficult, tight coupling[cite: 4].\n\n22. Microservices Architecture\nDivides an application into smaller services focusing on specific business responsibilities[cite: 4]. Services communicate via HTTP APIs, gRPC, Message queues, Event streams[cite: 4].\nArchitecture: Users → API Gateway / Load Balancer → User Service, Product Service, Order Service, Payment Service[cite: 4].\nAdvantages: Independent development, independent scaling, fault isolation[cite: 4].\nDisadvantages: Infrastructure complexity, network communication failures, distributed debugging, data consistency challenges[cite: 4].\n\n24. API Gateway\nActs as an entry point for clients (Client → API Gateway → Specific Services)[cite: 4].\nResponsibilities include: Request routing, Authentication, Rate limiting, Logging, Response aggregation[cite: 4].",
+          "tldr": "সব feature এক application-এর ভিতরে থাকলে সেটাই Monolith[cite: 4]। বড় application-কে ছোট ছোট independent service-এ ভাগ করলে সেটা Microservices[cite: 4]。",
+          "comparisons": [
+            {
+              "title": "Monolith vs Microservices",
+              "headers": ["Monolith", "Microservices"],
+              "rows": [
+                ["One main application", "Multiple independent services"],
+                ["Easier to start", "More complex"],
+                ["Simple deployment", "Multiple deployments"],
+                ["Often one codebase", "Multiple services/codebases"],
+                ["Scale entire application", "Scale services independently"],
+                ["Less network communication", "More network communication"],
+                [
+                  "Easier debugging initially",
+                  "Distributed debugging is harder"
+                ]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is Monolithic architecture always bad for large systems?",
+              "answer": "No. A well-designed monolith can scale significantly and is often simpler than microservices. Architecture should match the system's needs[cite: 4]."
+            },
+            {
+              "question": "Should every application use Microservices?",
+              "answer": "No. Microservices add significant operational complexity. For many small or medium applications, a modular monolith may be a better starting point[cite: 4]."
+            },
+            {
+              "question": "Is an API Gateway required for every microservices architecture?",
+              "answer": "No. It is a common pattern, but the architecture depends on system requirements[cite: 4]."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-microservices-always-better",
+              "statement": "Microservices is automatically a better architecture for every application.",
+              "explanation": "No. Microservices add significant operational complexity. For many small or medium applications, a modular monolith may be a better starting point[cite: 4].",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-reliability-availability-spof-flow",
+          "title": "25-28. Reliability, Availability, SPOF & Large-Scale Flow",
+          "explanation": "25. Reliability vs Availability\nReliability: A system consistently performs correctly over time without unexpected failures[cite: 4].\nAvailability: Measures whether a system is accessible and operational when needed (e.g. 99.9% uptime)[cite: 4].\nDifference: A system may be available but return incorrect results, so availability does not automatically mean reliability[cite: 4].\n\n26. High Availability\nDesigning a system to minimize downtime using multiple servers, load balancers, failover, replication, health checks, backups[cite: 4].\n\n27. Single Point of Failure (SPOF)\nA component whose failure can cause the entire system to fail[cite: 4]. Reduced using redundant servers, load balancers, replication, and failover[cite: 4].\n\n28. Basic Large-Scale System Design Flow\nSimplified Architecture: Users → DNS → Load Balancer → Application Servers → Cache → Database → Storage[cite: 4]\nLarge Systems: Users → CDN → Load Balancer → API Gateway → Microservices → Cache → Databases → Message Queue → Background Workers[cite: 4]",
+          "tldr": "Available মানে system চালু আছে, Reliable মানে system ঠিকমতো consistently কাজ করছে[cite: 4]。",
+          "questions": [
+            {
+              "question": "Does adding multiple application servers remove all single points of failure?",
+              "answer": "No. Other components such as the load balancer, database, or network infrastructure may still be single points of failure unless they are also designed for redundancy[cite: 4]."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-spof-redundancy",
+              "statement": "Adding multiple application servers removes all single points of failure.",
+              "explanation": "No. Other components such as the load balancer, database, or network infrastructure may still be single points of failure unless they are also designed for redundancy[cite: 4].",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-system-design-flashcards-and-summary",
+          "title": "System Design Flashcards, Cheatsheet & Memory Map",
+          "explanation": "🚀 INTERVIEW ONE-MINUTE SUMMARY & FINAL CHEAT SHEET\nOS: Manages hardware and application resources[cite: 4]\nProcess: Independent running program[cite: 4]\nThread: Execution unit inside a process[cite: 4]\nReady: Waiting for CPU[cite: 4]\nBlocked: Waiting for I/O/event[cite: 4]\nContext Switch: Switch CPU between tasks[cite: 4]\nRace Condition: Concurrent access causes unpredictable result[cite: 4]\nMutex: Controls critical section access[cite: 4]\nDeadlock: Tasks wait indefinitely for each other[cite: 4]\nCoffman Conditions: 4 required deadlock conditions (Mutual Exclusion, Hold and Wait, No Preemption, Circular Wait)[cite: 4]\nVirtual Memory: OS-managed virtual address space[cite: 4]\nPage: Virtual memory block[cite: 4]\nFrame: Physical RAM block[cite: 4]\nPage Fault: Required page not in RAM[cite: 4]\nThrashing: Excessive paging[cite: 4]\nVertical Scaling: Scale Up[cite: 4]\nHorizontal Scaling: Scale Out[cite: 4]\nLoad Balancer: Distributes traffic[cite: 4]\nMonolith: One application[cite: 4]\nMicroservices: Multiple independent services[cite: 4]\nSPOF: One failure can break the system[cite: 4]\nHigh Availability: Minimize downtime[cite: 4]\n\n🧠 GOLDEN INTERVIEW RULES\nProcess ≠ Thread[cite: 4]\nReady ≠ Waiting[cite: 4]\nPage Fault ≠ Program Crash[cite: 4]\nConcurrency ≠ Always Parallelism[cite: 4]\nHorizontal Scaling ≠ Automatically Scalable Database[cite: 4]\nMicroservices ≠ Automatically Better Architecture[cite: 4]\nLoad Balancer ≠ Solution to Every Bottleneck[cite: 4]",
+          "tldr": "OS-এর মূল কাজ হলো CPU, Memory এবং Process manage করা। আর System Design-এর মূল লক্ষ্য হলো বেশি user এবং traffic handle করার জন্য scalable, reliable এবং available architecture তৈরি করা[cite: 4]。",
+          "comparisons": [
+            {
+              "title": "Topic Cheat Sheet",
+              "headers": ["Topic", "Remember This"],
+              "rows": [
+                ["OS", "Manages hardware and application resources"],
+                ["Process", "Independent running program"],
+                ["Thread", "Execution unit inside a process"],
+                ["Ready", "Waiting for CPU"],
+                ["Blocked", "Waiting for I/O/event"],
+                ["Context Switch", "Switch CPU between tasks"],
+                [
+                  "Race Condition",
+                  "Concurrent access causes unpredictable result"
+                ],
+                ["Mutex", "Controls critical section access"],
+                ["Deadlock", "Tasks wait indefinitely for each other"],
+                ["Coffman Conditions", "4 required deadlock conditions"],
+                ["Virtual Memory", "OS-managed virtual address space"],
+                ["Page", "Virtual memory block"],
+                ["Frame", "Physical RAM block"],
+                ["Page Fault", "Required page not in RAM"],
+                ["Thrashing", "Excessive paging"],
+                ["Vertical Scaling", "Scale Up"],
+                ["Horizontal Scaling", "Scale Out"],
+                ["Load Balancer", "Distributes traffic"],
+                ["Monolith", "One application"],
+                ["Microservices", "Multiple independent services"],
+                ["SPOF", "One failure can break the system"],
+                ["High Availability", "Minimize downtime"]
+              ]
+            }
+          ],
+          "flashcards": [
+            {
+              "id": "fc-sd-1",
+              "question": "Vertical vs Horizontal Scaling?",
+              "answer": "Vertical = More Powerful Server. Horizontal = More Servers[cite: 4].",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-sd-2",
+              "question": "What does a Load Balancer do?",
+              "answer": "It distributes incoming traffic across multiple backend servers[cite: 4].",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-sd-3",
+              "question": "What is a Monolith?",
+              "answer": "A single application containing multiple features and responsibilities[cite: 4].",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-sd-4",
+              "question": "What are Microservices?",
+              "answer": "Small services that independently handle specific business responsibilities and communicate through APIs or other mechanisms[cite: 4].",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-sd-5",
+              "question": "What is a Single Point of Failure?",
+              "answer": "A component whose failure can cause the entire system or service to become unavailable[cite: 4].",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-sd-6",
+              "question": "Why use Horizontal Scaling?",
+              "answer": "To handle increased traffic by adding more servers and improving availability and fault tolerance[cite: 4].",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-sd-7",
+              "question": "Is Microservices always better than a Monolith?",
+              "answer": "No. Microservices provide flexibility but introduce significant complexity. A monolith is often better for simpler applications or early development[cite: 4].",
+              "difficulty": "medium"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-golden-1",
+              "statement": "Process is the same as Thread.",
+              "explanation": "Process ≠ Thread. A process is an independent program with its own memory space, while a thread is an execution unit inside a process sharing process resources[cite: 4].",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-golden-2",
+              "statement": "Ready state is the same as Waiting state.",
+              "explanation": "Ready ≠ Waiting. Ready waits for CPU time, while Waiting waits for external events or I/O[cite: 4].",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-golden-3",
+              "statement": "Page Fault equals a program crash.",
+              "explanation": "Page Fault ≠ Program Crash. A page fault is a routine virtual memory handling event[cite: 4].",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-golden-4",
+              "statement": "Concurrency always implies true parallelism.",
+              "explanation": "Concurrency ≠ Always Parallelism. True parallel execution requires multiple CPU cores and appropriate scheduling[cite: 4].",
+              "category": "common-mistake"
+            }
+          ],
+          "memoryMap": {
+            "nodes": [
+              {
+                "id": "node-os",
+                "label": "OPERATING SYSTEM",
+                "description": "Resource and execution management[cite: 4]"
+              },
+              {
+                "id": "node-hardware",
+                "label": "Hardware Management",
+                "description": "Bridge between hardware and apps[cite: 4]"
+              },
+              {
+                "id": "node-process-mgmt",
+                "label": "Process Management",
+                "description": "Process, Thread, Scheduling, Context Switching[cite: 4]"
+              },
+              {
+                "id": "node-concurrency",
+                "label": "Concurrency",
+                "description": "Race Condition, Mutex, Deadlock (Coffman Conditions)[cite: 4]"
+              },
+              {
+                "id": "node-mem-mgmt",
+                "label": "Memory Management",
+                "description": "Virtual Memory, Paging, Page Fault, Thrashing[cite: 4]"
+              },
+              {
+                "id": "node-sys-design",
+                "label": "SYSTEM DESIGN",
+                "description": "Scalability and high availability architecture[cite: 4]"
+              },
+              {
+                "id": "node-scalability",
+                "label": "Scalability",
+                "description": "Vertical (Scale Up) and Horizontal (Scale Out)[cite: 4]"
+              },
+              {
+                "id": "node-load-balancing",
+                "label": "Load Balancing",
+                "description": "Distributes incoming traffic across servers[cite: 4]"
+              },
+              {
+                "id": "node-architecture",
+                "label": "Architecture",
+                "description": "Monolith vs Microservices[cite: 4]"
+              },
+              {
+                "id": "node-reliability",
+                "label": "Reliability",
+                "description": "High Availability, Redundancy, Failover[cite: 4]"
+              }
+            ],
+            "connections": [
+              { "from": "node-os", "to": "node-hardware" },
+              { "from": "node-os", "to": "node-process-mgmt" },
+              { "from": "node-os", "to": "node-concurrency" },
+              { "from": "node-os", "to": "node-mem-mgmt" },
+              { "from": "node-sys-design", "to": "node-scalability" },
+              { "from": "node-sys-design", "to": "node-load-balancing" },
+              { "from": "node-sys-design", "to": "node-architecture" },
+              { "from": "node-sys-design", "to": "node-reliability" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -10,46 +10,6 @@ import { ProgressBar } from "@/components/ui/ProgressBar";
 import { useGameStore } from "@/stores/gameStore";
 import { useHydration } from "@/hooks/useHydration";
 
-// ─── Static metadata for chapters 2–12 ───────────────────────────────────────
-
-const CHAPTER_META = [
-  {
-    id: "chapter-2",
-    n: 2,
-    title: "Data Structures & Arrays",
-    min: 75,
-    topics: 8,
-  },
-  {
-    id: "chapter-3",
-    n: 3,
-    title: "Algorithms & Complexity",
-    min: 90,
-    topics: 10,
-  },
-  { id: "chapter-4", n: 4, title: "Databases & SQL", min: 60, topics: 7 },
-  { id: "chapter-5", n: 5, title: "Networking & HTTP", min: 55, topics: 6 },
-  { id: "chapter-6", n: 6, title: "Operating Systems", min: 65, topics: 8 },
-  { id: "chapter-7", n: 7, title: "Design Patterns", min: 80, topics: 9 },
-  { id: "chapter-8", n: 8, title: "System Design", min: 95, topics: 11 },
-  { id: "chapter-9", n: 9, title: "JavaScript & Web APIs", min: 70, topics: 9 },
-  {
-    id: "chapter-10",
-    n: 10,
-    title: "React & State Management",
-    min: 85,
-    topics: 10,
-  },
-  { id: "chapter-11", n: 11, title: "APIs & REST", min: 50, topics: 6 },
-  {
-    id: "chapter-12",
-    n: 12,
-    title: "Behavioural & Soft Skills",
-    min: 40,
-    topics: 5,
-  },
-] as const;
-
 // ─── Unified Chapter Tile ─────────────────────────────────────────────────────
 
 interface ChapterTileProps {
@@ -150,18 +110,12 @@ function ChapterTile({
 // ─── Quest Map ────────────────────────────────────────────────────────────────
 
 interface QuestMapProps {
-  chapter1: Chapter;
+  chapters: Chapter[];
 }
 
-export function QuestMap({ chapter1 }: QuestMapProps) {
+export function QuestMap({ chapters }: QuestMapProps) {
   const hydrated = useHydration();
   const completedChapterIds = useGameStore((s) => s.completedChapterIds);
-  const chapter1Done = hydrated && completedChapterIds.includes("chapter-1");
-
-  const chapter1Topics = chapter1.sections.reduce(
-    (acc, s) => acc + s.topics.length,
-    0,
-  );
 
   return (
     <section>
@@ -176,40 +130,35 @@ export function QuestMap({ chapter1 }: QuestMapProps) {
           </p>
         </div>
         <Badge variant="violet">
-          {hydrated ? completedChapterIds.length : 0} / 12 done
+          {hydrated ? completedChapterIds.length : 0} / {chapters.length} done
         </Badge>
       </div>
 
-      {/* All 12 chapters — no locks */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Chapter 1 — live data, ⚡ Ready / ✓ Mastered */}
-        <ChapterTile
-          id={chapter1.id}
-          chapterNumber={chapter1.chapterNumber}
-          title={chapter1.title}
-          estimatedMinutes={chapter1.estimatedMinutes}
-          topicCount={chapter1Topics}
-          isCompleted={chapter1Done}
-          isReady={!chapter1Done}
-          progress={chapter1Done ? 100 : 0}
-          delay={0}
-        />
+        {chapters.map((chapter, i) => {
+          const isCompleted =
+            hydrated && completedChapterIds.includes(chapter.id);
+          const topicCount = chapter.sections.reduce(
+            (acc, s) => acc + s.topics.length,
+            0,
+          );
+          const isReady = !isCompleted;
 
-        {/* Chapters 2–12 — all available (static metadata) */}
-        {CHAPTER_META.map((ch, i) => (
-          <ChapterTile
-            key={ch.id}
-            id={ch.id}
-            chapterNumber={ch.n}
-            title={ch.title}
-            estimatedMinutes={ch.min}
-            topicCount={ch.topics}
-            isCompleted={false}
-            isReady={false}
-            progress={0}
-            delay={(i + 1) * 0.05}
-          />
-        ))}
+          return (
+            <ChapterTile
+              key={chapter.id}
+              id={chapter.id}
+              chapterNumber={chapter.chapterNumber}
+              title={chapter.title}
+              estimatedMinutes={chapter.estimatedMinutes}
+              topicCount={topicCount}
+              isCompleted={isCompleted}
+              isReady={isReady}
+              progress={isCompleted ? 100 : 0}
+              delay={i * 0.05}
+            />
+          );
+        })}
       </div>
     </section>
   );

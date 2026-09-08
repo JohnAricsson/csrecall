@@ -1,0 +1,574 @@
+{
+  "id": "chapter-8",
+  "chapterNumber": 8,
+  "title": "AI, Data Science & Machine Learning",
+  "description": "Interactive Interview Revision Cheat Sheet",
+  "estimatedMinutes": 60,
+  "sections": [
+    {
+      "id": "sec-core-concepts",
+      "title": "Core AI, ML & Learning Paradigms",
+      "topics": [
+        {
+          "id": "topic-ai-ml-dl",
+          "title": "AI vs Machine Learning vs Deep Learning",
+          "explanation": "Artificial Intelligence (AI) is the broad field of building machines or software that can perform tasks that normally require human intelligence[cite: 4]. Machine Learning (ML) is a subset of AI where computers learn patterns from data instead of being explicitly programmed with every rule[cite: 4]. Deep Learning (DL) is a subset of Machine Learning that uses neural networks with multiple layers to learn complex patterns[cite: 4].",
+          "tldr": "AI হলো এমন প্রযুক্তি যেখানে কম্পিউটার মানুষের বুদ্ধিমত্তার মতো কাজ করার চেষ্টা করে। ML-এ প্রতিটি rule লিখে দিতে হয় না, data থেকে computer নিজেই pattern শেখে। Deep Learning হলো ML-এর advanced অংশ যেখানে অনেক layer-এর neural network ব্যবহার করা হয়।[cite: 4]",
+          "examples": [
+            "AI Examples: Chatbots, Recommendation systems, Voice assistants, Self-driving systems, Image recognition[cite: 4]",
+            "ML Example: Providing a model with examples of Email → Spam and Email → Not Spam so it learns the pattern automatically instead of explicit IF-THEN rules[cite: 4]",
+            "DL Applications: Image recognition, Speech recognition, Natural language processing, Large Language Models (LLMs), Autonomous vehicles[cite: 4]"
+          ],
+          "comparisons": [
+            {
+              "title": "Quick Comparison",
+              "headers": ["Concept", "Meaning", "Example"],
+              "rows": [
+                [
+                  "AI",
+                  "Broad field of intelligent machines",
+                  "ChatGPT[cite: 4]"
+                ],
+                ["ML", "Learns patterns from data", "Spam detection[cite: 4]"],
+                [
+                  "DL",
+                  "Uses multi-layer neural networks",
+                  "Image recognition[cite: 4]"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-ai-ml-subset",
+              "statement": "Is every AI system based on Machine Learning?[cite: 4]",
+              "explanation": "No. Traditional rule-based systems can also be AI without using Machine Learning.[cite: 4]",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "topic-supervised-unsupervised",
+          "title": "Supervised vs Unsupervised Learning",
+          "explanation": "In Supervised Learning, the model is trained using labeled data where the dataset contains the correct answers (labels or targets) to learn the relationship between input features and correct output[cite: 4]. In Unsupervised Learning, the dataset does not contain labels; the model tries to discover hidden patterns, structures, or groups by itself (such as clustering)[cite: 4].",
+          "tldr": "Supervised Learning-এ input-এর সাথে correct answer আগে থেকেই থাকে। Unsupervised Learning-এ correct answer থাকে না, model নিজে pattern বা group খুঁজে বের করে।[cite: 4]",
+          "keyPoints": [
+            "Supervised Learning main types: Classification and Regression[cite: 4]",
+            "Unsupervised Learning common technique: Clustering (e.g., K-Means algorithm)[cite: 4]"
+          ],
+          "examples": [
+            "Supervised: Hours Studied + Attendance → Pass / Fail[cite: 4]",
+            "Unsupervised: Customer Data → Group Similar Customers Together[cite: 4]"
+          ],
+          "comparisons": [
+            {
+              "title": "Comparison",
+              "headers": [
+                "Feature",
+                "Supervised Learning",
+                "Unsupervised Learning"
+              ],
+              "rows": [
+                ["Labels", "Available", "Not available[cite: 4]"],
+                ["Goal", "Predict output", "Find patterns[cite: 4]"],
+                ["Example", "Spam detection", "Customer segmentation[cite: 4]"],
+                [
+                  "Common Algorithms",
+                  "Linear Regression, Decision Tree",
+                  "K-Means[cite: 4]"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-clustering-supervised",
+              "statement": "Is clustering supervised learning?[cite: 4]",
+              "explanation": "No. Clustering is usually an unsupervised learning technique because the data does not have predefined labels.[cite: 4]",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "topic-features-targets",
+          "title": "Features vs Label / Target",
+          "explanation": "Features are the input variables or columns used by a model to make predictions, while the Label or Target is the output that the model tries to predict[cite: 4].",
+          "tldr": "Feature হলো input, আর Label/Target হলো যেটা predict করতে হবে।[cite: 4]",
+          "examples": [
+            "Features: Hours Studied, Attendance, Age, Salary, Experience[cite: 4]",
+            "Target: Pass / Fail[cite: 4]"
+          ],
+          "traps": [
+            {
+              "id": "trap-multiple-features",
+              "statement": "Can a dataset have multiple features?[cite: 4]",
+              "explanation": "Yes. A model can use multiple input features to predict one or more target values.[cite: 4]",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "topic-regression-classification",
+          "title": "Regression vs Classification",
+          "explanation": "Regression predicts a continuous numerical value, whereas Classification predicts a category or class[cite: 4].",
+          "tldr": "Number predict করলে Regression, Category predict করলে Classification।[cite: 4]",
+          "examples": [
+            "Regression Examples: House Price → $350,000, Temperature → 28.5°C, Salary → $40,000[cite: 4]",
+            "Classification Examples: Email → Spam / Not Spam, Transaction → Fraud / Safe, Image → Cat / Dog[cite: 4]"
+          ],
+          "comparisons": [
+            {
+              "title": "Regression vs Classification",
+              "headers": ["Regression", "Classification"],
+              "rows": [
+                ["Predicts a number", "Predicts a category[cite: 4]"],
+                ["House price", "Spam detection[cite: 4]"],
+                ["Temperature", "Cat vs Dog[cite: 4]"],
+                ["Salary prediction", "Fraud detection[cite: 4]"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-logistic-regression",
+              "statement": "Is Logistic Regression used for regression problems?[cite: 4]",
+              "explanation": "Despite its name, Logistic Regression is mainly used for classification, especially binary classification.[cite: 4]",
+              "category": "interview-gotcha"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-training-and-algorithms",
+      "title": "Data Splitting, Fitting & Algorithms",
+      "topics": [
+        {
+          "id": "topic-dataset-splits",
+          "title": "Training, Validation, and Test Data",
+          "explanation": "Machine Learning datasets are commonly divided into three parts: Training Data (used to train the model and learn patterns), Validation Data (used during development to tune hyperparameters, compare models, improve performance, and detect overfitting), and Test Data (used to evaluate the final model on unseen data)[cite: 4].",
+          "tldr": "Train = শেখানো, Validation = ঠিকঠাক করা, Test = Final exam।[cite: 4]",
+          "keyPoints": [
+            "The test set should ideally be used only after the final model is selected[cite: 4].",
+            "Typical Split: 70% Training / 15% Validation / 15% Test, or 80% Training / 20% Test depending on dataset size and problem[cite: 4].",
+            "For classification problems with imbalanced classes, stratified splitting can help maintain similar class distributions[cite: 4]."
+          ],
+          "traps": [
+            {
+              "id": "trap-repeated-test-tuning",
+              "statement": "Why should we not repeatedly tune the model using the test dataset?[cite: 4]",
+              "explanation": "Because the model can indirectly become optimized for the test data, making the final evaluation less reliable.[cite: 4]",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-separate-train-test",
+              "statement": "Why should training and test data be separated?[cite: 4]",
+              "explanation": "Because evaluating the model on the same data it learned from does not reliably measure its ability to generalize to unseen data.[cite: 4]",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "topic-overfitting-underfitting",
+          "title": "Overfitting vs Underfitting",
+          "explanation": "Overfitting happens when a model learns the training data too well, including noise and unnecessary details, leading to very good training performance but poor testing performance[cite: 4]. Underfitting happens when the model is too simple to learn the important patterns, resulting in poor training and testing performance[cite: 4].",
+          "tldr": "Training data মুখস্থ করে ফেলে, কিন্তু নতুন problem solve করতে পারে না (Overfitting)। Model ঠিকমতো শেখেইনি (Underfitting)।[cite: 4]",
+          "keyPoints": [
+            "Techniques to reduce overfitting: Use more training data, Simplify the model, Regularization, Cross-validation, Early stopping, Dropout for neural networks, Remove irrelevant features[cite: 4]."
+          ],
+          "comparisons": [
+            {
+              "title": "Overfitting vs Underfitting",
+              "headers": ["Overfitting", "Underfitting"],
+              "rows": [
+                ["Model too complex", "Model too simple[cite: 4]"],
+                ["Training score high", "Training score low[cite: 4]"],
+                ["Test score poor", "Test score poor[cite: 4]"],
+                ["Learns noise", "Misses important patterns[cite: 4]"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-high-training-acc",
+              "statement": "Is higher training accuracy always good?[cite: 4]",
+              "explanation": "No. Very high training accuracy with poor validation/test accuracy may indicate overfitting.[cite: 4]",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "topic-common-algorithms",
+          "title": "Common Machine Learning Algorithms",
+          "explanation": "Overview of foundational supervised and unsupervised algorithms used across industry applications[cite: 4].",
+          "tldr": "কাছাকাছি similar data দেখে prediction দেয় (KNN)। Many Trees + Combined Predictions = More Robust Model (Random Forest)।[cite: 4]",
+          "keyPoints": [
+            "Linear Regression: Supervised, predicts continuous numerical values (price, salary, temperature)[cite: 4].",
+            "Logistic Regression: Supervised, commonly used for classification and predicting class probabilities[cite: 4].",
+            "Decision Tree: Supervised, makes predictions using a sequence of condition-based questions[cite: 4].",
+            "Random Forest: Supervised, combines multiple Decision Trees using voting to make more robust and reliable predictions[cite: 4].",
+            "K-Means: Unsupervised, groups similar data points into clusters[cite: 4].",
+            "K-Nearest Neighbors (KNN): Supervised, predicts a new data point based on the closest or most similar data points[cite: 4]."
+          ],
+          "comparisons": [
+            {
+              "title": "Algorithm Summary",
+              "headers": ["Algorithm", "Type", "Main Use"],
+              "rows": [
+                ["Linear Regression", "Supervised", "Predict numbers[cite: 4]"],
+                [
+                  "Logistic Regression",
+                  "Supervised",
+                  "Classification[cite: 4]"
+                ],
+                [
+                  "Decision Tree",
+                  "Supervised",
+                  "Rule-based decisions[cite: 4]"
+                ],
+                ["Random Forest", "Supervised", "Robust predictions[cite: 4]"],
+                ["K-Means", "Unsupervised", "Clustering[cite: 4]"],
+                ["KNN", "Supervised", "Similarity-based prediction[cite: 4]"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-random-forest-trees",
+              "statement": "Does Random Forest always use just one Decision Tree?[cite: 4]",
+              "explanation": "No. Random Forest combines predictions from multiple Decision Trees.[cite: 4]",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-evaluation-preprocessing",
+      "title": "Model Evaluation, Preprocessing & Feature Scaling",
+      "topics": [
+        {
+          "id": "topic-model-evaluation",
+          "title": "Model Evaluation & Confusion Matrix",
+          "explanation": "Model evaluation measures how well a trained model performs on unseen data using metrics derived from a Confusion Matrix[cite: 4]. Accuracy measures the percentage of all correct predictions[cite: 4]. Precision measures what fraction of predicted positive cases were actually positive[cite: 4]. Recall measures what fraction of actual positive cases were correctly identified[cite: 4]. F1-Score combines Precision and Recall via harmonic mean[cite: 4].",
+          "tldr": "Precision = যা ধরেছে তার মধ্যে কতটা ঠিক, Recall = আসলগুলোর মধ্যে কতটা ধরতে পেরেছে। শুধু Accuracy দেখে খুশি হওয়া যাবে না, especially data imbalance থাকলে।[cite: 4]",
+          "keyPoints": [
+            "Confusion Matrix layout: Actual Positive vs Predicted Positive (TP) / Predicted Negative (FN); Actual Negative vs Predicted Positive (FP) / Predicted Negative (TN)[cite: 4].",
+            "Accuracy = (TP + TN) / (TP + TN + FP + FN)[cite: 4]",
+            "Precision = TP / (TP + FP)[cite: 4]",
+            "Recall = TP / (TP + FN)[cite: 4]",
+            "F1 = 2 × (Precision × Recall) / (Precision + Recall)[cite: 4]",
+            "F1-score is especially useful when classes are imbalanced and both Precision and Recall are important[cite: 4]."
+          ],
+          "comparisons": [
+            {
+              "title": "Confusion Matrix for Binary Classification",
+              "headers": [
+                "Actual / Predicted",
+                "Predicted Positive",
+                "Predicted Negative"
+              ],
+              "rows": [
+                [
+                  "Actual Positive",
+                  "True Positive (TP)",
+                  "False Negative (FN)[cite: 4]"
+                ],
+                [
+                  "Actual Negative",
+                  "False Positive (FP)",
+                  "True Negative (TN)[cite: 4]"
+                ]
+              ]
+            }
+          ],
+          "examples": [
+            "Spam Detection: 100 emails (80 Normal, 20 Spam). 75 Normal correctly predicted, 15 Spam correctly predicted, 5 Normal predicted as Spam, 5 Spam predicted as Normal. Accuracy = 90/100 = 90%. Precision = 15/20 = 75%[cite: 4].",
+            "Imbalanced Data: 990 Normal, 10 Fraud transactions. Predicting everything as Normal gives 99% accuracy but 0 detected frauds, rendering the model useless[cite: 4]."
+          ],
+          "traps": [
+            {
+              "id": "trap-precision-vs-recall",
+              "statement": "When is Recall more important than Precision, and vice versa?[cite: 4]",
+              "explanation": "Recall is important when missing a positive case is costly (e.g., disease detection or fraud detection). Precision is important when false positives are costly (e.g., incorrectly flagging legitimate transactions or emails).[cite: 4]",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "topic-data-preprocessing",
+          "title": "Data Preprocessing",
+          "explanation": "Raw data usually needs to be prepared before training a Machine Learning model by handling missing values, removing duplicate records, fixing formats, encoding categorical values, scaling numerical features, removing irrelevant features, and handling outliers[cite: 4].",
+          "tldr": "Raw data সাধারণত সরাসরি model-এ দেওয়া যায় না, আগে clean এবং prepare করতে হয়।[cite: 4]",
+          "keyPoints": [
+            "Missing Values: Can remove rows, fill with mean, median, mode, or use advanced imputation. Mean is sensitive to outliers, while median is more robust[cite: 4].",
+            "Duplicate Data: Can bias the model, distort statistics, and create misleading patterns[cite: 4].",
+            "Categorical Encoding: Converted using Label Encoding or One-Hot Encoding[cite: 4]."
+          ],
+          "examples": [
+            "One-Hot Encoding Example: Color (Red → [1, 0, 0], Blue → [0, 1, 0], Green → [0, 0, 1])[cite: 4]"
+          ],
+          "traps": [
+            {
+              "id": "trap-label-encoding",
+              "statement": "Should we always use Label Encoding for categories?[cite: 4]",
+              "explanation": "No. Label Encoding may introduce an artificial order. For categories without natural order, One-Hot Encoding is often safer.[cite: 4]",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "topic-feature-scaling",
+          "title": "Normalization and Feature Scaling",
+          "explanation": "Normalization brings numerical features to a similar scale to prevent one feature with large numerical values from dominating another[cite: 4]. It prevents large-valued features from dominating, improves training speed, and is critical for distance-based algorithms and neural networks[cite: 4].",
+          "tldr": "Test data-এর information training-এর সময় leak করা যাবে না।[cite: 4]",
+          "keyPoints": [
+            "Algorithms that benefit from scaling: KNN, K-Means, Neural Networks, SVM, Gradient-based algorithms[cite: 4].",
+            "Algorithms less sensitive to scaling: Decision Trees, Random Forest[cite: 4].",
+            "Min-Max Formula: X_scaled = (X - X_min) / (X_max - X_min)[cite: 4]"
+          ],
+          "examples": [
+            "Age (20-60) and Salary (20,000-100,000) scaled to Age (0.2-0.8) and Salary (0.1-0.9)[cite: 4]"
+          ],
+          "comparisons": [
+            {
+              "title": "Normalization vs Standardization",
+              "headers": ["Normalization", "Standardization"],
+              "rows": [
+                [
+                  "Usually scales to a fixed range",
+                  "Centers data around mean[cite: 4]"
+                ],
+                ["Common range: 0 to 1", "Mean ≈ 0[cite: 4]"],
+                ["Min-Max Scaling", "Standard Scaling[cite: 4]"],
+                [
+                  "Sensitive to outliers",
+                  "Also affected by outliers, but differently[cite: 4]"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-data-leakage-scaling",
+              "statement": "Should we scale data before splitting into train and test sets?[cite: 4]",
+              "explanation": "No. To avoid data leakage, fit the scaler on the training data and then apply it to validation/test data.[cite: 4]",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "topic-correlation",
+          "title": "Correlation",
+          "explanation": "Correlation measures how two variables are related and how they change together[cite: 4]. Positive correlation means both increase together; negative correlation means one increases while the other decreases; zero correlation means no clear relationship exists[cite: 4].",
+          "tldr": "দুইটা জিনিস related হলেই একটার কারণে আরেকটা হচ্ছে—এটা বলা যাবে না।[cite: 4]",
+          "examples": [
+            "Positive Correlation: Study Time ↑, Score ↑[cite: 4]",
+            "Negative Correlation: Exercise ↑, Body Fat ↓[cite: 4]",
+            "No Correlation: Shoe Size ↔ Exam Score[cite: 4]",
+            "Correlation ≠ Causation: Ice Cream Sales ↑ and Drowning Cases ↑ are correlated due to hot weather, not because ice cream causes drowning[cite: 4]"
+          ],
+          "traps": [
+            {
+              "id": "trap-correlation-causation",
+              "statement": "Can two variables have correlation but no causal relationship?[cite: 4]",
+              "explanation": "Yes. Correlation only shows statistical association, not necessarily cause and effect.[cite: 4]",
+              "category": "conceptual"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-nlp-pipeline-review",
+      "title": "NLP, Pipeline & Interview Preparation",
+      "topics": [
+        {
+          "id": "topic-nlp",
+          "title": "NLP — Natural Language Processing",
+          "explanation": "Natural Language Processing (NLP) is a branch of AI that helps computers understand, process, interpret, and generate human language[cite: 4].",
+          "tldr": "NLP হলো computer দিয়ে মানুষের ভাষা বোঝা এবং generate করানো।[cite: 4]",
+          "examples": [
+            "ChatGPT, Language translation, Spam detection, Sentiment analysis, Voice assistants, Text summarization, Chatbots[cite: 4]",
+            "Sentiment Analysis: 'I love this product!' → Positive[cite: 4]"
+          ],
+          "traps": [
+            {
+              "id": "trap-nlp-text-only",
+              "statement": "Is NLP only used for text?[cite: 4]",
+              "explanation": "No. NLP can also work with spoken language when combined with technologies such as speech recognition and speech synthesis.[cite: 4]",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "topic-ml-pipeline",
+          "title": "Basic Machine Learning Pipeline",
+          "explanation": "Understanding the end-to-end ML workflow from data collection to continuous production monitoring[cite: 4].",
+          "tldr": "Model deploy করলেই কাজ শেষ না—real-world data change হলে model-এর performance কমে যেতে পারে।[cite: 4]",
+          "keyPoints": [
+            "1. Collect Data: Databases, APIs, sensors, user activity, files, public datasets[cite: 4]",
+            "2. Clean Data: Fix missing values, duplicates, incorrect values, inconsistent formats[cite: 4]",
+            "3. Preprocess Data: Encoding, scaling, feature selection, missing values handling[cite: 4]",
+            "4. Explore Data: Distributions, relationships, outliers, correlation, class imbalance[cite: 4]",
+            "5. Split Data: Training, validation, test datasets[cite: 4]",
+            "6. Train Model: Model learns patterns from training data[cite: 4]",
+            "7. Validate and Tune: Hyperparameters, compare algorithms, feature selection, check overfitting[cite: 4]",
+            "8. Evaluate: Classification (Accuracy, Precision, Recall, F1) / Regression (MAE, MSE, RMSE, R²)[cite: 4]",
+            "9. Deploy: Web App → API → ML Model → Prediction[cite: 4]",
+            "10. Monitor: Quality, errors, performance, data changes, model drift[cite: 4]",
+            "Data Drift: Happens when real-world input data changes over time compared to training data (e.g., user transaction behavior changing between 2024 and 2026)[cite: 4]"
+          ],
+          "traps": [
+            {
+              "id": "trap-deployment-final-step",
+              "statement": "Is deploying a model the final step of Machine Learning?[cite: 4]",
+              "explanation": "No. After deployment, the model should be monitored and potentially retrained as data and real-world behavior change.[cite: 4]",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "topic-flashcards-and-summary",
+          "title": "Rapid Revision Flashcards & Summary",
+          "explanation": "Quick revision flashcards, high-level summaries, and cheat sheets for rapid recall[cite: 4].",
+          "tldr": "Interview-এ শুধু definition বললে হবে না—কোন problem-এ কোন concept বা algorithm ব্যবহার হয়, সেটাও বুঝতে হবে।[cite: 4]",
+          "keyPoints": [
+            "Golden Interview Rule: Understand when and why each concept is used (Imbalanced Dataset → Don't rely only on Accuracy; Distance-Based Algorithm → Consider Feature Scaling; High Train + Low Test → Overfitting; No Labels → Unsupervised Learning; Number → Regression; Category → Classification)[cite: 4]"
+          ],
+          "comparisons": [
+            {
+              "title": "Final Interview Cheat Sheet",
+              "headers": ["Topic", "Remember This"],
+              "rows": [
+                ["AI", "Broad field of intelligent systems[cite: 4]"],
+                ["ML", "Learns patterns from data[cite: 4]"],
+                ["Deep Learning", "Uses multi-layer neural networks[cite: 4]"],
+                ["Supervised", "Labeled data[cite: 4]"],
+                ["Unsupervised", "Unlabeled data[cite: 4]"],
+                ["Regression", "Predicts numbers[cite: 4]"],
+                ["Classification", "Predicts categories[cite: 4]"],
+                ["Overfitting", "Good train, poor test[cite: 4]"],
+                ["Underfitting", "Poor train, poor test[cite: 4]"],
+                ["Precision", "Predicted positives that are correct[cite: 4]"],
+                ["Recall", "Actual positives successfully found[cite: 4]"],
+                ["F1", "Balance between Precision and Recall[cite: 4]"],
+                ["K-Means", "Clustering algorithm[cite: 4]"],
+                ["KNN", "Uses nearest neighbors[cite: 4]"],
+                ["Random Forest", "Multiple Decision Trees[cite: 4]"],
+                ["Normalization", "Brings features to similar scale[cite: 4]"],
+                ["Correlation", "Measures statistical relationship[cite: 4]"],
+                ["NLP", "AI for human language[cite: 4]"],
+                ["Data Drift", "Real-world data changes over time[cite: 4]"],
+                ["ML Deployment", "Not the end — monitor and retrain[cite: 4]"]
+              ]
+            }
+          ],
+          "flashcards": [
+            {
+              "id": "fc-1",
+              "question": "What is the difference between AI, ML, and Deep Learning?[cite: 4]",
+              "answer": "AI → Broad field of intelligent machines; ML → AI that learns patterns from data; DL → ML using multi-layer neural networks[cite: 4]",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-2",
+              "question": "What is the difference between Supervised and Unsupervised Learning?[cite: 4]",
+              "answer": "Supervised → Labeled data; Unsupervised → Unlabeled data[cite: 4]",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-3",
+              "question": "Regression vs Classification?[cite: 4]",
+              "answer": "Regression → Predicts continuous numbers; Classification → Predicts categories/classes[cite: 4]",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-4",
+              "question": "What is Overfitting?[cite: 4]",
+              "answer": "A model performs very well on training data but poorly on unseen data because it learns noise or overly specific patterns.[cite: 4]",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-5",
+              "question": "Why can Accuracy be misleading?[cite: 4]",
+              "answer": "Accuracy can be misleading when classes are imbalanced. Precision, Recall, and F1-score may provide a better understanding of performance.[cite: 4]",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-6",
+              "question": "What is the difference between Precision and Recall?[cite: 4]",
+              "answer": "Precision: Of predicted positives, how many were actually positive? Recall: Of actual positives, how many did the model find?[cite: 4]",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-7",
+              "question": "Why do we normalize or scale features?[cite: 4]",
+              "answer": "To bring features to similar scales so large numerical values do not dominate smaller ones, especially in distance-based and gradient-based algorithms.[cite: 4]",
+              "difficulty": "medium"
+            }
+          ],
+          "memoryMap": {
+            "nodes": [
+              {
+                "id": "mm-collect",
+                "label": "Collect Data",
+                "description": "Gather data from sources[cite: 4]"
+              },
+              {
+                "id": "mm-clean",
+                "label": "Clean Data",
+                "description": "Fix issues and duplicates[cite: 4]"
+              },
+              {
+                "id": "mm-preprocess",
+                "label": "Preprocess Data",
+                "description": "Encode and scale features[cite: 4]"
+              },
+              {
+                "id": "mm-split",
+                "label": "Split Data",
+                "description": "Train, validation, test sets[cite: 4]"
+              },
+              {
+                "id": "mm-train",
+                "label": "Train Model",
+                "description": "Learn patterns[cite: 4]"
+              },
+              {
+                "id": "mm-validate",
+                "label": "Validate Model",
+                "description": "Tune hyperparameters[cite: 4]"
+              },
+              {
+                "id": "mm-evaluate",
+                "label": "Evaluate Model",
+                "description": "Test using metrics[cite: 4]"
+              },
+              {
+                "id": "mm-deploy",
+                "label": "Deploy Model",
+                "description": "Put into application[cite: 4]"
+              },
+              {
+                "id": "mm-monitor",
+                "label": "Monitor Model",
+                "description": "Track data drift[cite: 4]"
+              }
+            ],
+            "connections": [
+              { "from": "mm-collect", "to": "mm-clean" },
+              { "from": "mm-clean", "to": "mm-preprocess" },
+              { "from": "mm-preprocess", "to": "mm-split" },
+              { "from": "mm-split", "to": "mm-train" },
+              { "from": "mm-train", "to": "mm-validate" },
+              { "from": "mm-validate", "to": "mm-evaluate" },
+              { "from": "mm-evaluate", "to": "mm-deploy" },
+              { "from": "mm-deploy", "to": "mm-monitor" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,625 @@
+{
+  "id": "ch-6",
+  "chapterNumber": 6,
+  "title": "MERN, React, Node.js & Next.js",
+  "description": "Interactive Interview Revision Cheat Sheet covering React frontend architecture, Node.js, Express, MongoDB, Next.js, and REST APIs.",
+  "estimatedMinutes": 60,
+  "sections": [
+    {
+      "id": "sec-react-frontend",
+      "title": "PART 1: ⚛️ REACT & FRONTEND ARCHITECTURE",
+      "description": "Core React definitions, SPA, component architecture, JSX, Virtual DOM, state vs props, hooks, and list keys.",
+      "topics": [
+        {
+          "id": "top-react-intro-spa",
+          "title": "1. What is React? & 2. What is a Single Page Application (SPA)?",
+          "explanation": "🎯 Core Definition\nReact is an open-source JavaScript library for building fast, interactive, and reusable user interfaces[cite: 3].\nIt is especially popular for building: Single Page Applications (SPAs), Interactive dashboards, Modern web applications, Component-based user interfaces[cite: 3].\nReact is the \"R\" in MERN: MongoDB → Express → React → Node.js[cite: 3].\nWhy React?\nInstead of manually updating the DOM, developers describe how the UI should look based on data, and React efficiently updates the UI when the data changes[cite: 3].\n\n🎯 Single Page Application (SPA) Definition\nA Single Page Application (SPA) loads the application once and dynamically updates parts of the page without performing a full page reload[cite: 3].",
+          "tldr": "React দিয়ে UI-কে ছোট ছোট reusable component-এ ভাগ করে দ্রুত ও interactive application তৈরি করা যায়[cite: 3]। SPA-তে পুরো page reload না করে দরকারি অংশ update হয়[cite: 3]。",
+          "examples": [
+            "When navigating from Home → Profile → Dashboard, a traditional website may reload the entire page[cite: 3]. In an SPA, React updates only the necessary parts of the UI[cite: 3]."
+          ],
+          "comparisons": [
+            {
+              "title": "Traditional Website vs SPA",
+              "headers": ["Feature", "Traditional Website", "SPA"],
+              "rows": [
+                ["Page Navigation", "Full page reload", "Partial UI update"],
+                ["User Experience", "Usually slower", "Smoother"],
+                [
+                  "DOM Updates",
+                  "Browser reloads page",
+                  "React updates changed UI"
+                ],
+                ["JavaScript", "Less interactive", "Highly interactive"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is React a framework?",
+              "answer": "No. React is primarily a JavaScript library for building user interfaces. Frameworks such as Next.js provide additional features like routing and server-side rendering."
+            },
+            {
+              "question": "Does React automatically make every application a SPA?",
+              "answer": "No. React is a UI library. SPA behavior depends on how the application is structured and routed. Libraries such as React Router or frameworks such as Next.js can provide routing solutions."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-react-framework",
+              "statement": "React is a framework.",
+              "explanation": "No. React is primarily a JavaScript library for building user interfaces. Frameworks such as Next.js provide additional features like routing and server-side rendering.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-spa-automatic",
+              "statement": "React automatically makes every application a SPA.",
+              "explanation": "No. React is a UI library. SPA behavior depends on how the application is structured and routed. Libraries such as React Router or frameworks such as Next.js can provide routing solutions.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-react-architectural-pillars",
+          "title": "3. Core Architectural Pillars of React",
+          "explanation": "A. Component-Based Architecture\n🎯 Definition: React divides the user interface into small, independent, and reusable pieces called components[cite: 3] (e.g., Navbar, Button, Sidebar, Product Card, User Profile)[cite: 3].\nBenefits: Reusability, Better organization, Easier maintenance, Easier testing, Separation of concerns[cite: 3].\n\nB. JSX (JavaScript XML)\n🎯 Definition: JSX is a syntax extension that allows developers to write HTML-like code inside JavaScript[cite: 3]. JSX makes UI code easier to read by keeping UI structure and JavaScript logic close together[cite: 3]. JSX is not HTML; it is transformed into JavaScript that React understands[cite: 3].\n\nC. Virtual DOM\n🎯 Definition: The Virtual DOM is a lightweight JavaScript representation of the Real DOM[cite: 3].\nWhen React state changes:\n1. React creates an updated Virtual DOM representation[cite: 3].\n2. React compares it with the previous representation[cite: 3].\n3. React determines what changed[cite: 3].\n4. React updates the necessary parts of the Real DOM[cite: 3].\nThis process is commonly called Reconciliation[cite: 3].\nSimplified Flow: State Changes → Virtual DOM Updates → Compare Previous vs New UI → Find Necessary Changes → Update Real DOM[cite: 3].",
+          "tldr": "বড় UI-কে ছোট ছোট reusable component-এ ভাগ করাই React-এর মূল শক্তি[cite: 3]। JSX দেখতে HTML-এর মতো হলেও এটি আসলে JavaScript-এর syntax extension[cite: 3]। React আগে Virtual DOM-এ change compare করে, তারপর দরকারি Real DOM update করে[cite: 3]。",
+          "codeSnippets": [
+            {
+              "language": "jsx",
+              "code": "const name = \"John\";\nfunction App() {\n  return <h1>Welcome, {name}!</h1>;\n}",
+              "explanation": "JSX syntax embedding JavaScript expressions inside curly braces[cite: 3]."
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the difference between a component and a normal JavaScript function?",
+              "answer": "A React component returns UI, usually JSX, and participates in React's rendering system. A normal JavaScript function does not necessarily represent UI."
+            },
+            {
+              "question": "Can you use JavaScript inside JSX?",
+              "answer": "Yes. JavaScript expressions can be written inside curly braces {} (e.g., <p>{user.name}</p>)."
+            },
+            {
+              "question": "Does React always update only one DOM element?",
+              "answer": "Not necessarily. React determines the minimum necessary UI updates based on reconciliation and component changes."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-vdom-update-one",
+              "statement": "React always updates only one DOM element.",
+              "explanation": "Not necessarily. React determines the minimum necessary UI updates based on reconciliation and component changes.",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "top-state-vs-props",
+          "title": "4. State vs Props",
+          "explanation": "React uses two major concepts for managing component data: State and Props[cite: 3].\n\nState\n🎯 Definition: State is data owned and managed by a component[cite: 3].\nState: Can change over time, Causes React to schedule a UI update, Should be updated using the state setter, Is commonly created using useState[cite: 3].\n\nProps\n🎯 Definition: Props are inputs passed from a parent component to a child component[cite: 3].\nProps are treated as: Read-only, Inputs for a component, A way to pass data downward[cite: 3].\n\n🧠 C++ Analogy: State is similar to a component's internal member variable[cite: 3]. Props are similar to inputs received by a component that it should not mutate directly[cite: 3].",
+          "tldr": "State নিজের component-এর data, আর Props parent থেকে child-এ যাওয়া read-only data[cite: 3]。",
+          "codeSnippets": [
+            {
+              "language": "jsx",
+              "code": "import { useState } from \"react\";\n// Child Component\nfunction GreetingMessage({ name }) {\n  return <h1>Welcome back, {name}!</h1>;\n}\n// Parent Component\nexport default function App() {\n  const [user, setUser] = useState(\"Ali\");\n  return (\n    <div>\n      <GreetingMessage name={user} />\n      <button onClick={() => setUser(\"John\")}>\n        Switch User\n      </button>\n    </div>\n  );\n}",
+              "explanation": "App owns the state → State is passed as a prop → GreetingMessage receives the prop → Button updates state → React re-renders the affected UI[cite: 3]."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "State vs Props Comparison",
+              "headers": ["Feature", "State", "Props"],
+              "rows": [
+                ["Owned By", "Component itself", "Parent component"],
+                ["Can Change", "Yes, via setter", "Child should not mutate"],
+                ["Purpose", "Internal component data", "Pass data to child"],
+                ["Example", "count", "userName"],
+                ["Causes UI Update", "Yes", "New props can cause re-render"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why should we not update state directly (e.g., count = count + 1)?",
+              "answer": "Direct assignment does not properly notify React about the state update. Using the setter allows React to schedule the UI update."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-state-direct-mutation",
+              "statement": "State can be updated directly via assignment like count = count + 1.",
+              "explanation": "Direct assignment does not properly notify React about the state update. Using the setter allows React to schedule the UI update.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-react-hooks",
+          "title": "5. React Hooks, 6. useState, 7. useEffect & 8. React Keys",
+          "explanation": "5. React Hooks\n🎯 Definition: Hooks are special React functions that allow function components to use React features such as state and side effects[cite: 3] (e.g., useState, useEffect, useContext, useMemo, useCallback, useRef)[cite: 3].\n\n6. useState\n🎯 Definition: useState allows a function component to store and update state[cite: 3].\nSyntax: const [data, setData] = useState(initialValue);[cite: 3]\n\n7. useEffect\n🎯 Definition: useEffect is used for side effects[cite: 3] (API calls, timers, event listeners, subscriptions)[cite: 3].\nDependency Behavior:\n1. No Dependency Array: Runs after every render[cite: 3].\n2. Empty Dependency Array []: Runs after the component mounts[cite: 3].\n3. Specific Dependencies [dep]: Runs when dependencies change[cite: 3].\nCleanup: Return a function to clean up resources (timers, subscriptions) and prevent leaks[cite: 3].\n\n8. React Keys\n🎯 Definition: When rendering a list using .map(), React needs a stable key to identify each item across additions, removals, and changes[cite: 3].",
+          "tldr": "useState দিয়ে component-এর পরিবর্তনশীল data store এবং update করা হয়[cite: 3]। useEffect API call, timer-এর মতো side effect handle করে[cite: 3]। Dynamic list-এর key হিসেবে stable unique ID ব্যবহার করো, index না[cite: 3]。",
+          "codeSnippets": [
+            {
+              "language": "jsx",
+              "code": "import { useState, useEffect } from \"react\";\n\nfunction UserDashboard() {\n  const [data, setData] = useState([]);\n\n  useEffect(() => {\n    fetch(\"https://api.example.com/users\")\n      .then((response) => response.json())\n      .then((userData) => setData(userData));\n  }, []);\n\n  return (\n    <ul>\n      {data.map((user) => (\n        <li key={user.id}>\n          {user.name}\n        </li>\n      ))}\n    </ul>\n  );\n}",
+              "explanation": "Data fetching with useEffect and rendering list items with stable unique keys[cite: 3]."
+            },
+            {
+              "language": "jsx",
+              "code": "useEffect(() => {\n  const timer = setInterval(() => {\n    console.log(\"Running...\");\n  }, 1000);\n  return () => {\n    clearInterval(timer);\n  };\n}, []);",
+              "explanation": "useEffect cleanup function example for intervals[cite: 3]."
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why might setCount(count + 1) be risky when the next state depends on the previous state?",
+              "answer": "A safer approach is setCount((previousCount) => previousCount + 1), especially when multiple updates depend on the previous value."
+            },
+            {
+              "question": "What happens if you fetch data inside useEffect without a dependency array and update state?",
+              "answer": "The effect runs after every render. If it updates state, that triggers another render, which can create repeated API calls and a render loop."
+            },
+            {
+              "question": "Is using array index as key always wrong?",
+              "answer": "No. It can be acceptable for static lists that never change order and do not have items added or removed. However, stable unique IDs are generally safer for dynamic lists."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-useeffect-render-loop",
+              "statement": "Fetching data inside useEffect without dependencies is fine.",
+              "explanation": "If it updates state, that triggers another render, which creates repeated API calls and an infinite render loop.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-index-as-key",
+              "statement": "Using array index as key is always safe for dynamic lists.",
+              "explanation": "If items are reordered, inserted, or deleted, indexes change, which may cause React to associate component state with the wrong item.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-node-express-mongodb",
+      "title": "PART 2: 🟢 NODE.JS, EXPRESS & MONGODB",
+      "description": "Backend JavaScript runtime, event loop, non-blocking I/O, Express routing, middleware, MongoDB collections, and Mongoose ODM.",
+      "topics": [
+        {
+          "id": "top-nodejs-fundamentals",
+          "title": "9. What is Node.js?",
+          "explanation": "🎯 Core Definition\nNode.js is a cross-platform JavaScript runtime environment that allows JavaScript to run outside the browser[cite: 3]. Built on Google's V8 JavaScript Engine[cite: 3].\nCommonly used for: Backend APIs, Web servers, Real-time applications, REST APIs, Microservices[cite: 3].\n\nNode.js Architecture:\n- Event-driven architecture[cite: 3]\n- Non-blocking I/O[cite: 3]\n- Asynchronous programming[cite: 3]\n- Event Loop[cite: 3]\n\nSimplified Flow:\nClient Request → Node.js Event Loop → Start Async Operation → Node.js continues handling other work → Operation completes → Callback / Promise continues execution[cite: 3].\n\nSingle Threaded vs Non-Blocking:\n- Single-Threaded: JavaScript execution runs primarily on a main JavaScript thread[cite: 3].\n- Non-Blocking: I/O operations (database queries, file operations, network requests) are handled asynchronously, allowing the main thread to continue processing other work[cite: 3].\n- Important Interview Nuance: Single-threaded JavaScript does not mean Node.js can perform only one task in the entire system[cite: 3]. The runtime and OS handle asynchronous operations outside the main thread[cite: 3].",
+          "tldr": "Node.js JavaScript-এর main thread block না করে async কাজ handle করতে পারে, তাই অনেক request efficiently manage করা যায়[cite: 3]。",
+          "questions": [
+            {
+              "question": "Is Node.js good for CPU-intensive tasks?",
+              "answer": "CPU-heavy synchronous work can block the main JavaScript thread. For CPU-intensive workloads, approaches such as worker threads, background processing, or separate services may be more appropriate."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-nodejs-cpu-intensive",
+              "statement": "Node.js is ideal for CPU-intensive synchronous calculations.",
+              "explanation": "CPU-heavy synchronous work can block the main JavaScript thread. Approaches like worker threads or background processing are more appropriate.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-express-routing-middleware",
+          "title": "10. Express.js, 11. Routing & 12. Express Middleware",
+          "explanation": "10. What is Express.js?\n🎯 Definition: Express.js is a lightweight web framework for Node.js used to build web servers and APIs (manages routes, requests, responses, middleware)[cite: 3].\n\n11. Routing\n🎯 Definition: Routing maps an HTTP request and URL to the correct backend handler[cite: 3].\nRequest Flow: GET /users → Express Router → Route Handler → Controller Logic → Response[cite: 3].\n\n12. Express Middleware\n🎯 Definition: Middleware is a function that runs during the request-response lifecycle before or between route handlers[cite: 3].\nMiddleware can: Validate requests, Authenticate users, Parse JSON, Log requests, Handle errors[cite: 3].\nWhat does next() do? It passes control to the next middleware or the final route handler[cite: 3].\nMiddleware Flow: Request → Middleware 1 → Middleware 2 → Authentication → Route Handler → Response[cite: 3].",
+          "tldr": "Routing ঠিক করে কোন URL request কোন backend function handle করবে[cite: 3]। Middleware হলো request-এর মাঝখানে থাকা processing layer বা security checkpoint[cite: 3]。",
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "app.get(\"/users\", (req, res) => {\n  res.json({ message: \"Users retrieved\" });\n});\n\nfunction logger(req, res, next) {\n  console.log(req.method, req.url);\n  next();\n}\napp.use(logger);",
+              "explanation": "Express route handler and custom logger middleware invoking next()[cite: 3]."
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the difference between GET and POST routes?",
+              "answer": "GET is generally used to retrieve data, while POST is generally used to create or submit new data."
+            },
+            {
+              "question": "What happens if middleware neither calls next() nor sends a response?",
+              "answer": "The request can remain unresolved because execution does not continue to the next middleware or route handler."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-middleware-hanging",
+              "statement": "Middleware executes and passes execution automatically without next() or res.",
+              "explanation": "If middleware neither calls next() nor sends a response, the request will hang indefinitely and remain unresolved.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-mongodb-mongoose-async-npm",
+          "title": "13-17. MongoDB, SQL vs NoSQL, Mongoose, Async/Await & NPM",
+          "explanation": "13. MongoDB\n🎯 Definition: A NoSQL document database storing data as flexible BSON documents[cite: 3]. Hierarchy: Database → Collection → Documents[cite: 3].\n\n14. SQL vs NoSQL\nFlexible schema does not mean schema-less design; applications still enforce validation and business rules[cite: 3].\n\n15. Mongoose\n🎯 Definition: An Object Data Modeling (ODM) library for MongoDB and Node.js to define schemas, create models, validate data, and query documents[cite: 3].\nSchema vs Model: Schema defines data structure and rules; Model provides an interface for interacting with MongoDB documents[cite: 3].\n\n16. Why async/await?\nDatabase and network operations take time[cite: 3]. Promises represent the eventual result of an async operation; async/await is syntax built on top of Promises to make asynchronous code cleaner[cite: 3].\n\n17. NPM\n🎯 Definition: Node Package Manager installs packages, manages dependencies, and tracks them in package.json[cite: 3].",
+          "tldr": "MongoDB-তে Table-এর বদলে Collection এবং Row-এর বদলে Document থাকে[cite: 3]। Schema data-এর structure define করে, Model দিয়ে database-এর data নিয়ে কাজ করা হয়[cite: 3]। NPM দিয়ে package install ও dependency manage করা হয়[cite: 3]。",
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "import mongoose from \"mongoose\";\nconst userSchema = new mongoose.Schema({\n  name: { type: String, required: true },\n  email: { type: String, required: true }\n});\nconst User = mongoose.model(\"User\", userSchema);\n\n// async/await query\nasync function getUsers() {\n  const users = await User.find();\n  console.log(users);\n}",
+              "explanation": "Mongoose schema, model definition, and async query[cite: 3]."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "MongoDB vs SQL",
+              "headers": ["MongoDB", "SQL Equivalent"],
+              "rows": [
+                ["Database", "Database"],
+                ["Collection", "Table"],
+                ["Document", "Row / Record"],
+                ["Field", "Column"]
+              ]
+            },
+            {
+              "title": "SQL vs NoSQL",
+              "headers": ["Feature", "SQL", "MongoDB / NoSQL"],
+              "rows": [
+                ["Data Structure", "Tables", "Documents"],
+                ["Schema", "Structured / predefined", "Flexible"],
+                ["Relationships", "JOINs", "Embedding / References"],
+                ["Examples", "MySQL, PostgreSQL", "MongoDB"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Can MongoDB documents in the same collection have different fields?",
+              "answer": "Yes. MongoDB supports flexible document structures, although applications may enforce validation rules for consistency."
+            },
+            {
+              "question": "Does Mongoose replace MongoDB?",
+              "answer": "No. MongoDB is the database. Mongoose is an ODM library that helps Node.js applications interact with MongoDB."
+            },
+            {
+              "question": "Is async/await a replacement for Promises?",
+              "answer": "No. async/await is syntax built on top of Promises that makes asynchronous code easier to read and write."
+            },
+            {
+              "question": "What is the difference between package.json and package-lock.json?",
+              "answer": "package.json defines project dependencies and scripts. The lock file records the resolved dependency versions to help ensure consistent installations."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-nextjs-modern-web",
+      "title": "PART 3: ▲ NEXT.JS & MODERN WEB ARCHITECTURE",
+      "description": "Next.js framework features, rendering strategies (CSR, SSR, SSG, ISR), RSC, Client Components, hydration, and file-based routing.",
+      "topics": [
+        {
+          "id": "top-nextjs-rendering-strategies",
+          "title": "18. What is Next.js? & 19. Rendering Strategies",
+          "explanation": "18. What is Next.js?\n🎯 Core Definition: Full-stack React framework providing file-based routing, server-side rendering, static generation, Route Handlers, Server Components, and SEO optimization[cite: 3].\n\n19. Rendering Strategies:\n- A. Client-Side Rendering (CSR): Browser receives initial response → JS loads → React renders UI in browser → becomes interactive[cite: 3]. Best for highly interactive client-only apps[cite: 3].\n- B. Server-Side Rendering (SSR): Server generates HTML dynamically for each request[cite: 3]. Best for dynamic, frequently changing, request-time data[cite: 3].\n- C. Static Site Generation (SSG): Static pages generated ahead of time during build[cite: 3]. Fast, CDN-friendly, best for marketing/blogs[cite: 3].\n- D. Incremental Static Regeneration (ISR): Allows static content to be regenerated after deployment in the background without rebuilding the entire app[cite: 3]. Configured via revalidate interval[cite: 3].",
+          "tldr": "React হলো UI library, আর Next.js হলো React-এর উপর তৈরি full-stack framework[cite: 3]। SSR request-এর সময় HTML বানায়, SSG build-এর সময় বানায়, আর ISR static speed-এ updated content দেয়[cite: 3]。",
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "export const revalidate = 60;",
+              "explanation": "Next.js ISR route revalidation configuration interval[cite: 3]."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "React vs Next.js",
+              "headers": ["Feature", "React", "Next.js"],
+              "rows": [
+                ["Type", "UI Library", "React Framework"],
+                ["Routing", "External library commonly used", "Built-in"],
+                [
+                  "Rendering",
+                  "Client rendering supported",
+                  "Multiple strategies"
+                ],
+                [
+                  "Backend",
+                  "Separate setup usually needed",
+                  "Route Handlers available"
+                ],
+                [
+                  "SEO",
+                  "Depends on implementation",
+                  "Strong server rendering support"
+                ]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Does Next.js replace React?",
+              "answer": "No. Next.js is built on React. You still write React components, but Next.js provides additional framework features."
+            },
+            {
+              "question": "What is the main difference between SSG and ISR?",
+              "answer": "SSG generates content ahead of time and normally requires a new build for updates. ISR allows static content to be regenerated after deployment."
+            }
+          ]
+        },
+        {
+          "id": "top-server-client-components-hydration",
+          "title": "20. Server Components, 21. Client Components & 22. Hydration",
+          "explanation": "20. React Server Components (RSC)\nIn Next.js App Router, components are Server Components by default[cite: 3].\nRun on server, access backend resources directly, reduce client JavaScript[cite: 3]. Cannot use browser-only interactivity (useState ❌, useEffect ❌, onClick ❌, window/document ❌)[cite: 3].\n\n21. Client Components\nDeclared with \"use client\" directive[cite: 3]. Used when browser interactivity, state, lifecycle hooks, or browser APIs are required[cite: 3].\n\n22. Hydration\n🎯 Definition: The process where React attaches client-side event handlers and behavior to pre-rendered HTML received from the server[cite: 3].\nFlow: Server renders HTML → Browser displays HTML → JS loads → React attaches interactivity[cite: 3].",
+          "tldr": "Data/server কাজের জন্য Server Component, interaction-এর জন্য Client Component[cite: 3]। Server-এর পাঠানো HTML-কে JavaScript দিয়ে interactive করার process হলো hydration[cite: 3]。",
+          "codeSnippets": [
+            {
+              "language": "jsx",
+              "code": "\"use client\";\nimport { useState } from \"react\";\n\nexport default function Counter() {\n  const [count, setCount] = useState(0);\n  return (\n    <button onClick={() => setCount(count + 1)}>\n      {count}\n    </button>\n  );\n}",
+              "explanation": "Client Component utilizing state and event listeners[cite: 3]."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Server vs Client Components",
+              "headers": ["Feature", "Server Component", "Client Component"],
+              "rows": [
+                ["Runs", "Server", "Browser for interactivity"],
+                ["useState", "❌", "✅"],
+                ["useEffect", "❌", "✅"],
+                ["Event Handlers", "❌", "✅"],
+                ["Browser APIs", "❌", "✅"],
+                [
+                  "Database Access",
+                  "Server-side capable",
+                  "Not directly from browser code"
+                ]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "What happens if you use useState in a default App Router Server Component?",
+              "answer": "It results in an error because useState requires a Client Component. Add \"use client\" when client-side interactivity is required."
+            },
+            {
+              "question": "Can hydration problems happen?",
+              "answer": "Yes. Hydration issues can occur when the server-rendered output does not match what React expects to render on the client."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-rsc-usestate",
+              "statement": "You can use useState and onClick handlers in default App Router components without 'use client'.",
+              "explanation": "Components in App Router are Server Components by default. Using useState or onClick without 'use client' throws a build/runtime error.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-nextjs-routing",
+          "title": "23. File-Based Routing & 24. Dynamic Routes",
+          "explanation": "23. File-Based Routing\nRoutes correspond directly to the filesystem folder hierarchy in app/[cite: 3]:\n- app/page.jsx → /\n- app/about/page.jsx → /about\n- app/blog/page.jsx → /blog\n\n24. Dynamic Routes\nUse square brackets for dynamic parameters (e.g. app/blog/[id]/page.jsx matches /blog/1, /blog/react, /blog/nextjs)[cite: 3].",
+          "tldr": "Next.js-এ folder structure দিয়েই routing হয়, আর dynamic value-এর জন্য [id] ব্যবহার করা হয়[cite: 3]。",
+          "questions": [
+            {
+              "question": "Do you need React Router in a typical Next.js application?",
+              "answer": "Usually no. Next.js provides its own built-in routing system."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-rest-api-http",
+      "title": "PART 4: 🌐 REST API & HTTP",
+      "description": "API architecture, HTTP methods, status codes, Route Handlers, and interview review.",
+      "topics": [
+        {
+          "id": "top-rest-api-http-methods",
+          "title": "25. REST API, 26. HTTP Methods & 27. HTTP Status Codes",
+          "explanation": "25. What is a REST API?\n🎯 Core Definition: Interface allowing clients and servers to communicate using HTTP requests and resource-based endpoints[cite: 3].\nFlow: Frontend → HTTP Request → Backend API → Business Logic → Database → HTTP Response[cite: 3].\n\n26. HTTP Methods:\n- GET: Retrieve data[cite: 3]\n- POST: Create data[cite: 3]\n- PUT: Replace/update entire resource[cite: 3]\n- PATCH: Partial update of resource[cite: 3]\n- DELETE: Remove data[cite: 3]\n\n27. HTTP Status Codes:\n- 2xx Success: 200 OK, 201 Created, 204 No Content[cite: 3]\n- 4xx Client Error: 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found[cite: 3]\n- 5xx Server Error: 500 Internal Server Error[cite: 3]",
+          "tldr": "PUT সাধারণত পুরো resource update/replace করার জন্য, PATCH শুধু দরকারি অংশ update করার জন্য[cite: 3]। 401 = authentication invalid, 403 = authenticated কিন্তু permission নেই[cite: 3]。",
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "// Frontend fetch\nfetch(\"/api/users\", { method: \"POST\" });\n\n// Express backend\napp.post(\"/api/users\", (req, res) => {\n  res.json({ message: \"User created\" });\n});",
+              "explanation": "Frontend HTTP POST request and backend Express handler[cite: 3]."
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Common HTTP Methods",
+              "headers": ["Method", "Purpose", "Example"],
+              "rows": [
+                ["GET", "Retrieve data", "Get users"],
+                ["POST", "Create data", "Create user"],
+                ["PUT", "Replace/update resource", "Update user"],
+                ["PATCH", "Partial update", "Update email only"],
+                ["DELETE", "Remove data", "Delete user"]
+              ]
+            },
+            {
+              "title": "401 vs 403 Status",
+              "headers": ["Status", "Meaning"],
+              "rows": [
+                ["401", "Authentication is missing or invalid"],
+                ["403", "Authenticated user is not allowed"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is POST only used for database insertion?",
+              "answer": "No. POST is commonly used for resource creation, but HTTP methods describe request semantics and APIs may use them for other actions depending on design."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-401-vs-403",
+              "statement": "401 and 403 status codes mean the exact same thing.",
+              "explanation": "401 means authentication is missing or invalid, whereas 403 means the user is authenticated but lacks permission.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-nextjs-route-handlers",
+          "title": "28. Next.js Route Handlers",
+          "explanation": "In Next.js App Router, backend endpoints can be created using Route Handlers directly without a separate Express server[cite: 3].\nConceptual Difference:\n- MERN: React → Express API → MongoDB[cite: 3]\n- Next.js: Next.js Frontend → Route Handler → Database / Service[cite: 3]",
+          "tldr": "Next.js App Router-এ Express ছাড়াও Route Handler দিয়ে API তৈরি করা যায়[cite: 3]。",
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "export async function GET() {\n  return Response.json({ message: \"Hello\" });\n}\n\nexport async function POST() {\n  return Response.json({ message: \"Created\" });\n}",
+              "explanation": "Next.js Route Handlers responding with JSON[cite: 3]."
+            }
+          ],
+          "questions": [
+            {
+              "question": "Can Next.js be used with Express?",
+              "answer": "Yes, but Next.js already provides server-side capabilities and Route Handlers for many use cases. Whether Express is needed depends on the application architecture."
+            }
+          ]
+        },
+        {
+          "id": "top-revision-and-flashcards",
+          "title": "Flashcards, 30-Second Revision & Memory Map",
+          "explanation": "⚡ 30-SECOND FINAL REVISION\nReact: Component-based UI library, State manages internal data, Props pass data downward, useState manages state, useEffect handles side effects, Keys identify list items[cite: 3].\nNode.js: JavaScript runtime, Event-driven, Non-blocking I/O, Uses asynchronous programming[cite: 3].\nExpress: Node.js web framework, Routing handles URLs, Middleware processes requests[cite: 3].\nMongoDB: NoSQL document database, Collection contains documents[cite: 3].\nMongoose: ODM for MongoDB, Schema defines structure, Model interacts with data[cite: 3].\nNext.js: React full-stack framework, File-based routing, SSR / SSG / ISR, Server Components by default, Client Components for interactivity[cite: 3].\nREST API: Frontend communicates with Backend, GET = Read, POST = Create, PUT/PATCH = Update, DELETE = Remove[cite: 3].\n\n🎯 INTERVIEW GOLDEN RULE\nWhen answering an interview question: Start with a one-line definition → explain how it works → give a practical example → mention one trade-off or edge case[cite: 3].",
+          "flashcards": [
+            {
+              "id": "fc-1",
+              "question": "What is React?",
+              "answer": "React is a JavaScript library for building reusable and interactive user interfaces using components.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-2",
+              "question": "What is the difference between State and Props?",
+              "answer": "State is internally managed data that can change through a state setter. Props are read-only inputs passed from parent to child.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-3",
+              "question": "What does the Virtual DOM do?",
+              "answer": "React uses the Virtual DOM during reconciliation to determine the necessary updates to the Real DOM.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-4",
+              "question": "What does useEffect do?",
+              "answer": "It handles side effects such as API calls, timers, subscriptions, and browser interactions.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-5",
+              "question": "Why are React keys important?",
+              "answer": "Keys help React identify list items correctly across additions, removals, and updates.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-6",
+              "question": "What does non-blocking mean in Node.js?",
+              "answer": "It means asynchronous operations can be handled without forcing the main JavaScript execution flow to wait for I/O operations to finish.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-7",
+              "question": "What is middleware?",
+              "answer": "Middleware is a function that runs during the request-response lifecycle and can process, validate, modify, or reject requests before the final handler.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-8",
+              "question": "What is MongoDB?",
+              "answer": "MongoDB is a NoSQL document database that stores data as flexible BSON documents.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-9",
+              "question": "What is Mongoose?",
+              "answer": "Mongoose is an ODM library that provides schemas, models, validation, and an easier interface for working with MongoDB in Node.js.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-10",
+              "question": "What is the difference between React and Next.js?",
+              "answer": "React is a UI library, while Next.js is a React framework that provides features such as routing, server rendering, static generation, and server-side capabilities.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-11",
+              "question": "What is SSR?",
+              "answer": "SSR generates HTML dynamically on the server for requests.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-12",
+              "question": "What is SSG?",
+              "answer": "SSG generates pages ahead of time, typically during the build process.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-13",
+              "question": "What is ISR?",
+              "answer": "ISR allows static content to be regenerated after deployment without rebuilding the entire application.",
+              "difficulty": "hard"
+            },
+            {
+              "id": "fc-14",
+              "question": "What is hydration?",
+              "answer": "Hydration is the process where React attaches client-side behavior and interactivity to pre-rendered HTML.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-15",
+              "question": "What is a REST API?",
+              "answer": "A REST API allows clients and servers to communicate using HTTP requests and resource-based endpoints.",
+              "difficulty": "easy"
+            }
+          ],
+          "memoryMap": {
+            "nodes": [
+              {
+                "id": "node-mern",
+                "label": "Web Development",
+                "description": "Full-stack web architecture"
+              },
+              {
+                "id": "node-react",
+                "label": "React",
+                "description": "Component-based UI library, VDOM, State, Props"
+              },
+              {
+                "id": "node-node",
+                "label": "Node.js & Express",
+                "description": "Event Loop, Non-blocking I/O, Routing, Middleware"
+              },
+              {
+                "id": "node-mongo",
+                "label": "MongoDB & Mongoose",
+                "description": "NoSQL Document Store, ODM, Schemas & Models"
+              },
+              {
+                "id": "node-next",
+                "label": "Next.js",
+                "description": "React Framework, SSR, SSG, ISR, Server Components"
+              },
+              {
+                "id": "node-rest",
+                "label": "REST & HTTP",
+                "description": "HTTP Methods, Status Codes, Route Handlers"
+              }
+            ],
+            "connections": [
+              { "from": "node-mern", "to": "node-react" },
+              { "from": "node-mern", "to": "node-node" },
+              { "from": "node-mern", "to": "node-mongo" },
+              { "from": "node-react", "to": "node-next" },
+              { "from": "node-node", "to": "node-rest" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

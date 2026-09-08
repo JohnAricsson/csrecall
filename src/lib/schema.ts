@@ -53,7 +53,7 @@ export const TopicSchema = z.object({
         z.object({
           id: z.string(),
           label: z.string(),
-          description: z.string(),
+          description: z.string().optional(),
         }),
       ),
     })

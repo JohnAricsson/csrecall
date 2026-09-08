@@ -1,0 +1,880 @@
+{
+  "id": "ch-4",
+  "chapterNumber": 4,
+  "title": "🧠 HTML, CSS & TAILWIND CSS FUNDAMENTALS",
+  "description": "Goal: Quickly revise HTML, CSS, responsive design, Flexbox, Grid, and Tailwind CSS for frontend interviews.",
+  "estimatedMinutes": 60,
+  "sections": [
+    {
+      "id": "sec-html-fundamentals",
+      "title": "PART 1: 🏗️ HTML FUNDAMENTALS",
+      "description": "Foundational markup language concepts, document structure, elements, semantics, and accessibility.",
+      "topics": [
+        {
+          "id": "top-what-is-html",
+          "title": "HTML?",
+          "explanation": "HTML (HyperText Markup Language) is the standard markup language used to structure content on a web page. It defines headings, paragraphs, images, links, forms, buttons, lists, and overall document structure.\n\nKey Separation of Concerns:\n• HTML provides document structure and meaning.\n• CSS handles presentation, styling, and visual layout.\n• JavaScript manages dynamic behavior and interactivity.",
+          "tldr": "HTML ওয়েবসাইটের structure বা skeleton তৈরি করে।",
+          "codeSnippets": [
+            {
+              "language": "html",
+              "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>My Website</title>\n</head>\n<body>\n    <h1>Hello World</h1>\n    <p>This is a paragraph.</p>\n</body>\n</html>"
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is HTML a programming language?",
+              "answer": "No. HTML is a markup language used to structure content."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-html-1",
+              "statement": "HTML is a programming language.",
+              "explanation": "Wrong. HTML is a markup language.",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "top-html-structure",
+          "title": "BASIC HTML DOCUMENT STRUCTURE",
+          "explanation": "A standard HTML document relies on foundational structural tags:\n• <!DOCTYPE html> instructs modern browsers to render using HTML5 standards in standard mode rather than quirks mode.\n• <html> serves as the root container element for the entire page.\n• <head> holds machine-readable metadata and external resources such as page title, charset definitions, responsive viewport settings, CSS stylesheets, web fonts, and tracking scripts.\n• <body> encapsulates all visible content rendered directly in the browser viewport.",
+          "tldr": "Head browser-এর জন্য information রাখে, Body user-এর দেখা content রাখে।",
+          "codeSnippets": [
+            {
+              "language": "html",
+              "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\"\n          content=\"width=device-width, initial-scale=1.0\">\n    <title>My Website</title>\n</head>\n<body>\n    <h1>Hello World</h1>\n</body>\n</html>"
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is content inside <head> visible on the webpage?",
+              "answer": "Usually no. The <head> contains metadata and resources, while visible content goes inside <body>."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-head-visibility",
+              "statement": "Content inside <head> is visible on the webpage.",
+              "explanation": "Usually no. The <head> contains metadata and resources, while visible content goes inside <body>.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-tags-elements-attributes",
+          "title": "HTML TAGS VS ELEMENTS VS ATTRIBUTES",
+          "explanation": "• Tag: The markup syntax inside angle brackets defining start or end (e.g., <p> or </p>).\n• Element: The complete structure including opening tag, attributes, content, and closing tag.\n• Attribute: Key-value metadata inside the opening tag providing extra info or behavior (e.g., class=\"text\").",
+          "tldr": "Tag হলো markup, Element হলো পুরো structure, Attribute extra information দেয়।"
+        },
+        {
+          "id": "top-block-vs-inline",
+          "title": "BLOCK VS INLINE ELEMENTS",
+          "explanation": "• Block: Starts on a new line and takes the full container width (e.g., <div>, <p>).\n• Inline: Sits inline with text, takes only its content width, and ignores vertical height/margin (e.g., <span>, <a>).\n• Display Override: The CSS display property can switch or override these default behaviors.",
+          "tldr": "Block element সাধারণত নতুন line নেয়, Inline element content-এর পাশে থাকে।",
+          "codeSnippets": [
+            {
+              "language": "css",
+              "code": "span {\n    display: block;\n}"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Block vs Inline",
+              "headers": ["Feature", "Block", "Inline"],
+              "rows": [
+                ["New Line", "Usually Yes", "Usually No"],
+                ["Width", "Available width", "Content width"],
+                ["Example", "div", "span"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Can an inline element become a block element?",
+              "answer": "Yes. CSS display can change how an element is rendered."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-inline-to-block",
+              "statement": "An inline element cannot become a block element.",
+              "explanation": "Yes, it can. CSS display can change how an element is rendered.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-semantic-html",
+          "title": "SEMANTIC HTML",
+          "explanation": "• Definition: Semantic HTML uses meaningful tags that describe the purpose and role of content to browsers, search engines, and screen readers.\n• Benefits: Significantly improves accessibility (a11y), SEO ranking, and code maintainability.",
+          "tldr": "Semantic HTML tag দেখেই বোঝা যায় content-এর কাজ কী।",
+          "examples": [
+            "❌ Less semantic:\n<div class=\"header\">\n    Header Content\n</div>",
+            "✅ Semantic:\n<header>\n    Header Content\n</header>"
+          ],
+          "questions": [
+            {
+              "question": "Why is semantic HTML important?",
+              "answer": "It improves accessibility, SEO, readability, and helps browsers and assistive technologies understand page structure."
+            }
+          ]
+        },
+        {
+          "id": "top-common-semantic-tags",
+          "title": "COMMON SEMANTIC TAGS",
+          "explanation": "• <header>: Introductory content, logos, or main navigation wrappers.\n• <nav>: Dedicated container for primary navigation links.\n• <main>: Central, unique content of the page (used only once per document).\n• <section>: Thematic grouping of content, typically paired with a heading.\n• <article>: Self-contained, independently reusable unit (e.g., blog post, comment, card).\n• <footer>: Ending content for copyrights, author info, and legal links."
+        },
+        {
+          "id": "top-links",
+          "title": "LINKS",
+          "explanation": "• Anchor Element: Defines hyperlinks connecting users to other pages, files, or external web resources.\n• target=\"_blank\": Opens the targeted link in a separate browser tab or window.",
+          "tldr": "<a> দিয়ে link তৈরি হয়, _blank নতুন tab-এ খুলে।",
+          "codeSnippets": [
+            {
+              "language": "html",
+              "code": "<a\n    href=\"https://example.com\"\n    target=\"_blank\"\n    rel=\"noopener noreferrer\"\n>\n    Visit Website\n</a>"
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why use noopener noreferrer with target=\"_blank\"?",
+              "answer": "It helps prevent security and performance issues related to the newly opened page accessing the original page."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-links-blank",
+              "statement": "target=\"_blank\" is safe to use alone without rel attributes.",
+              "explanation": "It can cause security and performance issues. Always use rel=\"noopener noreferrer\" to prevent the newly opened page from accessing the original page.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-images",
+          "title": "IMAGES",
+          "explanation": "• Image Element: Embeds visual graphics and media into the document layout.\n• alt Attribute: Crucial for accessibility (screen readers), SEO indexing, and graceful fallbacks when asset URLs break.\n• Decorative Images: Use an empty alt attribute (alt=\"\") so assistive screen readers skip purely decorative visuals without noise.",
+          "tldr": "alt image-এর description দেয়, বিশেষ করে accessibility-এর জন্য important।",
+          "codeSnippets": [
+            {
+              "language": "html",
+              "code": "<img\n    src=\"decoration.jpg\"\n    alt=\"\"\n>",
+              "explanation": "Decorative image with empty alt attribute."
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why is the alt attribute important?",
+              "answer": "It provides alternative information for screen readers and when an image cannot be displayed."
+            }
+          ]
+        },
+        {
+          "id": "top-forms",
+          "title": "HTML FORMS, LABELS & PLACEHOLDERS",
+          "explanation": "• HTML Forms: Capture, validate, and submit user inputs using controls like text, email, password, checkbox, radio, and files.\n• <label>: Permanently identifies the input's purpose, increases the clickable area, and is vital for assistive screen readers.\n• Placeholder vs Label: A placeholder is only a temporary hint that disappears on input—it must never replace a permanent <label>.",
+          "tldr": "Label হলো field-এর আসল নাম, Placeholder হলো hint।",
+          "codeSnippets": [
+            {
+              "language": "html",
+              "code": "<form>\n    <label for=\"email\">\n        Email\n    </label>\n    <input\n        id=\"email\"\n        type=\"email\"\n        placeholder=\"Enter email\"\n    >\n    <button type=\"submit\">\n        Submit\n    </button>\n</form>"
+            }
+          ],
+          "questions": [
+            {
+              "question": "Can a placeholder replace a label?",
+              "answer": "No. Labels provide better accessibility and should normally be used."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-placeholder-label",
+              "statement": "Can a placeholder replace a label?",
+              "explanation": "No. Labels provide better accessibility and should normally be used.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-accessibility-and-id-class",
+          "title": "HTML ACCESSIBILITY BASICS & id vs class",
+          "explanation": "• Accessibility Core: Ensures web usability across assistive hardware, screen readers, and keyboard navigation.\n• Semantic Controls: Native elements (e.g., <button>) provide built-in focus, enter/space keyboard triggers, and screen reader roles that generic <div> tags lack.\n• Structure Rules: Pair inputs with explicit labels, supply descriptive alt text, and preserve strict heading hierarchies (<h1> to <h6>) without skipping levels.\n• id vs class: id must be globally unique per page for specific targets/anchors, whereas class is built for reusable styling across multiple elements.",
+          "tldr": "Accessibility মানে website যেন সবাই—including screen reader users—ব্যবহার করতে পারে। id সাধারণত unique, class অনেক element-এ reuse করা যায়।",
+          "comparisons": [
+            {
+              "title": "id vs class",
+              "headers": ["Feature", "id", "class"],
+              "rows": [
+                ["Reusable", "❌ Usually unique", "✅ Yes"],
+                ["CSS Selector", "#id", ".class"],
+                ["JS Selection", "Common", "Common"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why should we use a real <button> instead of a clickable <div>?",
+              "answer": "A button provides built-in accessibility, keyboard behavior, and semantic meaning."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-id-reuse",
+              "statement": "id can be reused like class.",
+              "explanation": "Bad practice. id should generally uniquely identify an element.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-css-fundamentals",
+      "title": "CSS FUNDAMENTALS",
+      "description": "Presentation, selectors, specificity, cascade, box model, display, positioning, and units.",
+      "topics": [
+        {
+          "id": "top-what-is-css-and-selectors",
+          "title": "CSS & SELECTORS",
+          "explanation": "• Definition: CSS(Cascading Style Sheets) controls presentation, layout, styling, typography, responsive behavior, and animations of HTML.\n• Element Selector: Matches elements by tag name (e.g., p, h1).\n• Class Selector: Matches elements by class attribute using a dot prefix (e.g., .card).\n• ID Selector: Matches a unique element by id using a hash prefix (e.g., #title).\n• Descendant Selector: Matches elements nested anywhere inside an ancestor with space separation (e.g., .card p).\n• Direct Child Selector: Matches only immediate direct children using > syntax (e.g., .card > p).",
+          "tldr": "CSS ওয়েবসাইটকে সুন্দর করে এবং layout control করে।",
+          "codeSnippets": [
+            {
+              "language": "css",
+              "code": "p {\n    color: red;\n}\n.card {\n    padding: 20px;\n}\n#title {\n    color: blue;\n}\n.card p {\n    color: gray;\n}\n.card > p {\n    color: gray;\n}"
+            }
+          ]
+        },
+        {
+          "id": "top-specificity-and-cascade",
+          "title": "CSS SPECIFICITY & CASCADE",
+          "explanation": "• Specificity: The scoring system browsers use to resolve conflicting CSS rules applied to the same element.\n• Precedence: Inline styles > ID (#id) > Class (.class), Attribute ([type]), Pseudo-class (:hover) > Element (p, div), Pseudo-element (::before).\n• !important: Bypasses standard specificity rankings; breaks cascade maintainability and should be avoided.\n• The Cascade: When competing rules have identical specificity, the rule written latest in the stylesheet wins.",
+          "tldr": "একই element-এর জন্য অনেক CSS থাকলে specificity decide করে কোনটা apply হবে। একই specificity হলে পরে লেখা CSS সাধারণত apply হয়।",
+          "questions": [
+            {
+              "question": "Does higher specificity always win?",
+              "answer": "Usually yes, but !important, cascade order, inheritance, and importance can also affect the final result."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-specificity-win",
+              "statement": "Does higher specificity always win?",
+              "explanation": "Usually yes, but !important, cascade order, inheritance, and importance can also affect the final result.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "top-box-model-and-sizing",
+          "title": "CSS BOX MODEL",
+          "explanation": "• CSS Box Model: Every element is a rectangular box made of Content (inner text/media), Padding (space inside border), Border (outer frame), and Margin (space outside between siblings).\n• content-box (Default): Width and height apply only to content; padding and borders add extra size, expanding the element's footprint.\n• border-box (Modern Standard): Width and height include content, padding, and border, keeping sizing predictable and preventing layout blowouts.",
+          "tldr": "Content-এর ভেতরের space Padding, বাইরের space Margin। border-box ব্যবহার করলে width হিসাব করা অনেক সহজ হয়।",
+          "codeSnippets": [
+            {
+              "language": "css",
+              "code": "* {\n    box-sizing: border-box;\n}\n\n.card {\n    width: 300px;\n    padding: 20px;\n    border: 5px solid black;\n    box-sizing: border-box;\n}"
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the difference between content-box and border-box?",
+              "answer": "content-box applies width only to content, while border-box includes padding and border inside the specified width."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-margin-padding",
+              "statement": "Margin and padding are the same.",
+              "explanation": "Wrong. Padding is inside the border, Margin is outside the border.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-display-and-none-vs-hidden",
+          "title": "CSS DISPLAY",
+          "explanation": "• display Property: Determines how an element generates boxes and participates in normal document flow.\n• block: Starts on a new line and expands to fill the full container width.\n• inline: Flows along text lines without breaks; width, height, and vertical spacing are ignored.\n• inline-block: Flows horizontally like inline text while allowing custom width, height, and vertical spacing.\n• flex / grid: Establishes a flexible 1D or 2D container context for child elements.\n• display: none: Completely removes the element from layout calculations, taking zero space.\n• visibility: hidden: Hides the element visually while preserving its exact space and footprint in the layout.",
+          "tldr": "display decide করে element page-এ কীভাবে behave করবে। display:none element-কে layout থেকেই সরায়, visibility:hidden শুধু invisible করে।",
+          "comparisons": [
+            {
+              "title": "display: none vs visibility: hidden",
+              "headers": ["Feature", "display: none", "visibility: hidden"],
+              "rows": [
+                ["Visible", "❌", "❌"],
+                ["Takes Space", "❌", "✅"],
+                ["In Layout", "❌", "✅"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-display-none-hidden",
+              "statement": "display: none and visibility: hidden are the same.",
+              "explanation": "Wrong. display: none removes layout space; visibility: hidden keeps layout space.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "top-position-and-z-index",
+          "title": "CSS POSITION & Z-INDEX",
+          "explanation": "• static (Default): Normal flow placement; top, right, bottom, left offsets do not apply.\n• relative: Keeps its original space in normal flow while allowing offset shifts relative to itself.\n• absolute: Pulled from document flow, positioned relative to its nearest non-static positioned ancestor.\n• fixed: Pulled from document flow, pinned relative to the viewport window.\n• sticky: Behaves as relative until a scroll threshold is met, then pins as fixed inside its parent container.\n• z-index & Stacking: Controls layer depth along the z-axis, but cannot break out of parent stacking contexts created by opacity, transform, or positioning.\n• Sizing Units: Absolute units (px) maintain fixed dimensions, while relative units (%, em, rem, vw, vh, dvh) scale based on parent, root font size, or viewport.",
+          "tldr": "Absolute flow থেকে বের হয়, Fixed screen-এর সাথে থাকে, Sticky scroll করলে নির্দিষ্ট জায়গায় আটকে যায়। z-index element কে সামনে বা পিছনে নেয়, কিন্তু stacking context trap হতে পারে। px fixed, % parent-এর relative, rem root font-এর relative, vw/vh screen-এর relative।",
+          "comparisons": [
+            {
+              "title": "CSS Position Comparison",
+              "headers": ["Position", "Normal Flow", "Reference"],
+              "rows": [
+                ["static", "✅", "Normal"],
+                ["relative", "✅", "Its original position"],
+                ["absolute", "❌", "Positioned ancestor"],
+                ["fixed", "❌", "Viewport"],
+                ["sticky", "✅ Initially", "Scroll container"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "What does an absolutely positioned element position itself relative to?",
+              "answer": "Usually its nearest ancestor with a non-static position. Otherwise, it may use the initial containing block."
+            },
+            {
+              "question": "Why doesn't increasing z-index always solve overlap issues?",
+              "answer": "Because elements can belong to different stacking contexts."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-position-absolute",
+              "statement": "Absolute position always uses the parent.",
+              "explanation": "Wrong. It uses the nearest appropriate positioned ancestor, not simply any parent.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-flexbox",
+      "title": "PART 3: 💪 FLEXBOX",
+      "description": "One-dimensional layout model for rows or columns.",
+      "topics": [
+        {
+          "id": "top-flexbox-core",
+          "title": "FLEXBOX ESSENTIALS",
+          "explanation": "• Flexbox: A one-dimensional layout system that organizes items along a primary main axis and a perpendicular cross axis.\n• flex-direction: Sets the main axis orientation to horizontal (row) or vertical (column).\n• justify-content: Controls distribution and alignment along the main axis (e.g., center, space-between).\n• align-items: Controls alignment along the perpendicular cross axis.\n• flex-wrap: Determines if items stay on a single line (nowrap) or wrap across multiple lines.\n• flex sizing: Uses flex-grow (expand), flex-shrink (shrink), and flex-basis (initial size) to allocate container space.\n• gap: Sets clean, consistent gutters between flex items without margin resets.",
+          "tldr": "Flexbox default row, column দিলে vertical হয়। Justify main axis control করে, Align cross axis control করে। Grow বড় হয়, Shrink ছোট হয়, Basis initial size দেয়। অনেক element-এর মাঝে spacing দিতে gap cleaner।",
+          "codeSnippets": [
+            {
+              "language": "css",
+              "code": ".container {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    gap: 20px;\n}"
+            }
+          ],
+          "questions": [
+            {
+              "question": "Does justify-content always align horizontally?",
+              "answer": "No. It aligns along the main axis, which changes when flex-direction changes."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-justify-content",
+              "statement": "justify-content always means horizontal.",
+              "explanation": "Wrong. It follows the main axis.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-grid",
+      "title": "PART 4: 🔲 CSS GRID",
+      "description": "Two-dimensional layout system controlling rows and columns.",
+      "topics": [
+        {
+          "id": "top-grid-core",
+          "title": "CSS GRID & FLEXBOX",
+          "explanation": "• CSS Grid: A two-dimensional layout system that coordinates both rows and columns at the same time.\n• Core Features: Supports fractional units (fr), repeat() utilities, and responsive wrapping via auto-fit and minmax() without media queries.\n• Flexbox vs Grid: Use Flexbox for one-dimensional layouts (navbars, item rows, button groups) and Grid for complex two-dimensional structures (dashboards, card galleries, full-page layouts).",
+          "tldr": "Grid একসাথে row এবং column দুইটাই control করতে পারে। Flexbox এক direction-এর layout-এর জন্য, Grid row+column complex layout-এর জন্য।",
+          "codeSnippets": [
+            {
+              "language": "css",
+              "code": ".container {\n    display: grid;\n    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n}"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Flexbox vs Grid",
+              "headers": ["Feature", "Flexbox", "Grid"],
+              "rows": [
+                ["Dimension", "One-dimensional", "Two-dimensional"],
+                ["Best For", "Row/Column layouts", "Complex layouts"],
+                ["Rows", "Indirect", "Direct control"],
+                ["Columns", "Indirect", "Direct control"],
+                ["Alignment", "Excellent", "Excellent"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Should we always choose Grid instead of Flexbox because Grid is more powerful?",
+              "answer": "No. Choose based on the layout. Flexbox is often simpler and better for one-dimensional alignment."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-grid-replaces-flexbox",
+              "statement": "Grid replaces Flexbox.",
+              "explanation": "Wrong. They solve different layout problems.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-responsive-design",
+      "title": "PART 5: 📱 RESPONSIVE DESIGN",
+      "description": "Techniques to adapt web pages across screen sizes.",
+      "topics": [
+        {
+          "id": "top-responsive-essentials",
+          "title": "RESPONSIVE DESIGN CONCEPTS",
+          "explanation": "• Responsive Design: Adapts page layouts seamlessly across mobile, tablet, laptop, and desktop screens.\n• Mobile-First: Writes base styles for mobile screens first, then layers on min-width media queries for larger displays.\n• Viewport Meta Tag: Sets the viewport scale to match device width, preventing mobile browsers from shrinking pages down to desktop viewports.\n• Fluid Functions: Uses min(), max(), and clamp() for smooth typography and component scaling without hard breakpoint jumps.\n• Fluid Media: Prevents images and media from overflowing containers using max-width: 100% and auto height.",
+          "tldr": "আগে mobile design, তারপর বড় screen-এর জন্য enhance করাকে mobile-first বলে। Mobile responsive website-এর জন্য viewport meta tag খুব important। clamp() দিয়ে minimum, responsive এবং maximum size একসাথে set করা যায়।",
+          "codeSnippets": [
+            {
+              "language": "html",
+              "code": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
+            },
+            {
+              "language": "css",
+              "code": "font-size: clamp(1rem, 2vw, 3rem);\n\nimg {\n    max-width: 100%;\n    height: auto;\n}"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-responsive-media-queries-only",
+              "statement": "Responsive design means only media queries.",
+              "explanation": "Wrong. Responsive design can also use flexible layouts, Grid, Flexbox, relative units, min(), max(), clamp(), and responsive images.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-pseudo-and-animations",
+      "title": "PART 6: 🎭 PSEUDO SELECTORS & 🎬 TRANSITIONS/ANIMATIONS",
+      "description": "Pseudo-classes, pseudo-elements, transitions, and keyframe animations.",
+      "topics": [
+        {
+          "id": "top-pseudo-elements-classes",
+          "title": "PSEUDO-CLASSES & PSEUDO-ELEMENTS",
+          "explanation": "• Pseudo-Classes: Single-colon selectors targeting element state or tree position (e.g., :hover, :focus, :active, :nth-child()).\n• Pseudo-Elements: Double-colon selectors creating or styling virtual sub-parts of an element (e.g., ::before, ::after, ::first-line).\n• Core Rule: Pseudo-classes inspect state; pseudo-elements style or inject virtual structure.",
+          "tldr": ":hover state handle করে, ::before element-এর extra part তৈরি করে।",
+          "codeSnippets": [
+            {
+              "language": "css",
+              "code": "button:hover {\n    background: blue;\n}\n\n.title::before {\n    content: \"🔥 \";\n}\n.title::after {\n    content: \" ✓\";\n}"
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the difference between :hover and ::before?",
+              "answer": ":hover is a pseudo-class for state, while ::before is a pseudo-element that creates virtual content."
+            }
+          ]
+        },
+        {
+          "id": "top-transitions-animations",
+          "title": "CSS TRANSITIONS & ANIMATIONS",
+          "explanation": "• Transitions: Smoothly interpolate CSS property changes between two states, typically triggered by interactions like :hover or class toggles.\n• Keyframe Animations: Create complex, multi-step motion sequences using @keyframes that can run automatically, loop, and animate across percentages without user triggers.",
+          "tldr": "Transition state change smooth করে, Animation keyframe দিয়ে full motion তৈরি করে।",
+          "codeSnippets": [
+            {
+              "language": "css",
+              "code": "button {\n    transition: background 0.3s ease;\n}\nbutton:hover {\n    background: blue;\n}\n\n@keyframes fadeIn {\n    from { opacity: 0; }\n    to { opacity: 1; }\n}\n.box {\n    animation: fadeIn 1s ease;\n}"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Transition vs Animation",
+              "headers": ["Feature", "Transition", "Animation"],
+              "rows": [
+                ["Trigger Needed", "Usually Yes", "Not necessarily"],
+                ["Multiple Steps", "Limited", "Yes"],
+                ["Keyframes", "❌", "✅"],
+                ["Complexity", "Simple", "More powerful"]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-tailwind-css",
+      "title": "PART 8: ⚡ TAILWIND CSS",
+      "description": "Utility-first framework styling, spacing, typography, states, and responsive patterns.",
+      "topics": [
+        {
+          "id": "top-tailwind-fundamentals",
+          "title": "TAILWIND FUNDAMENTALS & UTILITIES",
+          "explanation": "• Tailwind CSS: A utility-first CSS framework that builds custom designs by combining single-purpose classes directly in markup.\n• Spacing Scale: Predictable scale controlling padding (p-), margin (m-), and gutters (gap-) across axes.\n• Color Tokens: Standardized palettes for backgrounds (bg-), text (text-), and borders (border-).\n• Typography: Built-in classes for font sizing, weights, line heights, and alignments.\n• Sizing: Fractional widths (w-1/2), full percentages (w-full), and viewport heights (h-screen).",
+          "tldr": "Tailwind-এ আলাদা CSS class লিখার বদলে ছোট utility class combine করে design করা হয়। p = padding, m = margin, x = horizontal, y = vertical।",
+          "codeSnippets": [
+            {
+              "language": "html",
+              "code": "<div class=\"p-6 mt-4 w-full min-h-screen bg-blue-500 rounded-lg\">\n    <h1 class=\"text-4xl font-bold text-center text-white\">Hello</h1>\n</div>"
+            }
+          ],
+          "questions": [
+            {
+              "question": "Does Tailwind eliminate CSS completely?",
+              "answer": "No. Tailwind is built on CSS and generates CSS. You may still need custom CSS in some cases."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-tailwind-inline",
+              "statement": "Tailwind is inline CSS.",
+              "explanation": "Not exactly. Tailwind uses utility classes, but those classes are generated as CSS rules.",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "top-tailwind-layout-and-states",
+          "title": "TAILWIND LAYOUT, RESPONSIVE, STATES & PATTERNS",
+          "explanation": "• Flex & Grid: Quick utilities for display directions, alignments, grid tracks, and gutters.\n• Breakpoints: Mobile-first prefixes (sm:, md:, lg:) that apply at the target screen width and above.\n• State & Theme: Modifiers for user states (hover:, focus:, active:) and dark mode (dark:).\n• Conditional Classes: Easily combined conditionally in React and Next.js via template literals or helper utilities.",
+          "tldr": "Tailwind default mobile-এর জন্য, md: এবং lg: দিয়ে বড় screen-এর style দেওয়া হয়। React-এ condition অনুযায়ী Tailwind class dynamically change করা যায়।",
+          "codeSnippets": [
+            {
+              "language": "jsx",
+              "code": "<button className={isActive ? \"bg-blue-500 text-white\" : \"bg-gray-200 text-black\"}>\n    Button\n</button>"
+            },
+            {
+              "language": "html",
+              "code": "<div class=\"min-h-screen flex items-center justify-center\">\n    <div class=\"bg-white rounded-xl shadow-lg p-6\">\n        Card Content\n    </div>\n</div>"
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is md: applied only to medium screens?",
+              "answer": "No. Tailwind breakpoints are generally mobile-first minimum-width breakpoints, so md: applies at the medium breakpoint and above."
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-tailwind-md",
+              "statement": "Is md: applied only to medium screens?",
+              "explanation": "No. Tailwind breakpoints are generally mobile-first minimum-width breakpoints, so md: applies at the medium breakpoint and above.",
+              "category": "interview-gotcha"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-interview-prep",
+      "title": "PARTS 9: ⚖️ COMPARISONS, TRAPS, FLASHCARDS & REVISION",
+      "description": "Master comparison tables, interview checklist traps, rapid flashcards, and 30-second formula.",
+      "topics": [
+        {
+          "id": "top-master-comparisons",
+          "title": "MASTER COMPARISON TABLES",
+          "explanation": "Comprehensive reference tables for frontend interviews.",
+          "comparisons": [
+            {
+              "title": "HTML Semantic vs Non-Semantic Equivalents",
+              "headers": [
+                "Semantic Element",
+                "Legacy / Non-Semantic Equivalent",
+                "Purpose"
+              ],
+              "rows": [
+                [
+                  "<header>",
+                  "<div class=\"header\">",
+                  "Introductory banner and top branding"
+                ],
+                ["<nav>", "<div class=\"nav\">", "Primary navigation links"],
+                ["<main>", "<div id=\"main\">", "Central, unique page content"],
+                [
+                  "<article>",
+                  "<div class=\"post\">",
+                  "Self-contained, reusable composition"
+                ],
+                [
+                  "<section>",
+                  "<div class=\"section\">",
+                  "Thematic grouping of content"
+                ],
+                [
+                  "<em> / <strong>",
+                  "<span> (with CSS)",
+                  "Emphasis or importance without inherent meaning"
+                ]
+              ]
+            },
+            {
+              "title": "Margin vs Padding",
+              "headers": ["Feature", "Margin", "Padding"],
+              "rows": [
+                ["Location", "Outside", "Inside"],
+                ["Background Applied", "No", "Yes"],
+                ["Creates Space", "Between elements", "Inside element"]
+              ]
+            },
+            {
+              "title": "Flexbox vs Grid (Master)",
+              "headers": ["Feature", "Flexbox", "Grid"],
+              "rows": [
+                ["Dimension", "One", "Two"],
+                ["Best For", "Alignment", "Layout"],
+                ["Rows + Columns", "Limited", "Full Control"],
+                ["Simple Layout", "Excellent", "Good"],
+                ["Complex Layout", "Good", "Excellent"]
+              ]
+            },
+            {
+              "title": "Relative vs Absolute vs Fixed",
+              "headers": ["Position", "Flow", "Reference"],
+              "rows": [
+                ["Relative", "Normal", "Original position"],
+                ["Absolute", "Removed", "Positioned ancestor"],
+                ["Fixed", "Removed", "Viewport"],
+                ["Sticky", "Initially normal", "Scroll threshold"]
+              ]
+            },
+            {
+              "title": "CSS vs Tailwind",
+              "headers": ["Feature", "Traditional CSS", "Tailwind"],
+              "rows": [
+                ["Custom Classes", "Usually Yes", "Often No"],
+                ["Styling Location", "CSS File", "Utility Classes"],
+                ["Flexibility", "Very High", "Very High"],
+                ["Speed", "Depends", "Fast Development"],
+                ["Custom CSS", "Direct", "Still Possible"]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "top-interview-qa",
+          "title": "HIGH-FREQUENCY INTERVIEW Q&A",
+          "questions": [
+            {
+              "question": "What is the key difference between Semantic HTML and non-semantic <div> elements?",
+              "answer": "Semantic HTML tags (such as <main>, <header>, <article>) carry explicit structural and accessibility meaning for assistive readers and search engine indexing, whereas generic <div> elements act purely as unopinionated styling containers."
+            },
+            {
+              "question": "How does box-sizing: border-box fundamentally change the CSS Box Model?",
+              "answer": "In content-box, width and height only apply to the content area, causing padding and borders to expand total element dimensions. Under border-box, padding and border values are absorbed within the specified width."
+            },
+            {
+              "question": "How does display: none differ from visibility: hidden?",
+              "answer": "display: none completely removes the element from the layout flow and rendering tree, taking up zero space. visibility: hidden hides the element visually but preserves its full layout geometry and space."
+            },
+            {
+              "question": "What determines the containing block of an absolutely positioned element?",
+              "answer": "An absolutely positioned element positions itself relative to its nearest ancestor that has a position property other than static. If none exists, it defaults to the initial containing block."
+            },
+            {
+              "question": "Why is Tailwind CSS not simply equivalent to inline styles?",
+              "answer": "Tailwind compiles to standard CSS classes and stylesheets. Unlike inline styles, it supports media queries, hover and focus pseudo-classes, pseudo-elements, CSS variables, and full build-step purging."
+            },
+            {
+              "question": "When should you choose CSS Grid over Flexbox?",
+              "answer": "Choose Flexbox for one-dimensional layouts where elements align along a single axis (such as navbars or buttons). Choose Grid for two-dimensional layouts where rows and columns must align simultaneously."
+            }
+          ]
+        },
+        {
+          "id": "top-flashcards-and-traps",
+          "title": "RAPID REVISION FLASHCARDS & FINAL TRAPS",
+          "explanation": "Quick revision flashcards, common frontend traps, interview answering strategy, and complete visual memory map.",
+          "keyPoints": [
+            "Interview Golden Rule Order: 1. Definition -> 2. Core Purpose -> 3. Concrete Example -> 4. Common Pitfall/Trap.",
+            "Answering Formula: Definition -> Purpose -> Example -> Use Case -> Common Trap"
+          ],
+          "flashcards": [
+            {
+              "id": "fc-1",
+              "question": "What is Semantic HTML?",
+              "answer": "HTML that uses meaningful elements to describe the purpose and structure of content.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-2",
+              "question": "What is the difference between Margin and Padding?",
+              "answer": "Margin creates space outside an element, while padding creates space inside the element between content and border.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-3",
+              "question": "What is the CSS Box Model?",
+              "answer": "The model that describes elements using Content, Padding, Border, and Margin.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-4",
+              "question": "What is the difference between Flexbox and Grid?",
+              "answer": "Flexbox is mainly one-dimensional, while Grid is two-dimensional and controls both rows and columns.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-5",
+              "question": "What is position: absolute relative to?",
+              "answer": "Usually the nearest ancestor that establishes an appropriate positioning context; otherwise the initial containing block.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-6",
+              "question": "What is Mobile-First Design?",
+              "answer": "Designing for small screens first and progressively enhancing the layout for larger screens.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-7",
+              "question": "What is Tailwind CSS?",
+              "answer": "A utility-first CSS framework that lets developers build UI by composing utility classes.",
+              "difficulty": "easy"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-final-1",
+              "statement": "HTML is a programming language.",
+              "explanation": "HTML is a markup language used to structure content, not a programming language.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-final-2",
+              "statement": "div and section are interchangeable.",
+              "explanation": "div is a generic non-semantic container; section semantically groups thematically related content.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-final-3",
+              "statement": "id attributes can be reused across multiple elements.",
+              "explanation": "An id must remain globally unique within a document. Use classes for reusable styles.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-4",
+              "statement": "Margin and padding are identical spacing properties.",
+              "explanation": "Padding creates space inside the border; margin creates space outside the border.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-5",
+              "statement": "display: none and visibility: hidden produce the same layout outcome.",
+              "explanation": "display: none removes the element from layout calculations; visibility: hidden retains its occupied space.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-6",
+              "statement": "justify-content always aligns horizontally.",
+              "explanation": "justify-content aligns along the main axis, which switches to vertical when flex-direction is column.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-7",
+              "statement": "position: absolute always positions relative to its immediate parent.",
+              "explanation": "It positions relative to its nearest non-static positioned ancestor, not necessarily its immediate parent.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-8",
+              "statement": "CSS Grid completely replaces Flexbox.",
+              "explanation": "Grid and Flexbox solve complementary problems; Flexbox is optimal for 1D alignment, while Grid manages 2D layouts.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-9",
+              "statement": "Tailwind CSS is just inline styles.",
+              "explanation": "Tailwind compiles to standard CSS classes supporting media queries, states, and CSS variables, which inline styles cannot do.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-final-10",
+              "statement": "Responsive web design is achieved only through media queries.",
+              "explanation": "Responsive design also utilizes fluid units, Flexbox, Grid, min/max/clamp functions, and auto-wrapping layouts.",
+              "category": "common-mistake"
+            }
+          ],
+          "memoryMap": {
+            "nodes": [
+              {
+                "id": "node-root",
+                "label": "Frontend Fundamentals",
+                "description": "HTML, CSS & Tailwind CSS"
+              },
+              {
+                "id": "node-html",
+                "label": "HTML",
+                "description": "Structure & Semantics"
+              },
+              {
+                "id": "node-css",
+                "label": "CSS",
+                "description": "Style, Cascade & Box Model"
+              },
+              {
+                "id": "node-flexbox",
+                "label": "Flexbox",
+                "description": "1D Alignment & Flow"
+              },
+              {
+                "id": "node-grid",
+                "label": "Grid",
+                "description": "2D Rows + Columns"
+              },
+              {
+                "id": "node-responsive",
+                "label": "Responsive",
+                "description": "Mobile-First & Fluid Units"
+              },
+              {
+                "id": "node-tailwind",
+                "label": "Tailwind",
+                "description": "Utility Classes & Tokens"
+              }
+            ],
+            "connections": [
+              {
+                "from": "node-root",
+                "to": "node-html"
+              },
+              {
+                "from": "node-root",
+                "to": "node-css"
+              },
+              {
+                "from": "node-css",
+                "to": "node-flexbox"
+              },
+              {
+                "from": "node-css",
+                "to": "node-grid"
+              },
+              {
+                "from": "node-css",
+                "to": "node-responsive"
+              },
+              {
+                "from": "node-root",
+                "to": "node-tailwind"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

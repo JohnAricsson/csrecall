@@ -1,0 +1,817 @@
+{
+  "id": "chapter-3",
+  "chapterNumber": 3,
+  "title": "ALGORITHMS — INTERVIEW REVISION CHEAT SHEET",
+  "description": "Goal: Quickly revise core algorithms, time complexity, use cases, edge cases, and common interview traps.",
+  "estimatedMinutes": 60,
+  "sections": [
+    {
+      "id": "section-1",
+      "title": "Searching Algorithms",
+      "topics": [
+        {
+          "id": "topic-1",
+          "title": "Linear Search",
+          "explanation": "Linear Search checks each element one by one from the beginning until the target is found, or the end of the collection is reached.",
+          "tldr": "শুরু থেকে এক এক করে সব element check করে target খোঁজে।",
+          "keyPoints": [
+            "Works on sorted and unsorted data.",
+            "Works with arrays and linked lists.",
+            "Simple to implement.",
+            "Not efficient for large datasets."
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "int linearSearch(int arr[], int size, int target) {\n    for (int i = 0; i < size; i++) {\n        if (arr[i] == target) {\n            return i;\n        }\n    }\n    return -1;\n}",
+              "explanation": "C++ Implementation of Linear Search"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Linear Search Complexity",
+              "headers": ["Case", "Complexity"],
+              "rows": [
+                ["Best Case", "O(1)"],
+                ["Average Case", "O(n)"],
+                ["Worst Case", "O(n)"],
+                ["Space Complexity", "O(1)"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-1-1",
+              "statement": "When is Linear Search better than Binary Search?",
+              "explanation": "Linear Search is useful when the data is unsorted, very small, or stored in a linked list where random access is inefficient.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "topic-2",
+          "title": "Binary Search",
+          "explanation": "Binary Search finds an element in a sorted collection by repeatedly dividing the search space into two halves. The data must be sorted.\nHow It Works: Find the middle element. Compare it with the target. If the target is smaller, search the left half. If the target is larger, search the right half. Repeat until the target is found or no elements remain.",
+          "tldr": "Sorted array হলে মাঝখান থেকে দেখে প্রতি step-এ অর্ধেক data বাদ দেয়।",
+          "keyPoints": [
+            "Prefer: int mid = low + (high - low) / 2; instead of: int mid = (low + high) / 2; The second version may cause integer overflow when low and high are very large."
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "int binarySearch(int arr[], int size, int target) {\n    int low = 0;\n    int high = size - 1;\n    while (low <= high) {\n        int mid = low + (high - low) / 2;\n        if (arr[mid] == target) {\n            return mid;\n        }\n        else if (arr[mid] < target) {\n            low = mid + 1;\n        }\n        else {\n            high = mid - 1;\n        }\n    }\n    return -1;\n}",
+              "explanation": "C++ Implementation of Binary Search"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Binary Search Complexity",
+              "headers": ["Version", "Time Complexity", "Space Complexity"],
+              "rows": [
+                ["Iterative", "O(log n)", "O(1)"],
+                ["Recursive", "O(log n)", "O(log n)"]
+              ]
+            },
+            {
+              "title": "Linear Search vs Binary Search",
+              "headers": ["Feature", "Linear Search", "Binary Search"],
+              "rows": [
+                ["Data Requirement", "Any order", "Sorted"],
+                ["Best Time", "O(1)", "O(1)"],
+                ["Worst Time", "O(n)", "O(log n)"],
+                ["Space", "O(1)", "O(1) iterative"],
+                ["Linked List Friendly", "Yes", "Usually No"],
+                ["Large Sorted Data", "Poor", "Excellent"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-2-1",
+              "statement": "Can Binary Search work on an unsorted array?",
+              "explanation": "No. Standard Binary Search requires sorted data.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-2-2",
+              "statement": "What happens if duplicate elements exist in Binary Search?",
+              "explanation": "Standard Binary Search may return any matching index. Finding the first or last occurrence requires a modified Binary Search.",
+              "category": "interview-gotcha"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-2",
+      "title": "Basic Sorting Algorithms",
+      "topics": [
+        {
+          "id": "topic-3",
+          "title": "Bubble Sort",
+          "explanation": "Bubble Sort repeatedly compares adjacent elements and swaps them if they are in the wrong order. After each pass, the largest unsorted element moves to its correct position.",
+          "tldr": "পাশের দুইটা element compare করে swap করতে করতে বড় element শেষে চলে যায়।",
+          "keyPoints": [
+            "In-place: Yes",
+            "Stable: Yes",
+            "Easy to understand",
+            "Poor performance for large datasets"
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "void bubbleSort(int arr[], int n) {\n    bool swapped;\n    for (int i = 0; i < n - 1; i++) {\n        swapped = false;\n        for (int j = 0; j < n - i - 1; j++) {\n            if (arr[j] > arr[j + 1]) {\n                swap(arr[j], arr[j + 1]);\n                swapped = true;\n            }\n        }\n        if (!swapped) {\n            break;\n        }\n    }\n}",
+              "explanation": "C++ Implementation of Bubble Sort"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Bubble Sort Complexity",
+              "headers": ["Case", "Complexity"],
+              "rows": [
+                ["Best Case", "O(n) with early exit"],
+                ["Average Case", "O(n²)"],
+                ["Worst Case", "O(n²)"],
+                ["Space", "O(1)"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-3-1",
+              "statement": "Why can Bubble Sort have O(n) best-case complexity?",
+              "explanation": "With a swapped flag, the algorithm stops after the first pass if no swaps occur, meaning the array is already sorted.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "topic-4",
+          "title": "Selection Sort",
+          "explanation": "Selection Sort repeatedly finds the smallest element from the unsorted portion and places it at the beginning of that portion.",
+          "tldr": "প্রতি round-এ সবচেয়ে ছোট element খুঁজে সামনে বসায়।",
+          "keyPoints": [
+            "In-place: Yes",
+            "Stable: No, in the standard implementation",
+            "Performs fewer swaps than Bubble Sort",
+            "Still performs O(n²) comparisons"
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "void selectionSort(int arr[], int n) {\n    for (int i = 0; i < n - 1; i++) {\n        int minIdx = i;\n        for (int j = i + 1; j < n; j++) {\n            if (arr[j] < arr[minIdx]) {\n                minIdx = j;\n            }\n        }\n        swap(arr[i], arr[minIdx]);\n    }\n}",
+              "explanation": "C++ Implementation of Selection Sort"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Selection Sort Complexity",
+              "headers": ["Case", "Complexity"],
+              "rows": [
+                ["Best Case", "O(n²)"],
+                ["Average Case", "O(n²)"],
+                ["Worst Case", "O(n²)"],
+                ["Space", "O(1)"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-4-1",
+              "statement": "Why is Selection Sort always O(n²), even if the array is already sorted?",
+              "explanation": "It still scans the remaining unsorted portion to find the minimum element during every pass.",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "topic-5",
+          "title": "Insertion Sort",
+          "explanation": "Insertion Sort builds a sorted portion of the array one element at a time. Each new element is inserted into its correct position within the already sorted portion.",
+          "tldr": "এক একটা element নিয়ে আগে sorted থাকা অংশে সঠিক জায়গায় ঢুকায়।",
+          "keyPoints": [
+            "In-place: Yes",
+            "Stable: Yes",
+            "Excellent for small datasets",
+            "Efficient for nearly sorted arrays"
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "void insertionSort(int arr[], int n) {\n    for (int i = 1; i < n; i++) {\n        int key = arr[i];\n        int j = i - 1;\n        while (j >= 0 && arr[j] > key) {\n            arr[j + 1] = arr[j];\n            j--;\n        }\n        arr[j + 1] = key;\n    }\n}",
+              "explanation": "C++ Implementation of Insertion Sort"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Insertion Sort Complexity",
+              "headers": ["Case", "Complexity"],
+              "rows": [
+                ["Best Case", "O(n)"],
+                ["Average Case", "O(n²)"],
+                ["Worst Case", "O(n²)"],
+                ["Space", "O(1)"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-5-1",
+              "statement": "When is Insertion Sort useful in practice?",
+              "explanation": "For small arrays or nearly sorted data. It is also used as part of some hybrid sorting algorithms.",
+              "category": "interview-gotcha"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-3",
+      "title": "Divide and Conquer Sorting & Concepts",
+      "topics": [
+        {
+          "id": "topic-6",
+          "title": "Merge Sort",
+          "explanation": "Merge Sort is a divide-and-conquer algorithm that divides the array into two halves, recursively sorts each half, and merges the sorted halves.",
+          "tldr": "Array-কে ছোট ছোট ভাগ করে sort করে পরে merge করে।",
+          "keyPoints": [
+            "Stable: Yes",
+            "Guaranteed O(n log n): Yes",
+            "In-place for arrays: No",
+            "Good for Linked Lists",
+            "Requires extra memory for arrays"
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "void merge(int arr[], int l, int m, int r) {\n    int n1 = m - l + 1;\n    int n2 = r - m;\n    vector<int> left(n1);\n    vector<int> right(n2);\n    for (int i = 0; i < n1; i++) {\n        left[i] = arr[l + i];\n    }\n    for (int j = 0; j < n2; j++) {\n        right[j] = arr[m + 1 + j];\n    }\n    int i = 0;\n    int j = 0;\n    int k = l;\n    while (i < n1 && j < n2) {\n        if (left[i] <= right[j]) {\n            arr[k++] = left[i++];\n        } else {\n            arr[k++] = right[j++];\n        }\n    }\n    while (i < n1) {\n        arr[k++] = left[i++];\n    }\n    while (j < n2) {\n        arr[k++] = right[j++];\n    }\n}\nvoid mergeSort(int arr[], int l, int r) {\n    if (l >= r) {\n        return;\n    }\n    int m = l + (r - l) / 2;\n    mergeSort(arr, l, m);\n    mergeSort(arr, m + 1, r);\n    merge(arr, l, m, r);\n}",
+              "explanation": "C++ Implementation of Merge Sort"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Merge Sort Complexity",
+              "headers": ["Case", "Complexity"],
+              "rows": [
+                ["Best Case", "O(n log n)"],
+                ["Average Case", "O(n log n)"],
+                ["Worst Case", "O(n log n)"],
+                ["Space", "O(n)"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-6-1",
+              "statement": "Why is Merge Sort preferred for Linked Lists?",
+              "explanation": "Linked Lists can be split and merged efficiently using pointers without requiring random access.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "topic-7",
+          "title": "Quick Sort",
+          "explanation": "Quick Sort is a divide-and-conquer algorithm that selects a pivot, places smaller elements on one side, places larger elements on the other side, and recursively sorts both partitions.",
+          "tldr": "একটা pivot ধরে ছোটগুলো এক পাশে, বড়গুলো আরেক পাশে রেখে recursively sort করে।",
+          "keyPoints": [
+            "Stable: No",
+            "Usually in-place",
+            "Fast in practice",
+            "Worst case depends heavily on pivot selection",
+            "Avoiding Worst Case: Use better pivot strategies: Random pivot, Median-of-three, Three-way partitioning for many duplicates"
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "int partition(int arr[], int low, int high) {\n    int pivot = arr[high];\n    int i = low - 1;\n    for (int j = low; j < high; j++) {\n        if (arr[j] < pivot) {\n            i++;\n            swap(arr[i], arr[j]);\n        }\n    }\n    swap(arr[i + 1], arr[high]);\n    return i + 1;\n}\nvoid quickSort(int arr[], int low, int high) {\n    if (low < high) {\n        int pivotIndex = partition(arr, low, high);\n        quickSort(arr, low, pivotIndex - 1);\n        quickSort(arr, pivotIndex + 1, high);\n    }\n}",
+              "explanation": "C++ Implementation — Lomuto Partition"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Quick Sort Complexity",
+              "headers": ["Case", "Complexity"],
+              "rows": [
+                ["Best Case", "O(n log n)"],
+                ["Average Case", "O(n log n)"],
+                ["Worst Case", "O(n²)"],
+                ["Average Space", "O(log n) recursion stack"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-7-1",
+              "statement": "When does Quick Sort become O(n²)?",
+              "explanation": "When partitions are consistently unbalanced, such as repeatedly choosing the smallest or largest element as the pivot.",
+              "category": "common-mistake"
+            }
+          ]
+        },
+        {
+          "id": "topic-8",
+          "title": "Important Sorting Concepts & Master Comparison",
+          "explanation": "A sorting algorithm is stable if elements with equal keys maintain their original relative order. An in-place algorithm uses only a small constant amount of extra memory.",
+          "tldr": "একই value থাকলে stable sort তাদের আগের order নষ্ট করে না। নতুন বড় memory না নিয়ে existing array-তেই কাজ করলে in-place।",
+          "keyPoints": [
+            "Common Stable Algorithms: Bubble Sort, Insertion Sort, Merge Sort",
+            "Common Unstable Algorithms: Selection Sort, Quick Sort",
+            "In-Place Examples: Bubble Sort -> O(1), Selection Sort -> O(1), Insertion Sort -> O(1), Quick Sort -> Usually in-place, but recursion uses stack space",
+            "Not Typically In-Place: Merge Sort for arrays -> O(n) extra space"
+          ],
+          "examples": [
+            "Input: (A, 5), (B, 3), (C, 5) -> After stable sorting: (B, 3), (A, 5), (C, 5). A remains before C because both have the same key."
+          ],
+          "comparisons": [
+            {
+              "title": "Sorting Algorithm Master Comparison",
+              "headers": [
+                "Algorithm",
+                "Best",
+                "Average",
+                "Worst",
+                "Space",
+                "Stable"
+              ],
+              "rows": [
+                ["Bubble Sort", "O(n)", "O(n²)", "O(n²)", "O(1)", "✅ Yes"],
+                ["Selection Sort", "O(n²)", "O(n²)", "O(n²)", "O(1)", "❌ No"],
+                ["Insertion Sort", "O(n)", "O(n²)", "O(n²)", "O(1)", "✅ Yes"],
+                [
+                  "Merge Sort",
+                  "O(n log n)",
+                  "O(n log n)",
+                  "O(n log n)",
+                  "O(n)",
+                  "✅ Yes"
+                ],
+                [
+                  "Quick Sort",
+                  "O(n log n)",
+                  "O(n log n)",
+                  "O(n²)",
+                  "O(log n)*",
+                  "❌ No"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-8-1",
+              "statement": "Why does stability matter in sorting?",
+              "explanation": "Stability is important when sorting records by multiple fields while preserving the order established by previous sorting operations.",
+              "category": "interview-gotcha"
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why use low + (high - low) / 2 in Binary Search?",
+              "answer": "It avoids potential integer overflow caused by (low + high)."
+            },
+            {
+              "question": "What is a stable sorting algorithm?",
+              "answer": "A stable sorting algorithm preserves the relative order of elements with equal keys."
+            },
+            {
+              "question": "Why is Merge Sort better for Linked Lists?",
+              "answer": "Linked Lists can be efficiently split and merged using pointers, while Quick Sort relies more heavily on partitioning and efficient element access."
+            },
+            {
+              "question": "When should you choose Merge Sort over Quick Sort?",
+              "answer": "Choose Merge Sort when you need: Stable sorting, Guaranteed O(n log n) performance, Predictable worst-case behavior. Choose Quick Sort when: Extra memory is limited, Average practical performance is more important."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-4",
+      "title": "Greedy Algorithms & Graphs",
+      "topics": [
+        {
+          "id": "topic-9",
+          "title": "Greedy Algorithms & Fractional Knapsack",
+          "explanation": "Greedy Algorithm solves a problem step by step by choosing the best available option at the current moment. Once a decision is made, it usually does not reconsider it.\nAdvantages: Simple, Fast, Often memory efficient.\nLimitation: A locally optimal choice does not always produce a globally optimal solution. \nIn Fractional Knapsack, items can be divided into fractions; the greedy strategy calculates Value / Weight, sorts items by ratio descending, and takes the highest ratio items first.",
+          "tldr": "প্রতি step-এ তখনকার সবচেয়ে ভালো option নেয়। Value/weight ratio সবচেয়ে বেশি যেটার, সেটা আগে নেয়।",
+          "keyPoints": [
+            "Core Idea: Local Best Choice -> Repeat -> Hope for Global Optimal Solution",
+            "Fractional Knapsack: Sort items by value/weight ratio descending, take full item if fits, otherwise take required fraction."
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nstruct Item {\n    int value;\n    int weight;\n};\nbool compare(Item a, Item b) {\n    double ratioA = (double)a.value / a.weight;\n    double ratioB = (double)b.value / b.weight;\n    return ratioA > ratioB;\n}\ndouble fractionalKnapsack(int W, vector<Item>& items) {\n    sort(items.begin(), items.end(), compare);\n    double totalValue = 0.0;\n    for (auto& item : items) {\n        if (W >= item.weight) {\n            W -= item.weight;\n            totalValue += item.value;\n        } else {\n            totalValue += item.value *\n                          ((double)W / item.weight);\n            break;\n        }\n    }\n    return totalValue;\n}",
+              "explanation": "C++ Implementation of Fractional Knapsack"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Fractional Knapsack Complexity",
+              "headers": ["Operation", "Complexity"],
+              "rows": [
+                ["Sorting", "O(n log n)"],
+                ["Item Traversal", "O(n)"],
+                ["Total", "O(n log n)"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-9-1",
+              "statement": "Does every problem have a valid Greedy solution?",
+              "explanation": "No. Greedy algorithms work only when the problem has properties that guarantee local optimal choices lead to a global optimum.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-9-2",
+              "statement": "Can the same Greedy approach solve 0/1 Knapsack?",
+              "explanation": "No. In 0/1 Knapsack, an item must be taken completely or not taken at all. Dynamic Programming is commonly used.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "topic-10",
+          "title": "Minimum Spanning Tree (MST) & Kruskal's Algorithm",
+          "explanation": "Minimum Spanning Tree (MST) is a set of edges that connects all vertices, contains no cycles, and has the minimum possible total edge weight. Requirements: Connected, Undirected, Weighted. For V vertices, it contains exactly V - 1 edges.\nKruskal's Algorithm sorts all edges by increasing weight, picks the smallest edge, and adds it only if it does not create a cycle using Disjoint Set Union (DSU).",
+          "tldr": "সব node connect করবে, cycle থাকবে না, আর মোট cost সবচেয়ে কম হবে। সব edge weight অনুযায়ী sort করে ছোট edge নেয়, তবে cycle হলে নেয় না।",
+          "keyPoints": [
+            "For V vertices, an MST contains exactly V - 1 edges.",
+            "Kruskal Complexity: O(E log E), often expressed as O(E log V) because sorting edges dominates.",
+            "Kruskal is best for sparse graphs and edge-based representations."
+          ],
+          "traps": [
+            {
+              "id": "trap-10-1",
+              "statement": "Can a disconnected graph have a single MST?",
+              "explanation": "No. A disconnected graph produces a Minimum Spanning Forest, not one spanning tree covering all vertices.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-10-2",
+              "statement": "Why is DSU important in Kruskal's Algorithm?",
+              "explanation": "DSU efficiently detects whether adding an edge connects vertices already in the same component, which would create a cycle.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "topic-11",
+          "title": "Disjoint Set Union (DSU)",
+          "explanation": "DSU maintains multiple groups of connected elements using two main operations: Find (finds representative of a set) and Union (merges two sets). Optimizations include Path Compression (points nodes closer to root) and Union by Rank/Size (attaches smaller tree under larger tree).",
+          "tldr": "কোন কোন node একই group-এ আছে সেটা দ্রুত check এবং merge করতে DSU ব্যবহার হয়।"
+        },
+        {
+          "id": "topic-12",
+          "title": "Prim's Algorithm",
+          "explanation": "Prim's Algorithm starts from any vertex, adds the smallest edge connecting the current tree to an unvisited vertex, and repeats until all vertices are included. It uses a Min-Heap / Priority Queue.",
+          "tldr": "একটা node থেকে শুরু করে সবচেয়ে ছোট valid edge নিতে নিতে tree বড় করে।",
+          "keyPoints": [
+            "Time complexity using a binary min-heap: O(E log V)",
+            "Best for dense graphs, adjacency list implementations, and growing the MST from a starting vertex."
+          ],
+          "comparisons": [
+            {
+              "title": "Kruskal vs Prim",
+              "headers": ["Feature", "Kruskal", "Prim"],
+              "rows": [
+                ["Focus", "Edges", "Vertices"],
+                ["Main Data Structure", "DSU", "Min-Heap"],
+                ["Strategy", "Global edge selection", "Grow one tree"],
+                ["Good For", "Sparse graphs", "Dense graphs"],
+                ["Time Complexity", "O(E log E)", "O(E log V)"],
+                [
+                  "Cycle Detection",
+                  "Explicit using DSU",
+                  "Naturally avoided by visited logic"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-12-1",
+              "statement": "Does Prim's Algorithm need a starting vertex?",
+              "explanation": "Yes, but for a connected graph, starting from different vertices still produces an MST. The exact MST may differ when multiple valid MSTs exist.",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "topic-13",
+          "title": "Dijkstra's Shortest Path Algorithm",
+          "explanation": "Dijkstra's Algorithm finds the shortest path from a source vertex to all other vertices in a weighted graph. Requirement: All edge weights must be non-negative.\nHow It Works: Start from the source vertex. Set source distance to 0, all others to infinity. Select unvisited vertex with smallest known distance, relax its neighboring edges, and repeat.",
+          "tldr": "Source থেকে সবচেয়ে কম distance-এর node আগে নিয়ে পাশের distance update করে।",
+          "keyPoints": [
+            "Complexity using a priority queue: O((V + E) log V), commonly simplified to O(E log V)."
+          ],
+          "traps": [
+            {
+              "id": "trap-13-1",
+              "statement": "Why does Dijkstra fail with negative edge weights?",
+              "explanation": "Dijkstra assumes that once a shortest distance is finalized, it cannot become smaller later. Negative edges can violate this assumption.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-13-2",
+              "statement": "What algorithm can handle negative weights?",
+              "explanation": "Bellman-Ford can handle negative edge weights and can also detect negative cycles.",
+              "category": "interview-gotcha"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-5",
+      "title": "Dynamic Programming",
+      "topics": [
+        {
+          "id": "topic-14",
+          "title": "Dynamic Programming Concepts",
+          "explanation": "Dynamic Programming (DP) solves complex problems by breaking them into smaller subproblems, solving subproblems, storing results, and reusing previous results.\nTwo Key Properties: 1. Overlapping Subproblems (same subproblem appears multiple times).\n2. Optimal Substructure (optimal solution can be built from optimal solutions to smaller subproblems).\nTwo Main Approaches: Memoization — Top Down (uses recursion, stores computed results, computes only required states) and Tabulation — Bottom Up (uses iteration, starts from smaller states, builds toward final answer).",
+          "tldr": "একই problem বারবার solve না করে আগের answer store করে reuse করে। Greedy এখনকার best নেয়, DP আগের result মনে রেখে overall best বের করে।",
+          "keyPoints": [
+            "Easy Memory Trick: Greedy = Best choice NOW, DP = Best answer using remembered results."
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "int fib(int n) {\n    if (n <= 1) {\n        return n;\n    }\n    return fib(n - 1) + fib(n - 2);\n}",
+              "explanation": "Recursive Fibonacci — Inefficient (Time: O(2^n))"
+            },
+            {
+              "language": "cpp",
+              "code": "vector<int> dp;\nint fib(int n) {\n    if (n <= 1) {\n        return n;\n    }\n    if (dp[n] != -1) {\n        return dp[n];\n    }\n    return dp[n] = fib(n - 1) + fib(n - 2);\n}",
+              "explanation": "Memoization (Time: O(n), Space: O(n))"
+            },
+            {
+              "language": "cpp",
+              "code": "int fib(int n) {\n    if (n <= 1) {\n        return n;\n    }\n    vector<int> dp(n + 1);\n    dp[0] = 0;\n    dp[1] = 1;\n    for (int i = 2; i <= n; i++) {\n        dp[i] = dp[i - 1] + dp[i - 2];\n    }\n    return dp[n];\n}",
+              "explanation": "Tabulation (Bottom Up)"
+            }
+          ],
+          "comparisons": [
+            {
+              "title": "Greedy vs Dynamic Programming",
+              "headers": ["Feature", "Greedy", "Dynamic Programming"],
+              "rows": [
+                ["Decision", "Local optimum", "Considers subproblems"],
+                ["Revisits Decisions", "Usually No", "Uses previous states"],
+                ["Speed", "Usually Faster", "Can be slower"],
+                ["Memory", "Usually Less", "Often More"],
+                [
+                  "Global Optimality",
+                  "Not Always",
+                  "Can guarantee optimal solution"
+                ],
+                ["Example", "Fractional Knapsack", "0/1 Knapsack"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-14-1",
+              "statement": "When should you use DP?",
+              "explanation": "Use DP when a problem has overlapping subproblems and optimal substructure.",
+              "category": "conceptual"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6",
+      "title": "Interview Q&A & Rapid Revision",
+      "description": "High-frequency interview questions, pitfalls, revision flashcards, and algorithm memory map.",
+      "topics": [
+        {
+          "id": "topic-15",
+          "title": "HIGH-FREQUENCY INTERVIEW Q&A",
+          "questions": [
+            {
+              "question": "When does Quick Sort degrade to O(n²), and how can it be prevented?",
+              "answer": "Quick Sort degrades to O(n²) when the chosen pivot consistently divides the array unevenly (e.g., choosing the first or last element on already sorted data). It is mitigated using Randomized Pivot selection or the Median-of-Three strategy."
+            },
+            {
+              "question": "What is the difference between Stable and Unstable sorting algorithms?",
+              "answer": "A stable sort preserves the original relative order of elements with equal keys (e.g., Merge Sort, Insertion Sort). An unstable sort does not guarantee this order (e.g., Quick Sort, Selection Sort, Heap Sort)."
+            },
+            {
+              "question": "Why does Dijkstra's algorithm fail with negative edge weights?",
+              "answer": "Dijkstra relies on a greedy premise: once a vertex is extracted from the priority queue, its shortest distance is finalized. A negative edge encountered later can produce a shorter path to an already processed node, violating this assumption. Use Bellman-Ford instead."
+            },
+            {
+              "question": "Kruskal's vs Prim's algorithm: Which one should you choose?",
+              "answer": "Kruskal's runs in O(E log E) using Disjoint Set Union (DSU) and is ideal for sparse graphs. Prim's runs in O(E log V) using a Min-Heap and is faster for dense graphs where E is close to V²."
+            },
+            {
+              "question": "What is the fundamental difference between Minimum Spanning Tree (MST) and Shortest Path?",
+              "answer": "An MST minimizes the total cumulative weight of all connecting edges across the entire graph without cycles. A Shortest Path algorithm minimizes the path distance between a specific source and target node."
+            },
+            {
+              "question": "Greedy vs Dynamic Programming: When does Greedy fail?",
+              "answer": "Greedy makes the immediate locally optimal choice without backtracking. It fails when a locally suboptimal step is required to achieve a globally optimal solution (e.g., 0/1 Knapsack fails with Greedy but succeeds with DP)."
+            },
+            {
+              "question": "What are the two prerequisites for solving a problem with Dynamic Programming?",
+              "answer": "1. Overlapping Subproblems (the same subproblems are solved repeatedly). 2. Optimal Substructure (the optimal solution to the problem contains optimal solutions to its subproblems)."
+            }
+          ]
+        },
+        {
+          "id": "topic-16",
+          "title": "RAPID REVISION FLASHCARDS & FINAL TRAPS",
+          "explanation": "Quick revision flashcards, common algorithmic traps, interview answering strategy, and complete visual memory map.",
+          "keyPoints": [
+            "Interview Golden Rule Order: 1. Problem Solved -> 2. Core Intuition -> 3. Data Structure Used -> 4. Time & Space Complexity -> 5. Use Cases -> 6. Edge Cases & Constraints.",
+            "Answering Formula: Definition -> Approach -> Complexity -> Trade-off"
+          ],
+          "flashcards": [
+            {
+              "id": "fc-1",
+              "question": "What is the main requirement for Binary Search?",
+              "answer": "The collection must be sorted and support O(1) random index access.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-2",
+              "question": "Which basic sorting algorithm is best for nearly sorted data?",
+              "answer": "Insertion Sort, running in nearly O(n) time.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-3",
+              "question": "Which sorting algorithm guarantees O(n log n) in all cases?",
+              "answer": "Merge Sort.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-4",
+              "question": "Why can Quick Sort become O(n²)?",
+              "answer": "Poor pivot selection causing heavily unbalanced sub-arrays.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-5",
+              "question": "What does a stable sorting algorithm guarantee?",
+              "answer": "Equal elements preserve their original relative ordering.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-6",
+              "question": "What data structure does Kruskal's Algorithm use?",
+              "answer": "Disjoint Set Union (DSU) / Union-Find.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-7",
+              "question": "What data structure is commonly used in Prim's Algorithm?",
+              "answer": "Min-Heap / Priority Queue.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-8",
+              "question": "Can Dijkstra handle negative edge weights?",
+              "answer": "No. Use Bellman-Ford instead.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-9",
+              "question": "What are the two main properties required for Dynamic Programming?",
+              "answer": "Overlapping subproblems and optimal substructure.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-10",
+              "question": "What is the difference between Greedy and DP?",
+              "answer": "Greedy commits to the best local choice immediately; DP evaluates and memoizes subproblem outcomes.",
+              "difficulty": "medium"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-final-1",
+              "statement": "Binary Search works directly on any collection.",
+              "explanation": "Binary search requires sorted data and random index access (e.g., Arrays, not standard Linked Lists).",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-2",
+              "statement": "Quick Sort is always O(n log n).",
+              "explanation": "Worst-case time complexity is O(n²) if partitions are unbalanced.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-final-3",
+              "statement": "Standard Merge Sort is an in-place sort.",
+              "explanation": "Standard Merge Sort requires O(n) auxiliary space for merging arrays.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-final-4",
+              "statement": "Dijkstra works with negative edges as long as there are no negative cycles.",
+              "explanation": "Dijkstra fails on any negative edge weight because its greedy distance finalization is broken.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-5",
+              "statement": "Greedy algorithms always yield the optimal solution.",
+              "explanation": "Greedy only guarantees optimality when the problem exhibits the greedy choice property and optimal substructure.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-final-6",
+              "statement": "A Minimum Spanning Tree (MST) guarantees the shortest path between two vertices.",
+              "explanation": "MST minimizes the total sum of all edge weights in the graph, not the path distance between any specific pair.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-final-7",
+              "statement": "Divide & Conquer and Dynamic Programming are identical.",
+              "explanation": "Divide & Conquer solves independent subproblems; DP is specifically used when subproblems overlap.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-final-8",
+              "statement": "Bubble Sort is faster than Selection Sort because it can terminate early.",
+              "explanation": "While optimized Bubble Sort can terminate early in O(n), both are O(n²) average/worst case, and Selection Sort minimizes memory writes (O(n) swaps).",
+              "category": "common-mistake"
+            }
+          ],
+          "memoryMap": {
+            "nodes": [
+              { "id": "algos", "label": "ALGORITHMS" },
+              { "id": "search", "label": "Searching" },
+              {
+                "id": "l-search",
+                "label": "Linear Search",
+                "description": "O(n), works on unsorted data"
+              },
+              {
+                "id": "b-search",
+                "label": "Binary Search",
+                "description": "O(log n), requires sorted random-access data"
+              },
+              { "id": "sort", "label": "Sorting" },
+              {
+                "id": "quad-sort",
+                "label": "O(n²) Sorts",
+                "description": "Bubble (Stable), Selection (O(n) swaps), Insertion (Adaptive)"
+              },
+              {
+                "id": "merge-sort",
+                "label": "Merge Sort",
+                "description": "O(n log n) guaranteed, Stable, O(n) space"
+              },
+              {
+                "id": "quick-sort",
+                "label": "Quick Sort",
+                "description": "Avg O(n log n), Worst O(n²), In-place, Cache-friendly"
+              },
+              { "id": "paradigm", "label": "Design Paradigms" },
+              {
+                "id": "greedy",
+                "label": "Greedy",
+                "description": "Local optimum -> Fractional Knapsack, Activity Selection"
+              },
+              {
+                "id": "dp",
+                "label": "Dynamic Programming",
+                "description": "Overlapping Subproblems + Memoization/Tabulation"
+              },
+              { "id": "graph-algos", "label": "Graph Algorithms" },
+              {
+                "id": "mst",
+                "label": "MST",
+                "description": "Kruskal (Edges + DSU), Prim (Vertices + Min-Heap)"
+              },
+              {
+                "id": "shortest-path",
+                "label": "Shortest Path",
+                "description": "Dijkstra (Non-negative weights, Min-Heap)"
+              }
+            ],
+            "connections": [
+              { "from": "algos", "to": "search" },
+              { "from": "search", "to": "l-search" },
+              { "from": "search", "to": "b-search" },
+              { "from": "algos", "to": "sort" },
+              { "from": "sort", "to": "quad-sort" },
+              { "from": "sort", "to": "merge-sort" },
+              { "from": "sort", "to": "quick-sort" },
+              { "from": "algos", "to": "paradigm" },
+              { "from": "paradigm", "to": "greedy" },
+              { "from": "paradigm", "to": "dp" },
+              { "from": "algos", "to": "graph-algos" },
+              { "from": "graph-algos", "to": "mst" },
+              { "from": "graph-algos", "to": "shortest-path" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

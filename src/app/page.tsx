@@ -11,8 +11,6 @@ import { QuestMap } from "@/components/dashboard/QuestMap";
  */
 export default function HomePage() {
   const chapters = getAllChapters();
-  // Chapter 1 is always index 0 (sorted by chapterNumber in the loader)
-  const chapter1 = chapters[0];
 
   return (
     <>
@@ -24,8 +22,7 @@ export default function HomePage() {
         {/* "Your Next Move" — hidden for new users, revealed after first XP */}
         <NextMoveWidget />
 
-        {/* 12-chapter quest map */}
-        {chapter1 && <QuestMap chapter1={chapter1} />}
+        {chapters.length > 0 && <QuestMap chapters={chapters} />}
       </div>
     </>
   );

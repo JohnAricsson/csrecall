@@ -1,31 +1,49 @@
 import { cache } from "react";
+import fs from "fs";
+import path from "path";
 import { validateChapter } from "@/lib/schema";
 import type { Chapter, Flashcard } from "@/lib/schema";
-
-// ─── Raw imports ─────────────────────────────────────────────────────────────
-// Next.js bundles JSON imports at build time, keeping reads out of the hot path.
-
-import chapter1Raw from "@/data/chapters/chapter-1.json";
-
-// ─── Registry ────────────────────────────────────────────────────────────────
-
-const rawChapters: unknown[] = [chapter1Raw];
 
 // ─── Memoised loaders (React cache – one value per request/render) ────────────
 
 /**
  * Returns all validated chapters, sorted by chapterNumber.
- * Validation runs once per server render thanks to React `cache()`.
+ * Reads all .json files from src/data/chapters using fs.
  */
 export const getAllChapters = cache((): Chapter[] => {
-  return rawChapters
-    .map((raw) => validateChapter(raw))
-    .sort((a, b) => a.chapterNumber - b.chapterNumber);
+  const chaptersDirectory = path.join(process.cwd(), "src/data/chapters");
+
+  let filenames: string[] = [];
+  try {
+    filenames = fs.readdirSync(chaptersDirectory);
+    console.log("Detected chapter files:", filenames);
+  } catch (err) {
+    console.error("Error reading chapters directory:", err);
+    return [];
+  }
+
+  const jsonFiles = filenames.filter((file) =>
+    file.toLowerCase().endsWith(".json"),
+  );
+  const chapters: Chapter[] = [];
+
+  for (const file of jsonFiles) {
+    const filePath = path.join(chaptersDirectory, file);
+    try {
+      const fileContents = fs.readFileSync(filePath, "utf8");
+      const rawJson = JSON.parse(fileContents);
+      const chapter = validateChapter(rawJson);
+      chapters.push(chapter);
+    } catch (err) {
+      console.error(`Zod parse error in ${file}:`, err);
+    }
+  }
+
+  return chapters.sort((a, b) => a.chapterNumber - b.chapterNumber);
 });
 
 /**
  * Returns a single validated chapter by its `id` string (e.g. "chapter-1").
- * Returns `undefined` if not found.
  */
 export const getChapterById = cache((id: string): Chapter | undefined => {
   return getAllChapters().find((c) => c.id === id);
@@ -33,7 +51,6 @@ export const getChapterById = cache((id: string): Chapter | undefined => {
 
 /**
  * Collects every flashcard defined across all topics in a chapter.
- * Returns an empty array if the chapter is not found or has no flashcards.
  */
 export const getFlashcardsByChapter = cache((id: string): Flashcard[] => {
   const chapter = getChapterById(id);
