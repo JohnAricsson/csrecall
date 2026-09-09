@@ -107,7 +107,8 @@ function UnlockModal({ chapterId, onClose }: UnlockModalProps) {
           </div>
 
           <p className="text-stone-800 text-sm font-semibold leading-relaxed">
-            Track your XP, build daily streaks, unlock interactive flashcards, and defuse tricky interview gotchas by signing in.
+            Track your XP, build daily streaks, unlock interactive flashcards,
+            and defuse tricky interview gotchas by signing in.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-2.5 pt-2">
@@ -187,6 +188,54 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
     }
   }
 
+  async function handleMasterChapter() {
+    if (status !== "authenticated") {
+      setShowUnlockModal(true);
+      return;
+    }
+
+    if (isChapterCompleted) {
+      return;
+    }
+
+    completeChapter(chapter.id);
+
+    try {
+      const nextChapters = Array.from(
+        new Set([...completedChapterIds, chapter.id]),
+      );
+      const nextXp = useGameStore.getState().xp || 0;
+
+      await fetch("/api/user/progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          xp: nextXp,
+          streakDays: useGameStore.getState().streakDays || 0,
+          completedChapterIds: nextChapters,
+          completedTopics: useGameStore.getState().completedTopics || [],
+          defusedTraps: useGameStore.getState().defusedTrapIds || [],
+          masteredFlashcards:
+            useGameStore.getState().masteredFlashcardIds || [],
+        }),
+      });
+    } catch (err) {
+      console.error("Failed to sync progress:", err);
+    }
+
+    // Multi-colored arcade confetti burst
+    void import("canvas-confetti").then(({ default: confetti }) => {
+      confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 },
+        colors: ["#facc15", "#fb7185", "#34d399", "#38bdf8"],
+        scalar: 1.2,
+        disableForReducedMotion: true,
+      });
+    });
+  }
+
   if (isLockedForGuest) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center p-4 relative overflow-hidden">
@@ -229,15 +278,12 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
       {/* ── Unlock Modal ────────────────────────────────────────────────────── */}
       <AnimatePresence>
         {showUnlockModal && (
-          <UnlockModal
-            chapterId={chapter.id}
-            onClose={handleDismissModal}
-          />
+          <UnlockModal chapterId={chapter.id} onClose={handleDismissModal} />
         )}
       </AnimatePresence>
 
       {/* ── Secondary Control Bar (Floating Neo-Brutalist Panel, offset from Navbar) ── */}
-      <div className="sticky top-20 sm:top-24 z-30 px-4 sm:px-6 mb-6">
+      <div className="sticky top-20 sm:top-24 z-30 px-4 sm:px-6 mb-8 sm:mb-10">
         <div className="bg-[#fffdf7] text-stone-900 border-[3px] border-black shadow-[4px_4px_0px_0px_#000] rounded-2xl p-3 max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           {/* Back + title row */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -325,37 +371,32 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
 
         {/* ── Chapter Complete Button ── */}
         <div className="mt-16 text-center">
-          {isChapterCompleted ? (
-            <div className="inline-flex items-center gap-2.5 bg-emerald-300 text-black border-[3px] border-black px-8 py-4 rounded-2xl shadow-[5px_5px_0px_0px_#000] font-black text-base sm:text-lg">
-              <Trophy className="w-6 h-6 text-black" />
-              <span>Chapter Mastered (+100 XP) 🏆</span>
-            </div>
-          ) : (
-            <button
-              onClick={() => {
-                if (isGuest) {
-                  setShowUnlockModal(true);
-                  return;
-                }
-                completeChapter(chapter.id);
-                // Confetti burst for chapter complete
-                void import("canvas-confetti").then(({ default: confetti }) => {
-                  confetti({
-                    particleCount: 150,
-                    spread: 100,
-                    origin: { y: 0.6 },
-                    colors: ["#facc15", "#fb7185", "#34d399"],
-                    scalar: 1.2,
-                    disableForReducedMotion: true,
-                  });
-                });
-              }}
-              className="inline-flex items-center gap-2.5 px-8 py-4 bg-yellow-300 hover:bg-yellow-200 text-black font-black text-base sm:text-lg rounded-2xl border-[3px] border-black shadow-[5px_5px_0px_0px_#000] transition-all hover:-translate-y-1 hover:shadow-[7px_7px_0px_0px_#000] active:translate-y-0 active:shadow-[1px_1px_0px_0px_#000] cursor-pointer uppercase tracking-wider"
-            >
-              <CheckCircle2 className="w-6 h-6 text-black" strokeWidth={3} />
-              <span>Mark Chapter Complete (+100 XP)</span>
-            </button>
-          )}
+          <button
+            type="button"
+            disabled={isChapterCompleted}
+            onClick={handleMasterChapter}
+            className={cn(
+              "inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl border-[3px] border-black font-black text-base sm:text-lg uppercase tracking-wider transition-all",
+              isChapterCompleted
+                ? "bg-emerald-200 text-emerald-950 border-[3px] border-black opacity-90 cursor-default shadow-[3px_3px_0px_0px_#000]"
+                : "bg-emerald-400 hover:bg-emerald-300 text-stone-950 border-[3px] border-black font-black shadow-[4px_4px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none cursor-pointer hover:-translate-y-0.5",
+            )}
+          >
+            {isChapterCompleted ? (
+              <>
+                <CheckCircle2
+                  className="w-6 h-6 text-emerald-950"
+                  strokeWidth={3}
+                />
+                <span>✓ Chapter Mastered (+100 XP)</span>
+              </>
+            ) : (
+              <>
+                <Trophy className="w-6 h-6 text-stone-950" />
+                <span>Chapter Mastered (+100 XP)</span>
+              </>
+            )}
+          </button>
         </div>
       </div>
     </div>

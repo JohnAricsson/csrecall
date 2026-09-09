@@ -1,99 +1,248 @@
 "use client";
 
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
-import { Shield, Target } from "lucide-react";
-import { Card } from "@/components/ui/Card";
+import { Zap, Target, Trophy, Sparkles } from "lucide-react";
+import type { Chapter } from "@/lib/schema";
 import { Button } from "@/components/ui/Button";
 import { useGameStore } from "@/stores/gameStore";
 import { useHydration } from "@/hooks/useHydration";
+import { isTopicCompleted } from "@/lib/topicUtils";
 
-export function NextMoveWidget() {
+// ─── Title Case Helper ────────────────────────────────────────────────────────
+
+function toTitleCase(title: string): string {
+  const ACRONYMS = new Set([
+    "OOP",
+    "OS",
+    "SQL",
+    "CPU",
+    "RAM",
+    "CAP",
+    "I/O",
+    "API",
+    "REST",
+    "HTTP",
+    "TCP",
+    "IP",
+    "DNS",
+    "ACID",
+    "JVM",
+  ]);
+  return title
+    .split(" ")
+    .map((word) => {
+      if (!word) return "";
+      const cleanWord = word.replace(/[^a-zA-Z0-9/]/g, "").toUpperCase();
+      if (ACRONYMS.has(cleanWord)) {
+        return word.replace(cleanWord, cleanWord);
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(" ");
+}
+
+interface NextMoveWidgetProps {
+  chapters?: Chapter[];
+}
+
+export function NextMoveWidget({ chapters = [] }: NextMoveWidgetProps) {
   const hydrated = useHydration();
-  const { xp, defusedTrapIds, completedChapterIds } = useGameStore();
-  const totalTrapsDefused = defusedTrapIds.length;
+  const { status } = useSession();
+  const completedChapterIds = useGameStore((s) => s.completedChapterIds);
+  const completedTopics = useGameStore((s) => s.completedTopics);
 
-  // Don't render for brand-new users — the hero section is their entry point
   if (!hydrated) return null;
-  const hasStarted =
-    xp > 0 || completedChapterIds.length > 0 || totalTrapsDefused > 0;
-  if (!hasStarted) return null;
 
-  const chapter1Done = completedChapterIds.includes("chapter-1");
+  const isAuthenticated = status === "authenticated";
+
+  // Calculate progress for each chapter
+  const chapterProgressList = chapters.map((chapter) => {
+    const isCompleted = completedChapterIds.includes(chapter.id);
+    const totalTopics = chapter.sections.reduce(
+      (acc, s) => acc + s.topics.length,
+      0,
+    );
+    const finishedTopics = chapter.sections.reduce(
+      (acc, s) =>
+        acc +
+        s.topics.filter((t) =>
+          isTopicCompleted(completedTopics, chapter.id, t.id),
+        ).length,
+      0,
+    );
+
+    const progress = isCompleted
+      ? 100
+      : totalTopics > 0
+        ? Math.round((finishedTopics / totalTopics) * 100)
+        : 0;
+
+    return {
+      chapter,
+      progress,
+      isCompleted,
+    };
+  });
+
+  // ─── Condition Hierarchy & Dynamic Evaluation Logic ─────────────────────────
+
+  // Priority 1: Resume In-Progress Chapter (progress > 0% and < 100%)
+  const inProgressChapters = chapterProgressList.filter(
+    (c) => c.progress > 0 && c.progress < 100,
+  );
+  const highestInProgress =
+    inProgressChapters.length > 0
+      ? inProgressChapters.sort((a, b) => b.progress - a.progress)[0]
+      : null;
+
+  // Priority 3: Arena Mastered (All chapters at 100%)
+  const allMastered =
+    chapters.length > 0 &&
+    chapterProgressList.every((c) => c.isCompleted || c.progress === 100);
+
+  // Priority 2: Next Unlocked Chapter (First chapter with 0% progress)
+  const nextUnlocked =
+    chapterProgressList.find((c) => !c.isCompleted && c.progress === 0) || null;
+
+  let missionData: {
+    icon: typeof Zap;
+    iconBg: string;
+    iconColor: string;
+    pillText: string;
+    pillBg: string;
+    rewardText: string;
+    headline: string;
+    subtitle: string;
+    buttonText: string;
+    href: string;
+  };
+
+  if (highestInProgress) {
+    // Priority 1: Resume In-Progress Chapter
+    const ch = highestInProgress.chapter;
+    const formattedTitle = toTitleCase(ch.title);
+    missionData = {
+      icon: Zap,
+      iconBg: "bg-yellow-300",
+      iconColor: "text-black",
+      pillText: "⚡ ACTIVE OBJECTIVE",
+      pillBg: "bg-yellow-300 text-black",
+      rewardText: "REWARD: +100 XP",
+      headline: `Resume Chapter ${ch.chapterNumber}: ${formattedTitle} (${highestInProgress.progress}% Cleared)`,
+      subtitle: `Jump right back into level ${ch.chapterNumber} to conquer your next interview flashcard or trap!`,
+      buttonText: "Resume Mission →",
+      href: `/chapter/${ch.id}?mode=learn`,
+    };
+  } else if (isAuthenticated && allMastered) {
+    // Priority 3: Arena Mastered (Authenticated user with all 12 chapters 100%)
+    missionData = {
+      icon: Trophy,
+      iconBg: "bg-amber-300",
+      iconColor: "text-black",
+      pillText: "🏆 ARENA MASTER",
+      pillBg: "bg-amber-300 text-black",
+      rewardText: "REWARD: +100 XP",
+      headline: "All Quest Levels Cleared!",
+      subtitle:
+        "You've completed every chapter in the CS Arena! Keep your reflexes sharp with endless flashcard recall drills.",
+      buttonText: "Practice Blitz →",
+      href: `/chapter/chapter-1?mode=practice`,
+    };
+  } else if (isAuthenticated && nextUnlocked) {
+    // Priority 2: Next Unlocked Chapter (Authenticated user starting next chapter)
+    const ch = nextUnlocked.chapter;
+    const formattedTitle = toTitleCase(ch.title);
+    missionData = {
+      icon: Target,
+      iconBg: "bg-sky-300",
+      iconColor: "text-black",
+      pillText: "🎯 NEXT OBJECTIVE",
+      pillBg: "bg-sky-300 text-black",
+      rewardText: "REWARD: +100 XP",
+      headline: `Begin Chapter ${ch.chapterNumber}: ${formattedTitle}`,
+      subtitle:
+        "Dive into core computer science fundamentals and build high-confidence recall for your interviews.",
+      buttonText: "Start Chapter →",
+      href: `/chapter/${ch.id}?mode=learn`,
+    };
+  } else {
+    // Priority 4: Unauthenticated Guest Fallback (or Guest starting out)
+    const ch1 = chapters.find((c) => c.chapterNumber === 1);
+    const ch1Title = ch1
+      ? toTitleCase(ch1.title)
+      : "Programming Concepts & OOP";
+    missionData = {
+      icon: Sparkles,
+      iconBg: "bg-emerald-300",
+      iconColor: "text-black",
+      pillText: "👋 WELCOME RECRUIT",
+      pillBg: "bg-emerald-300 text-black",
+      rewardText: "REWARD: +100 XP",
+      headline: `Start Chapter 1: ${ch1Title}`,
+      subtitle:
+        "Begin your interview preparation journey with object-oriented paradigms and essential language features.",
+      buttonText: "Begin Quest →",
+      href: `/chapter/${ch1?.id || "chapter-1"}?mode=learn`,
+    };
+  }
+
+  const IconComponent = missionData.icon;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 24 }}
+      className="bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000] p-5 sm:p-6 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
     >
-      <Card className="p-5 sm:p-6 border-[3px] border-black bg-[#fffbf0] shadow-[5px_5px_0px_0px_#000] relative overflow-hidden">
-        {/* Comic Accent strip */}
-        <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 border-b-2 border-black" />
-
-        <div className="flex items-start justify-between gap-4">
-          {/* Icon */}
-          <div className="flex-shrink-0 w-11 h-11 rounded-xl border-2 border-black bg-yellow-300 flex items-center justify-center shadow-[2px_2px_0px_0px_#000]">
-            <Target className="w-6 h-6 text-black" strokeWidth={2.5} />
-          </div>
-
-          {/* Text */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[10px] font-black uppercase tracking-widest bg-yellow-300 text-black px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000]">
-                🎯 ACTIVE MISSION
-              </span>
-              <span className="text-xs font-black text-rose-600 uppercase tracking-wider">
-                Daily Focus
-              </span>
-            </div>
-            {chapter1Done ? (
-              <>
-                <h3 className="font-black text-black text-lg sm:text-xl leading-tight">
-                  Chapter 1 Complete! Continue Your Quest 🚀
-                </h3>
-                <p className="text-sm text-stone-700 mt-1 font-bold">
-                  Head over to the Quest Map below to tackle Chapter 2 and
-                  unlock your next level badge.
-                </p>
-              </>
-            ) : (
-              <>
-                <h3 className="font-black text-black text-lg sm:text-xl leading-tight">
-                  Priority Target: Object Inheritance{" "}
-                  <span className="text-rose-600">🪤</span>
-                </h3>
-                <p className="text-sm text-stone-700 mt-1 font-bold">
-                  Defuse the OOP traps before your next mock interview. You have{" "}
-                  <span className="font-black text-black bg-yellow-300 px-1 rounded border border-black">
-                    {totalTrapsDefused}
-                  </span>{" "}
-                  trap
-                  {totalTrapsDefused !== 1 ? "s" : ""} defused so far.
-                </p>
-              </>
-            )}
-          </div>
+      <div className="flex items-start gap-4">
+        {/* Mission Icon */}
+        <div
+          className={`flex-shrink-0 w-12 h-12 rounded-xl border-2 border-black ${missionData.iconBg} flex items-center justify-center shadow-[2px_2px_0px_0px_#000]`}
+        >
+          <IconComponent
+            className={`w-6 h-6 ${missionData.iconColor}`}
+            strokeWidth={2.5}
+          />
         </div>
 
-        {!chapter1Done && (
-          <div className="mt-4 pt-4 border-t-2 border-black/20 flex flex-wrap items-center gap-3">
-            <Link href="/chapter/chapter-1?mode=traps">
-              <Button
-                variant="accent"
-                size="sm"
-                className="shadow-[3px_3px_0px_0px_#000]"
-              >
-                <Shield className="w-4 h-4" strokeWidth={2.5} />
-                Defuse Traps
-              </Button>
-            </Link>
-            <span className="text-xs text-black font-black bg-yellow-200 px-2.5 py-1 rounded-md border border-black shadow-[1px_1px_0px_0px_#000]">
-              ⚡ ~5 min to clear Chapter 1 traps
+        {/* Text Details */}
+        <div className="space-y-1.5">
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000] ${missionData.pillBg}`}
+            >
+              {missionData.pillText}
+            </span>
+            <span className="text-[10px] font-black uppercase tracking-wider bg-yellow-200 text-black px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000]">
+              {missionData.rewardText}
             </span>
           </div>
-        )}
-      </Card>
+
+          <h3 className="font-black text-black text-lg sm:text-xl tracking-tight leading-snug">
+            {missionData.headline}
+          </h3>
+
+          <p className="text-xs sm:text-sm font-bold text-stone-600 max-w-xl leading-relaxed">
+            {missionData.subtitle}
+          </p>
+        </div>
+      </div>
+
+      {/* CTA Button */}
+      <div className="flex-shrink-0 md:self-center mt-2 md:mt-0">
+        <Link href={missionData.href}>
+          <Button
+            variant="primary"
+            size="md"
+            className="w-full md:w-auto font-black shadow-[3px_3px_0px_0px_#000] border-2 border-black hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform flex items-center gap-2 justify-center"
+          >
+            <span>{missionData.buttonText}</span>
+          </Button>
+        </Link>
+      </div>
     </motion.div>
   );
 }

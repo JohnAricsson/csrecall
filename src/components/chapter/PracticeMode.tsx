@@ -1,20 +1,16 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import type { Chapter, Flashcard } from "@/lib/schema";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { ProgressBar } from "@/components/ui/ProgressBar";
 import { cn } from "@/lib/utils";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-/** Pulls flashcards from topic-15 (RAPID REVISION FLASHCARDS). */
+/** Pulls flashcards from topic-15 (RAPID REVISION FLASHCARDS) or fallbacks across chapter. */
 function getFlashcards(chapter: Chapter): Flashcard[] {
   for (const section of chapter.sections) {
     for (const topic of section.topics) {
-      if (topic.id === "topic-15" && topic.flashcards) {
+      if (topic.id === "topic-15" && topic.flashcards && topic.flashcards.length > 0) {
         return topic.flashcards;
       }
     }
@@ -25,116 +21,15 @@ function getFlashcards(chapter: Chapter): Flashcard[] {
   );
 }
 
-// ─── 3D Flash Card ────────────────────────────────────────────────────────────
-
-interface FlashCardProps {
-  card: Flashcard;
-  index: number;
-  total: number;
-  isFlipped: boolean;
-  onFlip: () => void;
-}
-
-function FlashCard({ card, index, total, isFlipped, onFlip }: FlashCardProps) {
-  return (
-    <div
-      className="cursor-pointer select-none"
-      style={{ perspective: "1000px" }}
-      onClick={onFlip}
-      role="button"
-      aria-label="Click or press Space to flip card"
-      tabIndex={0}
-    >
-      <motion.div
-        style={{ transformStyle: "preserve-3d", position: "relative" }}
-        animate={{ rotateY: isFlipped ? 180 : 0 }}
-        transition={{ type: "spring", stiffness: 240, damping: 28 }}
-        className="w-full"
-      >
-        {/* ── Front face ──────────────────────────────────────── */}
-        <div
-          className="w-full min-h-[320px] p-6 sm:p-8 rounded-3xl border-[4px] border-black bg-[#fffdfa] shadow-[8px_8px_0px_0px_#000] flex flex-col justify-between relative overflow-hidden"
-          style={{ backfaceVisibility: "hidden" }}
-        >
-          {/* Top colored accent line */}
-          <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 border-b-2 border-black" />
-
-          <div className="flex items-start justify-between pt-1">
-            <Badge variant="amber" className="shadow-[2px_2px_0px_0px_#000]">
-              Card {index + 1} of {total}
-            </Badge>
-            <span className="text-[11px] text-black font-black uppercase tracking-wider bg-yellow-200 px-2.5 py-0.5 rounded-md border-2 border-black shadow-[1px_1px_0px_0px_#000]">
-              Click or{" "}
-              <kbd className="font-mono text-black font-bold">Space</kbd> to
-              flip
-            </span>
-          </div>
-
-          <div className="my-6 flex items-center justify-center text-center px-2 sm:px-6">
-            <p className="text-black font-black text-xl sm:text-2xl lg:text-3xl leading-snug">
-              {card.question}
-            </p>
-          </div>
-
-          <div className="flex items-center justify-between text-xs font-black text-stone-600 pt-3 border-t-2 border-black/20">
-            <span>Flip to reveal answer</span>
-            <span className="text-rose-600 uppercase tracking-wider">
-              ⚡ Tap or Spacebar
-            </span>
-          </div>
-        </div>
-
-        {/* ── Back face ───────────────────────────────────────── */}
-        <div
-          className="w-full min-h-[320px] p-6 sm:p-8 rounded-3xl border-[4px] border-black bg-emerald-400 shadow-[8px_8px_0px_0px_#000] flex flex-col justify-between absolute inset-0 relative overflow-hidden"
-          style={{
-            backfaceVisibility: "hidden",
-            transform: "rotateY(180deg)",
-          }}
-        >
-          {/* Top colored accent line */}
-          <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-300 border-b-2 border-black" />
-
-          <div className="flex items-start justify-between pt-1">
-            <Badge
-              variant="emerald"
-              className="bg-white text-black border-2 border-black shadow-[2px_2px_0px_0px_#000]"
-            >
-              ✓ Core Answer
-            </Badge>
-            <span className="text-[11px] text-black font-black uppercase tracking-wider bg-yellow-300 px-2.5 py-0.5 rounded-md border-2 border-black shadow-[1px_1px_0px_0px_#000]">
-              1 = Hard · 2 = Nailed
-            </span>
-          </div>
-
-          <div className="my-6 flex items-center justify-center text-center px-2 sm:px-6">
-            <p className="text-black font-black text-lg sm:text-xl lg:text-2xl leading-relaxed">
-              {card.answer}
-            </p>
-          </div>
-
-          <div className="flex items-center justify-between text-xs font-black text-stone-900 pt-3 border-t-2 border-black/20">
-            <span>Rate your recall below:</span>
-            <span className="text-black font-black bg-white px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000]">
-              Nailed it? Press 2 🎯
-            </span>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
 // ─── Empty State ──────────────────────────────────────────────────────────────
 
 function EmptyState() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[50vh] gap-4 text-center">
-      <span className="text-6xl">🎉</span>
-      <h2 className="font-black text-2xl text-stone-900">All Done!</h2>
-      <p className="text-stone-500 font-medium max-w-xs">
-        You&apos;ve reviewed all flashcards. Switch to Traps mode to test your
-        defusal skills.
+    <div className="flex flex-col items-center justify-center min-h-[40vh] gap-4 text-center p-6 bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[6px_6px_0px_0px_#000] max-w-md mx-auto">
+      <span className="text-5xl">🃏</span>
+      <h2 className="font-black text-2xl text-stone-900">No Flashcards Yet</h2>
+      <p className="text-stone-600 font-semibold text-sm">
+        There are no practice cards currently available for this chapter.
       </p>
     </div>
   );
@@ -146,189 +41,153 @@ interface PracticeModeProps {
   chapter: Chapter;
 }
 
-import { useGameStore } from "@/stores/gameStore";
-
 export function PracticeMode({ chapter }: PracticeModeProps) {
-  const allCards = getFlashcards(chapter);
-  const { masterFlashcard } = useGameStore();
+  const flashcards = getFlashcards(chapter);
+  const totalCards = flashcards.length;
 
-  // State
-  const [deck, setDeck] = useState<Flashcard[]>(allCards);
-  const [reviewQueue, setReviewQueue] = useState<Flashcard[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [nailedCount, setNailedCount] = useState(0);
-  const [sessionDone, setSessionDone] = useState(false);
 
-  const currentCard = deck[0] ?? reviewQueue[0] ?? null;
-  const deckIndex = allCards.findIndex((c) => c.id === currentCard?.id);
-  const progress = Math.round((nailedCount / allCards.length) * 100);
-
-  // ── Keyboard shortcuts ─────────────────────────────────────────
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!currentCard) return;
-
-      if (e.key === " ") {
-        e.preventDefault();
-        setIsFlipped((f) => !f);
-      } else if (e.key === "1" || e.code === "Digit1" || e.code === "Numpad1") {
-        e.preventDefault();
-        handleHard();
-      } else if (e.key === "2" || e.code === "Digit2" || e.code === "Numpad2") {
-        e.preventDefault();
-        void handleNailed();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }); // Run on every render to ensure latest state in closure
-
-  // ── Actions ────────────────────────────────────────────────────
-  function advance() {
-    setIsFlipped(false);
-    const newDeck = deck.slice(1);
-    setDeck(newDeck);
-    if (newDeck.length === 0 && reviewQueue.length === 0) {
-      setSessionDone(true);
-    }
-  }
-
-  function handleHard() {
-    if (!currentCard || !isFlipped) return;
-    // Move card to end of review queue
-    if (deck.length > 0) {
-      setReviewQueue((q) => [...q, currentCard]);
-      advance();
-    } else {
-      // Already in reviewQueue — reshuffle it to end
-      const [, ...rest] = reviewQueue;
-      setReviewQueue([...rest, currentCard]);
-      setIsFlipped(false);
-    }
-  }
-
-  async function handleNailed() {
-    if (!currentCard || !isFlipped) return;
-    // Confetti burst
-    void import("canvas-confetti").then(({ default: confetti }) => {
-      confetti({
-        particleCount: 60,
-        spread: 80,
-        origin: { x: 0.5, y: 0.6 },
-        colors: ["#10b981", "#6ee7b7", "#d1fae5", "#f59e0b"],
-        scalar: 0.9,
-        disableForReducedMotion: true,
-      });
-    });
-    setNailedCount((n) => n + 1);
-    masterFlashcard(currentCard.id);
-
-    if (deck.length > 0) {
-      advance();
-    } else {
-      const [, ...rest] = reviewQueue;
-      setReviewQueue(rest);
-      setIsFlipped(false);
-      if (rest.length === 0) setSessionDone(true);
-    }
-  }
-
-  if (sessionDone || !currentCard) {
+  if (totalCards === 0) {
     return <EmptyState />;
   }
 
-  const displayIndex = deckIndex >= 0 ? deckIndex : allCards.length - 1;
+  const currentCard = flashcards[currentIndex];
+
+  function handleFlip() {
+    setIsFlipped((prev) => !prev);
+  }
+
+  function handlePrevious() {
+    setIsFlipped(false);
+    setCurrentIndex((prev) => Math.max(0, prev - 1));
+  }
+
+  function handleNext() {
+    setIsFlipped(false);
+    setCurrentIndex((prev) => Math.min(totalCards - 1, prev + 1));
+  }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      {/* Progress */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs font-black text-yellow-200 uppercase tracking-widest drop-shadow-[1px_1px_0px_#000]">
-          <span>Session Progress</span>
-          <span className="bg-yellow-300 text-black px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000]">
-            {nailedCount} / {allCards.length} nailed
-          </span>
+    <div className="max-w-2xl mx-auto pt-12 sm:pt-16 pb-6">
+      {/* ── 3D Tap-to-Flip Viewer Container ── */}
+      <div
+        onClick={handleFlip}
+        role="button"
+        tabIndex={0}
+        aria-label="Tap to flip card"
+        className="relative w-full max-w-2xl mx-auto h-[320px] sm:h-[360px] [perspective:1000px] cursor-pointer select-none"
+      >
+        {/* Rotating canvas */}
+        <div
+          style={{
+            transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+            transformStyle: "preserve-3d",
+          }}
+          className={cn(
+            "relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d]",
+            isFlipped && "[transform:rotateY(180deg)]",
+          )}
+        >
+          {/* ── Front Face (Question) ── */}
+          <div
+            style={{ backfaceVisibility: "hidden" }}
+            className="absolute inset-0 w-full h-full [backface-visibility:hidden] bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[6px_6px_0px_0px_#000] p-6 sm:p-8 flex flex-col justify-between select-none overflow-hidden"
+          >
+            {/* Top accent border */}
+            <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 border-b-2 border-black" />
+
+            {/* Top header row */}
+            <div className="flex items-center justify-between pt-1">
+              <span className="bg-amber-300 text-stone-950 font-black text-xs sm:text-sm px-3 py-1 rounded-lg border-2 border-black shadow-[2px_2px_0px_0px_#000] uppercase tracking-wider">
+                CARD {currentIndex + 1} OF {totalCards}
+              </span>
+              <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider bg-yellow-200 text-stone-950 px-2.5 py-1 rounded-md border-2 border-black shadow-[1px_1px_0px_0px_#000]">
+                TAP TO FLIP 🔄
+              </span>
+            </div>
+
+            {/* Center: Question Text */}
+            <div className="my-auto flex items-center justify-center text-center px-2 sm:px-6">
+              <p className="text-xl md:text-2xl font-black text-stone-900 text-center leading-snug">
+                {currentCard.question}
+              </p>
+            </div>
+
+            {/* Bottom hint pill */}
+            <div className="flex items-center justify-between text-xs font-black text-stone-600 pt-3 border-t-2 border-black/20">
+              <span className="text-stone-700">⚡ Click anywhere to reveal answer</span>
+              <span className="text-rose-600 uppercase tracking-wider font-black">
+                Tap Card 👆
+              </span>
+            </div>
+          </div>
+
+          {/* ── Back Face (Answer) ── */}
+          <div
+            style={{
+              backfaceVisibility: "hidden",
+              transform: "rotateY(180deg)",
+            }}
+            className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] bg-emerald-400 text-stone-950 border-[3px] border-black rounded-2xl shadow-[6px_6px_0px_0px_#000] p-6 sm:p-8 flex flex-col justify-between select-none overflow-hidden"
+          >
+            {/* Top accent border */}
+            <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-300 border-b-2 border-black" />
+
+            {/* Top header row */}
+            <div className="flex items-center justify-between pt-1">
+              <span className="bg-white text-stone-950 font-black text-xs sm:text-sm px-3 py-1 rounded-lg border-2 border-black shadow-[2px_2px_0px_0px_#000] uppercase tracking-wider">
+                ✓ CORE ANSWER
+              </span>
+              <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider bg-yellow-300 text-stone-950 px-2.5 py-1 rounded-md border-2 border-black shadow-[1px_1px_0px_0px_#000]">
+                CARD {currentIndex + 1} OF {totalCards}
+              </span>
+            </div>
+
+            {/* Center: Answer Text */}
+            <div className="my-auto flex items-center justify-center text-center px-2 sm:px-6">
+              <p className="text-lg md:text-xl font-black text-stone-950 text-center leading-relaxed">
+                {currentCard.answer}
+              </p>
+            </div>
+
+            {/* Bottom hint */}
+            <div className="flex items-center justify-between text-xs font-black text-stone-900 pt-3 border-t-2 border-black/20">
+              <span>Tap to flip back</span>
+              <span className="bg-white text-stone-950 px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000] uppercase tracking-wider font-black">
+                TAP TO FLIP BACK 🔄
+              </span>
+            </div>
+          </div>
         </div>
-        <ProgressBar value={progress} variant="readiness" />
-        {reviewQueue.length > 0 && (
-          <p className="text-xs text-amber-200 font-black bg-black/40 px-3 py-1 rounded-lg border border-black/60 inline-block">
-            🔄 {reviewQueue.length} card{reviewQueue.length > 1 ? "s" : ""} to
-            review again
-          </p>
-        )}
       </div>
 
-      {/* Card */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentCard.id}
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -40 }}
-          transition={{ type: "spring", stiffness: 300, damping: 28 }}
+      {/* ── Arcade Navigation Controls Below Card ── */}
+      <div className="mt-8 flex items-center justify-center gap-4">
+        <button
+          type="button"
+          disabled={currentIndex === 0}
+          onClick={handlePrevious}
+          className="bg-stone-200 hover:bg-stone-300 disabled:opacity-40 disabled:cursor-not-allowed text-black font-black text-sm md:text-base px-5 py-2.5 rounded-xl border-[3px] border-black shadow-[3px_3px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center gap-2"
         >
-          <FlashCard
-            card={currentCard}
-            index={displayIndex}
-            total={allCards.length}
-            isFlipped={isFlipped}
-            onFlip={() => setIsFlipped((f) => !f)}
-          />
-        </motion.div>
-      </AnimatePresence>
+          <span>←</span>
+          <span>Previous</span>
+        </button>
 
-      {/* Rating buttons — only visible when flipped */}
-      <AnimatePresence>
-        {isFlipped && (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
-            transition={{ type: "spring", stiffness: 400, damping: 28 }}
-            className="flex gap-3 justify-center"
-          >
-            <Button
-              variant="danger"
-              size="lg"
-              onClick={handleHard}
-              className="flex-1 max-w-[200px] cursor-pointer"
-            >
-              <span>🔴 Hard / Again</span>
-              <kbd className="ml-auto px-2 py-0.5 rounded-md border-2 border-black bg-white text-black text-xs font-mono font-black shadow-[2px_2px_0px_0px_#000]">
-                1
-              </kbd>
-            </Button>
-            <Button
-              variant="success"
-              size="lg"
-              onClick={() => void handleNailed()}
-              className="flex-1 max-w-[200px] cursor-pointer"
-            >
-              <span>🟢 Nailed It!</span>
-              <kbd className="ml-auto px-2 py-0.5 rounded-md border-2 border-black bg-white text-black text-xs font-mono font-black shadow-[2px_2px_0px_0px_#000]">
-                2
-              </kbd>
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <span className="text-xs sm:text-sm font-black text-stone-900 bg-[#fffdf7] px-3.5 py-2 rounded-xl border-2 border-black shadow-[2px_2px_0px_0px_#000]">
+          {currentIndex + 1} / {totalCards}
+        </span>
 
-      {/* Keyboard hint */}
-      <p className="text-center text-xs text-yellow-100 font-bold drop-shadow-[1px_1px_0px_#000]">
-        <kbd className="px-2 py-0.5 rounded-md border-2 border-black bg-white text-black font-mono font-bold shadow-[2px_2px_0px_0px_#000]">
-          Space
-        </kbd>{" "}
-        to flip &nbsp;·&nbsp;{" "}
-        <kbd className="px-2 py-0.5 rounded-md border-2 border-black bg-white text-black font-mono font-bold shadow-[2px_2px_0px_0px_#000]">
-          1
-        </kbd>{" "}
-        Hard &nbsp;·&nbsp;{" "}
-        <kbd className="px-2 py-0.5 rounded-md border-2 border-black bg-white text-black font-mono font-bold shadow-[2px_2px_0px_0px_#000]">
-          2
-        </kbd>{" "}
-        Nailed
-      </p>
+        <button
+          type="button"
+          disabled={currentIndex === totalCards - 1}
+          onClick={handleNext}
+          className="bg-amber-400 hover:bg-amber-300 disabled:opacity-40 disabled:cursor-not-allowed text-black font-black text-sm md:text-base px-6 py-2.5 rounded-xl border-[3px] border-black shadow-[3px_3px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center gap-2"
+        >
+          <span>Next</span>
+          <span>→</span>
+        </button>
+      </div>
     </div>
   );
 }

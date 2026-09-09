@@ -29,9 +29,6 @@ export function Navbar() {
             <span className="tracking-tight text-xl font-black text-black">
               CS<span className="text-rose-600">RECALL</span>
             </span>
-            <span className="hidden sm:inline-block text-[10px] font-black uppercase tracking-wider bg-yellow-300 text-black px-2 py-0.5 rounded-md border border-black rotate-[-2deg] shadow-[1px_1px_0px_0px_#000]">
-              ARCADE
-            </span>
           </div>
         </Link>
 

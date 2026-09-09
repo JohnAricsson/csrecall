@@ -377,7 +377,7 @@ const STAT_ITEMS: FeatureFlipCardProps[] = [
     detail: "Quick spaced-repetition cards to build recall.",
     backTitle: "Fast Review Sessions",
     backDetail:
-      "Flip cards using Spacebar, tap 1 for Hard, or tap 2 for Nailed to lock key terms in memory.",
+      "Tap to flip through rapid-fire CS concept decks and lock core definitions into memory.",
     backTag: "Recall",
     confettiColors: ["#f59e0b", "#fbbf24", "#fde047", "#d97706"], // Solar gold burst
     cardBg: "bg-[#fffbf0]",
@@ -386,9 +386,9 @@ const STAT_ITEMS: FeatureFlipCardProps[] = [
   {
     icon: ShieldAlert,
     accent: "bg-rose-300",
-    badge: "60+ Traps",
+    badge: "200+ Traps",
     badgeClass: "bg-rose-400 text-black",
-    value: "60+",
+    value: "200+",
     unit: "Traps",
     title: "60+ Interview Traps",
     detail: "Learn the trick questions interviewers love to ask.",
@@ -437,14 +437,14 @@ export function HeroSection() {
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
             >
               <Zap className="w-4 h-4 fill-black text-black" />
-              ARCADE INTERVIEW ARENA
+              INTERVIEW REVISION ARENA
             </motion.div>
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight mb-4 text-white drop-shadow-[3px_3px_0px_#000]">
               CRACK THE CODE.{" "}
               <span className="inline-block mt-2 px-3 py-1 bg-yellow-300 text-black border-[3px] border-black shadow-[4px_4px_0px_0px_#000] rounded-xl rotate-[-1deg]">
-                LEVEL UP YOUR CS RECALL.
+                LEVEL UP YOUR MEMORY
               </span>
             </h1>
 
@@ -477,16 +477,6 @@ export function HeroSection() {
                 >
                   Start Quest
                   <ArrowRight className="w-5 h-5 ml-1" strokeWidth={3} />
-                </Button>
-              </Link>
-              <Link href="/chapter/chapter-1?mode=traps">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  className="w-full sm:w-auto cursor-pointer"
-                >
-                  <ShieldAlert className="w-5 h-5 mr-1" strokeWidth={2.5} />
-                  Defuse Traps
                 </Button>
               </Link>
             </motion.div>

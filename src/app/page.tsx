@@ -30,8 +30,8 @@ export default function HomePage() {
         />
 
         <div className="max-w-6xl mx-auto px-6 lg:px-8 space-y-10">
-          {/* "Your Next Move" — hidden for new users, revealed after first XP */}
-          <NextMoveWidget />
+          {/* "Your Next Move" / Active Mission Tracker */}
+          <NextMoveWidget chapters={chapters} />
 
           {chapters.length > 0 && <QuestMap chapters={chapters} />}
         </div>

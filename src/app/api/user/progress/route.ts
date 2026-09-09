@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/auth";
 import { connectDB } from "@/lib/mongodb";
@@ -13,6 +13,12 @@ const ProgressSchema = z.object({
   masteredFlashcards: z.array(z.string()),
 });
 
+function sanitizeTopics(topics: string[]): string[] {
+  return Array.from(
+    new Set(topics.map((t) => (t.includes("::") ? t : `chapter-1::${t}`))),
+  );
+}
+
 export async function GET() {
   const session = await auth();
   if (!session?.user?.email) {
@@ -21,10 +27,14 @@ export async function GET() {
 
   try {
     await connectDB();
-    const user = await UserModel.findOne({ email: session.user.email.toLowerCase() }).lean();
+    const user = await UserModel.findOne({
+      email: session.user.email.toLowerCase(),
+    }).lean();
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
+
+    const sanitizedTopics = sanitizeTopics(user.completedTopics || []);
 
     return NextResponse.json({
       ok: true,
@@ -32,7 +42,7 @@ export async function GET() {
         xp: user.xp ?? 0,
         streakDays: user.streak ?? 0,
         completedChapterIds: Array.from(user.completedChapters || []),
-        completedTopics: Array.from(user.completedTopics || []),
+        completedTopics: sanitizedTopics,
         defusedTraps: Array.from(user.defusedTraps || []),
         masteredFlashcards: Array.from(user.masteredFlashcards || []),
       },
@@ -41,7 +51,7 @@ export async function GET() {
     console.error("Progress fetch error:", err);
     return NextResponse.json(
       { error: err?.message || "Failed to fetch progress" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -59,16 +69,24 @@ export async function POST(req: NextRequest) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: "Invalid progress payload", details: parsed.error.format() },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    const { xp, streakDays, completedChapterIds, completedTopics, defusedTraps, masteredFlashcards } =
-      parsed.data;
+    const {
+      xp,
+      streakDays,
+      completedChapterIds,
+      completedTopics,
+      defusedTraps,
+      masteredFlashcards,
+    } = parsed.data;
 
     await connectDB();
 
-    const user = await UserModel.findOne({ email: session.user.email.toLowerCase() });
+    const user = await UserModel.findOne({
+      email: session.user.email.toLowerCase(),
+    });
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
@@ -89,10 +107,20 @@ export async function POST(req: NextRequest) {
       user.defusedTraps = [];
       user.masteredFlashcards = [];
     } else {
-      const mergedChapters = Array.from(new Set([...user.completedChapters, ...completedChapterIds]));
-      const mergedTopics = Array.from(new Set([...user.completedTopics, ...completedTopics]));
-      const mergedTraps = Array.from(new Set([...user.defusedTraps, ...defusedTraps]));
-      const mergedFlashcards = Array.from(new Set([...user.masteredFlashcards, ...masteredFlashcards]));
+      const mergedChapters = Array.from(
+        new Set([...user.completedChapters, ...completedChapterIds]),
+      );
+      const sanitizedIncoming = sanitizeTopics(completedTopics);
+      const sanitizedExisting = sanitizeTopics(user.completedTopics || []);
+      const mergedTopics = Array.from(
+        new Set([...sanitizedExisting, ...sanitizedIncoming]),
+      );
+      const mergedTraps = Array.from(
+        new Set([...user.defusedTraps, ...defusedTraps]),
+      );
+      const mergedFlashcards = Array.from(
+        new Set([...user.masteredFlashcards, ...masteredFlashcards]),
+      );
 
       user.xp = Math.max(user.xp, xp);
       user.streak = Math.max(user.streak, streakDays);
@@ -119,7 +147,7 @@ export async function POST(req: NextRequest) {
     console.error("Progress sync error:", err);
     return NextResponse.json(
       { error: err?.message || "Sync failed" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

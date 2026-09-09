@@ -12,6 +12,7 @@ import type {
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
 import { useGameStore } from "@/stores/gameStore";
+import { isTopicCompleted } from "@/lib/topicUtils";
 
 // ─── Universal Line-by-Line Parsing Engine ────────────────────────────────────
 
@@ -61,7 +62,9 @@ function FormattedExplanation({ text }: { text: string }) {
         }
 
         // 2. Definition / Note Lines (Term: Definition without arrows)
-        const defMatch = trimmed.match(/^([A-Z][A-Za-z0-9\s/_\-()]{1,35}):\s*(.+)$/);
+        const defMatch = trimmed.match(
+          /^([A-Z][A-Za-z0-9\s/_\-()]{1,35}):\s*(.+)$/,
+        );
         if (defMatch) {
           const term = defMatch[1].trim();
           const definition = defMatch[2].trim();
@@ -71,10 +74,16 @@ function FormattedExplanation({ text }: { text: string }) {
               key={idx}
               className="bg-sky-50/80 border-2 border-dashed border-black/70 rounded-xl p-4 my-3 text-stone-800 font-medium text-base shadow-[2px_2px_0px_0px_#000] flex items-start gap-2.5"
             >
-              <span className="text-sky-600 font-black text-lg shrink-0 mt-0.5">📌</span>
+              <span className="text-sky-600 font-black text-lg shrink-0 mt-0.5">
+                📌
+              </span>
               <div className="leading-relaxed">
-                <span className="font-black text-stone-950 mr-1.5">{term}:</span>
-                <span className="text-stone-800 text-base md:text-lg font-medium">{definition}</span>
+                <span className="font-black text-stone-950 mr-1.5">
+                  {term}:
+                </span>
+                <span className="text-stone-800 text-base md:text-lg font-medium">
+                  {definition}
+                </span>
               </div>
             </div>
           );
@@ -277,6 +286,7 @@ function QAItem({ question, answer }: { question: string; answer: string }) {
 
 interface TopicCardProps {
   topic: Topic;
+  chapterId: string;
   index: number;
   isGuest?: boolean;
   onRequireAuth?: () => void;
@@ -284,12 +294,13 @@ interface TopicCardProps {
 
 function TopicCard({
   topic,
+  chapterId,
   index,
   isGuest,
   onRequireAuth,
 }: TopicCardProps) {
   const { completedTopics, completeTopic } = useGameStore();
-  const isCompleted = completedTopics.includes(topic.id);
+  const isCompleted = isTopicCompleted(completedTopics, chapterId, topic.id);
 
   return (
     <div className="bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[6px_6px_0px_0px_#000] p-6 sm:p-8 mb-10 pb-8 text-stone-900 relative overflow-hidden space-y-6">
@@ -389,7 +400,7 @@ function TopicCard({
             </button>
           ) : (
             <button
-              onClick={() => completeTopic(topic.id)}
+              onClick={() => completeTopic(topic.id, chapterId)}
               className="flex items-center gap-2 px-6 py-3 bg-emerald-400 hover:bg-emerald-300 text-black border-[3px] border-black font-black text-sm sm:text-base rounded-xl shadow-[3px_3px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all hover:-translate-y-0.5 cursor-pointer"
             >
               <CheckCircle2 className="w-5 h-5 text-black" strokeWidth={3} />
@@ -410,11 +421,7 @@ interface LearnModeProps {
   onRequireAuth?: () => void;
 }
 
-export function LearnMode({
-  chapter,
-  isGuest,
-  onRequireAuth,
-}: LearnModeProps) {
+export function LearnMode({ chapter, isGuest, onRequireAuth }: LearnModeProps) {
   let globalTopicIndex = 0;
 
   return (
@@ -453,6 +460,7 @@ export function LearnMode({
                   <TopicCard
                     key={topic.id}
                     topic={topic}
+                    chapterId={chapter.id}
                     index={idx}
                     isGuest={isGuest}
                     onRequireAuth={onRequireAuth}

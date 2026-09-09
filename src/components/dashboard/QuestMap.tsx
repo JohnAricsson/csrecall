@@ -23,6 +23,7 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { useGameStore } from "@/stores/gameStore";
+import { isTopicCompleted } from "@/lib/topicUtils";
 import { useHydration } from "@/hooks/useHydration";
 import { cn } from "@/lib/utils";
 
@@ -379,7 +380,9 @@ export function QuestMap({ chapters }: QuestMapProps) {
           const finishedTopics = chapter.sections.reduce(
             (acc, s) =>
               acc +
-              s.topics.filter((t) => completedTopics.includes(t.id)).length,
+              s.topics.filter((t) =>
+                isTopicCompleted(completedTopics, chapter.id, t.id),
+              ).length,
             0,
           );
 

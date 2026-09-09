@@ -1,5 +1,6 @@
-﻿import { create } from "zustand";
+import { create } from "zustand";
 import { XP_REWARDS } from "@/lib/gameConstants";
+import { isTopicCompleted } from "@/lib/topicUtils";
 
 export interface GameState {
   xp: number;
@@ -10,9 +11,9 @@ export interface GameState {
   defusedTrapIds: string[];
   masteredFlashcardIds: string[];
   isHydrated: boolean;
-  
+
   // Actions
-  completeTopic: (id: string) => void;
+  completeTopic: (id: string, chapterId?: string) => void;
   masterFlashcard: (id: string) => void;
   defuseTrap: (id: string) => void;
   completeChapter: (id: string) => void;
@@ -67,10 +68,18 @@ export const useGameStore = create<GameState>()((set, get) => ({
   masteredFlashcardIds: [],
   isHydrated: false,
 
-  completeTopic: (id) => {
+  completeTopic: (id, chapterId) => {
     const s = get();
-    if (s.completedTopics.includes(id)) return;
-    const nextTopics = [...s.completedTopics, id];
+    const compoundId = chapterId
+      ? id.includes("::")
+        ? id
+        : `${chapterId}::${id}`
+      : id;
+
+    if (s.completedTopics.includes(compoundId)) return;
+    if (chapterId && isTopicCompleted(s.completedTopics, chapterId, id)) return;
+
+    const nextTopics = [...s.completedTopics, compoundId];
     const nextXp = s.xp + XP_REWARDS.TOPIC_COMPLETED;
     set({
       completedTopics: nextTopics,
@@ -120,8 +129,7 @@ export const useGameStore = create<GameState>()((set, get) => ({
     const today = todayStr();
     if (lastActiveDateStr === today) return;
 
-    const newStreak =
-      lastActiveDateStr === yesterdayStr() ? streakDays + 1 : 1;
+    const newStreak = lastActiveDateStr === yesterdayStr() ? streakDays + 1 : 1;
 
     set({ streakDays: newStreak, lastActiveDateStr: today });
     debouncedSyncProgress(get());
@@ -154,11 +162,19 @@ export const useGameStore = create<GameState>()((set, get) => ({
       }).catch(console.error);
     }
   },
-  
+
   hydrateFromServer: (data) => {
     set((s) => ({
       ...s,
       ...data,
+      defusedTrapIds:
+        (data as any).defusedTraps ??
+        (data as any).defusedTrapIds ??
+        s.defusedTrapIds,
+      masteredFlashcardIds:
+        (data as any).masteredFlashcards ??
+        (data as any).masteredFlashcardIds ??
+        s.masteredFlashcardIds,
       isHydrated: true,
     }));
   },
