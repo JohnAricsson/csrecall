@@ -10,7 +10,10 @@ export type BadgeVariant =
   | "rose"
   | "pink"
   | "stone"
-  | "sky";
+  | "sky"
+  | "indigo"
+  | "cyan"
+  | "orange";
 
 interface BadgeProps {
   variant?: BadgeVariant;
@@ -21,13 +24,22 @@ interface BadgeProps {
 // ─── Variant map ──────────────────────────────────────────────────────────────
 
 const VARIANT_CLASSES: Record<BadgeVariant, string> = {
-  violet: "bg-violet-100 text-violet-800 border-violet-400",
-  amber: "bg-amber-100  text-amber-900  border-amber-400",
-  emerald: "bg-emerald-100 text-emerald-800 border-emerald-400",
-  rose: "bg-rose-100   text-rose-800   border-rose-400",
-  pink: "bg-pink-100   text-pink-800   border-pink-400",
-  stone: "bg-stone-100  text-stone-700  border-stone-400",
-  sky: "bg-sky-100    text-sky-800    border-sky-400",
+  violet:
+    "bg-violet-100 text-violet-800 border-violet-400 shadow-[1px_1px_0px_0px_#4c1d95]",
+  amber:
+    "bg-amber-100 text-amber-900 border-amber-400 shadow-[1px_1px_0px_0px_#78350f]",
+  emerald:
+    "bg-emerald-100 text-emerald-800 border-emerald-400 shadow-[1px_1px_0px_0px_#064e3b]",
+  rose: "bg-rose-100 text-rose-800 border-rose-400 shadow-[1px_1px_0px_0px_#881337]",
+  pink: "bg-pink-100 text-pink-800 border-pink-400 shadow-[1px_1px_0px_0px_#831843]",
+  stone:
+    "bg-stone-100 text-stone-700 border-stone-300 shadow-[1px_1px_0px_0px_#1c1917]",
+  sky: "bg-sky-100 text-sky-800 border-sky-400 shadow-[1px_1px_0px_0px_#0369a1]",
+  indigo:
+    "bg-indigo-100 text-indigo-800 border-indigo-400 shadow-[1px_1px_0px_0px_#3730a3]",
+  cyan: "bg-cyan-100 text-cyan-800 border-cyan-400 shadow-[1px_1px_0px_0px_#155e75]",
+  orange:
+    "bg-orange-100 text-orange-900 border-orange-400 shadow-[1px_1px_0px_0px_#9a3412]",
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────

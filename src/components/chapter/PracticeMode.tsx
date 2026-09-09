@@ -50,49 +50,73 @@ function FlashCard({ card, index, total, isFlipped, onFlip }: FlashCardProps) {
         animate={{ rotateY: isFlipped ? 180 : 0 }}
         transition={{ type: "spring", stiffness: 240, damping: 28 }}
         className="w-full"
-        // Fixed height via wrapper
       >
         {/* ── Front face ──────────────────────────────────────── */}
         <div
-          className="w-full min-h-[260px] p-8 rounded-2xl border-2 border-stone-900 bg-white shadow-[6px_6px_0px_0px_#1c1917] flex flex-col gap-5"
+          className="w-full min-h-[280px] p-6 sm:p-8 rounded-2xl border-2 border-stone-900 bg-white shadow-[6px_6px_0px_0px_#1c1917] flex flex-col justify-between relative overflow-hidden"
           style={{ backfaceVisibility: "hidden" }}
         >
-          <div className="flex items-start justify-between">
-            <Badge variant="violet">
+          {/* Top colored accent line */}
+          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600" />
+
+          <div className="flex items-start justify-between pt-1">
+            <Badge
+              variant="violet"
+              className="shadow-[1px_1px_0px_0px_#4c1d95]"
+            >
               Card {index + 1} of {total}
             </Badge>
-            <span className="text-xs text-stone-400 font-bold uppercase tracking-widest">
-              Click or Space to flip
+            <span className="text-[11px] text-stone-500 font-bold uppercase tracking-wider bg-stone-100 px-2 py-0.5 rounded border border-stone-300">
+              Click or <kbd className="font-mono text-stone-700">Space</kbd> to
+              flip
             </span>
           </div>
-          <div className="flex-1 flex items-center justify-center">
-            <p className="text-stone-900 font-black text-xl sm:text-2xl text-center leading-snug">
+
+          <div className="my-6 flex items-center justify-center text-center px-2 sm:px-6">
+            <p className="text-stone-900 font-black text-xl sm:text-2xl lg:text-3xl leading-snug">
               {card.question}
             </p>
           </div>
-          <div className="text-center text-stone-300 text-2xl">· · ·</div>
+
+          <div className="flex items-center justify-between text-xs font-bold text-stone-400 pt-3 border-t border-stone-100">
+            <span>Flip to reveal answer</span>
+            <span className="text-violet-600">⚡ Tap or Spacebar</span>
+          </div>
         </div>
 
         {/* ── Back face ───────────────────────────────────────── */}
         <div
-          className="w-full min-h-[260px] p-8 rounded-2xl border-2 border-stone-900 bg-emerald-500 shadow-[6px_6px_0px_0px_#064e3b] flex flex-col gap-5 absolute inset-0"
+          className="w-full min-h-[280px] p-6 sm:p-8 rounded-2xl border-2 border-stone-900 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 shadow-[6px_6px_0px_0px_#064e3b] flex flex-col justify-between absolute inset-0 relative overflow-hidden"
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
           }}
         >
-          <div className="flex items-start justify-between">
-            <Badge variant="emerald">Answer</Badge>
-            <span className="text-xs text-emerald-200 font-bold uppercase tracking-widest">
-              Press 1 = Hard | 2 = Nailed
+          {/* Top colored accent line */}
+          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-300 via-yellow-400 to-emerald-300" />
+
+          <div className="flex items-start justify-between pt-1">
+            <Badge
+              variant="emerald"
+              className="bg-white text-emerald-900 border-white shadow-none"
+            >
+              ✓ Core Answer
+            </Badge>
+            <span className="text-[11px] text-emerald-100 font-bold uppercase tracking-wider bg-emerald-700/60 px-2 py-0.5 rounded border border-emerald-400/40">
+              1 = Hard · 2 = Nailed
             </span>
           </div>
-          <div className="flex-1 flex items-center justify-center">
-            <p className="text-white font-bold text-lg sm:text-xl text-center leading-relaxed">
+
+          <div className="my-6 flex items-center justify-center text-center px-2 sm:px-6">
+            <p className="text-white font-black text-lg sm:text-xl lg:text-2xl leading-relaxed text-shadow-sm">
               {card.answer}
             </p>
           </div>
-          <div className="text-center text-emerald-300 text-2xl">✓</div>
+
+          <div className="flex items-center justify-between text-xs font-bold text-emerald-200 pt-3 border-t border-emerald-400/40">
+            <span>Rate your recall below:</span>
+            <span className="text-white font-black">Nailed it? Press 2 🎯</span>
+          </div>
         </div>
       </motion.div>
     </div>
@@ -120,8 +144,11 @@ interface PracticeModeProps {
   chapter: Chapter;
 }
 
+import { useGameStore } from "@/stores/gameStore";
+
 export function PracticeMode({ chapter }: PracticeModeProps) {
   const allCards = getFlashcards(chapter);
+  const { masterFlashcard } = useGameStore();
 
   // State
   const [deck, setDeck] = useState<Flashcard[]>(allCards);
@@ -193,6 +220,7 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
       });
     });
     setNailedCount((n) => n + 1);
+    masterFlashcard(currentCard.id);
 
     if (deck.length > 0) {
       advance();
@@ -259,13 +287,13 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
             className="flex gap-3 justify-center"
           >
             <Button
-              variant="ghost"
+              variant="danger"
               size="lg"
               onClick={handleHard}
-              className="flex-1 max-w-[200px] border-rose-400 text-rose-600 hover:bg-rose-50"
+              className="flex-1 max-w-[200px] cursor-pointer"
             >
-              🔴 Hard / Again
-              <kbd className="ml-auto px-1.5 py-0.5 rounded border border-stone-300 bg-stone-100 text-stone-400 text-xs font-mono">
+              <span>🔴 Hard / Again</span>
+              <kbd className="ml-auto px-1.5 py-0.5 rounded border border-rose-700 bg-rose-700/80 text-white text-xs font-mono">
                 1
               </kbd>
             </Button>
@@ -273,10 +301,10 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
               variant="success"
               size="lg"
               onClick={() => void handleNailed()}
-              className="flex-1 max-w-[200px]"
+              className="flex-1 max-w-[200px] cursor-pointer"
             >
-              🟢 Nailed It!
-              <kbd className="ml-auto px-1.5 py-0.5 rounded border border-emerald-700 bg-emerald-600 text-white text-xs font-mono">
+              <span>🟢 Nailed It!</span>
+              <kbd className="ml-auto px-1.5 py-0.5 rounded border border-emerald-800 bg-emerald-700/80 text-white text-xs font-mono">
                 2
               </kbd>
             </Button>

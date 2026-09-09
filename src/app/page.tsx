@@ -18,7 +18,7 @@ export default function HomePage() {
       <HeroSection />
 
       {/* ── Dashboard body ──────────────────────────────────────────── */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-10">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8 py-8 sm:py-12 space-y-10">
         {/* "Your Next Move" — hidden for new users, revealed after first XP */}
         <NextMoveWidget />
 

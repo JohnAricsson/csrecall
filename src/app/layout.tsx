@@ -13,6 +13,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+import { Providers } from "@/components/shell/Providers";
+
 export const metadata: Metadata = {
   title: {
     default: "CSRecall",
@@ -29,11 +31,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <body className="min-h-screen bg-stone-50 text-stone-900">
-        {/* Sticky app shell */}
-        <Navbar />
+        <Providers>
+          {/* Sticky app shell */}
+          <Navbar />
 
-        {/* Page content */}
-        <main>{children}</main>
+          {/* Page content */}
+          <main>{children}</main>
+        </Providers>
       </body>
     </html>
   );

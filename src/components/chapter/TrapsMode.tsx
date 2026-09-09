@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Shield, ShieldCheck } from "lucide-react";
 import type { Chapter, Trap } from "@/lib/schema";
@@ -64,15 +64,32 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
     >
       <Card
         className={cn(
-          "overflow-hidden transition-colors duration-300",
+          "overflow-hidden transition-all duration-300 relative border-2 border-stone-900",
           isDefused
-            ? "border-emerald-400 shadow-[4px_4px_0px_0px_#064e3b]"
-            : "border-stone-900",
+            ? "border-emerald-500 shadow-[4px_4px_0px_0px_#064e3b]"
+            : "shadow-[4px_4px_0px_0px_#1c1917]",
         )}
       >
+        {/* Top colored accent line */}
+        <div
+          className={cn(
+            "absolute top-0 left-0 right-0 h-1.5",
+            isDefused
+              ? "bg-emerald-500"
+              : trap.category === "interview-gotcha"
+                ? "bg-rose-500"
+                : trap.category === "common-mistake"
+                  ? "bg-amber-500"
+                  : "bg-sky-500",
+          )}
+        />
+
         {/* Card header */}
         <div
-          className={cn("px-5 py-4", isDefused ? "bg-emerald-50" : "bg-white")}
+          className={cn(
+            "px-5 sm:px-6 py-5 pt-5.5",
+            isDefused ? "bg-emerald-50/50" : "bg-white",
+          )}
         >
           {/* Badges row */}
           <div className="flex items-center gap-2 mb-3 flex-wrap">
@@ -81,8 +98,8 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
             </Badge>
             {isDefused && (
               <Badge variant="emerald">
-                <ShieldCheck className="w-3 h-3" />
-                Defused
+                <ShieldCheck className="w-3.5 h-3.5" />
+                Defused!
               </Badge>
             )}
           </div>
@@ -90,7 +107,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
           {/* Trap statement */}
           <p
             className={cn(
-              "font-black text-base leading-snug mb-4",
+              "font-black text-base sm:text-lg leading-snug mb-4",
               isDefused ? "line-through text-stone-400" : "text-stone-900",
             )}
           >
@@ -98,22 +115,22 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
           </p>
 
           {/* Actions row */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             {/* Defuse toggle */}
             <button
               onClick={onDefuse}
               className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-xl border-2 font-bold text-sm transition-all",
+                "flex items-center gap-2 px-4 py-2 rounded-xl border-2 font-black text-sm transition-all cursor-pointer",
                 "active:translate-x-[2px] active:translate-y-[2px]",
                 isDefused
-                  ? "bg-emerald-500 border-emerald-700 text-white shadow-[2px_2px_0px_0px_#064e3b] active:shadow-none"
-                  : "bg-white border-stone-900 text-stone-700 shadow-[2px_2px_0px_0px_#1c1917] hover:bg-stone-50 active:shadow-none",
+                  ? "bg-gradient-to-r from-emerald-500 to-teal-600 border-stone-900 text-white shadow-[2px_2px_0px_0px_#064e3b] active:shadow-none"
+                  : "bg-gradient-to-r from-rose-500 to-red-600 border-stone-900 text-white shadow-[2px_2px_0px_0px_#881337] hover:from-rose-400 hover:to-red-500 active:shadow-none",
               )}
             >
               {isDefused ? (
                 <>
                   <ShieldCheck className="w-4 h-4" strokeWidth={2.5} />
-                  Defused!
+                  Defused! (+20 XP)
                 </>
               ) : (
                 <>
@@ -126,14 +143,17 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
             {/* Expand explanation */}
             <button
               onClick={() => setExpanded((e) => !e)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border-2 border-stone-200 bg-white hover:bg-stone-50 text-stone-500 text-sm font-bold transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border-2 border-stone-900 bg-stone-50 hover:bg-stone-100 text-stone-700 text-sm font-bold transition-colors cursor-pointer shadow-[2px_2px_0px_0px_#1c1917]"
             >
               Why tricky?
               <motion.span
                 animate={{ rotate: expanded ? 180 : 0 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
               >
-                <ChevronDown className="w-4 h-4" strokeWidth={2.5} />
+                <ChevronDown
+                  className="w-4 h-4 text-stone-600"
+                  strokeWidth={2.5}
+                />
               </motion.span>
             </button>
           </div>
@@ -149,11 +169,12 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="overflow-hidden"
             >
-              <div className="px-5 py-4 bg-rose-50 border-t-2 border-rose-200">
-                <p className="text-xs font-black uppercase tracking-widest text-rose-500 mb-2">
-                  🔍 Why developers get tricked:
+              <div className="px-5 sm:px-6 py-4 bg-rose-50/80 border-t-2 border-stone-900">
+                <p className="text-xs font-black uppercase tracking-widest text-rose-600 mb-1.5 flex items-center gap-1">
+                  <span>🔍</span>
+                  <span>Why developers get tricked:</span>
                 </p>
-                <p className="text-stone-700 text-sm leading-relaxed font-medium">
+                <p className="text-stone-800 text-sm sm:text-base leading-relaxed font-medium">
                   {trap.explanation}
                 </p>
               </div>
@@ -172,30 +193,37 @@ interface TrapsModeProps {
 }
 
 export function TrapsMode({ chapter }: TrapsModeProps) {
-  const traps = getAllTraps(chapter);
-  const [defusedIds, setDefusedIds] = useState<Set<string>>(new Set());
-  const defuseInStore = useGameStore((s) => s.defuseTrap);
+  const traps = useMemo(() => getAllTraps(chapter), [chapter]);
+  const defusedTrapIds = useGameStore((s) => s.defusedTrapIds);
+  const defuseTrap = useGameStore((s) => s.defuseTrap);
 
-  const defusedCount = defusedIds.size;
+  // Derive defusal count strictly from the store's traps that belong to this chapter
+  const defusedCount = useMemo(() => {
+    return traps.filter((t) => defusedTrapIds.includes(t.id)).length;
+  }, [traps, defusedTrapIds]);
+
   const totalCount = traps.length;
   const progress =
     totalCount > 0 ? Math.round((defusedCount / totalCount) * 100) : 0;
 
   const handleDefuse = useCallback(
-    (trapId: string, wasDefused: boolean) => {
-      setDefusedIds((prev) => {
-        const next = new Set(prev);
-        if (wasDefused) {
-          next.delete(trapId);
-        } else {
-          next.add(trapId);
-          // Award XP + update global trap counter on first defusal
-          defuseInStore();
-        }
-        return next;
-      });
+    (trapId: string, isCurrentlyDefused: boolean) => {
+      if (!isCurrentlyDefused) {
+        // Award XP + update store + trigger confetti
+        defuseTrap(trapId);
+        void import("canvas-confetti").then(({ default: confetti }) => {
+          confetti({
+            particleCount: 50,
+            spread: 70,
+            origin: { y: 0.8 },
+            colors: ["#f43f5e", "#fb7185", "#10b981"],
+            scalar: 0.8,
+            disableForReducedMotion: true,
+          });
+        });
+      }
     },
-    [defuseInStore],
+    [defuseTrap],
   );
 
   // Group traps by category for summary
@@ -211,26 +239,34 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 24 }}
         className={cn(
-          "p-5 rounded-2xl border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917]",
+          "p-5 sm:p-6 rounded-2xl border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917] relative overflow-hidden",
           defusedCount === totalCount && totalCount > 0
-            ? "bg-emerald-50 border-emerald-500 shadow-[4px_4px_0px_0px_#064e3b]"
+            ? "bg-gradient-to-br from-emerald-50 via-white to-teal-50 shadow-[4px_4px_0px_0px_#064e3b]"
             : "bg-white",
         )}
       >
-        <div className="flex items-start justify-between gap-4 mb-4">
+        {/* Top accent line */}
+        <div
+          className={cn(
+            "absolute top-0 left-0 right-0 h-1.5",
+            defusedCount === totalCount && totalCount > 0
+              ? "bg-gradient-to-r from-emerald-400 to-teal-500"
+              : "bg-gradient-to-r from-rose-500 via-amber-500 to-sky-500",
+          )}
+        />
+
+        <div className="flex items-start justify-between gap-4 mb-4 pt-1">
           <div>
             <p className="text-xs font-black uppercase tracking-widest text-stone-500 mb-1">
-              Trap Defusal Progress
+              Trap Defusal Arena
             </p>
-            <p className="font-black text-2xl text-stone-900">
+            <p className="font-black text-2xl sm:text-3xl text-stone-900">
               {defusedCount} of {totalCount} Defused 🛡️
             </p>
           </div>
-          {defusedCount === totalCount && totalCount > 0 ? (
-            <div className="text-3xl">🏆</div>
-          ) : (
-            <div className="text-3xl">🎯</div>
-          )}
+          <div className="w-12 h-12 rounded-2xl bg-rose-100 border-2 border-stone-900 flex items-center justify-center text-2xl shadow-[2px_2px_0px_0px_#1c1917]">
+            {defusedCount === totalCount && totalCount > 0 ? "🏆" : "🪤"}
+          </div>
         </div>
 
         <ProgressBar
@@ -249,15 +285,18 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
 
       {/* ── Trap Cards ─────────────────────────────────────────── */}
       <div className="space-y-4">
-        {traps.map((trap, i) => (
-          <TrapCard
-            key={trap.id}
-            trap={trap}
-            index={i}
-            isDefused={defusedIds.has(trap.id)}
-            onDefuse={() => handleDefuse(trap.id, defusedIds.has(trap.id))}
-          />
-        ))}
+        {traps.map((trap, i) => {
+          const isDefused = defusedTrapIds.includes(trap.id);
+          return (
+            <TrapCard
+              key={trap.id}
+              trap={trap}
+              index={i}
+              isDefused={isDefused}
+              onDefuse={() => handleDefuse(trap.id, isDefused)}
+            />
+          );
+        })}
       </div>
 
       {/* ── All clear state ─────────────────────────────────────── */}

@@ -11,9 +11,16 @@
 
   /* ── Game accent palette ── */
   --color-primary: #7c3aed; /* violet-600 – XP / primary actions  */
+  --color-primary-hover: #6d28d9; /* violet-700                         */
   --color-accent: #f59e0b; /* amber-500  – flame / streaks        */
+  --color-accent-hover: #d97706; /* amber-600                         */
   --color-success: #10b981; /* emerald-500 – mastery / success    */
+  --color-success-hover: #059669; /* emerald-600                       */
   --color-trap: #f43f5e; /* rose-500   – traps / danger         */
+  --color-trap-hover: #e11d48; /* rose-600                          */
+  --color-sky: #0284c7; /* sky-600    – architecture / info   */
+  --color-indigo: #4f46e5; /* indigo-600                        */
+
   /* ── Typography ── */
   --color-foreground: #1c1917; /* stone-900  – primary text           */
   --color-muted: #78716c; /* stone-500  – secondary text         */
@@ -25,14 +32,60 @@
 
 /* ─── Base reset ──────────────────────────────────────────────────────────── */
 body {
-  background-color: #fafaf9; /* stone-50 */
-  color: #1c1917; /* stone-900 */
+  background-color: #fafaf9;
+  color: #1c1917;
   font-family:
     var(--font-sans),
     system-ui,
     -apple-system,
     sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Neo-brutalist drop-shadow utilities ─────────────────────────────────── */
+.shadow-brutal {
+  box-shadow: 4px 4px 0px 0px #1c1917;
+}
+.shadow-brutal-sm {
+  box-shadow: 2px 2px 0px 0px #1c1917;
+}
+.shadow-brutal-lg {
+  box-shadow: 6px 6px 0px 0px #1c1917;
+}
+.shadow-brutal-xl {
+  box-shadow: 8px 8px 0px 0px #1c1917;
+}
+.shadow-brutal-primary {
+  box-shadow: 4px 4px 0px 0px #3b0764;
+}
+.shadow-brutal-accent {
+  box-shadow: 4px 4px 0px 0px #78350f;
+}
+.shadow-brutal-success {
+  box-shadow: 4px 4px 0px 0px #064e3b;
+}
+.shadow-brutal-trap {
+  box-shadow: 4px 4px 0px 0px #881337;
+}
+
+/* ─── Dot grid background ─────────────────────────────────────────────────── */
+.bg-grid-dots {
+  background-image: radial-gradient(circle, #1c1917 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ─── Shimmer effect for progress and level cards ─────────────────────────── */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2.5s infinite;
 }
 
 /* ─── Custom scrollbar ────────────────────────────────────────────────────── */
@@ -42,17 +95,17 @@ body {
 }
 ::-webkit-scrollbar-track {
   background: #f5f5f4;
-} /* stone-100 */
+}
 ::-webkit-scrollbar-thumb {
   background: #d6d3d1;
   border-radius: 3px;
-} /* stone-300 */
+}
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a29e;
-} /* stone-400 */
+}
 
 /* ─── Selection highlight ─────────────────────────────────────────────────── */
 ::selection {
-  background: #ede9fe; /* violet-100 */
-  color: #4c1d95; /* violet-900 */
+  background: #ede9fe;
+  color: #4c1d95;
 }

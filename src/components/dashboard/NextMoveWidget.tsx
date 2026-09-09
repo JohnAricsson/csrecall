@@ -10,7 +10,8 @@ import { useHydration } from "@/hooks/useHydration";
 
 export function NextMoveWidget() {
   const hydrated = useHydration();
-  const { xp, completedChapterIds, totalTrapsDefused } = useGameStore();
+  const { xp, defusedTrapIds, completedChapterIds } = useGameStore();
+  const totalTrapsDefused = defusedTrapIds.length;
 
   // Don't render for brand-new users — the hero section is their entry point
   if (!hydrated) return null;
@@ -26,36 +27,48 @@ export function NextMoveWidget() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 24 }}
     >
-      <Card className="p-5 border-amber-500 bg-amber-50 shadow-[4px_4px_0px_0px_#92400e]">
+      <Card className="p-5 sm:p-6 border-2 border-stone-900 bg-gradient-to-br from-amber-50 via-white to-amber-100/50 shadow-[4px_4px_0px_0px_#78350f] relative overflow-hidden">
+        {/* Accent strip */}
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500" />
+
         <div className="flex items-start justify-between gap-4">
           {/* Icon */}
-          <div className="flex-shrink-0 w-10 h-10 rounded-xl border-2 border-amber-500 bg-amber-200 flex items-center justify-center">
-            <Target className="w-5 h-5 text-amber-900" strokeWidth={2.5} />
+          <div className="flex-shrink-0 w-11 h-11 rounded-xl border-2 border-stone-900 bg-amber-400 flex items-center justify-center shadow-[2px_2px_0px_0px_#1c1917]">
+            <Target className="w-5 h-5 text-stone-950" strokeWidth={2.5} />
           </div>
 
           {/* Text */}
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-black uppercase tracking-widest text-amber-700 mb-1">
-              🎯 Your Next Move
-            </p>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-[10px] font-black uppercase tracking-widest bg-amber-200 text-amber-900 px-2 py-0.5 rounded border border-amber-300">
+                🎯 Active Mission
+              </span>
+              <span className="text-xs font-bold text-amber-700">
+                Daily Focus
+              </span>
+            </div>
             {chapter1Done ? (
               <>
                 <h3 className="font-black text-stone-900 text-lg leading-tight">
-                  Chapter 2 coming soon! 🔒
+                  Chapter 1 Complete! Continue Your Quest 🚀
                 </h3>
-                <p className="text-sm text-stone-600 mt-1">
-                  You've completed Chapter 1. New chapters are on the way!
+                <p className="text-sm text-stone-600 mt-1 font-medium">
+                  Head over to the Quest Map below to tackle Chapter 2 and
+                  unlock your next level badge.
                 </p>
               </>
             ) : (
               <>
                 <h3 className="font-black text-stone-900 text-lg leading-tight">
-                  You keep missing: Object Inheritance{" "}
+                  Priority Target: Object Inheritance{" "}
                   <span className="text-rose-500">🪤</span>
                 </h3>
-                <p className="text-sm text-stone-600 mt-1">
+                <p className="text-sm text-stone-600 mt-1 font-medium">
                   Defuse the OOP traps before your next mock interview. You have{" "}
-                  <span className="font-bold">{totalTrapsDefused}</span> trap
+                  <span className="font-black text-stone-900">
+                    {totalTrapsDefused}
+                  </span>{" "}
+                  trap
                   {totalTrapsDefused !== 1 ? "s" : ""} defused so far.
                 </p>
               </>
@@ -64,15 +77,19 @@ export function NextMoveWidget() {
         </div>
 
         {!chapter1Done && (
-          <div className="mt-4 pt-4 border-t-2 border-amber-200 flex items-center gap-3">
+          <div className="mt-4 pt-4 border-t-2 border-amber-200/80 flex flex-wrap items-center gap-3">
             <Link href="/chapter/chapter-1">
-              <Button variant="accent" size="sm">
+              <Button
+                variant="accent"
+                size="sm"
+                className="shadow-[2px_2px_0px_0px_#78350f]"
+              >
                 <Shield className="w-4 h-4" strokeWidth={2.5} />
                 Defuse Traps
               </Button>
             </Link>
-            <span className="text-xs text-amber-700 font-bold">
-              ~5 min to clear Chapter 1 traps
+            <span className="text-xs text-amber-800 font-bold bg-amber-100/80 px-2.5 py-1 rounded-md border border-amber-300">
+              ⚡ ~5 min to clear Chapter 1 traps
             </span>
           </div>
         )}

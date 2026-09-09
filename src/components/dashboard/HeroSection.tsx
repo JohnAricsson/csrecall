@@ -1,331 +1,323 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, Zap } from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  Zap,
+  BookOpen,
+  Layers,
+  ShieldAlert,
+  RotateCw,
+} from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+// ─── 2D Elliptical Revolving Orbit Showcase ──────────────────────────────────
 
-const SPRING_CFG = { stiffness: 320, damping: 30 };
+interface OrbitCard {
+  id: string;
+  pill: string;
+  pillClass: string;
+  xp: string;
+  title: string;
+  text: string;
+  tag: string;
+}
 
-const CONFETTI_COLORS: Record<string, string[]> = {
-  violet: ["#7c3aed", "#a78bfa", "#ede9fe"],
-  emerald: ["#10b981", "#6ee7b7", "#d1fae5"],
-  rose: ["#f43f5e", "#fb7185", "#ffe4e6"],
-  amber: ["#f59e0b", "#fcd34d", "#fef3c7"],
-};
-
-const BACK_BG: Record<string, string> = {
-  violet: "bg-violet-600",
-  emerald: "bg-emerald-500",
-  rose: "bg-rose-500",
-  amber: "bg-amber-500",
-};
-
-// ─── Feature card data ────────────────────────────────────────────────────────
-
-const FEATURE_CARDS = [
+const ORBIT_CARDS: OrbitCard[] = [
   {
-    emoji: "📚",
-    title: "12 Chapters",
-    description:
-      "Short, clean cheat sheets on OOP, Pointers, Memory, and Data Structures. No unnecessary theory, only what interviewers actually ask.",
-    accent: "violet",
+    id: "card-trap",
+    pill: "⚠️ INTERVIEW TRAP",
+    pillClass: "bg-rose-100 text-rose-800 border border-black",
+    xp: "+30 XP",
+    title: "The const Myth",
+    text: "Does const user = {} make the object immutable? No! It only prevents reassigning the variable.",
+    tag: "#JavaScript",
   },
   {
-    emoji: "🃏",
-    title: "200+ Flashcards",
-    description:
-      "Quick question-and-answer cards. Flip the card, check your answer, and never forget key definitions during an interview.",
-    accent: "emerald",
+    id: "card-arch",
+    pill: "🧠 ARCHITECTURE",
+    pillClass: "bg-sky-100 text-sky-800 border border-black",
+    xp: "+20 XP",
+    title: "Stack vs Heap",
+    text: "Stack stores quick function frames and primitives. Heap handles dynamic, long-lived objects.",
+    tag: "#OperatingSystems",
   },
   {
-    emoji: "🪤",
-    title: "60+ Traps",
-    description:
-      "Tricky coding questions where most freshers make mistakes. Learn how to avoid these common interview traps.",
-    accent: "rose",
-  },
-  {
-    emoji: "⚡",
-    title: "5-Min Sprint",
-    description:
-      "Have an interview today? Answer 5 quick questions and traps to warm up your brain right before your viva or tech round.",
-    accent: "amber",
+    id: "card-speed",
+    pill: "⚡ QUICK FIRE",
+    pillClass: "bg-amber-100 text-amber-800 border border-black",
+    xp: "+15 XP",
+    title: "TCP vs UDP",
+    text: "TCP guarantees every packet arrives in order. UDP sends fast without checking—perfect for video calls.",
+    tag: "#Networks",
   },
 ];
 
-// ─── 3D Flip Feature Card ─────────────────────────────────────────────────────
+// Generates smooth parametric 2D elliptical keyframes around a center point
+function generateOrbitKeyframes(startAngleDeg: number) {
+  const points = 36;
+  const A = 145; // horizontal radius in pixels
+  const B = 45; // vertical radius in pixels
 
-interface FeatureCardProps {
-  emoji: string;
-  title: string;
-  description: string;
-  accent: string;
-  delay: number;
+  const x: number[] = [];
+  const y: number[] = [];
+  const scale: number[] = [];
+  const zIndex: number[] = [];
+
+  for (let i = 0; i <= points; i++) {
+    const angle = startAngleDeg + (i / points) * 360;
+    const rad = (angle * Math.PI) / 180;
+    const cosVal = Math.cos(rad); // +1 at front (bottom), -1 at back (top)
+    const sinVal = Math.sin(rad);
+
+    const curX = Math.round(A * sinVal);
+    const curY = Math.round(B * cosVal);
+    // depth factor: 0 (back) to 1 (front)
+    const depth = (cosVal + 1) / 2;
+
+    const curScale = Number((0.74 + 0.26 * depth).toFixed(3));
+    const curZ = Math.round(10 + 20 * depth);
+
+    x.push(curX);
+    y.push(curY);
+    scale.push(curScale);
+    zIndex.push(curZ);
+  }
+
+  return { x, y, scale, zIndex };
 }
 
-function FeatureCard({
-  emoji,
-  title,
-  description,
-  accent,
-  delay,
-}: FeatureCardProps) {
-  const [flipped, setFlipped] = useState(false);
+// 3 cards staggered evenly by 120 degrees around the elliptical orbit
+const ORBIT_TRACKS = [
+  generateOrbitKeyframes(0),
+  generateOrbitKeyframes(120),
+  generateOrbitKeyframes(240),
+];
 
-  // Mouse-relative position (-0.5 → 0.5) for tilt
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const tiltX = useSpring(
-    useTransform(mouseY, [-0.5, 0.5], [10, -10]),
-    SPRING_CFG,
-  );
-  const tiltY = useSpring(
-    useTransform(mouseX, [-0.5, 0.5], [-10, 10]),
-    SPRING_CFG,
-  );
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (flipped) return;
-      const r = e.currentTarget.getBoundingClientRect();
-      mouseX.set((e.clientX - r.left) / r.width - 0.5);
-      mouseY.set((e.clientY - r.top) / r.height - 0.5);
-    },
-    [flipped, mouseX, mouseY],
-  );
-
-  const handleMouseLeave = useCallback(() => {
-    mouseX.set(0);
-    mouseY.set(0);
-  }, [mouseX, mouseY]);
-
-  const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      // Reset tilt springs to neutral before flip
-      mouseX.set(0);
-      mouseY.set(0);
-      setFlipped((f) => !f);
-
-      // Dynamic import keeps confetti out of the initial JS bundle
-      void import("canvas-confetti").then(({ default: confetti }) => {
-        confetti({
-          particleCount: 55,
-          spread: 70,
-          startVelocity: 28,
-          origin: {
-            x: e.clientX / window.innerWidth,
-            y: e.clientY / window.innerHeight,
-          },
-          colors: CONFETTI_COLORS[accent] ?? CONFETTI_COLORS["violet"],
-          scalar: 0.88,
-          disableForReducedMotion: true,
-        });
-      });
-    },
-    [accent, mouseX, mouseY],
-  );
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        mouseX.set(0);
-        mouseY.set(0);
-        setFlipped((f) => !f);
-      }
-    },
-    [mouseX, mouseY],
-  );
-
-  const backBgClass = BACK_BG[accent] ?? "bg-violet-600";
-
+function HeroOrbitShowcase() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 280, damping: 24, delay }}
-    >
-      {/* Perspective wrapper */}
-      <div style={{ perspective: "900px" }}>
-        {/* Tilt layer — tracks mouse, resets when flipped */}
-        <motion.div
-          style={{
-            rotateX: tiltX,
-            rotateY: tiltY,
-            transformStyle: "preserve-3d",
-          }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleClick}
-          onKeyDown={handleKeyDown}
-          role="button"
-          tabIndex={0}
-          aria-label={`${title} — click to flip`}
-          className="cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 rounded-2xl"
-        >
-          {/* Flip layer */}
-          <motion.div
-            style={{
-              transformStyle: "preserve-3d",
-              position: "relative",
-              height: "13rem",
-            }}
-            animate={{ rotateY: flipped ? 180 : 0 }}
-            transition={{ type: "spring", stiffness: 260, damping: 26 }}
-          >
-            {/* ── Front face ────────────────────────────────── */}
-            <div
-              className={cn(
-                "absolute inset-0 p-5 rounded-2xl",
-                "border-2 border-stone-900 bg-white",
-                "shadow-[4px_4px_0px_0px_#1c1917]",
-                "flex flex-col gap-3 select-none",
-              )}
-              style={{ backfaceVisibility: "hidden" }}
-            >
-              <span className="text-4xl leading-none">{emoji}</span>
-              <div className="flex-1">
-                <p className="font-black text-stone-900 text-lg leading-tight">
-                  {title}
-                </p>
-              </div>
-              <p className="text-xs text-stone-400 font-semibold">
-                Click to reveal →
-              </p>
-            </div>
+    <div className="relative w-full max-w-sm h-72 sm:h-80 flex items-center justify-center">
+      {/* Ambient glowing radial bloom */}
+      <div
+        aria-hidden
+        className="w-72 h-72 rounded-full bg-violet-400/25 blur-3xl pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -z-10"
+      />
+      <div
+        aria-hidden
+        className="w-52 h-52 rounded-full bg-amber-400/20 blur-2xl pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -z-10"
+      />
 
-            {/* ── Back face ─────────────────────────────────── */}
-            <div
-              className={cn(
-                "absolute inset-0 p-5 rounded-2xl",
-                "border-2 border-stone-900",
-                backBgClass,
-                "flex flex-col items-center justify-center gap-3",
-                "text-center select-none",
-              )}
+      {/* 2D Flat Orbiting Cards (Solid 100% opaque, no bleed-through, dynamic z-index) */}
+      <div className="relative w-full h-full flex items-center justify-center">
+        {ORBIT_CARDS.map((card, index) => {
+          const track = ORBIT_TRACKS[index];
+
+          return (
+            <motion.div
+              key={card.id}
+              animate={{
+                x: track.x,
+                y: track.y,
+                scale: track.scale,
+                zIndex: track.zIndex,
+              }}
+              transition={{
+                duration: 14,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              className="absolute w-72 sm:w-80 bg-white border-2 border-stone-900 rounded-2xl p-5 select-none shadow-[5px_5px_0px_0px_#1c1917] flex flex-col justify-between pointer-events-auto"
               style={{
-                backfaceVisibility: "hidden",
-                transform: "rotateY(180deg)",
+                backgroundColor: "#ffffff",
+                opacity: 1,
+                willChange: "transform",
               }}
             >
-              <span className="text-3xl leading-none">{emoji}</span>
-              <p className="text-white font-bold text-sm leading-snug max-w-[160px]">
-                {description}
-              </p>
-              <p className="text-white/60 text-xs font-semibold">
-                Click to flip back ↩
-              </p>
-            </div>
-          </motion.div>
-        </motion.div>
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span
+                    className={cn(
+                      "text-xs font-bold px-2 py-0.5 rounded-full",
+                      card.pillClass,
+                    )}
+                  >
+                    {card.pill}
+                  </span>
+                  <span className="text-xs font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-300">
+                    {card.xp}
+                  </span>
+                </div>
+
+                <h4 className="font-black text-stone-900 text-lg leading-tight mb-2">
+                  {card.title}
+                </h4>
+                <p className="text-xs text-stone-600 leading-relaxed font-medium">
+                  {card.text}
+                </p>
+              </div>
+
+              <div className="pt-3 border-t border-stone-200 flex items-center justify-between">
+                <span className="text-[11px] font-mono font-bold text-violet-700 bg-violet-50 px-2 py-0.5 rounded border border-violet-200">
+                  {card.tag}
+                </span>
+                <span className="text-[10px] font-bold text-stone-400">
+                  CSRecall Arena
+                </span>
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
-// ─── Hero Visual — floating parallax card stack ───────────────────────────────
+// ─── 3D Flip Card Feature with Particle FX ────────────────────────────────────
 
-function HeroVisual() {
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
+interface FeatureFlipCardProps {
+  icon: any;
+  accent: string;
+  badge: string;
+  value: string;
+  unit: string;
+  title: string;
+  detail: string;
+  backTitle: string;
+  backDetail: string;
+  backTag: string;
+  confettiColors: string[];
+}
 
-  useEffect(() => {
-    function onMove(e: MouseEvent) {
-      mouseX.set(e.clientX / window.innerWidth);
-      mouseY.set(e.clientY / window.innerHeight);
-    }
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, [mouseX, mouseY]);
+function FeatureFlipCard({
+  icon: Icon,
+  accent,
+  badge,
+  value,
+  unit,
+  title,
+  detail,
+  backTitle,
+  backDetail,
+  backTag,
+  confettiColors,
+}: FeatureFlipCardProps) {
+  const [flipped, setFlipped] = useState(false);
 
-  const slowSpring = { stiffness: 60, damping: 18 };
+  const handleFlip = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (rect.left + rect.width / 2) / window.innerWidth;
+    const y = (rect.top + rect.height / 2) / window.innerHeight;
 
-  // Three cards at different parallax depths
-  const c1x = useSpring(useTransform(mouseX, [0, 1], [-28, 28]), slowSpring);
-  const c1y = useSpring(useTransform(mouseY, [0, 1], [-18, 18]), slowSpring);
+    void import("canvas-confetti").then(({ default: confetti }) => {
+      confetti({
+        particleCount: 25,
+        spread: 50,
+        ticks: 150,
+        origin: { x, y },
+        colors: confettiColors,
+        scalar: 0.8,
+        disableForReducedMotion: true,
+      });
+    });
 
-  const c2x = useSpring(useTransform(mouseX, [0, 1], [14, -14]), slowSpring);
-  const c2y = useSpring(useTransform(mouseY, [0, 1], [-10, 10]), slowSpring);
-
-  const c3x = useSpring(useTransform(mouseX, [0, 1], [-8, 8]), slowSpring);
-  const c3y = useSpring(useTransform(mouseY, [0, 1], [6, -6]), slowSpring);
+    setFlipped((f) => !f);
+  };
 
   return (
     <div
-      aria-hidden
-      className="relative w-full h-72 lg:h-80 select-none pointer-events-none"
+      style={{ perspective: "1000px" }}
+      onClick={handleFlip}
+      className="relative cursor-pointer min-h-[170px] select-none group"
     >
-      {/* Card 3 — Trap (deepest layer) */}
       <motion.div
-        style={{ x: c3x, y: c3y, rotate: 7, zIndex: 1 }}
-        className="absolute top-10 right-2 w-52"
+        style={{ transformStyle: "preserve-3d" }}
+        animate={{ rotateY: flipped ? 180 : 0 }}
+        transition={{ duration: 0.48, ease: "easeInOut" }}
+        className="w-full h-full relative"
       >
-        <div className="bg-rose-50 border-2 border-rose-400 rounded-2xl p-4 shadow-[4px_4px_0px_0px_#fb7185]">
-          <p className="text-xs font-black uppercase tracking-widest text-rose-500 mb-1.5">
-            🪤 Trap
-          </p>
-          <p className="text-sm font-bold text-stone-800 leading-snug">
-            &ldquo;const prevents object mutation&rdquo;
-          </p>
-          <p className="text-xs text-stone-400 mt-1.5">
-            Is this true? Click to defuse!
-          </p>
-        </div>
-      </motion.div>
+        {/* ── Front Face ── */}
+        <div
+          style={{ backfaceVisibility: "hidden" }}
+          className={cn(
+            "w-full h-full p-4 sm:p-5 rounded-2xl bg-white border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917] hover:shadow-[6px_6px_0px_0px_#1c1917] hover:-translate-y-0.5 transition-all flex flex-col justify-between overflow-hidden relative",
+          )}
+        >
+          {/* Colored top accent line */}
+          <div
+            className={cn(
+              "absolute top-0 left-0 right-0 h-1.5",
+              accent.includes("violet") && "bg-violet-500",
+              accent.includes("emerald") && "bg-emerald-500",
+              accent.includes("rose") && "bg-rose-500",
+              accent.includes("amber") && "bg-amber-500",
+            )}
+          />
 
-      {/* Card 2 — Flashcard (middle layer) */}
-      <motion.div
-        style={{ x: c2x, y: c2y, rotate: -4, zIndex: 2 }}
-        className="absolute bottom-4 left-2 w-52"
-      >
-        <div className="bg-amber-50 border-2 border-amber-400 rounded-2xl p-4 shadow-[4px_4px_0px_0px_#f59e0b]">
-          <p className="text-xs font-black uppercase tracking-widest text-amber-700 mb-2">
-            🃏 Flashcard
-          </p>
-          <p className="text-sm font-bold text-stone-800">
-            What is Big-O notation?
-          </p>
-          <div className="mt-2 pt-2 border-t border-amber-200">
-            <p className="text-xs text-stone-500">
-              A way to describe algorithm efficiency…
+          <div className="flex items-center justify-between mb-2.5 pt-1">
+            <div
+              className={cn(
+                "w-9 h-9 rounded-xl border-2 border-stone-900 flex items-center justify-center shadow-[2px_2px_0px_0px_#1c1917]",
+                accent,
+              )}
+            >
+              <Icon className="w-4.5 h-4.5" />
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-wider text-stone-700 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-300">
+              {badge}
+            </span>
+          </div>
+
+          <div>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight">
+                {value}
+              </span>
+              <span className="text-xs font-black text-stone-700 uppercase tracking-wide">
+                {unit}
+              </span>
+            </div>
+            <p className="text-xs font-bold text-stone-900 mt-1 line-clamp-1">
+              {title}
+            </p>
+            <p className="text-[11px] text-stone-600 font-medium mt-0.5 line-clamp-2 leading-relaxed">
+              {detail}
             </p>
           </div>
-        </div>
-      </motion.div>
 
-      {/* Card 1 — Topic (front layer) */}
-      <motion.div
-        style={{ x: c1x, y: c1y, zIndex: 3 }}
-        className="absolute top-0 left-8 w-60"
-      >
-        <div className="bg-white border-2 border-stone-900 rounded-2xl p-5 shadow-[4px_4px_0px_0px_#1c1917]">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-7 h-7 bg-violet-600 rounded-lg border-2 border-stone-900 flex items-center justify-center flex-shrink-0">
-              <Zap className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
-            </div>
-            <span className="text-xs font-black uppercase tracking-widest text-violet-600">
-              Topic
+          <div className="mt-2 pt-2 border-t border-stone-100 flex items-center justify-between text-[10px] font-bold text-stone-400 group-hover:text-violet-600 transition-colors">
+            <span>Details & Payoff</span>
+            <span className="inline-flex items-center gap-1">
+              Flip <RotateCw className="w-2.5 h-2.5" />
             </span>
           </div>
-          <p className="font-black text-stone-900 text-base mb-1.5 leading-tight">
-            OOP — Polymorphism
-          </p>
-          <p className="text-xs text-stone-500 leading-relaxed">
-            The ability of different classes to respond to the same method call
-            in their own way…
-          </p>
-          <div className="flex gap-1.5 mt-3">
-            <span className="px-2 py-0.5 rounded-full bg-violet-100 text-violet-700 text-xs font-bold border border-violet-300">
-              OOP
-            </span>
-            <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold border border-emerald-300">
-              Java
+        </div>
+
+        {/* ── Back Face (Clean Off-White) ── */}
+        <div
+          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+          className="absolute inset-0 w-full h-full p-4 sm:p-5 rounded-2xl bg-stone-50 text-stone-900 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between"
+        >
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-black text-stone-900 line-clamp-1">
+                {backTitle}
+              </span>
+              <span className="text-[10px] font-black uppercase tracking-wider text-violet-800 bg-violet-100 px-1.5 py-0.5 rounded border border-violet-300">
+                {backTag}
+              </span>
+            </div>
+            <p className="text-[11px] text-stone-700 font-medium leading-relaxed">
+              {backDetail}
+            </p>
+          </div>
+
+          <div className="pt-2 border-t border-stone-200 flex items-center justify-between text-[10px] font-bold text-violet-700">
+            <span>✨ Interactive Feature</span>
+            <span className="inline-flex items-center gap-1 text-stone-500">
+              Flip back <RotateCw className="w-2.5 h-2.5" />
             </span>
           </div>
         </div>
@@ -334,34 +326,106 @@ function HeroVisual() {
   );
 }
 
-// ─── Animated headline word ────────────────────────────────────────────────────
+// ─── Bento Stat Grid Data with Flip Payoffs ───────────────────────────────────
 
-function Word({
-  children,
-  delay,
-  accent,
-}: {
-  children: React.ReactNode;
-  delay: number;
-  accent?: boolean;
-}) {
+const STAT_ITEMS = [
+  {
+    icon: BookOpen,
+    accent: "bg-violet-100 text-violet-700 border-violet-300",
+    badge: "12 Chapters",
+    value: "12",
+    unit: "Chapters",
+    title: "12 Chapters",
+    detail: "Everything you need for CS interviews, simplified.",
+    backTitle: "Structured Step-by-Step",
+    backDetail:
+      "Covers OOP, Data Structures, System Design, and Web fundamentals without 500-page textbooks.",
+    backTag: "Roadmap",
+    confettiColors: ["#7c3aed", "#a78bfa", "#c4b5fd"],
+  },
+  {
+    icon: Layers,
+    accent: "bg-emerald-100 text-emerald-700 border-emerald-300",
+    badge: "200+ Cards",
+    value: "200+",
+    unit: "Cards",
+    title: "200+ Flashcards",
+    detail: "Quick spaced-repetition cards to build recall.",
+    backTitle: "Fast Review Sessions",
+    backDetail:
+      "Flip cards using Spacebar, tap 1 for Hard, or tap 2 for Nailed to lock key terms in memory.",
+    backTag: "Recall",
+    confettiColors: ["#10b981", "#6ee7b7", "#a7f3d0"],
+  },
+  {
+    icon: ShieldAlert,
+    accent: "bg-rose-100 text-rose-700 border-rose-300",
+    badge: "60+ Traps",
+    value: "60+",
+    unit: "Traps",
+    title: "60+ Interview Traps",
+    detail: "Learn the trick questions interviewers love to ask.",
+    backTitle: "Never Get Caught Off Guard",
+    backDetail:
+      "Spot edge cases, syntax surprises, and common gotchas before you enter your interview.",
+    backTag: "Defense",
+    confettiColors: ["#f43f5e", "#fb7185", "#fecdd3"],
+  },
+  {
+    icon: Zap,
+    accent: "bg-amber-100 text-amber-800 border-amber-300",
+    badge: "5-Min Sprint",
+    value: "5 Min",
+    unit: "Sprint",
+    title: "5-Minute Sprint",
+    detail: "Short, high-impact practice rounds.",
+    backTitle: "Quick Daily Warm-Up",
+    backDetail:
+      "Run through 5 rapid interview questions to keep your CS knowledge sharp between rounds.",
+    backTag: "Warmup",
+    confettiColors: ["#f59e0b", "#fbbf24", "#fde68a"],
+  },
+];
+
+// ─── MovingBorder "Start Quest" Button (Aceternity UI style) ───────────────────
+
+function MovingBorderButton() {
   return (
-    <motion.span
-      className={accent ? "text-violet-600" : "text-stone-900"}
-      initial={{ opacity: 0, y: 28 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 280, damping: 22, delay }}
+    <Link
+      href="/chapter/chapter-1"
+      className="relative group inline-flex rounded-xl p-[2px] overflow-hidden shadow-[4px_4px_0px_0px_#1c1917] hover:shadow-[5px_5px_0px_0px_#1c1917] transition-all cursor-pointer"
     >
-      {children}
-    </motion.span>
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ repeat: Infinity, duration: 3.5, ease: "linear" }}
+        className="absolute inset-[-200%] bg-[conic-gradient(from_0deg,#7c3aed_0deg,#f59e0b_180deg,#7c3aed_360deg)] opacity-85 group-hover:opacity-100"
+      />
+      <div className="relative z-10 w-full bg-violet-600 hover:bg-violet-700 transition-colors text-white font-bold text-base sm:text-lg px-6 sm:px-7 py-3 sm:py-3.5 rounded-[10px] flex items-center justify-center gap-2.5">
+        <span>Start Quest</span>
+        <ArrowRight
+          className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+          strokeWidth={2.5}
+        />
+      </div>
+    </Link>
   );
 }
 
-// ─── Hero Section ─────────────────────────────────────────────────────────────
+// ─── Hero Section Component ───────────────────────────────────────────────────
 
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-stone-50 border-b-2 border-stone-900">
+      {/* Ambient background glows */}
+      <div
+        aria-hidden
+        className="w-96 h-96 rounded-full bg-violet-400/15 blur-3xl pointer-events-none absolute -top-20 -left-20"
+      />
+      <div
+        aria-hidden
+        className="w-96 h-96 rounded-full bg-amber-400/10 blur-3xl pointer-events-none absolute top-1/3 -right-20"
+      />
+
       {/* Dot-grid background decoration */}
       <div
         aria-hidden
@@ -373,59 +437,57 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16">
-        {/* ── Row 1: Headline + floating visual ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-12 sm:mb-16">
+      <div className="relative max-w-6xl mx-auto px-6 lg:px-8 pt-8 sm:pt-12">
+        {/* ── Row 1: Headline + Aceternity Continuous CardStack ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-10 sm:mb-12">
           {/* Left: text + CTAs */}
           <div>
             {/* Arena badge */}
             <motion.div
-              className="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full border-2 border-violet-300 bg-violet-100 text-violet-800 text-xs font-black uppercase tracking-widest"
+              className="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-full border-2 border-violet-300 bg-violet-100 text-violet-800 text-xs font-black uppercase tracking-widest shadow-[1px_1px_0px_0px_#4c1d95]"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
             >
-              <Zap className="w-3 h-3" />
+              <Zap className="w-3.5 h-3.5 fill-violet-600" />
               Programming Training Arena
             </motion.div>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight mb-5 flex flex-wrap gap-x-3 gap-y-0.5">
-              <Word delay={0.06}>Clear</Word>
-              <Word delay={0.12} accent>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight mb-4 text-stone-900">
+              Clear{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 underline decoration-wavy decoration-amber-400">
                 Your
-              </Word>
-              <Word delay={0.2}>Tech</Word>
-              <Word delay={0.26}>Interview</Word>
+              </span>{" "}
+              Tech Interview
             </h1>
 
             {/* Subtitle */}
             <motion.p
-              className="text-base sm:text-lg text-stone-600 font-medium max-w-md mb-8 leading-relaxed"
+              className="text-base sm:text-lg text-stone-600 font-medium max-w-md mb-7 leading-relaxed"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
             >
               Simple, short notes, quick flashcards, and tricky interview traps.
               Revise OOP, memory, and coding basics in minutes without reading
               long books.
             </motion.p>
 
-            {/* CTAs */}
+            {/* CTAs with Aceternity MovingBorder */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-3"
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.48, duration: 0.5 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
             >
-              <Link href="/chapter/chapter-1">
-                <Button variant="primary" size="lg">
-                  Start Quest
-                  <ArrowRight className="w-5 h-5" strokeWidth={2.5} />
-                </Button>
-              </Link>
+              <MovingBorderButton />
               <Link href="/sprint">
-                <Button variant="accent" size="lg">
+                <Button
+                  variant="accent"
+                  size="lg"
+                  className="w-full sm:w-auto cursor-pointer"
+                >
                   <Zap className="w-5 h-5" strokeWidth={2.5} />
                   5-Min Sprint
                 </Button>
@@ -433,21 +495,21 @@ export function HeroSection() {
             </motion.div>
           </div>
 
-          {/* Right: floating card stack (desktop only) */}
+          {/* Right: 2D Revolving Orbit Showcase */}
           <motion.div
-            className="hidden lg:block"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
+            className="hidden lg:flex justify-center"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.35, duration: 0.5 }}
           >
-            <HeroVisual />
+            <HeroOrbitShowcase />
           </motion.div>
         </div>
 
-        {/* ── Row 2: 3D flip feature cards ── */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pb-10 sm:pb-14">
-          {FEATURE_CARDS.map((card, i) => (
-            <FeatureCard key={card.title} {...card} delay={0.52 + i * 0.08} />
+        {/* ── Row 2: 3D Flip Feature Cards with Particle FX ── */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 pb-8 sm:pb-10">
+          {STAT_ITEMS.map((item) => (
+            <FeatureFlipCard key={item.title} {...item} />
           ))}
         </div>
       </div>
