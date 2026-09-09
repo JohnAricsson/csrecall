@@ -2,47 +2,50 @@
   "id": "chapter-10",
   "chapterNumber": 10,
   "title": "Basic Software Security",
-  "description": "Modern Interview Revision Cheat Sheet covering foundational security principles, common web vulnerabilities, password handling, access control, and defense-in-depth best practices.",
-  "icon": "shield-check",
+  "description": "Interactive Revision Cheat Sheet & Interview Guide for fundamental security concepts, web attacks, password safety, and defense best practices.",
   "estimatedMinutes": 45,
   "sections": [
     {
-      "id": "sec-1",
-      "title": "1. Core Security Principles: The CIA Triad",
-      "description": "The fundamental security model defining three core goals for protecting software systems and data.",
+      "id": "section-1",
+      "title": "Core Security Principles: The CIA Triad",
       "topics": [
         {
-          "id": "topic-1-1",
-          "title": "The CIA Triad (Confidentiality, Integrity, Availability)",
-          "explanation": "The CIA Triad is one of the most fundamental security models. It defines three main goals for protecting software systems and data: Confidentiality + Integrity + Availability[cite: 2].\n\n🔒 C — Confidentiality\nConfidentiality means sensitive data should only be accessible to authorized users[cite: 2]. It protects information from unauthorized access or disclosure[cite: 2]. Examples: Encryption, Authentication, Authorization, Role-Based Access Control (RBAC), Multi-Factor Authentication (MFA), Access control policies[cite: 2].\nExample:\nNormal User → Can access own profile[cite: 2]\nAdmin → Can access admin dashboard[cite: 2]\nUnauthorized User → Access Denied[cite: 2]\n\n🛡️ I — Integrity\nIntegrity means data should remain accurate, consistent, and protected from unauthorized modification[cite: 2]. No unauthorized user should be able to secretly change or damage data[cite: 2]. Examples: Hashing, Input validation, Database transactions, Digital signatures, Access control, Checksums[cite: 2].\nExample:\nOriginal Balance: $1000 → Unauthorized Modification → $10,000 ❌[cite: 2]\nA secure system should prevent or detect such unauthorized changes[cite: 2].\n\n⚡ A — Availability\nAvailability means systems and data should be accessible when legitimate users need them[cite: 2]. Examples: Rate limiting, Load balancing, Backups, Auto-scaling, Failover systems, DDoS protection[cite: 2].\nExample:\nHigh Traffic → Load Balancer → Multiple Servers → Application Stays Available[cite: 2]",
-          "tldr": "Confidentiality: যার data দেখার permission আছে, শুধু সেই user-ই দেখতে পারবে। Integrity: Data কেউ unauthorized ভাবে change বা corrupt করতে পারবে না। Availability: দরকারের সময় system down না হয়ে available থাকতে হবে[cite: 2]।",
+          "id": "topic-1",
+          "title": "THE CIA TRIAD (CONFIDENTIALITY, INTEGRITY, AVAILABILITY)",
+          "explanation": "The CIA Triad is the base of software security. It has three main targets:\n\n1. Confidentiality: Only authorized people can view private data. We use tools like Encryption, Passwords, and Role-Based Access Control.\nExample: A student can view only their own grade sheet, not others.\n\n2. Integrity: Data must remain correct and untouched by unauthorized users. We use Hashing and Input Validation.\nExample: A hacker cannot secretly edit an account balance from $100 to $10,000.\n\n3. Availability: Systems and data must be running whenever users need them. We use Backups, Load Balancers, and Rate Limiting.\nExample: A university result website does not crash when thousands of students visit at once.",
+          "tldr": "Confidentiality: যার permission আছে সে-ই শুধু দেখবে। Integrity: কেউ data পরিবর্তন করতে পারবে না। Availability: প্রয়োজনের সময় system চালু থাকবে।",
           "keyPoints": [
-            "Confidentiality: Prevent unauthorized access (Encryption, MFA)[cite: 2]",
-            "Integrity: Prevent unauthorized changes and preserve consistency (Hashing, validation)[cite: 2]",
-            "Availability: Ensure authorized users can access systems when needed (Backups, auto-scaling, load balancing)[cite: 2]"
+            "Confidentiality stops unauthorized people from viewing data (Encryption, MFA).",
+            "Integrity stops unauthorized modifications and keeps data correct (Hashing, validation).",
+            "Availability ensures users can access the website or service anytime (Backups, load balancers)."
           ],
           "comparisons": [
             {
               "title": "CIA Triad Summary",
-              "headers": ["Principle", "Main Question", "Goal", "Example"],
+              "headers": [
+                "Principle",
+                "Core Question",
+                "Goal",
+                "Primary Tools"
+              ],
               "rows": [
                 [
                   "Confidentiality",
                   "Who can see it?",
-                  "Prevent unauthorized access",
-                  "Encryption, MFA"
+                  "Prevent data leaks",
+                  "Encryption, MFA, Access Control"
                 ],
                 [
                   "Integrity",
-                  "Can it be trusted?",
-                  "Prevent unauthorized changes",
-                  "Hashing, validation"
+                  "Can we trust it?",
+                  "Stop unauthorized edits",
+                  "Hashing, Checksums, Validation"
                 ],
                 [
                   "Availability",
-                  "Can users access it?",
-                  "Keep systems running",
-                  "Backups, scaling"
+                  "Can users open it?",
+                  "Stop downtime",
+                  "Backups, Load Balancing, Rate Limits"
                 ]
               ]
             }
@@ -50,8 +53,8 @@
           "traps": [
             {
               "id": "trap-1-1",
-              "statement": "Encryption provides confidentiality, integrity, and authenticity all by itself.",
-              "explanation": "Encryption primarily protects confidentiality[cite: 2]. However, additional mechanisms such as authentication, digital signatures, and integrity checks may be needed to ensure authenticity and integrity[cite: 2].",
+              "statement": "Does encryption automatically protect integrity and authenticity?",
+              "explanation": "No. Encryption only keeps data secret (confidentiality). You still need hashing or digital signatures to verify that data was not changed.",
               "category": "interview-gotcha"
             }
           ]
@@ -59,445 +62,411 @@
       ]
     },
     {
-      "id": "sec-2",
-      "title": "2. Common Web Vulnerabilities & Prevention",
-      "description": "Exploration of prevalent web attack vectors including SQLi, XSS, and CSRF along with targeted remediation strategies.",
+      "id": "section-2",
+      "title": "Common Web Vulnerabilities & Prevention",
       "topics": [
         {
-          "id": "topic-2-1",
-          "title": "Common Web Vulnerabilities Overview",
-          "explanation": "A vulnerability is a weakness or mistake in software that attackers may exploit to access sensitive data, modify data, damage systems, bypass security controls, or impersonate users[cite: 2]. Some of the most common web vulnerabilities include SQL Injection (SQLi), Cross-Site Scripting (XSS), Cross-Site Request Forgery (CSRF), Broken Access Control, and Authentication Failures[cite: 2].",
+          "id": "topic-2",
+          "title": "COMMON WEB VULNERABILITIES OVERVIEW",
+          "explanation": "A vulnerability is a bug or security hole in code that attackers use to steal data, break systems, or bypass login screens. The most frequent web issues are SQL Injection (SQLi), Cross-Site Scripting (XSS), Cross-Site Request Forgery (CSRF), and Broken Access Control.",
+          "tldr": "Vulnerability হলো কোডের দুর্বলতা বা ভুল, যা কাজে লাগিয়ে হ্যাকাররা ক্ষতি করতে পারে।",
           "keyPoints": [
-            "SQL Injection (SQLi)[cite: 2]",
-            "Cross-Site Scripting (XSS)[cite: 2]",
-            "Cross-Site Request Forgery (CSRF)[cite: 2]",
-            "Broken Access Control[cite: 2]",
-            "Authentication Failures[cite: 2]"
+            "SQL Injection (SQLi): Malicious database queries.",
+            "Cross-Site Scripting (XSS): Injecting bad scripts into other users' browsers.",
+            "Cross-Site Request Forgery (CSRF): Tricking a logged-in user into running unwanted actions.",
+            "Broken Access Control: Users doing actions they have no permission to do."
           ]
         },
         {
-          "id": "topic-2-2",
-          "title": "SQL Injection (SQLi) & Parameterized Queries",
-          "explanation": "SQL Injection happens when an application improperly includes user input inside an SQL query[cite: 2]. An attacker may manipulate the query logic and potentially read sensitive data, modify data, delete data, or bypass authentication[cite: 2].\n\nProblem:\nSQL Code + User Input = Directly Combined ❌[cite: 2]\nThe application allows user-controlled input to affect the query structure[cite: 2].\n\nPrevention: Parameterized Queries\nUse parameterized queries and prepared statements[cite: 2]. These keep SQL Code separate from User Data, so the database treats user input strictly as data, not SQL instructions[cite: 2].\n\nAdditional Prevention:\n- Use parameterized queries[cite: 2]\n- Validate input[cite: 2]\n- Apply least-privilege database permissions[cite: 2]\n- Avoid building SQL with string concatenation[cite: 2]\n- Use trusted ORM/database libraries correctly[cite: 2]\nImportant: Using an ORM can reduce risk, but unsafe raw queries can still introduce SQL Injection[cite: 2].",
-          "tldr": "User input সরাসরি SQL query-এর সাথে জোড়া যাবে না। Parameterized query ব্যবহার করতে হবে[cite: 2]।",
+          "id": "topic-3",
+          "title": "SQL INJECTION (SQLI) & PARAMETERIZED QUERIES",
+          "explanation": "SQL Injection occurs when user input is added directly inside an SQL string. The database engine treats user input as executable SQL commands, letting attackers read or erase records without permission.\n\nThe Fix: Parameterized Queries (Prepared Statements). These send the SQL command structure first, and pass the input separately as pure data.",
+          "tldr": "User input সরাসরি SQL query-এর সাথে জোড়া যাবে না। Parameterized query ব্যবহার করতে হবে।",
+          "keyPoints": [
+            "Never use string concatenation to build SQL statements.",
+            "Parameterized queries force the database to treat input strictly as data, not runnable code.",
+            "Using an ORM helps, but raw queries inside ORMs can still be vulnerable."
+          ],
           "codeSnippets": [
             {
               "language": "javascript",
-              "code": "const query = \"SELECT * FROM users WHERE email = '\" + userInput + \"'\";",
-              "explanation": "Vulnerable Concept: Directly concatenating user input into query string[cite: 2]"
+              "code": "// VULNERABLE: Direct string concatenation\nconst query = \"SELECT * FROM users WHERE email = '\" + userInput + \"'\";",
+              "explanation": "Bad approach: userInput can change the query logic."
             },
             {
               "language": "javascript",
-              "code": "const query = \"SELECT * FROM users WHERE email = ?\";\n// userInput is passed as a parameter, not directly concatenated into the SQL query.",
-              "explanation": "Safe Concept: Parameterized queries keep SQL separate from user input[cite: 2]"
-            }
-          ],
-          "traps": [
-            {
-              "id": "trap-2-1",
-              "statement": "Input validation alone is enough to prevent SQL Injection.",
-              "explanation": "No[cite: 2]. The primary defense is parameterized queries or prepared statements[cite: 2]. Input validation is an additional security layer[cite: 2].",
-              "category": "interview-gotcha"
-            }
-          ]
-        },
-        {
-          "id": "topic-2-3",
-          "title": "Cross-Site Scripting (XSS) & Prevention",
-          "explanation": "Cross-Site Scripting (XSS) happens when an application allows malicious client-side code to be included in a webpage and executed in another user's browser[cite: 2]. An attacker may attempt to steal sensitive information, perform actions as the victim, modify page content, redirect users, or access non-HttpOnly browser data[cite: 2].\n\nBasic Flow:\nAttacker → Injects Malicious Content → Application Displays It Unsafely → Victim Opens Page → Browser Executes It ❌[cite: 2]\n\nCommon Types of XSS:\n1. Stored XSS: Malicious content is stored by the application (comments, profiles, posts)[cite: 2]. Attacker submits content → Application stores it → Other users open page → Malicious code executes[cite: 2].\n2. Reflected XSS: Malicious input is included in an immediate server response, often associated with URL parameters, search fields, or error messages[cite: 2].\n3. DOM-Based XSS: The vulnerability happens mainly in client-side JavaScript when unsafe data is inserted into the DOM[cite: 2].\n\nPrevention:\n- Output Encoding / Escaping: Encode output so special characters (<, >) are treated as text rather than executable HTML or JavaScript[cite: 2].\n- Avoid Unsafe DOM Operations: Avoid inserting untrusted data into dangerous browser APIs like innerHTML without proper sanitization[cite: 2]. Use safer alternatives like textContent[cite: 2].\n- HttpOnly Cookies: Use the HttpOnly flag for sensitive cookies[cite: 2]. JavaScript cannot access it, reducing cookie theft risk[cite: 2]. Note: HttpOnly does not prevent XSS itself; it only helps reduce the impact of cookie theft[cite: 2].",
-          "tldr": "XSS আটকাতে output safely encode করতে হবে। HttpOnly cookie XSS-এর ক্ষতি কমাতে সাহায্য করে[cite: 2]।",
-          "traps": [
-            {
-              "id": "trap-2-2",
-              "statement": "Setting the HttpOnly flag completely prevents Cross-Site Scripting (XSS) attacks.",
-              "explanation": "No[cite: 2]. HttpOnly does not prevent XSS[cite: 2]. It only prevents JavaScript from directly accessing cookies marked as HttpOnly[cite: 2].",
-              "category": "common-mistake"
-            }
-          ]
-        },
-        {
-          "id": "topic-2-4",
-          "title": "Cross-Site Request Forgery (CSRF) & Prevention",
-          "explanation": "CSRF is an attack where a malicious website tricks a logged-in user's browser into sending an unwanted request to another website[cite: 2]. The browser may automatically include authentication credentials such as cookies[cite: 2].\n\nExample Scenario:\nUser logs into bank.com (cookie stored) → User visits malicious-site.com → Malicious site triggers request to bank.com → Browser sends auth cookie automatically → Unwanted action occurs if unverified ❌[cite: 2]\n\nPrevention:\n- CSRF Tokens: Server generates a unique token associated with user/session[cite: 2]. Client sends token, server verifies token[cite: 2]. If token is missing, invalid, or expired, request is rejected[cite: 2].\n- SameSite Cookies: Attribute controls when cookies are sent in cross-site requests[cite: 2].\n  • Strict: Stronger cross-site restrictions[cite: 2]\n  • Lax: Allows some top-level navigation[cite: 2]\n  • None: Allows cross-site cookies (requires Secure in modern browsers)[cite: 2]\n- Additional Controls: Origin/Referer validation where appropriate, avoid relying solely on cookies for authentication[cite: 2].",
-          "tldr": "CSRF-এ attacker অন্য site থেকে logged-in user-এর browser দিয়ে unwanted request পাঠানোর চেষ্টা করে[cite: 2]।",
-          "traps": [
-            {
-              "id": "trap-2-3",
-              "statement": "CSRF attacks are equally dangerous regardless of whether authentication uses cookies or tokens in custom headers.",
-              "explanation": "CSRF attacks are especially relevant when browsers automatically send authentication cookies with requests[cite: 2].",
-              "category": "conceptual"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "sec-3",
-      "title": "3. Identity, Access Control & Authorization",
-      "description": "Differentiating authentication vs authorization, implementing RBAC, and enforcing the principle of least privilege.",
-      "topics": [
-        {
-          "id": "topic-3-1",
-          "title": "Authentication vs Authorization & Least Privilege",
-          "explanation": "Authentication vs Authorization:\nAuthentication answers: 'Who are you?'[cite: 2]. It verifies the identity of a user (Username/password, OTP, Fingerprint, Auth token, MFA)[cite: 2].\nAuthorization answers: 'What are you allowed to do?'[cite: 2]. It determines what an authenticated user can access or modify (Role/permission checks)[cite: 2].\n\nRole-Based Access Control (RBAC):\nControls access based on user roles[cite: 2].\n- Admin → Create, Read, Update, Delete[cite: 2]\n- Normal User → Read, Limited Update[cite: 2]\n\nImportant Security Principle: Least Privilege\nUsers and services should only receive the minimum permissions required to perform their tasks[cite: 2].\nExample: Application database user should only have required permissions, not Database Admin[cite: 2].\nBenefits: Reduces damage if an account is compromised, limits accidental changes, and improves overall security[cite: 2].",
-          "tldr": "Authentication = তুমি কে? Authorization = তুমি কী কী করতে পারবে? যতটুকু permission দরকার, শুধু ততটুকুই দিতে হবে[cite: 2]।",
-          "comparisons": [
-            {
-              "title": "Authentication vs Authorization",
-              "headers": ["Authentication", "Authorization"],
-              "rows": [
-                ["Who are you?", "What can you do?"],
-                ["Verifies identity", "Checks permissions"],
-                [
-                  "Happens before access",
-                  "Happens after identity verification"
-                ],
-                ["Login", "Role/permission check"]
-              ]
+              "code": "// SAFE: Parameterized Query\nconst query = \"SELECT * FROM users WHERE email = ?\";\ndb.execute(query, [userInput]);",
+              "explanation": "Good approach: userInput is sent separately as data."
             }
           ],
           "traps": [
             {
               "id": "trap-3-1",
-              "statement": "If a user is authenticated, they are inherently authorized to perform actions.",
-              "explanation": "A user may successfully log in (authenticated) but still not have permission to access a specific resource or perform an action (unauthorized)[cite: 2].",
-              "category": "conceptual"
-            },
-            {
-              "id": "trap-3-2",
-              "statement": "Hiding a delete button on the frontend provides sufficient authorization security.",
-              "explanation": "Frontend authorization is insufficient because an attacker can directly call the API (e.g. DELETE /api/users/123)[cite: 2]. Permissions must always be validated and enforced on the server[cite: 2].",
-              "category": "common-mistake"
+              "statement": "Is input validation alone sufficient to stop SQL Injection?",
+              "explanation": "No. Parameterized queries are the primary defense. Input validation is only a secondary defense layer.",
+              "category": "interview-gotcha"
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "sec-4",
-      "title": "4. Password Security & Cryptography",
-      "description": "Safe password storage techniques, modern hashing algorithms, salts, and the distinction between hashing and encryption.",
-      "topics": [
+        },
         {
-          "id": "topic-4-1",
-          "title": "Password Hashing, Salts & Hashing vs Encryption",
-          "explanation": "🚨 Never Store Plaintext Passwords\nPasswords should never be stored as plain text[cite: 2]. If a database is compromised, plaintext passwords are exposed immediately[cite: 2].\n\nPassword Hashing:\nPasswords must be stored using dedicated password hashing algorithms such as bcrypt, Argon2, or PBKDF2[cite: 2]. A hash is a one-way transformation[cite: 2]. During login, the entered password is hashed/verified and securely compared[cite: 2].\nImportant: Do not use fast general-purpose hashes like MD5 or SHA-1 for password storage[cite: 2]. Password hashes must be computationally expensive enough to resist large-scale guessing attacks[cite: 2].\n\nWhat is a Salt?\nA salt is a random value combined with a password before/during hashing[cite: 2].\n- Without Salt: Identical passwords produce identical hashes[cite: 2].\n- With Salt: Password + Random Salt → Unique Stored Result[cite: 2].\nWhy Use Salt? Prevents identical passwords from producing identical hashes, makes precomputed rainbow tables ineffective, and forces attackers to attack hashes individually[cite: 2].\n\nHashing vs Encryption:\n- Hashing: One-way process[cite: 2]. No normal recovery of original data; no decryption key; used for passwords and integrity checks[cite: 2].\n- Encryption: Reversible with correct key[cite: 2]. Designed to protect confidential data (in transit or at rest) and recover original data with decryption keys[cite: 2].",
-          "tldr": "Salt হলো random value, যা একই password-এর hash-ও আলাদা করে দেয়[cite: 2]। Password-এর জন্য Hashing, secret data protect করার জন্য Encryption[cite: 2]।",
-          "comparisons": [
-            {
-              "title": "Hashing vs Encryption",
-              "headers": ["Hashing", "Encryption"],
-              "rows": [
-                ["One-way", "Reversible with key"],
-                [
-                  "No normal recovery of original data",
-                  "Can decrypt with correct key"
-                ],
-                ["Password verification", "Protect confidential data"],
-                ["No decryption key", "Uses encryption/decryption keys"]
-              ]
-            }
+          "id": "topic-4",
+          "title": "CROSS-SITE SCRIPTING (XSS) & PREVENTION",
+          "explanation": "Cross-Site Scripting happens when an app displays untrusted user input directly on a webpage without cleaning it. Malicious JavaScript then runs in another user's browser, potentially stealing session cookies.\n\nMain Types:\n1. Stored XSS: The bad script is saved in the database (e.g., in a comment box) and runs whenever anyone views that page.\n2. Reflected XSS: The bad script is bounced back immediately from a URL parameter or search query.\n3. DOM-based XSS: The vulnerability lives directly in client-side JavaScript modifying the DOM unsafely.\n\nDefense: Output encoding (convert special characters like < and > into text entities), avoiding innerHTML, and using the HttpOnly flag on cookies.",
+          "tldr": "XSS আটকাতে output safely encode করতে হবে। HttpOnly cookie XSS-এর ক্ষতি কমাতে সাহায্য করে।",
+          "keyPoints": [
+            "Stored XSS is stored in the database; Reflected XSS comes directly via request parameters.",
+            "Always escape and encode output before writing it to HTML.",
+            "HttpOnly cookies cannot be read by JavaScript (document.cookie), minimizing theft damage."
           ],
           "traps": [
             {
               "id": "trap-4-1",
-              "statement": "Salt values must be kept strictly secret like cryptographic private keys.",
-              "explanation": "Usually, no[cite: 2]. The salt does not need to be secret[cite: 2]. Its purpose is uniqueness and protection against precomputed dictionary/rainbow table attacks[cite: 2]. The password itself remains secret[cite: 2].",
-              "category": "interview-gotcha"
-            },
-            {
-              "id": "trap-4-2",
-              "statement": "Encrypting passwords with a reversible encryption algorithm is recommended for password storage.",
-              "explanation": "Passwords should generally be stored using dedicated password hashing algorithms rather than reversible encryption[cite: 2].",
+              "statement": "Does the HttpOnly cookie flag completely stop XSS attacks?",
+              "explanation": "No. HttpOnly only protects the cookie from being read by JavaScript. The attacker can still manipulate the page or perform actions as the user.",
               "category": "common-mistake"
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "sec-5",
-      "title": "5. Web Application Defense & Infrastructure",
-      "description": "Hardening cookies, mitigating brute-force attacks via rate limiting, TLS in transit, and server-side validation.",
-      "topics": [
+        },
         {
-          "id": "topic-5-1",
-          "title": "Cookies, Rate Limiting, Brute Force & Input Validation",
-          "explanation": "Cookie Security Flags:\n- HttpOnly: Blocks JavaScript access (document.cookie), reducing token theft via XSS[cite: 2].\n- Secure: Ensures the cookie is sent only over HTTPS[cite: 2].\n- SameSite: Controls cross-site request behavior (Strict, Lax, None) to mitigate CSRF[cite: 2].\n\nRate Limiting & Brute Force Protection:\nRate limiting restricts how many requests a user, IP address, or client can make within a specific time period[cite: 2]. Exceeding limits typically returns HTTP 429 Too Many Requests[cite: 2]. Protects against brute-force attacks, credential stuffing, API abuse, and some DoS attacks[cite: 2]. Additional defenses: MFA, account lockout/progressive delays, monitoring, CAPTCHA[cite: 2]. Rate limiting is not a complete DDoS solution; large-scale volumetric attacks require CDNs, DDoS scrubbers, and infrastructure scaling[cite: 2].\n\nHTTPS & TLS:\nHTTPS protects client-server communication using TLS, providing Confidentiality, Integrity, and Server Authentication[cite: 2]. HTTP uses Port 80 unencrypted; HTTPS uses Port 443 encrypted[cite: 2]. Note: HTTPS protects data in transit; data at rest requires separate database/storage encryption[cite: 2].\n\nInput Validation:\nChecks whether input follows rules (Required fields, Data type, Length, Range, Format)[cite: 2].\nRule: Never trust client-side validation alone[cite: 2]. Client-side validation improves user experience, but server-side validation is required for application security[cite: 2].",
-          "tldr": "Frontend validation bypass করা যায়, তাই server-side validation অবশ্যই দরকার। কেউ যেন খুব বেশি request পাঠিয়ে login abuse করতে না পারে সেজন্য rate limit করা হয়[cite: 2]।",
-          "comparisons": [
-            {
-              "title": "HTTP vs HTTPS",
-              "headers": ["HTTP", "HTTPS"],
-              "rows": [
-                ["Not encrypted by TLS", "Protected using TLS"],
-                [
-                  "Data may be exposed more easily",
-                  "Data is encrypted in transit"
-                ],
-                ["Less secure", "More secure"],
-                ["Port 80 commonly", "Port 443 commonly"]
-              ]
-            }
+          "id": "topic-5",
+          "title": "CROSS-SITE REQUEST FORGERY (CSRF) & PREVENTION",
+          "explanation": "CSRF tricks an authenticated user's browser into submitting an unauthorized request to a target website where they are already logged in. Because browsers send cookies automatically with requests, the target server thinks the legitimate user sent it.\n\nDefense: Anti-CSRF tokens (unique, secret tokens verified on the server) and setting the SameSite cookie flag to Lax or Strict.",
+          "tldr": "CSRF-এ attacker অন্য site থেকে logged-in user-এর browser দিয়ে unwanted request পাঠানোর চেষ্টা করে।",
+          "keyPoints": [
+            "CSRF abuses browser auto-sent cookies.",
+            "CSRF tokens provide proof that the request came from the real web page, not an attacker's site.",
+            "SameSite cookies (Strict/Lax) prevent browsers from sending cookies on third-party site requests."
           ],
           "traps": [
             {
               "id": "trap-5-1",
-              "statement": "HTTPS protects and encrypts data stored inside the database.",
-              "explanation": "No[cite: 2]. HTTPS protects data in transit between client and server[cite: 2]. Data at rest requires separate protection mechanisms[cite: 2].",
+              "statement": "Are token-based headers (like Authorization: Bearer) equally vulnerable to CSRF as cookies?",
+              "explanation": "No. Browsers automatically send cookies, but they do not automatically attach custom authorization headers to cross-site requests.",
               "category": "conceptual"
-            },
-            {
-              "id": "trap-5-2",
-              "statement": "Rate limiting completely eliminates the possibility of distributed denial of service (DDoS).",
-              "explanation": "Rate limiting is helpful, but it is not a complete DDoS protection solution[cite: 2]. Large-scale attacks require CDNs, specialized DDoS protection services, load balancing, and infrastructure-level defenses[cite: 2].",
-              "category": "common-mistake"
             }
           ]
         }
       ]
     },
     {
-      "id": "sec-6",
-      "title": "6. Best Practices, Interview Traps & Rapid Review",
-      "description": "Consolidated security checklist, traps, flashcards, golden rules, and interview cheat sheets.",
+      "id": "section-3",
+      "title": "Identity, Access Control & Authorization",
       "topics": [
         {
-          "id": "topic-6-1",
-          "title": "Security Best Practices, Flashcards, and Memory Map",
-          "explanation": "Comprehensive Best Practices:\n- Authentication: Secure password hashing (bcrypt/Argon2), MFA, secure session management, avoid exposing secrets[cite: 2].\n- Authorization: Check permissions server-side, apply least privilege, verify resource ownership[cite: 2].\n- Input Handling: Validate input, encode output, use parameterized queries, sanitize safely[cite: 2].\n- Cookies: Configure HttpOnly, Secure, and SameSite attributes[cite: 2].\n- APIs: Rate limit sensitive endpoints, authenticate users, authorize actions, avoid verbose error dumps[cite: 2].\n- Dependencies: Keep updated, monitor vulnerabilities, remove unused packages[cite: 2].\n\nGolden Security Rules:\n1. Never Trust User Input → Validate on the Server[cite: 2]\n2. Never Store Plaintext Passwords → Use Secure Password Hashing[cite: 2]\n3. Never Trust Frontend Authorization → Check Permissions on the Server[cite: 2]\n4. Never Concatenate Untrusted Input Into SQL → Use Parameterized Queries[cite: 2]\n5. Never Assume Deployment Is the End → Monitor, Update, Patch, Audit[cite: 2]",
-          "tldr": "Security-এর মূল কথা হলো—user input trust করবে না, password plaintext রাখবে না, permission server-side check করবে, এবং প্রতিটি layer-এ security consider করবে[cite: 2]।",
+          "id": "topic-6",
+          "title": "AUTHENTICATION VS AUTHORIZATION & LEAST PRIVILEGE",
+          "explanation": "Authentication checks identity: 'Who are you?' (Login with email/password, OTP, MFA).\nAuthorization checks permissions: 'What can you do?' (Can this user delete this post?).\n\nRole-Based Access Control (RBAC): Assigning permissions to roles instead of users directly (e.g., Admin vs Student).\n\nPrinciple of Least Privilege: Give every user and database account only the minimum permissions needed to finish their job.",
+          "tldr": "Authentication = তুমি কে? Authorization = তুমি কী করতে পারবে? যতটুকু permission দরকার, শুধু ততটুকুই দিতে হবে।",
           "keyPoints": [
-            "CIA Triad: Confidentiality, Integrity, Availability[cite: 2]",
-            "Authentication: Who are you?[cite: 2]",
-            "Authorization: What can you do?[cite: 2]",
-            "SQLi: Use parameterized queries[cite: 2]",
-            "XSS: Safely encode/handle untrusted output[cite: 2]",
-            "CSRF: Protect unwanted authenticated requests using tokens and SameSite[cite: 2]",
-            "Password Storage: Use bcrypt, Argon2, or PBKDF2 with salt[cite: 2]",
-            "Rate Limiting: Return HTTP 429 to mitigate abuse and brute-force[cite: 2]",
-            "HTTPS: Secures transit, not data at rest[cite: 2]"
+            "Authentication happens first; authorization happens after identity is confirmed.",
+            "Frontend permission checks are purely for user experience; authorization must always be enforced on the backend.",
+            "Least privilege limits the damage if a user account or service gets compromised."
           ],
           "comparisons": [
             {
-              "title": "Final Security Cheat Sheet",
-              "headers": ["Topic", "Remember This"],
+              "title": "Authentication vs Authorization",
+              "headers": ["Authentication (AuthN)", "Authorization (AuthZ)"],
               "rows": [
-                ["CIA Triad", "Confidentiality, Integrity, Availability"],
-                ["Authentication", "Who are you?"],
-                ["Authorization", "What can you do?"],
-                ["SQLi", "Use parameterized queries"],
-                ["XSS", "Safely encode/handle untrusted output"],
-                ["CSRF", "Protect unwanted authenticated requests"],
-                ["Password Storage", "Use bcrypt, Argon2, or PBKDF2"],
-                ["Salt", "Adds uniqueness to password hashing"],
-                ["Hashing", "One-way"],
-                ["Encryption", "Reversible with key"],
-                ["HttpOnly", "Blocks JavaScript cookie access"],
-                ["Secure Cookie", "HTTPS only"],
-                ["SameSite", "Controls cross-site cookie behavior"],
-                ["Rate Limiting", "Restricts excessive requests"],
-                ["Least Privilege", "Give minimum required permissions"],
-                ["HTTPS", "Protects data in transit"],
-                ["Server Validation", "Required for security"],
-                ["Data at Rest", "Needs separate protection"]
+                ["Who are you?", "What are you allowed to do?"],
+                ["Verifies credentials", "Verifies permissions"],
+                ["Done during login", "Checked on every protected request"],
+                [
+                  "Examples: Passwords, OTP, MFA",
+                  "Examples: Admin role, edit permissions"
+                ]
               ]
-            }
-          ],
-          "questions": [
-            {
-              "question": "What is the primary difference between Authentication and Authorization?",
-              "answer": "Authentication verifies identity ('Who are you?'), while Authorization checks permissions ('What are you allowed to do?')[cite: 2]."
-            },
-            {
-              "question": "Why is rate limiting important?",
-              "answer": "Rate limiting restricts excessive requests and helps protect against brute-force attacks, API abuse, resource exhaustion, and some DoS attacks[cite: 2]."
-            }
-          ],
-          "flashcards": [
-            {
-              "id": "fc-1",
-              "question": "What are the three principles of the CIA Triad?",
-              "answer": "Confidentiality, Integrity, Availability[cite: 2]",
-              "difficulty": "easy"
-            },
-            {
-              "id": "fc-2",
-              "question": "Authentication vs Authorization?",
-              "answer": "Authentication: Who are you? | Authorization: What are you allowed to do?[cite: 2]",
-              "difficulty": "easy"
-            },
-            {
-              "id": "fc-3",
-              "question": "How do you prevent SQL Injection?",
-              "answer": "Use Parameterized Queries or Prepared Statements. Never directly concatenate untrusted user input into SQL queries[cite: 2].",
-              "difficulty": "medium"
-            },
-            {
-              "id": "fc-4",
-              "question": "What is XSS?",
-              "answer": "XSS occurs when untrusted content is handled unsafely and malicious client-side code can execute in a victim's browser. Main defense: Safe Output Encoding + Safe DOM Handling[cite: 2].",
-              "difficulty": "medium"
-            },
-            {
-              "id": "fc-5",
-              "question": "What is CSRF?",
-              "answer": "CSRF tricks a logged-in user's browser into sending an unwanted request to another website. Common protections: CSRF Tokens, SameSite Cookies, Origin Validation[cite: 2].",
-              "difficulty": "medium"
-            },
-            {
-              "id": "fc-6",
-              "question": "Hashing vs Encryption?",
-              "answer": "Hashing: One-Way, used for passwords. Encryption: Reversible with key, used to protect confidential data[cite: 2].",
-              "difficulty": "easy"
-            },
-            {
-              "id": "fc-7",
-              "question": "Why is Rate Limiting important?",
-              "answer": "Rate limiting restricts excessive requests and helps protect against brute-force attacks, API abuse, resource exhaustion, and some DoS attacks[cite: 2].",
-              "difficulty": "medium"
             }
           ],
           "traps": [
             {
               "id": "trap-6-1",
-              "statement": "Authentication and Authorization are the same. True or False?",
-              "explanation": "False. Authentication = Who are you? Authorization = What can you do?[cite: 2]",
+              "statement": "If a user is successfully authenticated, are they automatically authorized to perform actions?",
+              "explanation": "No. A logged-in regular user should not have permission to access admin features or another user's private data.",
               "category": "conceptual"
             },
             {
               "id": "trap-6-2",
-              "statement": "Hashing and Encryption are the same. True or False?",
-              "explanation": "False. Hashing = One-way. Encryption = Reversible with key[cite: 2].",
+              "statement": "Is hiding an edit or delete button on the frontend enough for security?",
+              "explanation": "No. Attackers can call the API directly using Postman or cURL. You must verify permissions on the server.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-4",
+      "title": "Password Security & Cryptography",
+      "topics": [
+        {
+          "id": "topic-7",
+          "title": "PASSWORD HASHING, SALTS & HASHING VS ENCRYPTION",
+          "explanation": "Never store passwords in plaintext. Use slow, dedicated password hashing algorithms like bcrypt, Argon2, or PBKDF2.\n\nSalt: A unique random string added to the password before hashing. It ensures two users with the same password end up with completely different hashes, which blocks precomputed Rainbow Table attacks.\n\nHashing vs Encryption:\n- Hashing is a one-way process. You cannot turn a hash back into the original plain text.\n- Encryption is a two-way process. You can decrypt ciphertext back into the original plain text using the secret key.",
+          "tldr": "Salt হলো random value, যা একই password-এর hash-ও আলাদা করে দেয়। Password-এর জন্য Hashing, secret data protect করার জন্য Encryption।",
+          "keyPoints": [
+            "Never use fast hashing algorithms like MD5 or SHA-1 for passwords.",
+            "Use slow, adaptive hashing algorithms like bcrypt or Argon2.",
+            "Salts do not need to be kept secret; their job is simply to provide uniqueness.",
+            "Use hashing for password verification and encryption for reversible confidential data."
+          ],
+          "comparisons": [
+            {
+              "title": "Hashing vs Encryption",
+              "headers": ["Feature", "Hashing", "Encryption"],
+              "rows": [
+                ["Direction", "One-way", "Two-way (Reversible)"],
+                [
+                  "Key Needed?",
+                  "No key to decrypt",
+                  "Needs encryption/decryption key"
+                ],
+                [
+                  "Primary Purpose",
+                  "Password verification, integrity",
+                  "Protect data in transit or at rest"
+                ],
+                [
+                  "Output Recovery",
+                  "Cannot get original data back",
+                  "Can recover original data with key"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-7-1",
+              "statement": "Must salt values be kept as secret as private keys?",
+              "explanation": "No. Salts are stored alongside the hash in the database. Their role is uniqueness to stop rainbow table attacks, not secrecy.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-7-2",
+              "statement": "Should passwords be encrypted so administrators can recover them?",
+              "explanation": "No. Passwords must be one-way hashed. If a user forgets a password, provide a password reset flow instead.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-5",
+      "title": "Web Application Defense & Infrastructure",
+      "topics": [
+        {
+          "id": "topic-8",
+          "title": "COOKIES, RATE LIMITING, BRUTE FORCE & INPUT VALIDATION",
+          "explanation": "Secure Cookie Flags:\n- HttpOnly: Prevents JavaScript access, protecting cookies from XSS theft.\n- Secure: Tells browsers to send the cookie only over HTTPS.\n- SameSite: Controls cross-site cookie delivery to prevent CSRF.\n\nRate Limiting: Limits the number of requests a client can make in a given timeframe. Excess requests return HTTP 429 (Too Many Requests). It stops password guessing and API abuse.\n\nHTTPS & TLS: HTTPS encrypts data traveling between the client and server (Port 443). HTTP is unencrypted plain text (Port 80).\n\nInput Validation: Checks incoming data against expected types and ranges. Always validate on the server side because client-side checks can be turned off or bypassed.",
+          "tldr": "Frontend validation bypass করা যায়, তাই server-side validation অবশ্যই দরকার। কেউ যেন খুব বেশি request পাঠিয়ে login abuse করতে না পারে সেজন্য rate limit করা হয়।",
+          "keyPoints": [
+            "Use HttpOnly, Secure, and SameSite flags on sensitive cookies.",
+            "Rate limiting returns HTTP 429 to stop brute force and resource exhaustion.",
+            "HTTPS encrypts data in transit, but you must still encrypt data at rest inside databases.",
+            "Never rely solely on client-side form validation."
+          ],
+          "comparisons": [
+            {
+              "title": "HTTP vs HTTPS",
+              "headers": ["Feature", "HTTP", "HTTPS"],
+              "rows": [
+                ["Encryption", "No encryption", "Encrypted with TLS"],
+                ["Default Port", "Port 80", "Port 443"],
+                [
+                  "Data Safety",
+                  "Data can be intercepted in plain text",
+                  "Data in transit is secure"
+                ],
+                [
+                  "Certificate",
+                  "No SSL/TLS certificate needed",
+                  "Requires valid SSL/TLS certificate"
+                ]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-8-1",
+              "statement": "Does HTTPS protect data stored inside your database?",
+              "explanation": "No. HTTPS only protects data moving across the network (data in transit). Data saved on disks needs separate encryption (data at rest).",
               "category": "conceptual"
             },
             {
-              "id": "trap-6-3",
-              "statement": "Does HttpOnly prevent XSS?",
-              "explanation": "No. It prevents JavaScript from directly reading HttpOnly cookies but does not remove the XSS vulnerability itself[cite: 2].",
-              "category": "interview-gotcha"
+              "id": "trap-8-2",
+              "statement": "Does rate limiting completely solve large-scale DDoS attacks?",
+              "explanation": "No. Rate limiting stops individual brute-force attempts and simple abuse, but massive distributed DDoS attacks require CDNs and infrastructure scrubbers.",
+              "category": "common-mistake"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6",
+      "title": "Interview Guide & Flashcards",
+      "topics": [
+        {
+          "id": "topic-9",
+          "title": "COMMON INTERVIEW QUESTIONS",
+          "explanation": "Standard software security interview questions and model answers.",
+          "questions": [
+            {
+              "question": "What is the difference between Authentication and Authorization?",
+              "answer": "Authentication proves who you are (e.g., login with email and password). Authorization determines what resources you can access or modify after login."
             },
             {
-              "id": "trap-6-4",
-              "statement": "Does frontend authorization provide sufficient security?",
-              "explanation": "No. Authorization must be enforced on the server[cite: 2].",
+              "question": "How do you protect a web application against SQL Injection?",
+              "answer": "Use Parameterized Queries or Prepared Statements. Never concatenate raw user input into an SQL query string."
+            },
+            {
+              "question": "What is the difference between Hashing and Encryption?",
+              "answer": "Hashing is a one-way mathematical function used for password verification. Encryption is a two-way process that can be reversed with a secret key."
+            },
+            {
+              "question": "Why do we add a Salt when hashing passwords?",
+              "answer": "A salt adds random data to the password before hashing. This ensures identical passwords produce different hashes, rendering rainbow tables ineffective."
+            },
+            {
+              "question": "Why is Rate Limiting important on authentication routes?",
+              "answer": "It limits the frequency of incoming requests, stopping attackers from using brute-force scripts or credential stuffing tools on login endpoints."
+            }
+          ]
+        },
+        {
+          "id": "topic-10",
+          "title": "RAPID REVISION FLASHCARDS",
+          "explanation": "Quick revision cards for key software security terms.",
+          "flashcards": [
+            {
+              "id": "fc-1",
+              "question": "What are the three pillars of the CIA Triad?",
+              "answer": "Confidentiality, Integrity, and Availability."
+            },
+            {
+              "id": "fc-2",
+              "question": "What is Authentication vs Authorization?",
+              "answer": "Authentication = Who are you? | Authorization = What are you allowed to do?"
+            },
+            {
+              "id": "fc-3",
+              "question": "What is the primary defense against SQL Injection?",
+              "answer": "Parameterized queries (prepared statements)."
+            },
+            {
+              "id": "fc-4",
+              "question": "What is Cross-Site Scripting (XSS)?",
+              "answer": "Injecting malicious client-side script into another user's browser."
+            },
+            {
+              "id": "fc-5",
+              "question": "What is Cross-Site Request Forgery (CSRF)?",
+              "answer": "Tricking a user's browser into executing an unwanted action on a site where they are logged in."
+            },
+            {
+              "id": "fc-6",
+              "question": "Is Hashing reversible?",
+              "answer": "No. Hashing is strictly a one-way process."
+            },
+            {
+              "id": "fc-7",
+              "question": "What HTTP status code is returned when a user hits a rate limit?",
+              "answer": "HTTP 429 Too Many Requests."
+            },
+            {
+              "id": "fc-8",
+              "question": "What does the HttpOnly cookie flag do?",
+              "answer": "It prevents client-side JavaScript from reading the cookie via document.cookie."
+            },
+            {
+              "id": "fc-9",
+              "question": "Does HTTPS protect data at rest?",
+              "answer": "No. HTTPS only protects data in transit over the network."
+            }
+          ]
+        },
+        {
+          "id": "topic-11",
+          "title": "FINAL INTERVIEW TRAP CHECKLIST & MEMORY MAP",
+          "explanation": "Quick reference checklist of traps and a memory map for security revision.",
+          "keyPoints": [
+            "Structure security interview answers in 4 steps: 1. Definition 2. Real-world Danger 3. Primary Solution 4. Common Pitfall/Edge Case."
+          ],
+          "traps": [
+            {
+              "id": "trap-11-1",
+              "statement": "Does frontend validation make backend validation unnecessary?",
+              "explanation": "No. Frontend checks are easily bypassed using API tools. Server-side validation is mandatory.",
               "category": "common-mistake"
             },
             {
-              "id": "trap-6-5",
-              "statement": "Is input validation alone enough to stop SQL Injection?",
-              "explanation": "No. Use parameterized queries or prepared statements as the primary defense[cite: 2].",
+              "id": "trap-11-2",
+              "statement": "Can you use MD5 or SHA-256 for password storage?",
+              "explanation": "No. They are fast general-purpose algorithms. Passwords need slow, adaptive hashing like bcrypt or Argon2.",
               "category": "interview-gotcha"
             },
             {
-              "id": "trap-6-6",
-              "statement": "Should passwords be encrypted and stored?",
-              "explanation": "Passwords should generally be stored using secure password hashing algorithms, not reversible encryption[cite: 2].",
+              "id": "trap-11-3",
+              "statement": "Does the HttpOnly flag remove XSS vulnerabilities?",
+              "explanation": "No. It prevents cookie theft via JavaScript, but the attacker can still alter page content or trigger actions.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-11-4",
+              "statement": "Does HTTPS encrypt the database tables?",
+              "explanation": "No. HTTPS secures the connection between client and server. Database storage requires encryption at rest.",
               "category": "common-mistake"
             }
           ],
           "memoryMap": {
             "nodes": [
               {
-                "id": "cia",
+                "id": "node-1",
                 "label": "CIA Triad",
-                "description": "Core security principles"
+                "description": "Confidentiality, Integrity, Availability"
               },
               {
-                "id": "conf",
-                "label": "Confidentiality",
-                "description": "Encryption / Access Control"
-              },
-              {
-                "id": "integ",
-                "label": "Integrity",
-                "description": "Validation / Hashing"
-              },
-              {
-                "id": "avail",
-                "label": "Availability",
-                "description": "Rate Limiting / Backups"
-              },
-              {
-                "id": "ident",
-                "label": "Identity",
-                "description": "Access boundaries"
-              },
-              {
-                "id": "authn",
+                "id": "node-2",
                 "label": "Authentication",
-                "description": "Who are you?"
+                "description": "Proving identity (Who are you?)"
               },
               {
-                "id": "authz",
+                "id": "node-3",
                 "label": "Authorization",
-                "description": "What can you do?"
+                "description": "Checking permissions (What can you do?)"
               },
               {
-                "id": "attacks",
-                "label": "Web Attacks",
-                "description": "Common vulnerabilities"
+                "id": "node-4",
+                "label": "SQL Injection",
+                "description": "Fix with parameterized queries"
               },
               {
-                "id": "sqli",
-                "label": "SQLi",
-                "description": "Parameterized Queries"
-              },
-              {
-                "id": "xss",
+                "id": "node-5",
                 "label": "XSS",
-                "description": "Safe Output Handling"
+                "description": "Fix with output encoding and safe DOM APIs"
               },
               {
-                "id": "csrf",
+                "id": "node-6",
                 "label": "CSRF",
-                "description": "Tokens / SameSite"
+                "description": "Fix with anti-CSRF tokens and SameSite cookies"
               },
               {
-                "id": "passwords",
-                "label": "Passwords",
-                "description": "Never Plaintext, Hashing, Salt"
+                "id": "node-7",
+                "label": "Password Hashing",
+                "description": "Slow one-way hash (bcrypt, Argon2) + Salt"
               },
               {
-                "id": "cookies",
-                "label": "Cookies",
-                "description": "HttpOnly, Secure, SameSite"
+                "id": "node-8",
+                "label": "Rate Limiting",
+                "description": "Mitigate brute force with HTTP 429"
+              },
+              {
+                "id": "node-9",
+                "label": "HTTPS",
+                "description": "TLS protection for data in transit"
               }
             ],
-            "connections": [
-              {
-                "from": "cia",
-                "to": "conf"
-              },
-              {
-                "from": "cia",
-                "to": "integ"
-              },
-              {
-                "from": "cia",
-                "to": "avail"
-              },
-              {
-                "from": "ident",
-                "to": "authn"
-              },
-              {
-                "from": "ident",
-                "to": "authz"
-              },
-              {
-                "from": "attacks",
-                "to": "sqli"
-              },
-              {
-                "from": "attacks",
-                "to": "xss"
-              },
-              {
-                "from": "attacks",
-                "to": "csrf"
-              }
-            ]
+            "connections": []
           }
         }
       ]

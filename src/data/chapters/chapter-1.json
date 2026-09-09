@@ -87,6 +87,47 @@
           ]
         },
         {
+          "id": "topic-18",
+          "title": "PASS BY VALUE VS PASS BY REFERENCE",
+          "explanation": "Pass by value gives a function a copy of the argument, while pass by reference allows a function to access the original object or variable through a reference mechanism.",
+          "tldr": "Pass by value-তে copy যায়, pass by reference-এ original data modify করা সম্ভব।",
+          "comparisons": [
+            {
+              "title": "Pass by Value vs Pass by Reference",
+              "headers": ["Pass by Value", "Pass by Reference"],
+              "rows": [
+                [
+                  "A copy of the value is passed",
+                  "Reference or alias to the original is passed"
+                ],
+                [
+                  "Changes usually do not affect the original variable",
+                  "Changes can affect the original variable"
+                ],
+                ["May require copying", "Can avoid copying large objects"]
+              ]
+            }
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "void change(int x) {\n    x = 20;\n}\n\nint a = 10;\nchange(a);\ncout << a; // 10",
+              "explanation": "Pass by value example."
+            },
+            {
+              "language": "cpp",
+              "code": "void change(int& x) {\n    x = 20;\n}\n\nint a = 10;\nchange(a);\ncout << a; // 20",
+              "explanation": "Pass by reference example."
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the difference between pass by value and pass by reference?",
+              "answer": "Pass by value passes a copy, while pass by reference allows the function to operate on the original variable through a reference."
+            }
+          ]
+        },
+        {
           "id": "topic-3",
           "title": "C++ POINTERS & MEMORY",
           "explanation": "Arrays store elements sequentially in memory, enabling pointer arithmetic access.",
@@ -113,19 +154,178 @@
           ]
         },
         {
-          "id": "topic-4",
-          "title": "COMMON STRING & ARRAY OPERATIONS",
-          "explanation": "Essential Operations: Length, Character Access, Uppercase, Lowercase, Find, Search, Contains, Substring, Replace, Split, Join, Trim, Concatenate, Compare, Repeat.",
-          "tldr": "Built-in function use করার আগে complexity আর original data change হয় কিনা দেখে নাও।",
-          "keyPoints": [
-            " strings are immutable in languages like Python, Java, and JavaScript, methods like Replace, Trim, and Substring never change the original data—they allocate extra memory to return a new copy in O(n) time. Meanwhile, Length and Character Access run in instant O(1) time without new memory, and search methods like Find or Contains take O(n) time while returning -1, false, or an error if the item is missing."
+          "id": "topic-17",
+          "title": "STACK VS HEAP MEMORY",
+          "explanation": "Stack and heap are two important areas of memory commonly discussed in programming interviews. Stack memory is typically associated with function calls and local variables, while heap memory is commonly used for dynamically allocated objects and data.",
+          "tldr": "Stack সাধারণত function call ও local data-এর জন্য, Heap সাধারণত dynamically allocated data-এর জন্য ব্যবহৃত হয়।",
+          "comparisons": [
+            {
+              "title": "Stack vs Heap",
+              "headers": ["Stack", "Heap"],
+              "rows": [
+                ["Function call related", "Dynamic allocation related"],
+                [
+                  "Usually automatically managed",
+                  "Managed manually or by garbage collection depending on language"
+                ],
+                [
+                  "Typically faster access",
+                  "Typically more flexible allocation"
+                ],
+                ["Limited in size", "Generally larger and more flexible"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the difference between stack and heap memory?",
+              "answer": "Stack memory is primarily used for function-call frames and local data, while heap memory is used for dynamically allocated data and objects."
+            },
+            {
+              "question": "Why can stack overflow happen?",
+              "answer": "It can happen when the call stack grows beyond its available limit, commonly because of excessive recursion or deeply nested function calls."
+            }
           ],
           "traps": [
             {
-              "id": "trap-4-1",
-              "statement": "Is every built-in operation O(1)?",
-              "explanation": "No. Searching, copying, replacing, sorting, and creating substrings may require O(n) or more operations.",
-              "category": "interview-gotcha"
+              "id": "trap-17-1",
+              "statement": "All objects are always stored entirely on the heap.",
+              "explanation": "This is language- and implementation-dependent. Avoid treating simplified memory models as universal rules.",
+              "category": "conceptual"
+            }
+          ]
+        },
+        {
+          "id": "topic-19",
+          "title": "MUTABLE VS IMMUTABLE",
+          "explanation": "A mutable object can be changed after creation, while an immutable value or object cannot be changed directly after creation.",
+          "tldr": "Mutable data change করা যায়, immutable data directly change করা যায় না।",
+          "comparisons": [
+            {
+              "title": "Mutable vs Immutable",
+              "headers": ["Mutable", "Immutable"],
+              "rows": [
+                [
+                  "Can be modified after creation",
+                  "Cannot be directly modified after creation"
+                ],
+                [
+                  "Changes may affect shared references",
+                  "Changes generally require creating a new value"
+                ],
+                ["Examples depend on language", "Examples depend on language"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why is immutability useful?",
+              "answer": "Immutable values are easier to reason about and can reduce unexpected side effects when data is shared."
+            },
+            {
+              "question": "Is const the same as immutable in JavaScript?",
+              "answer": "No. const prevents reassignment of the variable, but an object referenced by const can still be mutated."
+            }
+          ]
+        },
+        {
+          "id": "topic-20",
+          "title": "SHALLOW COPY VS DEEP COPY",
+          "explanation": "A shallow copy creates a new outer object while nested objects may still share references. A deep copy creates independent copies of nested data.",
+          "tldr": "Shallow copy-তে nested reference share হতে পারে, Deep copy-তে nested data-ও আলাদা হয়।",
+          "comparisons": [
+            {
+              "title": "Shallow Copy vs Deep Copy",
+              "headers": ["Shallow Copy", "Deep Copy"],
+              "rows": [
+                ["Copies the outer structure", "Copies nested structures too"],
+                [
+                  "Nested references may be shared",
+                  "Nested objects are independently copied"
+                ],
+                ["Usually cheaper", "Usually more expensive"]
+              ]
+            }
+          ],
+          "codeSnippets": [
+            {
+              "language": "javascript",
+              "code": "const original = { user: { name: \"Bob\" } };\nconst copy = { ...original };\ncopy.user.name = \"Alice\";\nconsole.log(original.user.name); // Alice",
+              "explanation": "Spread syntax creates a shallow copy."
+            },
+            {
+              "language": "javascript",
+              "code": "const original = { user: { name: \"Bob\" } };\nconst copy = structuredClone(original);\ncopy.user.name = \"Alice\";\nconsole.log(original.user.name); // Bob",
+              "explanation": "structuredClone creates a deep copy for supported values."
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the difference between shallow copy and deep copy?",
+              "answer": "A shallow copy may share nested references, while a deep copy creates independent copies of nested data."
+            }
+          ]
+        },
+        {
+          "id": "topic-9",
+          "title": "PRE-INCREMENT VS POST-INCREMENT",
+          "explanation": "Post-Increment (x++): Use the current value first, then increment.\nPre-Increment (++x): Increment first, then use the updated value.",
+          "tldr": "x++ আগে use পরে বাড়ে, ++x আগে বাড়ে পরে use হয়।",
+          "comparisons": [
+            {
+              "title": "Quick Comparison",
+              "headers": ["Expression", "Action"],
+              "rows": [
+                ["x++", "Use first, increment later"],
+                ["++x", "Increment first, then use"]
+              ]
+            }
+          ],
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "int x = 2;\nint value = x++;\ncout << value; // 2\ncout << x;     // 3",
+              "explanation": "Post-Increment Example"
+            },
+            {
+              "language": "cpp",
+              "code": "int x = 2;\nint value = ++x;\ncout << value; // 3\ncout << x;     // 3",
+              "explanation": "Pre-Increment Example"
+            }
+          ],
+          "questions": [
+            {
+              "question": "Are x++ and ++x always interchangeable?",
+              "answer": "No. They produce different results when the expression's value is used."
+            }
+          ]
+        },
+        {
+          "id": "topic-21",
+          "title": "FUNCTIONS, PARAMETERS & ARGUMENTS",
+          "explanation": "A function is a reusable block of code that performs a specific task. Parameters are variables defined by the function, while arguments are the actual values supplied when calling it.",
+          "tldr": "Parameter function definition-এ থাকে, argument function call-এর সময় দেওয়া actual value।",
+          "comparisons": [
+            {
+              "title": "Parameter vs Argument",
+              "headers": ["Parameter", "Argument"],
+              "rows": [
+                [
+                  "Defined in the function declaration",
+                  "Passed during the function call"
+                ],
+                ["Acts as a local variable", "Provides the actual value"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is a function?",
+              "answer": "A reusable block of code designed to perform a specific task."
+            },
+            {
+              "question": "What is the difference between a parameter and an argument?",
+              "answer": "A parameter is defined in a function declaration, while an argument is the actual value passed during a function call."
             }
           ]
         },
@@ -174,6 +374,79 @@
           ]
         },
         {
+          "id": "topic-4",
+          "title": "COMMON STRING & ARRAY OPERATIONS",
+          "explanation": "Essential Operations: Length, Character Access, Uppercase, Lowercase, Find, Search, Contains, Substring, Replace, Split, Join, Trim, Concatenate, Compare, Repeat.",
+          "tldr": "Built-in function use করার আগে complexity আর original data change হয় কিনা দেখে নাও।",
+          "comparisons": [
+            {
+              "title": "Common String Operations",
+              "headers": [
+                "Operation",
+                "Time Complexity",
+                "New Memory",
+                "Behavior"
+              ],
+              "rows": [
+                ["Length", "O(1)", "No", "Returns the length"],
+                ["Character Access", "O(1)", "No", "Accesses a character"],
+                [
+                  "Find / Contains",
+                  "O(n)",
+                  "No",
+                  "Returns -1, false, or an error if the item is missing"
+                ],
+                ["Replace", "O(n)", "Yes", "Returns a new copy"],
+                ["Trim", "O(n)", "Yes", "Returns a new copy"],
+                ["Substring", "O(n)", "Yes", "Returns a new copy"]
+              ]
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-4-1",
+              "statement": "Is every built-in operation O(1)?",
+              "explanation": "No. Searching, copying, replacing, sorting, and creating substrings may require O(n) or more operations.",
+              "category": "interview-gotcha"
+            }
+          ]
+        },
+        {
+          "id": "topic-12",
+          "title": "COMMON COLLECTION DATA STRUCTURES",
+          "explanation": "Comparison of List, Set, and Tuple-like collection data structures across programming languages.",
+          "tldr": "List সাধারণত ordered ও mutable collection, Set unique elements রাখে, আর Tuple সাধারণত ordered ও immutable collection হিসেবে ব্যবহৃত হয়। Exact behavior language অনুযায়ী ভিন্ন হতে পারে।",
+          "comparisons": [
+            {
+              "title": "List, Set & Tuple Comparison",
+              "headers": ["Feature", "List", "Set", "Tuple"],
+              "rows": [
+                [
+                  "Ordered",
+                  "Usually Yes",
+                  "Usually No positional indexing",
+                  "Usually Yes"
+                ],
+                ["Mutable", "Usually Yes", "Usually Yes", "Usually No"],
+                ["Duplicates", "Usually Yes", "No", "Usually Yes"],
+                ["Indexing", "Usually Yes", "Usually No", "Usually Yes"],
+                [
+                  "Primary Use",
+                  "Ordered collection of elements",
+                  "Unique elements and membership checking",
+                  "Fixed or immutable collection of elements"
+                ]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why are sets useful in algorithms?",
+              "answer": "Sets provide efficient average-case membership checking in many languages and are useful for duplicate detection and lookup problems."
+            }
+          ]
+        },
+        {
           "id": "topic-6",
           "title": "CALLBACK FUNCTIONS & forEach()",
           "explanation": "A callback function is a function passed as an argument to another function and executed by that function. \n`forEach()` executes a callback function once for each element of an array.",
@@ -202,6 +475,89 @@
             {
               "question": "What is the difference between forEach() and map()?",
               "answer": "forEach() is mainly used for side effects. map() transforms elements and returns a new array."
+            }
+          ]
+        },
+        {
+          "id": "topic-22",
+          "title": "HIGHER-ORDER FUNCTIONS & ARRAY METHODS",
+          "explanation": "A higher-order function accepts another function as an argument, returns a function, or both. JavaScript array methods such as map, filter, reduce, find, some, and every commonly use callbacks.",
+          "tldr": "Callback function হলো অন্য function-এ argument হিসেবে দেওয়া function; Higher-order function হলো যে function অন্য function গ্রহণ করে বা return করে।",
+          "comparisons": [
+            {
+              "title": "Common JavaScript Array Methods",
+              "headers": ["Method", "Purpose", "Returns"],
+              "rows": [
+                [
+                  "forEach",
+                  "Perform an action for each element",
+                  "Usually undefined"
+                ],
+                ["map", "Transform each element", "New array"],
+                ["filter", "Keep matching elements", "New array"],
+                [
+                  "reduce",
+                  "Combine elements into one result",
+                  "Accumulated value"
+                ],
+                [
+                  "find",
+                  "Find the first matching element",
+                  "Element or undefined"
+                ],
+                ["some", "Check whether at least one matches", "Boolean"],
+                ["every", "Check whether all match", "Boolean"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is a higher-order function?",
+              "answer": "A function that accepts another function as an argument, returns a function, or both."
+            },
+            {
+              "question": "What is the difference between map() and filter()?",
+              "answer": "map() transforms every element and returns a new array, while filter() returns a new array containing only elements that satisfy a condition."
+            },
+            {
+              "question": "What is the difference between find() and filter()?",
+              "answer": "find() returns the first matching element, while filter() returns all matching elements in a new array."
+            }
+          ]
+        },
+        {
+          "id": "topic-13",
+          "title": "RECURSION",
+          "explanation": "Recursion is a programming technique where a function calls itself to solve smaller versions of the same problem. Every recursive solution requires a Base Case and a Recursive Case.",
+          "tldr": "Function নিজেকে ছোট problem নিয়ে বারবার call করে, Base Case এ গিয়ে থামে।",
+          "comparisons": [
+            {
+              "title": "Recursion vs Iteration",
+              "headers": ["Recursion", "Iteration"],
+              "rows": [
+                ["Function calls itself", "Uses loops"],
+                ["Uses call stack", "Usually uses less stack memory"],
+                [
+                  "Often easier for tree problems",
+                  "Often efficient for simple repetition"
+                ],
+                ["Risk of stack overflow", "No recursive stack growth"]
+              ]
+            }
+          ],
+          "codeSnippets": [
+            {
+              "language": "python",
+              "code": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)",
+              "explanation": "Factorial Example"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-13-1",
+              "statement": "What happens if recursion has no base case?",
+              "explanation": "The function may continue calling itself until the call stack limit is exceeded, causing a stack overflow or recursion error.",
+              "category": "common-mistake"
             }
           ]
         },
@@ -265,40 +621,6 @@
             {
               "question": "Does input memory always count as extra space?",
               "answer": "Usually, interviewers distinguish between input space and auxiliary space. Always clarify whether you are discussing total space or extra space used by the algorithm."
-            }
-          ]
-        },
-        {
-          "id": "topic-9",
-          "title": "PRE-INCREMENT VS POST-INCREMENT",
-          "explanation": "Post-Increment (x++): Use the current value first, then increment.\nPre-Increment (++x): Increment first, then use the updated value.",
-          "tldr": "x++ আগে use পরে বাড়ে, ++x আগে বাড়ে পরে use হয়।",
-          "comparisons": [
-            {
-              "title": "Quick Comparison",
-              "headers": ["Expression", "Action"],
-              "rows": [
-                ["x++", "Use first, increment later"],
-                ["++x", "Increment first, then use"]
-              ]
-            }
-          ],
-          "codeSnippets": [
-            {
-              "language": "cpp",
-              "code": "int x = 2;\nint value = x++;\ncout << value; // 2\ncout << x;     // 3",
-              "explanation": "Post-Increment Example"
-            },
-            {
-              "language": "cpp",
-              "code": "int x = 2;\nint value = ++x;\ncout << value; // 3\ncout << x;     // 3",
-              "explanation": "Pre-Increment Example"
-            }
-          ],
-          "questions": [
-            {
-              "question": "Are x++ and ++x always interchangeable?",
-              "answer": "No. They produce different results when the expression's value is used."
             }
           ]
         },
@@ -406,6 +728,154 @@
           ]
         },
         {
+          "id": "topic-23",
+          "title": "CONSTRUCTOR & DESTRUCTOR",
+          "explanation": "A constructor initializes an object when it is created. A destructor performs cleanup when an object is destroyed in languages such as C++ that provide deterministic object destruction.",
+          "tldr": "Constructor object তৈরি হওয়ার সময় initialize করে; Destructor object destroy হওয়ার সময় cleanup করে।",
+          "comparisons": [
+            {
+              "title": "Constructor vs Destructor",
+              "headers": ["Constructor", "Destructor"],
+              "rows": [
+                ["Initializes an object", "Performs cleanup"],
+                [
+                  "Called during object creation",
+                  "Called when object lifetime ends in C++"
+                ],
+                ["Can be overloaded in C++", "Cannot be overloaded in C++"],
+                [
+                  "Has the same name as the class",
+                  "Uses ~ClassName syntax in C++"
+                ]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Can a constructor have a return type?",
+              "answer": "No. A constructor does not have a return type, including void."
+            },
+            {
+              "question": "Can a destructor be overloaded?",
+              "answer": "No. A class can have only one destructor."
+            },
+            {
+              "question": "What is a copy constructor?",
+              "answer": "A constructor that creates an object from another object of the same class, commonly used to copy its state."
+            }
+          ]
+        },
+        {
+          "id": "topic-24",
+          "title": "ACCESS MODIFIERS",
+          "explanation": "Access modifiers control where class members can be accessed. Common C++ access modifiers are public, private, and protected.",
+          "tldr": "public everywhere accessible, private class-এর ভিতরে controlled access, protected class ও derived class-এর জন্য accessible।",
+          "comparisons": [
+            {
+              "title": "C++ Access Modifiers",
+              "headers": ["Modifier", "Typical Access"],
+              "rows": [
+                ["public", "Accessible from outside the class"],
+                ["private", "Accessible within the class"],
+                ["protected", "Accessible within the class and derived classes"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the purpose of access modifiers?",
+              "answer": "They control access to class members and help enforce encapsulation."
+            }
+          ]
+        },
+        {
+          "id": "topic-25",
+          "title": "VIRTUAL FUNCTIONS & DYNAMIC BINDING",
+          "explanation": "A virtual function allows a derived class implementation to be selected through a base-class pointer or reference at runtime. This enables runtime polymorphism in C++.",
+          "tldr": "virtual function runtime-এ actual object-এর overridden method select করতে সাহায্য করে।",
+          "codeSnippets": [
+            {
+              "language": "cpp",
+              "code": "class Animal {\npublic:\n    virtual void sound() { cout << \"Animal\"; }\n};\n\nclass Dog : public Animal {\npublic:\n    void sound() override { cout << \"Dog\"; }\n};\n\nAnimal* a = new Dog();\na->sound(); // Dog",
+              "explanation": "Runtime dispatch through a virtual function."
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why is the virtual keyword used in C++?",
+              "answer": "It enables dynamic dispatch so an overridden derived-class method can be selected at runtime through a base-class pointer or reference."
+            },
+            {
+              "question": "What is dynamic binding?",
+              "answer": "Dynamic binding means the method implementation to execute is determined at runtime based on the actual object type."
+            }
+          ]
+        },
+        {
+          "id": "topic-26",
+          "title": "ABSTRACT CLASS VS INTERFACE",
+          "explanation": "An abstract class defines a common abstraction and may contain both implemented and abstract behavior. An interface primarily defines a contract that implementing classes must satisfy; the exact implementation depends on the programming language.",
+          "tldr": "Abstract class shared implementation রাখতে পারে; Interface মূলত behavior-এর contract define করে।",
+          "comparisons": [
+            {
+              "title": "Abstract Class vs Interface",
+              "headers": ["Abstract Class", "Interface"],
+              "rows": [
+                [
+                  "Can contain implemented behavior",
+                  "Primarily defines a contract"
+                ],
+                [
+                  "Can contain state depending on language",
+                  "Usually focuses on required behavior"
+                ],
+                [
+                  "Represents a shared base abstraction",
+                  "Represents a capability or contract"
+                ]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is an abstract class?",
+              "answer": "A class intended to serve as a base abstraction and generally cannot be instantiated directly when it contains abstract operations."
+            },
+            {
+              "question": "What is an interface?",
+              "answer": "An interface defines a contract of behavior that implementing classes must provide; exact syntax and capabilities depend on the language."
+            }
+          ]
+        },
+        {
+          "id": "topic-27",
+          "title": "ERROR & EXCEPTION HANDLING",
+          "explanation": "Error handling allows a program to detect, handle, or propagate abnormal situations instead of failing unexpectedly. Exception mechanisms vary between programming languages.",
+          "tldr": "Exception handling unexpected runtime situations safely handle বা propagate করতে সাহায্য করে।",
+          "comparisons": [
+            {
+              "title": "Common Exception Handling Concepts",
+              "headers": ["Concept", "Purpose"],
+              "rows": [
+                ["try", "Contains code that may produce an exception"],
+                ["catch", "Handles a matching exception"],
+                ["finally", "Runs cleanup code in languages that support it"],
+                ["throw", "Explicitly raises an exception"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "Why is exception handling important?",
+              "answer": "It allows programs to handle abnormal situations gracefully and separate error-handling logic from normal program flow."
+            },
+            {
+              "question": "What is the purpose of try-catch?",
+              "answer": "try contains potentially failing code, while catch handles an exception raised from that code."
+            }
+          ]
+        },
+        {
           "id": "topic-11",
           "title": "LIBRARY VS NAMESPACE",
           "explanation": "Library is a collection of reusable code such as functions, classes, utilities, and modules. \nNamespace creates a logical scope to organize names and avoid naming conflicts.",
@@ -429,63 +899,27 @@
           ]
         },
         {
-          "id": "topic-12",
-          "title": "CORE PYTHON DATA STRUCTURES",
-          "explanation": "Comparison of Python List, Set, and Tuple.",
-          "tldr": "List change করা যায়, Tuple যায় না, Set duplicate রাখে না।",
-          "comparisons": [
-            {
-              "title": "Python Data Structures Comparison",
-              "headers": ["Feature", "List", "Set", "Tuple"],
-              "rows": [
-                ["Ordered", "Yes", "No positional indexing", "Yes"],
-                ["Mutable", "Yes", "Yes", "No"],
-                ["Duplicates", "Yes", "No", "Yes"],
-                ["Indexing", "Yes", "No", "Yes"],
-                ["Syntax", "[]", "{}", "()"]
-              ]
-            }
+          "id": "topic-28",
+          "title": "COMMON PROGRAMMING PITFALLS",
+          "explanation": "Programming interviews often test awareness of common mistakes involving memory, references, loops, object state, and function behavior.",
+          "tldr": "Interview-এ শুধু syntax না, common bugs এবং edge cases চিনতে পারাও important।",
+          "keyPoints": [
+            "Null or invalid pointer dereferencing can cause undefined behavior.",
+            "Infinite loops can occur when loop conditions never become false.",
+            "Stack overflow can occur because of excessive recursion or deeply nested calls.",
+            "Shared object references can cause unexpected mutations.",
+            "Using a shallow copy does not necessarily isolate nested objects.",
+            "Incorrect boundary conditions can cause off-by-one errors.",
+            "Resource management should be handled appropriately for the language and runtime."
           ],
           "questions": [
             {
-              "question": "Why are sets useful in algorithms?",
-              "answer": "Sets provide efficient average-case membership checking and are useful for duplicate detection and lookup problems."
-            }
-          ]
-        },
-        {
-          "id": "topic-13",
-          "title": "RECURSION",
-          "explanation": "Recursion is a programming technique where a function calls itself to solve smaller versions of the same problem. Every recursive solution requires a Base Case and a Recursive Case.",
-          "tldr": "Function নিজেকে ছোট problem নিয়ে বারবার call করে, Base Case এ গিয়ে থামে।",
-          "comparisons": [
+              "question": "What is an off-by-one error?",
+              "answer": "An off-by-one error occurs when a loop or index boundary is one position too high or too low."
+            },
             {
-              "title": "Recursion vs Iteration",
-              "headers": ["Recursion", "Iteration"],
-              "rows": [
-                ["Function calls itself", "Uses loops"],
-                ["Uses call stack", "Usually uses less stack memory"],
-                [
-                  "Often easier for tree problems",
-                  "Often efficient for simple repetition"
-                ],
-                ["Risk of stack overflow", "No recursive stack growth"]
-              ]
-            }
-          ],
-          "codeSnippets": [
-            {
-              "language": "python",
-              "code": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)",
-              "explanation": "Factorial Example"
-            }
-          ],
-          "traps": [
-            {
-              "id": "trap-13-1",
-              "statement": "What happens if recursion has no base case?",
-              "explanation": "The function may continue calling itself until the call stack limit is exceeded, causing a stack overflow or recursion error.",
-              "category": "common-mistake"
+              "question": "What is an infinite loop?",
+              "answer": "A loop that never reaches its termination condition and continues executing indefinitely."
             }
           ]
         }
@@ -527,6 +961,38 @@
             {
               "question": "Q7. What is Runtime Polymorphism?",
               "answer": "Runtime polymorphism occurs when the method to execute is determined during program execution based on the object's actual runtime type. In C++, it is commonly achieved using: virtual, Method overriding, Base class pointers or references."
+            },
+            {
+              "question": "Q8. What is the difference between Stack and Heap?",
+              "answer": "Stack memory is primarily associated with function calls and local data, while heap memory is commonly used for dynamically allocated data and objects."
+            },
+            {
+              "question": "Q9. What is Pass by Value vs Pass by Reference?",
+              "answer": "Pass by value passes a copy, while pass by reference allows access to the original variable through a reference mechanism."
+            },
+            {
+              "question": "Q10. What is Shallow Copy vs Deep Copy?",
+              "answer": "A shallow copy may share nested references, while a deep copy creates independent copies of nested data."
+            },
+            {
+              "question": "Q11. What is the difference between map() and filter()?",
+              "answer": "map() transforms every element and returns a new array, while filter() returns elements that satisfy a condition."
+            },
+            {
+              "question": "Q12. What is a Higher-Order Function?",
+              "answer": "A function that accepts another function as an argument, returns a function, or both."
+            },
+            {
+              "question": "Q13. What is a Virtual Function?",
+              "answer": "A virtual function enables runtime method dispatch through a base-class pointer or reference in C++."
+            },
+            {
+              "question": "Q14. What is an Abstract Class?",
+              "answer": "An abstract class provides a base abstraction and generally cannot be instantiated directly when it contains abstract operations."
+            },
+            {
+              "question": "Q15. What is Exception Handling?",
+              "answer": "Exception handling is a mechanism for detecting and handling abnormal situations without allowing the program to fail unexpectedly."
             }
           ]
         },
@@ -624,6 +1090,66 @@
               "id": "fc-18",
               "question": "What are the two essential parts of Recursion?",
               "answer": "Base Case, Recursive Case."
+            },
+            {
+              "id": "fc-19",
+              "question": "What is Stack Memory?",
+              "answer": "Memory commonly used for function-call frames and local data."
+            },
+            {
+              "id": "fc-20",
+              "question": "What is Heap Memory?",
+              "answer": "Memory commonly used for dynamically allocated data and objects."
+            },
+            {
+              "id": "fc-21",
+              "question": "What is Pass by Value?",
+              "answer": "Passing a copy of a value to a function."
+            },
+            {
+              "id": "fc-22",
+              "question": "What is Pass by Reference?",
+              "answer": "Passing access to the original variable through a reference mechanism."
+            },
+            {
+              "id": "fc-23",
+              "question": "What is Mutable?",
+              "answer": "Data that can be modified after creation."
+            },
+            {
+              "id": "fc-24",
+              "question": "What is Immutable?",
+              "answer": "Data that cannot be directly modified after creation."
+            },
+            {
+              "id": "fc-25",
+              "question": "What is Shallow Copy?",
+              "answer": "A copy where nested references may still be shared."
+            },
+            {
+              "id": "fc-26",
+              "question": "What is Deep Copy?",
+              "answer": "A copy where nested data is independently copied."
+            },
+            {
+              "id": "fc-27",
+              "question": "What is a Higher-Order Function?",
+              "answer": "A function that accepts or returns another function."
+            },
+            {
+              "id": "fc-28",
+              "question": "What is a Virtual Function?",
+              "answer": "A C++ function that supports runtime method dispatch."
+            },
+            {
+              "id": "fc-29",
+              "question": "What is an Abstract Class?",
+              "answer": "A base class representing an abstraction that cannot normally be instantiated directly when abstract operations are present."
+            },
+            {
+              "id": "fc-30",
+              "question": "What is Exception Handling?",
+              "answer": "A mechanism for handling abnormal program situations."
             }
           ]
         },
@@ -682,6 +1208,30 @@
               "statement": "\"Making all variables private automatically means good encapsulation.\"",
               "explanation": "Good encapsulation means meaningful control over access and object state.",
               "category": "conceptual"
+            },
+            {
+              "id": "trap-16-9",
+              "statement": "\"Pass by value always means the original object can never be affected.\"",
+              "explanation": "The exact behavior depends on the language and the value being passed. In JavaScript, an object reference itself is passed by value, so object mutation can affect the original object.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-16-10",
+              "statement": "\"Shallow copy always creates a completely independent object.\"",
+              "explanation": "No. Nested objects can still share references after a shallow copy.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-16-11",
+              "statement": "\"Stack and heap behavior is identical in every programming language.\"",
+              "explanation": "No. Memory management and object placement are language- and implementation-dependent.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-16-12",
+              "statement": "\"A higher-order function is the same thing as a callback.\"",
+              "explanation": "A callback is a function passed to another function, while a higher-order function is a function that accepts or returns functions. A callback is often used with a higher-order function.",
+              "category": "interview-gotcha"
             }
           ],
           "memoryMap": {
@@ -750,6 +1300,56 @@
                 "id": "node-13",
                 "label": "Recursion",
                 "description": "Function calls itself"
+              },
+              {
+                "id": "node-14",
+                "label": "Stack",
+                "description": "Function-call memory"
+              },
+              {
+                "id": "node-15",
+                "label": "Heap",
+                "description": "Dynamic memory"
+              },
+              {
+                "id": "node-16",
+                "label": "Mutable",
+                "description": "Can change"
+              },
+              {
+                "id": "node-17",
+                "label": "Immutable",
+                "description": "Cannot directly change"
+              },
+              {
+                "id": "node-18",
+                "label": "Shallow Copy",
+                "description": "Nested references may share"
+              },
+              {
+                "id": "node-19",
+                "label": "Deep Copy",
+                "description": "Nested data is copied"
+              },
+              {
+                "id": "node-20",
+                "label": "Function",
+                "description": "Reusable behavior"
+              },
+              {
+                "id": "node-21",
+                "label": "Callback",
+                "description": "Function passed to another function"
+              },
+              {
+                "id": "node-22",
+                "label": "Virtual Function",
+                "description": "Enables runtime dispatch"
+              },
+              {
+                "id": "node-23",
+                "label": "Exception",
+                "description": "Abnormal program situation"
               }
             ],
             "connections": []

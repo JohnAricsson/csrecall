@@ -13,11 +13,11 @@
           "id": "topic-functions-syntax",
           "title": "JAVASCRIPT FUNCTIONS & SYNTAX VARIATIONS",
           "explanation": "JavaScript provides multiple ways to define functions: Function Declarations, Function Expressions, and Arrow Functions. Each has distinct behaviors regarding hoisting, execution context, and the 'this' binding.",
-          "tldr": "Normal function declaration আগে call করা যায় কারণ function definition hoist হয়। Function variable-এর ভিতরে রাখা হলে initialize হওয়ার আগে ব্যবহার করা যায় না। Arrow function নিজের this বানায় না, বাইরের scope-এর this ব্যবহার করে।",
+          "tldr": "Normal function declaration আগে call করা যায় কারণ function definition hoist হয়। Function variable-এর ভিতরে রাখা হলে initialize হওয়ার আগে ব্যবহার করা যায় না। Arrow function নিজের this বানায় না, বাইরের scope-এর this ব্যবহার করে।",
           "keyPoints": [
-            "Function Declaration: Fully hoisted; has its own this depending on how it is called; can be called before declaration; common for reusable named functions.",
-            "Function Expression: Function is assigned to a variable; commonly anonymous, but can also be named; not callable before initialization when using let or const due to the Temporal Dead Zone (TDZ).",
-            "Arrow Function: Shorter syntax introduced in ES6; implicit return for single expressions; does not create its own this, arguments object, prototype, and cannot be used as constructors or called with new."
+            "Function declarations are hoisted and can be called before they are defined.",
+            "Function expressions cannot be called before initialization because they are stored in variables.",
+            "Arrow functions have shorter syntax, inherit 'this' from their surroundings, and cannot be used as constructors."
           ],
           "codeSnippets": [
             {
@@ -67,7 +67,7 @@
           "id": "topic-objects-methods",
           "title": "JAVASCRIPT OBJECTS & METHODS",
           "explanation": "An Object stores related data and behavior using key-value pairs. Methods can be defined using traditional function syntax or ES6 method shorthand.",
-          "tldr": "Object-এর ভিতরে data এবং function একসাথে রাখা যায়।",
+          "tldr": "Object-এর ভিতরে data এবং function একসাথে রাখা যায়।",
           "keyPoints": [
             "Properties can be accessed using dot notation or bracket notation.",
             "Traditional syntax uses key: function() {}, while ES6 shorthand syntax allows greet() {}.",
@@ -91,7 +91,7 @@
           "id": "topic-es6",
           "title": "WHAT IS ES6?",
           "explanation": "ES6 stands for ECMAScript 2015. It introduced many modern JavaScript features to enhance expressiveness and maintainability.",
-          "tldr": "ES6 হলো JavaScript-এর modern features নিয়ে আসা বড় update।",
+          "tldr": "ES6 হলো JavaScript-এর modern features নিয়ে আসা বড় update।",
           "keyPoints": [
             "Important ES6 Features: let, const, Arrow functions, Classes, Template literals, Destructuring, Spread operator, Rest parameters, Promises, Modules, Default parameters."
           ],
@@ -169,7 +169,7 @@
           "id": "topic-sync-async",
           "title": "SYNCHRONOUS VS ASYNCHRONOUS JAVASCRIPT",
           "explanation": "Synchronous code executes one operation at a time, waiting for each step to finish. Asynchronous code allows JavaScript to initiate an operation and continue executing other tasks while waiting for results.",
-          "tldr": "Sync একটার পর একটা wait করে, Async কাজ শুরু করে অন্য কাজ চালিয়ে যেতে পারে।",
+          "tldr": "Sync একটার পর একটা wait করে, Async কাজ শুরু করে অন্য কাজ চালিয়ে যেতে পারে।",
           "keyPoints": [
             "Synchronous examples: Direct variable assignment, loops, normal arithmetic.",
             "Asynchronous examples: API requests, Timers, File operations, Database operations."
@@ -194,7 +194,7 @@
           "id": "topic-promises",
           "title": "PROMISES",
           "explanation": "A Promise represents the eventual result of an asynchronous operation. A Promise can exist in one of three states: Pending (running), Fulfilled (completed successfully), or Rejected (failed). Once fulfilled or rejected, a Promise is considered settled.",
-          "tldr": "Promise হলো future-এ পাওয়া যাবে এমন async কাজের result-এর প্রতিনিধি।",
+          "tldr": "Promise হলো future-এ পাওয়া যাবে এমন async কাজের result-এর প্রতিনিধি।",
           "codeSnippets": [
             {
               "language": "javascript",
@@ -272,7 +272,7 @@
           "id": "topic-spread-operator",
           "title": "SPREAD OPERATOR (...)",
           "explanation": "The Spread Operator (...) expands elements from an iterable or properties from an object. It can be used for array expansion, copying, merging, and updating object properties.",
-          "tldr": "Spread দিয়ে array/object-এর contents expand বা shallow copy করা যায়।",
+          "tldr": "Spread দিয়ে array/object-এর contents expand বা shallow copy করা যায়।",
           "codeSnippets": [
             {
               "language": "javascript",
@@ -299,7 +299,7 @@
           "id": "topic-array-map",
           "title": "ARRAY .map()",
           "explanation": ".map() creates a new array by transforming every element of the original array without modifying the original array.",
-          "tldr": "Map প্রতিটি element transform করে নতুন array দেয়।",
+          "tldr": "Map প্রতিটি element transform করে নতুন array দেয়।",
           "codeSnippets": [
             {
               "language": "javascript",
@@ -334,7 +334,7 @@
           "id": "topic-generators",
           "title": "GENERATORS & yield",
           "explanation": "A Generator Function can pause and resume execution. It uses function* syntax and the yield keyword. Invoking a generator returns an iterator object whose next() method yields values.",
-          "tldr": "Yield function-কে pause করে, পরে next() দিলে আবার সেখান থেকে শুরু হয়।",
+          "tldr": "Yield function-কে pause করে, পরে next() দিলে আবার সেখান থেকে শুরু হয়।",
           "codeSnippets": [
             {
               "language": "javascript",
@@ -365,10 +365,10 @@
           "id": "topic-dom-manipulation",
           "title": "DOCUMENT OBJECT MODEL (DOM) & MANIPULATION",
           "explanation": "The DOM is a tree-like representation of an HTML document created by the browser, used by JavaScript to modify content, structure, attributes, styles, and classes. Elements can be selected, created, updated, and listened to for browser events.",
-          "tldr": "textContent plain text দেয়, innerHTML HTML parse করে render করে। JavaScript দিয়ে style লিখার চেয়ে CSS class add/remove করা cleaner।",
+          "tldr": "textContent plain text দেয়, innerHTML HTML parse করে render করে। JavaScript দিয়ে style লিখার চেয়ে CSS class add/remove করা cleaner।",
           "keyPoints": [
             "Selection: getElementById() selects by ID; querySelector() returns first matching element; querySelectorAll() returns all matches as a NodeList.",
-            "Content: textContent treats input as plain text (safe); innerHTML parses and renders HTML tags (vulnerable to XSS if unsanitized).",
+            "Content: textContent treats input as plain text (safe); innerHTML parses and renders HTML tags (vulnerable to XSS attack).",
             "Styling: element.style applies inline styles; classList (.add, .remove, .toggle) separates concerns and promotes reusable CSS.",
             "Events: addEventListener allows responding to user actions; event.target is where the event originated, whereas event.currentTarget is the element handling the event.",
             "Creation: createElement(), appendChild(), append(), remove(), and replaceChild() alter the DOM structure dynamically."
@@ -438,7 +438,7 @@
         {
           "id": "topic-equality",
           "title": "== VS ===",
-          "explanation": "Loose equality (==) compares values after applying type coercion. Strict equality (===) compares both value and type without converting types.",
+          "explanation": "Loose equality (==) compares values only. Strict equality (===) compares both value and type without converting types.",
           "tldr": "== type convert করতে পারে, === value এবং type দুটোই check করে।",
           "codeSnippets": [
             {
@@ -458,13 +458,13 @@
         },
         {
           "id": "topic-variables-hoisting-tdz",
-          "title": "var VS let VS const, HOISTING & TDZ",
-          "explanation": "var is function-scoped and hoisted with undefined initialization. let and const are block-scoped, hoisted without initialization, and remain inaccessible in the Temporal Dead Zone (TDZ) until evaluation.",
-          "tldr": "var পুরনো function scope, let block scope ও reassign করা যায়, const block scope কিন্তু variable reference reassign করা যায় না। let এবং const variable declare হওয়ার scope-এ থাকলেও initialize হওয়ার আগে access করা যায় না।",
+          "title": "var VS let VS const",
+          "explanation": "• var: Function-scoped and hoisted with an initial value of undefined.\n• let & const: Block-scoped, hoisted without initialization, and inaccessible in the Temporal Dead Zone (TDZ) before declaration.",
+          "tldr": "var পুরনো function scope, let block scope ও reassign করা যায়, const block scope কিন্তু variable reference reassign করা যায় না। let এবং const variable declare হওয়ার scope-এ থাকলেও initialize হওয়ার আগে access করা যায় না।",
           "keyPoints": [
-            "Hoisting processes declarations before execution begins.",
-            "var declarations initialize with undefined; let and const remain uninitialized in the TDZ.",
-            "const requires initialization, cannot be reassigned, but properties of objects assigned to const can still be modified."
+            "Hoisting: JavaScript sets up variable and function names before running your code.",
+            "var vs let/const: Using var early gives undefined, while let and const throw an error until defined.",
+            "const: You cannot change the assigned variable, but you can still update its object properties."
           ],
           "codeSnippets": [
             {
@@ -552,58 +552,43 @@
           ]
         },
         {
-          "id": "topic-interview-traps",
-          "title": "HIGH-FREQUENCY INTERVIEW TRAPS",
-          "explanation": "Critical edge cases and false assumptions frequently targeted in JavaScript technical interviews.",
-          "traps": [
+          "id": "top-interview-qa",
+          "title": "HIGH-FREQUENCY INTERVIEW Q&A",
+          "questions": [
             {
-              "id": "trap-hf-1",
-              "statement": "Arrow Functions Always Work as Object Methods",
-              "explanation": "Wrong. Arrow functions do not have their own this. Use normal methods when you need dynamic object this.",
-              "category": "common-mistake"
+              "question": "Can arrow functions be used as object methods?",
+              "answer": "No. Arrow functions do not have their own this; they inherit this lexically from the surrounding scope. Use normal functions or methods when dynamic object this is required."
             },
             {
-              "id": "trap-hf-2",
-              "statement": "const Means Immutable",
-              "explanation": "Wrong. const user = { name: \"John\" }; user.name = \"David\"; works because const guards reference reassignment, not internal property updates.",
-              "category": "conceptual"
+              "question": "Does declaring a variable with const make its value immutable?",
+              "answer": "No. const prevents reassignment of the variable identifier itself, but does not freeze internal properties of objects or arrays assigned to it."
             },
             {
-              "id": "trap-hf-3",
-              "statement": "await Blocks JavaScript Completely",
-              "explanation": "Wrong. await pauses execution inside the async function, not the entire runtime or event loop.",
-              "category": "conceptual"
+              "question": "Does await block the entire JavaScript runtime?",
+              "answer": "No. await only pauses execution inside the async function in which it is called; it does not block the single thread or the event loop from executing other tasks."
             },
             {
-              "id": "trap-hf-4",
-              "statement": "Fetch Rejects on Every HTTP Error",
-              "explanation": "Wrong. A 404 or 500 response still resolves the promise; it usually requires manual checking using response.ok.",
-              "category": "interview-gotcha"
+              "question": "Does the fetch API reject the promise on HTTP errors like 404 or 500?",
+              "answer": "No. fetch resolves successfully on HTTP error responses like 404 and 500; handling them requires explicitly checking response.ok."
             },
             {
-              "id": "trap-hf-5",
-              "statement": "Spread Creates a Deep Copy",
-              "explanation": "Wrong. Spread creates a shallow copy, retaining references to nested objects or arrays.",
-              "category": "common-mistake"
+              "question": "Does the spread operator create a deep copy of an object or array?",
+              "answer": "No. The spread operator creates a shallow copy, copying top-level properties by value and nested objects or arrays by reference."
             },
             {
-              "id": "trap-hf-6",
-              "statement": "NodeList Is a Normal Array",
-              "explanation": "Wrong. Convert it first using Array.from(nodeList) or [...nodeList] if you need Array-specific methods like map().",
-              "category": "common-mistake"
+              "question": "Is a NodeList a true JavaScript Array?",
+              "answer": "No. A NodeList is an array-like DOM collection that lacks native array methods like map() and filter() until converted via Array.from() or the spread operator."
             },
             {
-              "id": "trap-hf-7",
-              "statement": "== and === Are Basically the Same",
-              "explanation": "Wrong. == allows type coercion, while === compares both value and type without coercion.",
-              "category": "conceptual"
+              "question": "What is the difference between loose equality (==) and strict equality (===)?",
+              "answer": "Loose equality (==) performs type coercion before comparison, whereas strict equality (===) compares both value and type without converting types."
             }
           ]
         },
         {
-          "id": "topic-flashcards-and-summary",
-          "title": "RAPID REVISION FLASHCARDS & FINAL SUMMARY",
-          "explanation": "Rapid revision questions, formula guidance, and a one-line memory map summarizing core runtime fundamentals.",
+          "id": "top-flashcards-and-traps",
+          "title": "RAPID REVISION FLASHCARDS & FINAL TRAPS",
+          "explanation": "Quick revision flashcards, common runtime traps, interview answering formula, and complete visual memory map.",
           "keyPoints": [
             "Best Interview Formula: Definition → How It Works → Example → Use Case → Common Trap."
           ],
@@ -649,113 +634,146 @@
               "question": "What is the difference between textContent and innerHTML?",
               "answer": "textContent treats input as plain text, while innerHTML parses and renders HTML.",
               "difficulty": "easy"
+            },
+            {
+              "id": "fc-8",
+              "question": "Does fetch() automatically reject on HTTP 404 or 500 errors?",
+              "answer": "No. It resolves normally; checking response.ok manually is required to identify HTTP errors.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-9",
+              "question": "What is the Temporal Dead Zone (TDZ)?",
+              "answer": "The period between entering scope and variable declaration where let and const variables cannot be accessed.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-10",
+              "question": "Does await block the entire JavaScript thread?",
+              "answer": "No. It only pauses the enclosing async function while the event loop continues running other tasks.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-11",
+              "question": "What is the key difference between .map() and .forEach()?",
+              "answer": ".map() transforms items and returns a new array, whereas .forEach() executes side effects and returns undefined.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-12",
+              "question": "Is a NodeList a native JavaScript Array?",
+              "answer": "No. It is an array-like DOM collection that requires conversion via Array.from() or spread syntax to use methods like map().",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-13",
+              "question": "What is the difference between event.target and event.currentTarget?",
+              "answer": "event.target is the element where the event originated, while event.currentTarget is the element handling the event listener.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-14",
+              "question": "How does yield differ from return in a generator function?",
+              "answer": "return terminates execution completely, while yield pauses execution and allows resumption via next().",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-15",
+              "question": "Does const prevent mutation of object properties?",
+              "answer": "No. const prevents identifier reassignment; internal properties can still be modified.",
+              "difficulty": "easy"
+            }
+          ],
+          "traps": [
+            {
+              "id": "trap-hf-1",
+              "statement": "Arrow Functions Always Work as Object Methods",
+              "explanation": "Wrong. Arrow functions do not have their own this. Use normal methods when you need dynamic object this.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-hf-2",
+              "statement": "const Means Immutable",
+              "explanation": "Wrong. const user = { name: \"John\" }; user.name = \"David\"; works because const guards reference reassignment, not internal property updates.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-hf-3",
+              "statement": "await Blocks JavaScript Completely",
+              "explanation": "Wrong. await pauses execution inside the async function, not the entire runtime or event loop.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-hf-4",
+              "statement": "Fetch Rejects on Every HTTP Error",
+              "explanation": "Wrong. A 404 or 500 response still resolves the promise; it usually requires manual checking using response.ok.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-hf-5",
+              "statement": "Spread Creates a Deep Copy",
+              "explanation": "Wrong. Spread creates a shallow copy, retaining references to nested objects or arrays.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-hf-6",
+              "statement": "NodeList Is a Normal Array",
+              "explanation": "Wrong. Convert it first using Array.from(nodeList) or [...nodeList] if you need Array-specific methods like map().",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-hf-7",
+              "statement": "== and === Are Basically the Same",
+              "explanation": "Wrong. == allows type coercion, while === compares both value and type without coercion.",
+              "category": "conceptual"
             }
           ],
           "memoryMap": {
             "nodes": [
               {
-                "id": "mm-1",
-                "label": "Function Declaration",
-                "description": "Fully hoisted"
+                "id": "node-root",
+                "label": "JavaScript Runtime",
+                "description": "Functions, Scope, Async & DOM"
               },
               {
-                "id": "mm-2",
-                "label": "Function Expression",
-                "description": "Stored in a variable"
+                "id": "node-functions",
+                "label": "Functions & Scope",
+                "description": "Declarations, Expressions, Arrows & Closures"
               },
               {
-                "id": "mm-3",
-                "label": "Arrow Function",
-                "description": "Lexical this, no own this"
+                "id": "node-async",
+                "label": "Asynchronous JS",
+                "description": "Promises, Async/Await & Fetch"
               },
               {
-                "id": "mm-4",
-                "label": "Closure",
-                "description": "Remembers outer variables"
+                "id": "node-dom",
+                "label": "DOM & Browser APIs",
+                "description": "NodeList, textContent & innerHTML"
               },
               {
-                "id": "mm-5",
-                "label": "Prototype",
-                "description": "Object inheritance mechanism"
-              },
-              {
-                "id": "mm-6",
-                "label": "Promise",
-                "description": "Future result of async operation"
-              },
-              {
-                "id": "mm-7",
-                "label": "Promise States",
-                "description": "Pending, Fulfilled, Rejected"
-              },
-              {
-                "id": "mm-8",
-                "label": "Async/Await",
-                "description": "Cleaner Promise syntax"
-              },
-              {
-                "id": "mm-9",
-                "label": "Fetch",
-                "description": "Returns a Promise"
-              },
-              {
-                "id": "mm-10",
-                "label": "Spread (...)",
-                "description": "Expand / shallow copy"
-              },
-              {
-                "id": "mm-11",
-                "label": "map()",
-                "description": "Transform elements into a new array"
-              },
-              {
-                "id": "mm-12",
-                "label": "Generator",
-                "description": "Pause and resume using yield"
-              },
-              {
-                "id": "mm-13",
-                "label": "DOM",
-                "description": "JavaScript interface for HTML documents"
-              },
-              {
-                "id": "mm-14",
-                "label": "NodeList",
-                "description": "DOM collection, not a normal Array"
-              },
-              {
-                "id": "mm-15",
-                "label": "textContent",
-                "description": "Plain text"
-              },
-              {
-                "id": "mm-16",
-                "label": "innerHTML",
-                "description": "Parses HTML"
-              },
-              { "id": "mm-17", "label": "==", "description": "Loose equality" },
-              {
-                "id": "mm-18",
-                "label": "===",
-                "description": "Strict equality"
-              },
-              {
-                "id": "mm-19",
-                "label": "var",
-                "description": "Function scoped"
-              },
-              {
-                "id": "mm-20",
-                "label": "let",
-                "description": "Block scoped, reassignable"
-              },
-              {
-                "id": "mm-21",
-                "label": "const",
-                "description": "Block scoped, cannot reassign reference"
+                "id": "node-variables",
+                "label": "Variables & Types",
+                "description": "var, let, const & Equality (== vs ===)"
               }
             ],
-            "connections": []
+            "connections": [
+              {
+                "from": "node-root",
+                "to": "node-functions"
+              },
+              {
+                "from": "node-root",
+                "to": "node-async"
+              },
+              {
+                "from": "node-root",
+                "to": "node-dom"
+              },
+              {
+                "from": "node-root",
+                "to": "node-variables"
+              }
+            ]
           }
         }
       ]

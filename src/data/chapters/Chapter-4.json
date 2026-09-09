@@ -160,8 +160,7 @@
           "codeSnippets": [
             {
               "language": "html",
-              "code": "<img\n    src=\"decoration.jpg\"\n    alt=\"\"\n>",
-              "explanation": "Decorative image with empty alt attribute."
+              "code": "<img\n    src=\"decoration.jpg\"\n    alt=\"\"\n>"
             }
           ],
           "questions": [
@@ -743,6 +742,54 @@
               "id": "fc-7",
               "question": "What is Tailwind CSS?",
               "answer": "A utility-first CSS framework that lets developers build UI by composing utility classes.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-8",
+              "question": "How does box-sizing: border-box affect element dimensions?",
+              "answer": "It includes padding and border within the declared width and height, preventing unexpected size expansion.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-9",
+              "question": "What is the difference between display: none and visibility: hidden?",
+              "answer": "display: none removes the element from the layout entirely, while visibility: hidden hides it visually but retains its space.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-10",
+              "question": "What is CSS Specificity?",
+              "answer": "The weight-based scoring hierarchy (inline > ID > class/attribute/pseudo-class > element) browsers use to resolve conflicting rules.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-11",
+              "question": "Does justify-content always align horizontally in Flexbox?",
+              "answer": "No. It aligns items along the main axis, which becomes vertical when flex-direction is column.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-12",
+              "question": "What is the difference between pseudo-classes and pseudo-elements?",
+              "answer": "Pseudo-classes (:hover) target state or document tree position; pseudo-elements (::before) style or create virtual sub-elements.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-13",
+              "question": "Why use rel=\"noopener noreferrer\" with target=\"_blank\"?",
+              "answer": "It secures against tab-nabbing attacks via window.opener and prevents sharing the JavaScript execution thread.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-14",
+              "question": "What is the difference between rem and em units in CSS?",
+              "answer": "rem is relative to the root (html) font size, while em is relative to the font size of the immediate parent or current element.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-15",
+              "question": "Why is Tailwind CSS not identical to writing inline styles?",
+              "answer": "Tailwind compiles to real CSS rules supporting media queries, pseudo-classes (:hover, :focus), CSS variables, and build-time purging.",
               "difficulty": "easy"
             }
           ],

@@ -2,22 +2,19 @@
   "id": "ch-12",
   "chapterNumber": 12,
   "title": "🗄️ Database Management Systems (DBMS) & SQL",
-  "description": "Modern Interview Revision Cheat Sheet covering DBMS fundamentals, SQL vs NoSQL, relational models, querying, ACID transactions, indexing, normalization, and MongoDB.",
-  "estimatedMinutes": 60,
+  "description": "Interview revision cheat sheet for DBMS, SQL, database design, queries, joins, transactions, indexing, normalization, and common interview questions.",
+  "estimatedMinutes": 75,
   "sections": [
     {
       "id": "sec-dbms-fundamentals",
-      "title": "PART 1: DBMS FUNDAMENTALS & TYPES",
-      "description": "Definition of Database and DBMS, key management responsibilities, and primary classifications.",
+      "title": "PART 1: DBMS FUNDAMENTALS",
+      "description": "Basic database concepts needed for software engineering interviews.",
       "topics": [
         {
-          "id": "top-database-and-dbms",
-          "title": "1. What is a Database? & 2. What is a DBMS?",
-          "explanation": "A database is an organized collection of data that can be efficiently stored, retrieved, updated, and managed (e.g., user info, products, orders, student records)[cite: 5].\n\nA Database Management System (DBMS) is software used to create, store, retrieve, update, and manage databases (e.g., MySQL, PostgreSQL, MongoDB, Oracle Database, Microsoft SQL Server)[cite: 5].\nA DBMS provides features such as: Data storage, Data retrieval, Security, Transactions, Backup and recovery, Concurrency control[cite: 5].\n\nEasy Memory:\nDatabase = The Data\nDBMS = The Software That Manages Data[cite: 5]",
-          "tldr": "Database হলো data, আর DBMS হলো সেই data manage করার software[cite: 5]。",
-          "examples": [
-            "Users Table:\nID | Name | Email\n1  | John | john@email.com\n2  | Alex | alex@email.com[cite: 5]"
-          ],
+          "id": "top-database-dbms",
+          "title": "Database & DBMS",
+          "explanation": "A Database is an organized collection of data. Example: users, products, orders, and payments.\n\nA Database Management System (DBMS) is software that stores, manages, updates, and retrieves data.\n\nExamples of DBMS: MySQL, PostgreSQL, SQL Server, and Oracle.\n\nEasy Memory:\nDatabase = The Data\nDBMS = The Software That Manages Data",
+          "tldr": "Database stores data. DBMS manages the data.",
           "comparisons": [
             {
               "title": "Database vs DBMS",
@@ -25,154 +22,264 @@
               "rows": [
                 ["Collection of data", "Software that manages data"],
                 ["Stores information", "Creates and manages databases"],
-                ["Example: User records", "Example: MySQL, MongoDB"]
+                ["Example: User records", "Example: MySQL"]
               ]
             }
           ],
           "questions": [
             {
               "question": "Is MySQL a database or a DBMS?",
-              "answer": "MySQL is a Database Management System. It is software used to create and manage databases."
+              "answer": "MySQL is a DBMS. It is software used to create and manage databases."
             }
           ],
           "traps": [
             {
-              "id": "trap-mysql-db-vs-dbms",
-              "statement": "MySQL is a database.",
-              "explanation": "MySQL is a Database Management System (DBMS), which is software used to create and manage databases.",
+              "id": "trap-dbms",
+              "statement": "MySQL is just a database.",
+              "explanation": "MySQL is a Database Management System that manages databases.",
               "category": "conceptual"
             }
           ]
         },
         {
-          "id": "top-types-of-databases",
-          "title": "3. Types of Databases",
-          "explanation": "Databases can be broadly divided into:\nDatabases\n├── Relational: MySQL, PostgreSQL, SQL Server\n└── Non-Relational: MongoDB, Redis, Cassandra[cite: 5]"
+          "id": "top-dbms-types",
+          "title": "Types of Databases",
+          "explanation": "The two main types are:\n\n1. Relational Database: Stores data in tables and supports relationships. Examples: MySQL and PostgreSQL.\n\n2. Non-Relational Database: Uses flexible data models such as documents, key-value pairs, graphs, or column families.\n\nFor interviews, understand why an application may choose SQL or NoSQL."
         }
       ]
     },
     {
-      "id": "sec-sql-vs-nosql",
+      "id": "sec-sql-nosql",
       "title": "PART 2: SQL VS NoSQL",
-      "description": "Relational vs non-relational paradigms, structural trade-offs, and decision guidelines.",
+      "description": "Relational and non-relational database differences.",
       "topics": [
         {
-          "id": "top-sql-nosql-comparison",
-          "title": "4-8. SQL vs NoSQL & Selection Criteria",
-          "explanation": "SQL databases are relational databases that store data in structured tables with rows, columns, and relationships (MySQL, PostgreSQL, Oracle, SQL Server)[cite: 5]. Characteristics: Structured schema, Table-based, Supports relationships, Supports JOINs, Strong consistency, Usually supports ACID transactions[cite: 5].\n\nNoSQL databases are non-relational databases designed for flexible data models and horizontal scalability[cite: 5]. Models include:\n- Document Database: MongoDB[cite: 5]\n- Key-Value Database: Redis[cite: 5]\n- Column-Family Database: Cassandra[cite: 5]\n- Graph Database: Neo4j[cite: 5]\n\nWhen to Use SQL: Clear relationships, strong consistency, complex queries, transactions, stable data structure (e.g., Banking, Payments, Inventory, Accounting)[cite: 5].\n\nWhen to Use NoSQL: Data structure changes frequently, flexible schema needed, large-scale horizontal scaling, naturally document-oriented (e.g., Content platforms, Social apps, Product catalogs with variable attributes, MERN apps)[cite: 5].\n\nImportant Interview Point: NoSQL does NOT automatically mean 'better for large applications'. Both SQL and NoSQL can scale. Choice depends on data model, consistency needs, query patterns, relationships, and scalability[cite: 5].",
-          "tldr": "Data relationship এবং transaction বেশি হলে SQL, flexible document data হলে NoSQL ভালো হতে পারে[cite: 5]。",
-          "examples": [
-            "Variable Product Document in NoSQL:\n{\n  \"name\": \"Laptop\",\n  \"brand\": \"Dell\",\n  \"ram\": \"16GB\",\n  \"screenSize\": \"15 inch\"\n}\n{\n  \"name\": \"T-Shirt\",\n  \"size\": \"M\",\n  \"color\": \"Black\"\n}[cite: 5]"
-          ],
+          "id": "top-sql-vs-nosql",
+          "title": "SQL vs NoSQL",
+          "explanation": "SQL databases are relational databases. They store data in tables with rows and columns. They support relationships and JOIN operations.\n\nNoSQL databases use flexible data models. They can be useful when the data structure changes often or when a document-based model fits the application.\n\nUse SQL when you need strong relationships, complex queries, transactions, and structured data.\n\nUse NoSQL when you need a flexible data model and the data naturally fits a non-relational structure.\n\nImportant: SQL and NoSQL are not competitors where one is always better. The choice depends on the application.",
+          "tldr": "SQL is good for structured relational data. NoSQL is useful for flexible data models.",
           "comparisons": [
             {
               "title": "SQL vs NoSQL",
               "headers": ["SQL", "NoSQL"],
               "rows": [
                 ["Relational", "Non-relational"],
-                ["Tables", "Documents / Key-Value / Graph / etc."],
-                ["Fixed or predefined schema", "Flexible schema"],
-                ["SQL queries", "Database-specific query APIs"],
-                ["Strong relationships", "Often denormalized"],
-                ["JOIN support", "Traditional JOINs may not exist"],
-                [
-                  "Good for complex transactions",
-                  "Good for flexible and scalable data models"
-                ]
+                ["Tables", "Flexible data models"],
+                ["Structured schema", "Flexible schema"],
+                ["Supports JOINs", "Different relationship approaches"],
+                ["Good for transactions", "Good for flexible data"]
               ]
             }
           ],
           "questions": [
             {
-              "question": "Is NoSQL always schema-less?",
-              "answer": "Not exactly. NoSQL databases often allow flexible schemas, but applications can still enforce data structure and validation."
+              "question": "What is the main difference between SQL and NoSQL?",
+              "answer": "SQL databases use relational tables and relationships. NoSQL databases use flexible non-relational data models."
             },
             {
-              "question": "What is the difference between SQL and NoSQL?",
-              "answer": "SQL databases are relational and organize data into tables with predefined relationships. NoSQL databases support flexible data models such as documents, key-value pairs, graphs, or column families. The best choice depends on the data model, consistency requirements, relationships, and query patterns."
+              "question": "Is NoSQL always better for large applications?",
+              "answer": "No. Both SQL and NoSQL can scale. The choice depends on the data model, queries, relationships, and system needs."
             }
           ],
           "traps": [
             {
-              "id": "trap-sql-scale",
-              "statement": "SQL is Always Better for Large Applications (or NoSQL is always better for scale).",
-              "explanation": "Wrong. Both SQL and NoSQL can support large-scale systems. Choose based on data model, relationships, query patterns, consistency needs, and scalability requirements.",
+              "id": "trap-sql-nosql",
+              "statement": "NoSQL is always better for large applications.",
+              "explanation": "Wrong. Both SQL and NoSQL can support large systems.",
               "category": "conceptual"
-            },
-            {
-              "id": "trap-nosql-schemaless",
-              "statement": "NoSQL Means No Schema.",
-              "explanation": "Not exactly. NoSQL databases often allow flexible schemas, but applications can still enforce structure and validation rules.",
-              "category": "interview-gotcha"
             }
           ]
         }
       ]
     },
     {
-      "id": "sec-relational-fundamentals",
-      "title": "PART 3: RELATIONAL DATABASE FUNDAMENTALS & CONSTRAINTS",
-      "description": "Tables, rows, columns, primary and foreign keys, relationships, and integrity constraints.",
+      "id": "sec-keys-relationships",
+      "title": "PART 3: KEYS, RELATIONSHIPS & CONSTRAINTS",
+      "description": "Primary keys, foreign keys, relationships, and database rules.",
       "topics": [
         {
-          "id": "top-table-keys-relationships",
-          "title": "9-12. Table, Keys & Relationships",
-          "explanation": "Table = Collection of related data[cite: 5]\nRow = One record[cite: 5]\nColumn = One attribute[cite: 5]\n\nPrimary Key uniquely identifies each row in a table. Rules: Unique and NOT NULL[cite: 5].\nForeign Key creates a relationship between tables by referencing a key in another table[cite: 5].\n\nCommon Relationships:\n- One-to-One: One user → One profile[cite: 5]\n- One-to-Many: One user → Many orders[cite: 5]\n- Many-to-Many: Students ↔ Courses (implemented using a junction table referencing foreign keys of both tables)[cite: 5]",
-          "tldr": "Database relationship মূলত One-to-One, One-to-Many এবং Many-to-Many[cite: 5]。",
+          "id": "top-table-keys",
+          "title": "Tables, Rows, Columns & Keys",
+          "explanation": "Table = Collection of related data.\nRow = One record.\nColumn = One attribute.\n\nPrimary Key: Uniquely identifies each row.\nForeign Key: Creates a relationship with another table.",
+          "tldr": "Primary Key identifies a row. Foreign Key connects tables.",
           "codeSnippets": [
             {
               "language": "sql",
-              "code": "CREATE TABLE users (\n  id INT PRIMARY KEY,\n  name VARCHAR(100),\n  email VARCHAR(100)\n);\n\nCREATE TABLE orders (\n  id INT PRIMARY KEY,\n  user_id INT,\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
-              "explanation": "Primary key and foreign key constraint declarations establishing a One-to-Many relationship[cite: 5]."
+              "code": "CREATE TABLE users (\n  id INT PRIMARY KEY,\n  name VARCHAR(100),\n  email VARCHAR(100)\n);",
+              "explanation": "The id column is the Primary Key."
             }
           ],
           "questions": [
             {
-              "question": "How do you implement a Many-to-Many relationship in SQL?",
-              "answer": "Usually by creating a junction table that contains foreign keys referencing both related tables."
+              "question": "What is a Primary Key?",
+              "answer": "A Primary Key uniquely identifies each row in a table. It must be unique and cannot be NULL."
             },
             {
-              "question": "What is the difference between Primary Key and Foreign Key?",
-              "answer": "A Primary Key uniquely identifies a row in its own table. A Foreign Key references a key in another table to create and enforce relationships."
+              "question": "What is a Foreign Key?",
+              "answer": "A Foreign Key references a key in another table to create a relationship."
             }
           ]
         },
         {
-          "id": "top-db-constraints",
-          "title": "45. Database Constraints",
-          "explanation": "Constraints are rules applied to database columns to maintain data integrity[cite: 5]:\n- PRIMARY KEY: Unique and NOT NULL (e.g., id INT PRIMARY KEY)[cite: 5]\n- FOREIGN KEY: Maintains relationships (e.g., FOREIGN KEY (user_id) REFERENCES users(id))[cite: 5]\n- UNIQUE: Prevents duplicate values (e.g., email VARCHAR(100) UNIQUE)[cite: 5]\n- NOT NULL: Value is required (e.g., name VARCHAR(100) NOT NULL)[cite: 5]\n- CHECK: Validates a condition (e.g., age INT CHECK (age >= 18))[cite: 5]\n- DEFAULT: Provides a default value (e.g., status VARCHAR(20) DEFAULT 'active')[cite: 5]"
+          "id": "top-relationships",
+          "title": "Database Relationships",
+          "explanation": "One-to-One: One user has one profile.\n\nOne-to-Many: One user has many orders.\n\nMany-to-Many: Many students can join many courses. This usually needs a junction table.",
+          "tldr": "Main relationships are One-to-One, One-to-Many, and Many-to-Many.",
+          "questions": [
+            {
+              "question": "How do you create a Many-to-Many relationship?",
+              "answer": "Usually by creating a junction table with foreign keys from both tables."
+            }
+          ]
+        },
+        {
+          "id": "top-constraints",
+          "title": "Database Constraints",
+          "explanation": "Constraints are rules that protect data quality.\n\nPRIMARY KEY: Unique and NOT NULL.\nFOREIGN KEY: Maintains relationships.\nUNIQUE: Prevents duplicate values.\nNOT NULL: Requires a value.\nCHECK: Validates a condition.\nDEFAULT: Provides a default value.",
+          "codeSnippets": [
+            {
+              "language": "sql",
+              "code": "CREATE TABLE users (\n  id INT PRIMARY KEY,\n  email VARCHAR(100) UNIQUE,\n  name VARCHAR(100) NOT NULL,\n  age INT CHECK (age >= 18),\n  status VARCHAR(20) DEFAULT 'active'\n);",
+              "explanation": "Example of common SQL constraints."
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the difference between Primary Key and UNIQUE?",
+              "answer": "Both prevent duplicates. A Primary Key uniquely identifies a row and cannot be NULL."
+            }
+          ]
         }
       ]
     },
     {
-      "id": "sec-sql-crud-filtering-joins",
-      "title": "PARTS 4-7: SQL QUERYING, AGGREGATIONS & JOINS",
-      "description": "CRUD syntax, filtering, aggregate functions, GROUP BY, HAVING, and JOIN varieties.",
+      "id": "sec-sql-crud",
+      "title": "PART 4: CRUD & SQL COMMANDS",
+      "description": "Basic SQL commands used in applications and interviews.",
       "topics": [
         {
-          "id": "top-sql-crud-filtering",
-          "title": "13-15. SQL CRUD, WHERE & Sorting",
-          "explanation": "SQL (Structured Query Language) communicates with relational databases to Create, Read, Update, and Delete data[cite: 5].\n\nCRUD Operations:\n- CREATE: INSERT INTO users (name, email) VALUES ('John', 'john@email.com');[cite: 5]\n- READ: SELECT * FROM users; or SELECT name, email FROM users;[cite: 5]\n- UPDATE: UPDATE users SET name = 'John Doe' WHERE id = 1;[cite: 5]\n- DELETE: DELETE FROM users WHERE id = 1;[cite: 5]\n\nFiltering & Sorting Clauses:\n- WHERE: Filters rows (supports AND, OR, IN, LIKE, e.g., WHERE name LIKE 'J%')[cite: 5]\n- ORDER BY: Orders results (ASC = Ascending, DESC = Descending)[cite: 5]\n- LIMIT: Restricts number of returned rows (LIMIT 10)[cite: 5]",
-          "tldr": "UPDATE বা DELETE করার সময় WHERE ভুলে গেলে পুরো table-এর data change হতে পারে[cite: 5]。",
+          "id": "top-sql-crud",
+          "title": "CRUD Operations",
+          "explanation": "CRUD means Create, Read, Update, and Delete.\n\nINSERT creates data.\nSELECT reads data.\nUPDATE changes data.\nDELETE removes data.",
+          "tldr": "CRUD = Create, Read, Update, Delete.",
+          "codeSnippets": [
+            {
+              "language": "sql",
+              "code": "INSERT INTO users (name, email)\nVALUES ('John', 'john@email.com');\n\nSELECT * FROM users;\n\nUPDATE users\nSET name = 'John Doe'\nWHERE id = 1;\n\nDELETE FROM users\nWHERE id = 1;",
+              "explanation": "Basic CRUD operations."
+            }
+          ],
           "traps": [
             {
-              "id": "trap-sql-where-missing",
-              "statement": "Executing UPDATE users SET name = 'Unknown'; or DELETE FROM users; without WHERE is safe.",
-              "explanation": "Omitting the WHERE clause updates or deletes every row in the table.",
+              "id": "trap-update-delete",
+              "statement": "UPDATE and DELETE are safe without WHERE.",
+              "explanation": "Without WHERE, all matching rows can be changed or deleted.",
               "category": "common-mistake"
             }
           ]
         },
         {
-          "id": "top-aggregates-groupby-having",
-          "title": "16-18. Aggregate Functions, GROUP BY & HAVING",
-          "explanation": "Common Aggregate Functions: COUNT(), SUM(), AVG(), MAX(), MIN()[cite: 5].\nGROUP BY: Groups rows with the same value[cite: 5].\nHAVING: Filters grouped results[cite: 5].\nExecution Flow: Rows → WHERE → GROUP BY → HAVING → Result[cite: 5].",
-          "tldr": "WHERE individual row filter করে, HAVING grouped result filter করে[cite: 5]。",
+          "id": "top-delete-truncate-drop",
+          "title": "DELETE vs TRUNCATE vs DROP",
+          "explanation": "DELETE removes rows and can use WHERE.\n\nTRUNCATE removes all rows from a table.\n\nDROP removes the table itself.",
+          "tldr": "DELETE = Remove rows. TRUNCATE = Remove all rows. DROP = Remove table.",
+          "comparisons": [
+            {
+              "title": "DELETE vs TRUNCATE vs DROP",
+              "headers": ["Command", "Result"],
+              "rows": [
+                ["DELETE", "Removes selected rows"],
+                ["TRUNCATE", "Removes all rows"],
+                ["DROP", "Removes the table"]
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is the difference between DELETE, TRUNCATE, and DROP?",
+              "answer": "DELETE removes rows. TRUNCATE removes all rows. DROP removes the table."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-filtering-null",
+      "title": "PART 5: FILTERING, SORTING & NULL",
+      "description": "WHERE, operators, sorting, and NULL handling.",
+      "topics": [
+        {
+          "id": "top-filtering",
+          "title": "WHERE & Filtering",
+          "explanation": "WHERE filters rows.\n\nCommon operators:\n= Equal\n> Greater than\n< Less than\n>= Greater than or equal\n<= Less than or equal\n<> Not equal\n\nOther useful keywords:\nAND\nOR\nIN\nBETWEEN\nLIKE",
           "codeSnippets": [
             {
               "language": "sql",
-              "code": "SELECT city, COUNT(*)\nFROM users\nWHERE age > 18\nGROUP BY city\nHAVING COUNT(*) > 10;",
-              "explanation": "Query demonstrating row filtering before grouping with WHERE, and group filtering with HAVING[cite: 5]."
+              "code": "SELECT * FROM users\nWHERE age >= 18\nAND city = 'Dhaka';",
+              "explanation": "Filters users by age and city."
+            }
+          ]
+        },
+        {
+          "id": "top-sorting-limit",
+          "title": "ORDER BY & LIMIT",
+          "explanation": "ORDER BY sorts query results.\nASC means ascending.\nDESC means descending.\n\nLIMIT restricts the number of returned rows.",
+          "codeSnippets": [
+            {
+              "language": "sql",
+              "code": "SELECT * FROM users\nORDER BY age DESC\nLIMIT 10;",
+              "explanation": "Returns the first 10 users sorted by age."
+            }
+          ]
+        },
+        {
+          "id": "top-null",
+          "title": "NULL Values",
+          "explanation": "NULL means the value is missing or unknown.\n\nNULL is not zero.\nNULL is not an empty string.\n\nUse IS NULL or IS NOT NULL to check NULL values.",
+          "tldr": "NULL means missing or unknown data.",
+          "codeSnippets": [
+            {
+              "language": "sql",
+              "code": "SELECT * FROM users\nWHERE phone IS NULL;",
+              "explanation": "Finds users with no phone value."
+            }
+          ],
+          "questions": [
+            {
+              "question": "Is NULL the same as zero or an empty string?",
+              "answer": "No. NULL means the value is missing or unknown."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-aggregation",
+      "title": "PART 6: AGGREGATION, GROUP BY & HAVING",
+      "description": "Aggregate functions and grouped query results.",
+      "topics": [
+        {
+          "id": "top-aggregation",
+          "title": "Aggregate Functions",
+          "explanation": "Aggregate functions calculate values from multiple rows.\n\nCOUNT() counts rows.\nSUM() adds values.\nAVG() finds the average.\nMAX() finds the highest value.\nMIN() finds the lowest value.",
+          "codeSnippets": [
+            {
+              "language": "sql",
+              "code": "SELECT COUNT(*) AS total_users,\nAVG(age) AS average_age\nFROM users;",
+              "explanation": "Counts users and calculates average age."
+            }
+          ]
+        },
+        {
+          "id": "top-groupby-having",
+          "title": "GROUP BY & HAVING",
+          "explanation": "GROUP BY groups rows with the same value.\n\nHAVING filters grouped results.\n\nWHERE filters rows before grouping.\nHAVING filters groups after grouping.",
+          "tldr": "WHERE filters rows. HAVING filters groups.",
+          "codeSnippets": [
+            {
+              "language": "sql",
+              "code": "SELECT city, COUNT(*)\nFROM users\nWHERE age >= 18\nGROUP BY city\nHAVING COUNT(*) > 5;",
+              "explanation": "Filters rows, groups by city, and filters groups."
             }
           ],
           "comparisons": [
@@ -181,43 +288,43 @@
               "headers": ["WHERE", "HAVING"],
               "rows": [
                 ["Filters rows", "Filters groups"],
-                ["Before grouping", "After grouping"],
-                [
-                  "Works before aggregate results",
-                  "Often used with aggregate functions"
-                ]
+                ["Before GROUP BY", "After GROUP BY"],
+                ["Used for row conditions", "Used for aggregate conditions"]
               ]
             }
           ],
           "questions": [
             {
               "question": "What is the difference between WHERE and HAVING?",
-              "answer": "WHERE filters individual rows before grouping, while HAVING filters grouped or aggregate results after grouping."
-            },
-            {
-              "question": "Can HAVING be used without GROUP BY?",
-              "answer": "In many SQL databases, yes, particularly when filtering aggregate results, but behavior and syntax can vary by database system. For normal row filtering, use WHERE."
+              "answer": "WHERE filters rows before grouping. HAVING filters grouped results."
             }
           ],
           "traps": [
             {
-              "id": "trap-where-having-same",
+              "id": "trap-where-having",
               "statement": "WHERE and HAVING are the same.",
-              "explanation": "Wrong. WHERE filters individual rows before grouping; HAVING filters groups after aggregate calculations.",
+              "explanation": "WHERE filters rows. HAVING filters groups and aggregate results.",
               "category": "common-mistake"
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id": "sec-joins",
+      "title": "PART 7: SQL JOINS",
+      "description": "Combining related data from multiple tables.",
+      "topics": [
         {
-          "id": "top-sql-joins",
-          "title": "19-25. SQL JOINs & SELF JOIN",
-          "explanation": "A JOIN combines related data from multiple tables based on a common relationship between columns[cite: 5].\n\nTypes of JOINs:\n- INNER JOIN: Returns only rows that have matching values in both tables[cite: 5].\n- LEFT JOIN: Returns all rows from left table, and matching rows from right table (unmatched right columns return NULL)[cite: 5].\n- RIGHT JOIN: Returns all rows from right table, and matching rows from left table[cite: 5].\n- FULL OUTER JOIN: Returns matching rows plus unmatched rows from both left and right tables[cite: 5].\n- SELF JOIN: Joins a table with itself (useful for hierarchical structures such as employee-manager relationships or category subcategories)[cite: 5].\n\nEasy Memory:\nINNER = Only Matches\nLEFT = Everything Left\nRIGHT = Everything Right\nFULL = Everything[cite: 5]",
-          "tldr": "JOIN দিয়ে multiple table-এর related data একসাথে আনা হয়[cite: 5]。",
+          "id": "top-joins",
+          "title": "INNER JOIN, LEFT JOIN & Other JOINs",
+          "explanation": "A JOIN combines related data from multiple tables.\n\nINNER JOIN returns matching rows from both tables.\n\nLEFT JOIN returns all rows from the left table and matching rows from the right table.\n\nRIGHT JOIN returns all rows from the right table and matching rows from the left table.\n\nFULL JOIN returns matching and unmatched rows from both tables.",
+          "tldr": "INNER = Matches only. LEFT = Everything on left. FULL = Everything from both.",
           "codeSnippets": [
             {
               "language": "sql",
-              "code": "SELECT users.name, orders.product\nFROM users\nINNER JOIN orders\nON users.id = orders.user_id;\n\n-- Self Join Example\nSELECT\n  employee.name AS employee_name,\n  manager.name AS manager_name\nFROM employees employee\nLEFT JOIN employees manager\nON employee.manager_id = manager.id;",
-              "explanation": "INNER JOIN syntax and Self Join example mapping employees to managers[cite: 5]."
+              "code": "SELECT users.name, orders.product\nFROM users\nINNER JOIN orders\nON users.id = orders.user_id;",
+              "explanation": "Returns users with matching orders."
             }
           ],
           "comparisons": [
@@ -226,136 +333,249 @@
               "headers": ["JOIN", "Returns"],
               "rows": [
                 ["INNER JOIN", "Only matching rows"],
-                ["LEFT JOIN", "All left + matching right"],
-                ["RIGHT JOIN", "All right + matching left"],
-                ["FULL JOIN", "All rows from both tables"]
+                ["LEFT JOIN", "All left and matching right"],
+                ["RIGHT JOIN", "All right and matching left"],
+                ["FULL JOIN", "All rows from both"]
               ]
             }
           ],
           "questions": [
             {
               "question": "What is the difference between INNER JOIN and LEFT JOIN?",
-              "answer": "INNER JOIN returns only rows with matching values in both tables. LEFT JOIN returns all rows from the left table and matching rows from the right table. If there is no match, right-side values are NULL."
+              "answer": "INNER JOIN returns only matching rows. LEFT JOIN returns all rows from the left table and matching rows from the right table."
             },
             {
-              "question": "What happens if there is no matching row in a LEFT JOIN?",
-              "answer": "The row from the left table is still returned, and columns from the right table contain NULL."
+              "question": "What happens when there is no match in a LEFT JOIN?",
+              "answer": "The left table row is returned and the right table values are NULL."
+            }
+          ]
+        },
+        {
+          "id": "top-self-join",
+          "title": "SELF JOIN",
+          "explanation": "A SELF JOIN joins a table with itself. It is useful for hierarchical data such as employee and manager relationships.",
+          "codeSnippets": [
+            {
+              "language": "sql",
+              "code": "SELECT employee.name, manager.name\nFROM employees employee\nLEFT JOIN employees manager\nON employee.manager_id = manager.id;",
+              "explanation": "Connects each employee with a manager from the same table."
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is a Self JOIN?",
+              "answer": "A Self JOIN joins a table with itself. It is useful for hierarchical relationships."
             }
           ]
         }
       ]
     },
     {
-      "id": "sec-transactions-indexing-normalization",
-      "title": "PARTS 8-15: TRANSACTIONS, INDEXING & NORMALIZATION",
-      "description": "ACID compliance, B-Tree indexes, anomalies, 1NF to BCNF, and denormalization.",
+      "id": "sec-subquery-cte",
+      "title": "PART 8: SUBQUERY & CTE",
+      "description": "Breaking complex SQL queries into smaller logical parts.",
       "topics": [
         {
-          "id": "top-transactions-and-acid",
-          "title": "26-28. Database Transactions & ACID Properties",
-          "explanation": "A transaction is a group of database operations treated as a single logical unit of work that must succeed together or fail together[cite: 5].\nTransaction Commands: BEGIN (starts transaction), COMMIT (permanently saves changes), ROLLBACK (undoes changes if failure occurs)[cite: 5].\n\nACID Properties:\n- A — Atomicity: All or nothing. Either all operations succeed or all fail[cite: 5].\n- C — Consistency: A transaction moves database from one valid state to another, upholding constraints and rules[cite: 5].\n- I — Isolation: Multiple concurrent transactions execute without improperly interfering with each other[cite: 5].\n- D — Durability: Once committed, data persists permanently even across power failures, restarts, or crashes[cite: 5].",
-          "tldr": "Transaction যেন অর্ধেক না হয়, data valid থাকে, transaction conflict না করে এবং commit-এর পর data না হারায় = ACID[cite: 5]。",
+          "id": "top-subquery",
+          "title": "Subquery",
+          "explanation": "A Subquery is a query inside another query. It can be used in SELECT, FROM, or WHERE.",
           "codeSnippets": [
             {
               "language": "sql",
-              "code": "BEGIN;\nUPDATE accounts\nSET balance = balance - 100\nWHERE id = 1;\nUPDATE accounts\nSET balance = balance + 100\nWHERE id = 2;\nCOMMIT;\n-- If error occurs:\n-- ROLLBACK;",
-              "explanation": "Atomic bank transfer transaction with commit and rollback[cite: 5]."
+              "code": "SELECT name, salary\nFROM employees\nWHERE salary > (\n  SELECT AVG(salary)\n  FROM employees\n);",
+              "explanation": "Finds employees with salary above the average."
             }
           ],
+          "questions": [
+            {
+              "question": "What is a Subquery?",
+              "answer": "A Subquery is a SQL query inside another SQL query."
+            }
+          ]
+        },
+        {
+          "id": "top-cte",
+          "title": "Common Table Expression (CTE)",
+          "explanation": "A CTE creates a temporary named result for a query. It can make complex SQL easier to read and organize.",
+          "codeSnippets": [
+            {
+              "language": "sql",
+              "code": "WITH high_salary AS (\n  SELECT *\n  FROM employees\n  WHERE salary > 50000\n)\nSELECT * FROM high_salary;",
+              "explanation": "Creates a temporary named result and queries it."
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is a CTE?",
+              "answer": "A CTE is a temporary named result used inside a SQL query."
+            },
+            {
+              "question": "What is the difference between a Subquery and a CTE?",
+              "answer": "A Subquery is written inside another query. A CTE gives a temporary result a name and can make complex queries easier to read."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-transactions-acid",
+      "title": "PART 9: TRANSACTIONS & ACID",
+      "description": "Reliable database operations and transaction properties.",
+      "topics": [
+        {
+          "id": "top-transactions",
+          "title": "Database Transactions",
+          "explanation": "A Transaction is a group of database operations treated as one unit of work.\n\nBEGIN starts a transaction.\nCOMMIT saves changes.\nROLLBACK cancels changes after an error.\n\nExample: Money should not leave one account without reaching the other account.",
+          "codeSnippets": [
+            {
+              "language": "sql",
+              "code": "BEGIN;\n\nUPDATE accounts\nSET balance = balance - 100\nWHERE id = 1;\n\nUPDATE accounts\nSET balance = balance + 100\nWHERE id = 2;\n\nCOMMIT;",
+              "explanation": "A simple bank transfer transaction."
+            }
+          ],
+          "questions": [
+            {
+              "question": "What is a Transaction?",
+              "answer": "A Transaction is a group of database operations treated as one unit of work."
+            },
+            {
+              "question": "What is the difference between COMMIT and ROLLBACK?",
+              "answer": "COMMIT saves changes permanently. ROLLBACK cancels transaction changes."
+            }
+          ]
+        },
+        {
+          "id": "top-acid",
+          "title": "ACID Properties",
+          "explanation": "Atomicity: All operations succeed together or fail together.\n\nConsistency: Data follows database rules and stays valid.\n\nIsolation: Concurrent transactions should not incorrectly affect each other.\n\nDurability: Committed data should survive crashes or restarts.",
+          "tldr": "ACID = Atomicity, Consistency, Isolation, Durability.",
           "comparisons": [
             {
               "title": "ACID Summary",
-              "headers": ["Property", "Meaning"],
+              "headers": ["Property", "Simple Meaning"],
               "rows": [
                 ["Atomicity", "All or nothing"],
-                ["Consistency", "Valid state"],
-                ["Isolation", "Transactions do not improperly interfere"],
-                ["Durability", "Committed data survives"]
+                ["Consistency", "Data stays valid"],
+                ["Isolation", "Transactions do not conflict incorrectly"],
+                ["Durability", "Committed data stays saved"]
               ]
             }
           ],
           "questions": [
             {
-              "question": "What are ACID Properties?",
-              "answer": "ACID stands for Atomicity (all operations succeed or all fail), Consistency (transactions maintain valid database rules), Isolation (concurrent transactions do not improperly interfere with each other), and Durability (committed data persists)."
+              "question": "What does ACID stand for?",
+              "answer": "Atomicity, Consistency, Isolation, and Durability."
             },
             {
               "question": "What is the difference between Atomicity and Durability?",
-              "answer": "Atomicity ensures that all operations in a transaction succeed together or all fail. Durability ensures that committed changes persist even after a crash or restart."
+              "answer": "Atomicity means all operations succeed or fail together. Durability means committed data remains saved."
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id": "sec-indexing",
+      "title": "PART 10: DATABASE INDEXING",
+      "description": "Improving database query performance.",
+      "topics": [
         {
-          "id": "top-indexing-and-btree",
-          "title": "29-35. Database Indexing & B-Tree",
-          "explanation": "A database index is a data structure that helps the database find data faster without scanning every row[cite: 5].\n\nB-Tree Index:\nA balanced tree data structure commonly used for indexes[cite: 5]. Stays balanced, supports range queries and ordered traversals[cite: 5]. Search and update operations take approximately O(log n) time[cite: 5].\n\nIndex Trade-offs:\n- Advantages: Dramatically improves search speed, filtering, sorting, and JOIN performance[cite: 5].\n- Disadvantages: Requires extra storage and incurs maintenance overhead during write operations (INSERT, UPDATE, DELETE must update both table and index)[cite: 5].\n\nWhen to Index: Columns frequently queried in WHERE, JOIN, ORDER BY, and GROUP BY[cite: 5].",
-          "tldr": "Index data খুঁজতে fast করে, কিন্তু বেশি index থাকলে INSERT/UPDATE/DELETE slow হতে পারে[cite: 5]。",
+          "id": "top-indexing",
+          "title": "Database Index",
+          "explanation": "A Database Index is a data structure that helps the database find data faster without checking every row.\n\nIndexes can improve WHERE, JOIN, ORDER BY, and other queries.\n\nHowever, indexes use extra storage and add extra work during INSERT, UPDATE, and DELETE.",
+          "tldr": "Index makes reads faster but can make writes slower.",
           "codeSnippets": [
             {
               "language": "sql",
               "code": "CREATE INDEX idx_users_email\nON users(email);",
-              "explanation": "Creating a single-column B-Tree index on an email attribute[cite: 5]."
+              "explanation": "Creates an index on the email column."
             }
           ],
           "questions": [
             {
-              "question": "What is an Index and why does it improve performance?",
-              "answer": "An index is a data structure that helps the database locate data more efficiently without scanning entire tables. It improves reads but consumes storage and increases write costs."
+              "question": "What is an Index?",
+              "answer": "An Index is a data structure that helps the database find data faster."
             },
             {
-              "question": "Why not create an index on every column?",
-              "answer": "Because indexes consume storage and must be updated when data changes. Too many indexes can reduce write performance."
+              "question": "Why not create an Index on every column?",
+              "answer": "Indexes use storage and add extra work during INSERT, UPDATE, and DELETE."
             }
           ],
           "traps": [
             {
-              "id": "trap-indexes-always-faster",
-              "statement": "Indexes always make databases faster, and more indexes are always better.",
-              "explanation": "Wrong. Indexes improve reads, but every extra index adds storage overhead and slows down write operations (INSERT, UPDATE, DELETE).",
+              "id": "trap-index",
+              "statement": "More indexes always make a database faster.",
+              "explanation": "Indexes improve many read operations but can slow down write operations.",
               "category": "common-mistake"
             }
           ]
         },
         {
-          "id": "top-normalization-and-denormalization",
-          "title": "36-44. Normalization (1NF to BCNF) & Denormalization",
-          "explanation": "Normalization organizes relational data to reduce redundancy and prevent anomalies[cite: 5]:\n- Update Anomaly: Inconsistent updates across duplicate rows[cite: 5]\n- Insert Anomaly: Inability to add records without unrelated dependencies[cite: 5]\n- Delete Anomaly: Unintended loss of related data when deleting a record[cite: 5]\n\nNormal Forms:\n- 1NF: Atomic values; no repeating groups; one value per field[cite: 5].\n- 2NF: In 1NF and no partial dependency on a composite primary key[cite: 5].\n- 3NF: In 2NF and no transitive dependency (non-key attributes depend only on the primary key)[cite: 5].\n- BCNF: Stricter version of 3NF where every determinant is a candidate key[cite: 5].\n\nDenormalization:\nIntentionally adds redundant data to reduce JOINs and improve read performance at the cost of duplicate data and potential update anomalies[cite: 5].",
-          "tldr": "1NF = atomic value, 2NF = no partial dependency, 3NF = no transitive dependency. Performance-এর জন্য ইচ্ছা করে কিছু duplicate data রাখা = Denormalization[cite: 5]。",
+          "id": "top-btree",
+          "title": "B-Tree Index",
+          "explanation": "A B-Tree is a balanced tree structure commonly used for database indexes. It helps search data efficiently and supports ordered and range queries.",
+          "questions": [
+            {
+              "question": "Why is B-Tree useful for database indexes?",
+              "answer": "It supports efficient searching, ordered data, and range queries."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-normalization",
+      "title": "PART 11: NORMALIZATION",
+      "description": "Reducing duplicate data and improving database design.",
+      "topics": [
+        {
+          "id": "top-normalization",
+          "title": "Normalization & Database Anomalies",
+          "explanation": "Normalization organizes database data to reduce duplication and improve consistency.\n\nUpdate Anomaly: The same data must be updated in many places.\n\nInsert Anomaly: Data cannot be added without other unrelated data.\n\nDelete Anomaly: Deleting data accidentally removes useful related data.",
+          "tldr": "Normalization reduces duplicate data and database anomalies."
+        },
+        {
+          "id": "top-normal-forms",
+          "title": "1NF, 2NF & 3NF",
+          "explanation": "1NF: Each field should contain atomic values.\n\n2NF: The table must be in 1NF and should not have partial dependency.\n\n3NF: The table must be in 2NF and should not have transitive dependency.\n\nFor most software engineering interviews, clearly understanding 1NF, 2NF, and 3NF is enough.",
+          "tldr": "1NF = Atomic values. 2NF = No partial dependency. 3NF = No transitive dependency.",
           "comparisons": [
             {
-              "title": "Normalization Summary",
+              "title": "Normal Forms",
               "headers": ["Normal Form", "Main Rule"],
               "rows": [
                 ["1NF", "Atomic values"],
                 ["2NF", "No partial dependency"],
-                ["3NF", "No transitive dependency"],
-                ["BCNF", "Every determinant is a candidate key"]
-              ]
-            },
-            {
-              "title": "Normalization vs Denormalization Trade-off",
-              "headers": ["Approach", "Redundancy", "Performance Trade-off"],
-              "rows": [
-                ["Normalization", "Less Redundancy", "More JOINs required"],
-                [
-                  "Denormalization",
-                  "More Redundancy",
-                  "Potentially Faster Reads"
-                ]
+                ["3NF", "No transitive dependency"]
               ]
             }
           ],
           "questions": [
             {
-              "question": "Is normalization always good for performance?",
-              "answer": "Not always. Normalization improves data consistency and reduces redundancy, but highly normalized databases may require more JOINs. In some cases, denormalization can improve read performance."
+              "question": "What is Normalization?",
+              "answer": "Normalization organizes data to reduce duplication and improve consistency."
+            },
+            {
+              "question": "What is the difference between 1NF, 2NF, and 3NF?",
+              "answer": "1NF uses atomic values. 2NF removes partial dependency. 3NF removes transitive dependency."
+            }
+          ]
+        },
+        {
+          "id": "top-denormalization",
+          "title": "Denormalization",
+          "explanation": "Denormalization intentionally adds some duplicate data to improve read performance and reduce expensive JOIN operations.\n\nIt can improve speed but may increase data duplication.",
+          "questions": [
+            {
+              "question": "What is Denormalization?",
+              "answer": "Denormalization intentionally adds some duplicate data to improve read performance."
             }
           ],
           "traps": [
             {
-              "id": "trap-norm-always-faster",
-              "statement": "Normalization always improves database query performance.",
-              "explanation": "Not always. While it reduces redundancy and improves integrity, over-normalized schemas require multiple JOINs which can slow down read operations.",
+              "id": "trap-normalization",
+              "statement": "Normalization always makes queries faster.",
+              "explanation": "Normalization improves data organization, but highly normalized data may require more JOIN operations.",
               "category": "conceptual"
             }
           ]
@@ -363,230 +583,229 @@
       ]
     },
     {
-      "id": "sec-mongodb-and-mongoose",
-      "title": "PARTS 17-23: MONGODB & MONGOOSE",
-      "description": "Document storage, CRUD, operators, embedding vs referencing, Mongoose ODM, and transactions.",
+      "id": "sec-sql-interview-practice",
+      "title": "PART 12: SQL INTERVIEW PRACTICE",
+      "description": "Common SQL query patterns asked in software engineering interviews.",
       "topics": [
         {
-          "id": "top-mongodb-crud-operators",
-          "title": "46-50. MongoDB Structure, CRUD & Query Operators",
-          "explanation": "MongoDB is a NoSQL document database storing data in flexible, JSON-like BSON (Binary JSON) documents[cite: 5].\nStructure: MongoDB Server → Database → Collection → Document → Fields[cite: 5].\n\nCRUD Operations:\n- CREATE: db.users.insertOne({ name: 'John', email: 'john@email.com' });[cite: 5]\n- READ: db.users.find(); or db.users.findOne({ email: 'john@email.com' });[cite: 5]\n- UPDATE: db.users.updateOne({ email: 'john@email.com' }, { $set: { name: 'John Doe' } });[cite: 5]\n- DELETE: db.users.deleteOne({ email: 'john@email.com' });[cite: 5]\n\nQuery Comparison Operators:\n- $gt: Greater than[cite: 5]\n- $lt: Less than[cite: 5]\n- $gte: Greater than or equal[cite: 5]\n- $in: Matches any value in an array[cite: 5]",
-          "tldr": "MongoDB-তে Table-এর বদলে Collection, Row-এর বদলে Document এবং Column-এর বদলে Field[cite: 5]。",
+          "id": "top-sql-common-patterns",
+          "title": "Common SQL Query Patterns",
+          "explanation": "Software engineering interviews often test SQL problem solving. Learn common query patterns instead of memorizing only syntax.",
           "codeSnippets": [
             {
-              "language": "javascript",
-              "code": "db.users.find({\n  city: { $in: [\"Dhaka\", \"Chittagong\"] },\n  age: { $gte: 18 }\n});",
-              "explanation": "MongoDB query filtering using $in and $gte operators[cite: 5]."
-            }
-          ],
-          "comparisons": [
-            {
-              "title": "SQL vs MongoDB Mapping",
-              "headers": ["SQL", "MongoDB"],
-              "rows": [
-                ["Database", "Database"],
-                ["Table", "Collection"],
-                ["Row", "Document"],
-                ["Column", "Field"],
-                ["Primary Key", "_id"]
-              ]
-            }
-          ]
-        },
-        {
-          "id": "top-embedding-vs-referencing",
-          "title": "51-52. Embedding vs Referencing in MongoDB",
-          "explanation": "Embedding: Stores related data inside the same document (e.g., address object inside user document)[cite: 5]. Good for: Frequently accessed together, one-to-one relationships, small related data[cite: 5].\n\nReferencing: Stores related data separately and references via ID (e.g., order document referencing userId)[cite: 5]. Good for: Large relationships, frequently changing data, many-to-many relationships, avoiding massive documents[cite: 5].",
-          "tldr": "Related data সবসময় একসাথে লাগলে Embed, relationship complex হলে Reference[cite: 5]。",
-          "comparisons": [
-            {
-              "title": "Embedding vs Referencing",
-              "headers": ["Embedding", "Referencing"],
-              "rows": [
-                ["Data in same document", "Data stored separately"],
-                ["Fewer queries", "May require multiple queries"],
-                ["Can duplicate data", "Less duplication"],
-                [
-                  "Good for tightly related data",
-                  "Good for complex relationships"
-                ]
-              ]
-            }
-          ],
-          "questions": [
-            {
-              "question": "Should MongoDB always embed related data?",
-              "answer": "No. Embedding is useful when related data is small and frequently accessed together. Referencing is better for large, complex, or independently changing relationships."
-            }
-          ]
-        },
-        {
-          "id": "top-mongo-indexing-mongoose-tx",
-          "title": "53-58. MongoDB Indexing, Mongoose ODM & Transactions",
-          "explanation": "MongoDB Indexing: Supports single-field (db.users.createIndex({ email: 1 })) and compound indexes (db.users.createIndex({ city: 1, age: 1 }))[cite: 5]. (1 = Ascending, -1 = Descending)[cite: 5].\n\nMongoose ODM: Object Data Modeling library for Node.js to define schemas, validate data, create models, query MongoDB, and manage relationships[cite: 5].\n- Schema: Blueprint defining document structure[cite: 5].\n- Model: Database interface providing methods (create, find, update, delete)[cite: 5].\n\nMongoDB Transactions: Single-document operations are atomic by default[cite: 5]. MongoDB also supports multi-document ACID transactions across sessions when operations must succeed or fail together[cite: 5].",
-          "tldr": "Schema data-এর structure define করে, Model দিয়ে database operation করা হয়। MongoDB-তে single document atomic হলেও multi-document-এর জন্য transaction সাপোর্ট করে[cite: 5]。",
-          "codeSnippets": [
-            {
-              "language": "javascript",
-              "code": "import mongoose from \"mongoose\";\n\nconst userSchema = new mongoose.Schema(\n  {\n    name: { type: String, required: true },\n    email: { type: String, required: true, unique: true },\n    age: { type: Number }\n  },\n  { timestamps: true }\n);\n\nconst User = mongoose.model(\"User\", userSchema);\nexport default User;",
-              "explanation": "Mongoose schema and model definition with validation and timestamps[cite: 5]."
-            }
-          ],
-          "questions": [
-            {
-              "question": "What is Mongoose?",
-              "answer": "Mongoose is an ODM library for MongoDB and Node.js that provides schemas, validation, models, and an easier interface for database operations."
+              "language": "sql",
+              "code": "-- Find duplicate emails\nSELECT email, COUNT(*)\nFROM users\nGROUP BY email\nHAVING COUNT(*) > 1;",
+              "explanation": "Groups emails and returns duplicates."
             },
             {
-              "question": "Are MongoDB operations always non-transactional?",
-              "answer": "No. MongoDB supports transactions, including multi-document transactions when required."
+              "language": "sql",
+              "code": "-- Find users without orders\nSELECT users.name\nFROM users\nLEFT JOIN orders\nON users.id = orders.user_id\nWHERE orders.id IS NULL;",
+              "explanation": "Uses LEFT JOIN and NULL to find unmatched users."
+            },
+            {
+              "language": "sql",
+              "code": "-- Find second highest salary\nSELECT MAX(salary)\nFROM employees\nWHERE salary < (\n  SELECT MAX(salary)\n  FROM employees\n);",
+              "explanation": "Uses a Subquery to find the second highest salary."
             }
           ],
-          "traps": [
+          "questions": [
             {
-              "id": "trap-mongo-no-transactions",
-              "statement": "MongoDB cannot handle transactions and does not need indexes.",
-              "explanation": "Wrong. MongoDB supports multi-document transactions and relies on indexes to avoid full collection scans.",
-              "category": "common-mistake"
+              "question": "How do you find duplicate records?",
+              "answer": "Usually use GROUP BY with COUNT and HAVING COUNT greater than 1."
+            },
+            {
+              "question": "How do you find records without a matching record?",
+              "answer": "A common solution is LEFT JOIN with IS NULL."
+            },
+            {
+              "question": "How do you find the second highest salary?",
+              "answer": "You can use a Subquery, LIMIT and OFFSET, or a window function depending on the database."
             }
           ]
         }
       ]
     },
     {
-      "id": "sec-interview-flashcards-and-review",
-      "title": "PARTS 23-24: SUMMARY, FLASHCARDS & REVISION",
-      "description": "SQL vs MongoDB comparison matrix, interview flashcards, cheatsheet, and memory map.",
+      "id": "sec-dbms-interview-qa",
+      "title": "PART 13: INTERVIEW Q&A & FLASHCARDS",
+      "description": "High-yield database questions for software engineering interviews.",
       "topics": [
         {
-          "id": "top-sql-mongo-matrix",
-          "title": "59. SQL vs MongoDB Comprehensive Matrix",
-          "explanation": "Side-by-side interview summary of SQL relational vs MongoDB document architecture[cite: 5].",
-          "comparisons": [
+          "id": "topic-dbms-interview-qa",
+          "title": "High-Yield Interview Questions",
+          "explanation": "Common database and SQL questions asked in software engineering interviews.",
+          "questions": [
             {
-              "title": "SQL vs MongoDB",
-              "headers": ["SQL", "MongoDB"],
-              "rows": [
-                ["Relational", "Document-oriented"],
-                ["Tables", "Collections"],
-                ["Rows", "Documents"],
-                ["Columns", "Fields"],
-                ["Fixed schema", "Flexible schema"],
-                ["JOINs", "Embedding / Referencing / Aggregation"],
-                ["Strong relationships", "Flexible document model"],
-                ["SQL language", "MongoDB query language"],
-                [
-                  "Good for complex relational data",
-                  "Good for document-oriented data"
-                ]
-              ]
+              "question": "Q1: What is the difference between DBMS and RDBMS?",
+              "answer": "A DBMS manages database data. An RDBMS stores data in related tables and supports relationships."
+            },
+            {
+              "question": "Q2: What is the difference between SQL and NoSQL?",
+              "answer": "SQL databases use relational tables. NoSQL databases use flexible non-relational data models."
+            },
+            {
+              "question": "Q3: What is a Primary Key?",
+              "answer": "A Primary Key uniquely identifies each row and cannot be NULL."
+            },
+            {
+              "question": "Q4: What is a Foreign Key?",
+              "answer": "A Foreign Key creates a relationship by referencing a key from another table."
+            },
+            {
+              "question": "Q5: What is NULL?",
+              "answer": "NULL means a value is missing or unknown. It is not zero or an empty string."
+            },
+            {
+              "question": "Q6: What is the difference between WHERE and HAVING?",
+              "answer": "WHERE filters rows before grouping. HAVING filters grouped results."
+            },
+            {
+              "question": "Q7: What is the difference between DELETE, TRUNCATE, and DROP?",
+              "answer": "DELETE removes rows. TRUNCATE removes all rows. DROP removes the table."
+            },
+            {
+              "question": "Q8: What is the difference between INNER JOIN and LEFT JOIN?",
+              "answer": "INNER JOIN returns matching rows. LEFT JOIN returns all left rows and matching right rows."
+            },
+            {
+              "question": "Q9: What is a Subquery?",
+              "answer": "A Subquery is a query inside another SQL query."
+            },
+            {
+              "question": "Q10: What is a CTE?",
+              "answer": "A CTE is a temporary named result used inside a SQL query."
+            },
+            {
+              "question": "Q11: What is a Transaction?",
+              "answer": "A Transaction is a group of database operations treated as one unit."
+            },
+            {
+              "question": "Q12: What does ACID stand for?",
+              "answer": "Atomicity, Consistency, Isolation, and Durability."
+            },
+            {
+              "question": "Q13: What is an Index?",
+              "answer": "An Index helps the database find data faster."
+            },
+            {
+              "question": "Q14: Why not index every column?",
+              "answer": "Indexes use storage and can slow down INSERT, UPDATE, and DELETE."
+            },
+            {
+              "question": "Q15: What is Normalization?",
+              "answer": "Normalization reduces duplicate data and improves consistency."
+            },
+            {
+              "question": "Q16: What is Denormalization?",
+              "answer": "Denormalization adds some duplicate data to improve read performance."
+            },
+            {
+              "question": "Q17: How do you implement Many-to-Many relationships?",
+              "answer": "Usually with a junction table containing foreign keys from both tables."
+            },
+            {
+              "question": "Q18: Can SQL databases scale?",
+              "answer": "Yes. SQL databases can scale. The choice depends on application requirements."
             }
           ]
         },
         {
-          "id": "top-flashcards-and-traps",
-          "title": "Flashcards, Traps, Cheat Sheet & Memory Map",
-          "explanation": "⚡ 30-SECOND FINAL REVISION & CHEAT SHEET\nDatabase: Organized collection of data[cite: 5]\nDBMS: Software that manages databases[cite: 5]\nSQL: Relational model, tables, JOINs, transactions[cite: 5]\nNoSQL: Flexible data models, documents, scalable[cite: 5]\nPrimary Key: Uniquely identifies a row[cite: 5]\nForeign Key: Creates relationships between tables[cite: 5]\nINNER JOIN: Matching rows only[cite: 5]\nLEFT JOIN: All left + matching right[cite: 5]\nTransaction: Group of operations as one logical unit[cite: 5]\nACID: Atomicity, Consistency, Isolation, Durability[cite: 5]\nIndex: Faster lookup with write overhead[cite: 5]\nB-Tree: Balanced tree index structure[cite: 5]\n1NF: Atomic values[cite: 5]\n2NF: No partial dependency[cite: 5]\n3NF: No transitive dependency[cite: 5]\nBCNF: Every determinant is a candidate key[cite: 5]\nMongoDB: Document database (Collections, Documents, Fields)[cite: 5]\nEmbedding: Related data inside same document[cite: 5]\nReferencing: Related data stored separately[cite: 5]\nMongoose: ODM for Node.js[cite: 5]\n\nDecision Guide:\n- Choose SQL when: Strong relationships, complex JOINs, transactions, structured data, strong consistency (Banking, Payments, Accounting)[cite: 5].\n- Choose MongoDB when: Flexible schema, document-oriented data, rapid development, JSON-like structures (MERN apps, product catalogs, content platforms)[cite: 5].",
-          "tldr": "SQL = Relational, Tables, JOINs, Transactions. NoSQL = Flexible, Documents, MongoDB. ACID = Reliable Transactions. Index = Faster Queries. Normalization = Less Redundancy. Interview-তে মনে রাখবে: Don't say SQL or NoSQL is always better; choice depends on data model, consistency, query patterns, and scale[cite: 5]。",
+          "id": "topic-dbms-flashcards",
+          "title": "Quick Flashcards",
           "flashcards": [
             {
               "id": "fc-db-1",
-              "question": "SQL vs NoSQL?",
-              "answer": "SQL = Tables + Relationships + Structured Data. NoSQL = Flexible Data Models + Documents / Other Models[cite: 5].",
+              "question": "What is DBMS?",
+              "answer": "Software that manages database data.",
               "difficulty": "easy"
             },
             {
               "id": "fc-db-2",
-              "question": "What does ACID stand for?",
-              "answer": "Atomicity (All or Nothing), Consistency (Valid State), Isolation (Independent Transactions), Durability (Committed Data Persists)[cite: 5].",
+              "question": "Primary Key?",
+              "answer": "Uniquely identifies a row.",
               "difficulty": "easy"
             },
             {
               "id": "fc-db-3",
-              "question": "What is an Index?",
-              "answer": "Index = Faster Data Lookup, BUT requires extra storage and write overhead[cite: 5].",
-              "difficulty": "medium"
+              "question": "Foreign Key?",
+              "answer": "Connects related tables.",
+              "difficulty": "easy"
             },
             {
               "id": "fc-db-4",
-              "question": "What are the Normal Forms?",
-              "answer": "1NF = Atomic Values, 2NF = No Partial Dependency, 3NF = No Transitive Dependency, BCNF = Stricter 3NF (every determinant is a candidate key)[cite: 5].",
-              "difficulty": "hard"
+              "question": "WHERE vs HAVING?",
+              "answer": "WHERE filters rows. HAVING filters groups.",
+              "difficulty": "medium"
             },
             {
               "id": "fc-db-5",
-              "question": "INNER JOIN vs LEFT JOIN?",
-              "answer": "INNER JOIN = Only Matches. LEFT JOIN = All Left + Matching Right (unmatched right returns NULL)[cite: 5].",
+              "question": "INNER vs LEFT JOIN?",
+              "answer": "INNER returns matches. LEFT returns all left rows and matches.",
               "difficulty": "easy"
             },
             {
               "id": "fc-db-6",
-              "question": "What is the MongoDB Structure?",
-              "answer": "Database → Collection → Document → Fields[cite: 5].",
+              "question": "ACID?",
+              "answer": "Atomicity, Consistency, Isolation, Durability.",
               "difficulty": "easy"
             },
             {
               "id": "fc-db-7",
-              "question": "Embedding vs Referencing in MongoDB?",
-              "answer": "Embedding = Related Data Together inside the document. Referencing = Related Data Separately linked via IDs[cite: 5].",
+              "question": "Index?",
+              "answer": "Faster lookup with extra write overhead.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-db-8",
+              "question": "1NF?",
+              "answer": "Atomic values.",
+              "difficulty": "easy"
+            },
+            {
+              "id": "fc-db-9",
+              "question": "2NF?",
+              "answer": "No partial dependency.",
+              "difficulty": "medium"
+            },
+            {
+              "id": "fc-db-10",
+              "question": "3NF?",
+              "answer": "No transitive dependency.",
               "difficulty": "medium"
             }
           ],
           "traps": [
             {
-              "id": "trap-sql-nosql-preference",
-              "statement": "SQL is always better than NoSQL (or vice versa).",
-              "explanation": "Neither is inherently superior. Database choice depends on the application's data model, consistency requirements, query patterns, and scale requirements[cite: 5].",
+              "id": "trap-final-1",
+              "statement": "NULL means zero.",
+              "explanation": "NULL means missing or unknown data.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-final-2",
+              "statement": "HAVING and WHERE do the same job.",
+              "explanation": "WHERE filters rows. HAVING filters grouped results.",
+              "category": "interview-gotcha"
+            },
+            {
+              "id": "trap-final-3",
+              "statement": "More indexes always improve performance.",
+              "explanation": "Too many indexes can slow down write operations.",
+              "category": "common-mistake"
+            },
+            {
+              "id": "trap-final-4",
+              "statement": "SQL cannot scale.",
+              "explanation": "SQL databases can scale. Database choice depends on system requirements.",
+              "category": "conceptual"
+            },
+            {
+              "id": "trap-final-5",
+              "statement": "Normalization always makes queries faster.",
+              "explanation": "Normalization improves data design but may require more JOIN operations.",
               "category": "conceptual"
             }
-          ],
-          "memoryMap": {
-            "nodes": [
-              {
-                "id": "node-dbms-root",
-                "label": "DBMS & SQL",
-                "description": "Database management principles and engines[cite: 5]"
-              },
-              {
-                "id": "node-sql",
-                "label": "SQL & Relational",
-                "description": "Tables, Rows, Columns, Keys, JOINs[cite: 5]"
-              },
-              {
-                "id": "node-nosql",
-                "label": "NoSQL",
-                "description": "Documents, Key-Value, Graph, Column-Family[cite: 5]"
-              },
-              {
-                "id": "node-acid",
-                "label": "Transactions & ACID",
-                "description": "Atomicity, Consistency, Isolation, Durability[cite: 5]"
-              },
-              {
-                "id": "node-indexing",
-                "label": "Performance & Indexing",
-                "description": "B-Tree, Faster Lookups, Write Overhead[cite: 5]"
-              },
-              {
-                "id": "node-normalization",
-                "label": "Normalization",
-                "description": "1NF, 2NF, 3NF, BCNF, Denormalization[cite: 5]"
-              },
-              {
-                "id": "node-mongodb",
-                "label": "MongoDB & Mongoose",
-                "description": "Collections, Documents, CRUD, Embedding vs Referencing[cite: 5]"
-              }
-            ],
-            "connections": [
-              { "from": "node-dbms-root", "to": "node-sql" },
-              { "from": "node-dbms-root", "to": "node-nosql" },
-              { "from": "node-sql", "to": "node-acid" },
-              { "from": "node-sql", "to": "node-indexing" },
-              { "from": "node-sql", "to": "node-normalization" },
-              { "from": "node-nosql", "to": "node-mongodb" }
-            ]
-          }
+          ]
         }
       ]
     }
