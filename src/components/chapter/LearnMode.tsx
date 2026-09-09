@@ -2,18 +2,99 @@
 
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Copy, Check, Lightbulb } from "lucide-react";
+import { ChevronDown, Copy, Check, CheckCircle2, Lock } from "lucide-react";
 import type {
   Chapter,
   Topic,
   CodeSnippet,
   ComparisonTable,
 } from "@/lib/schema";
-import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
+import { useGameStore } from "@/stores/gameStore";
 
-// ─── Code Block ───────────────────────────────────────────────────────────────
+// ─── Universal Line-by-Line Parsing Engine ────────────────────────────────────
+
+function FormattedExplanation({ text }: { text: string }) {
+  const lines = text.split("\n");
+
+  return (
+    <div className="my-4 space-y-2">
+      {lines.map((line, idx) => {
+        const trimmed = line.trim();
+        if (!trimmed) return null;
+
+        // 1. Sub-Item / Arrow Lines (→, ->, or starting with - or * or •)
+        if (/^(→|->|-|\*|•)\s*/.test(trimmed)) {
+          const cleanLine = trimmed.replace(/^(→|->|-|\*|•)\s*/, "");
+          const colonIndex = cleanLine.indexOf(":");
+
+          if (colonIndex !== -1) {
+            const tag = cleanLine.slice(0, colonIndex).trim();
+            const desc = cleanLine.slice(colonIndex + 1).trim();
+
+            return (
+              <div
+                key={idx}
+                className="bg-amber-50/70 border-2 border-black rounded-xl p-4 my-2 shadow-[2px_2px_0px_0px_#000]"
+              >
+                <span className="bg-amber-300 text-stone-950 font-black text-xs px-2.5 py-0.5 rounded-md border border-black uppercase tracking-wide inline-block mr-2">
+                  {tag}
+                </span>
+                <span className="font-semibold text-stone-900 text-base md:text-lg leading-relaxed">
+                  {desc}
+                </span>
+              </div>
+            );
+          } else {
+            return (
+              <div
+                key={idx}
+                className="bg-amber-50/70 border-2 border-black rounded-xl p-4 my-2 shadow-[2px_2px_0px_0px_#000]"
+              >
+                <span className="font-semibold text-stone-900 text-base md:text-lg leading-relaxed">
+                  {cleanLine}
+                </span>
+              </div>
+            );
+          }
+        }
+
+        // 2. Definition / Note Lines (Term: Definition without arrows)
+        const defMatch = trimmed.match(/^([A-Z][A-Za-z0-9\s/_\-()]{1,35}):\s*(.+)$/);
+        if (defMatch) {
+          const term = defMatch[1].trim();
+          const definition = defMatch[2].trim();
+
+          return (
+            <div
+              key={idx}
+              className="bg-sky-50/80 border-2 border-dashed border-black/70 rounded-xl p-4 my-3 text-stone-800 font-medium text-base shadow-[2px_2px_0px_0px_#000] flex items-start gap-2.5"
+            >
+              <span className="text-sky-600 font-black text-lg shrink-0 mt-0.5">📌</span>
+              <div className="leading-relaxed">
+                <span className="font-black text-stone-950 mr-1.5">{term}:</span>
+                <span className="text-stone-800 text-base md:text-lg font-medium">{definition}</span>
+              </div>
+            </div>
+          );
+        }
+
+        // 3. Standard Narrative Paragraphs
+        return (
+          <p
+            key={idx}
+            className="text-base md:text-lg font-medium text-stone-800 leading-relaxed my-2"
+          >
+            {trimmed}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── Code Terminal ────────────────────────────────────────────────────────────
 
 function CodeBlock({ snippet }: { snippet: CodeSnippet }) {
   const [copied, setCopied] = useState(false);
@@ -25,23 +106,23 @@ function CodeBlock({ snippet }: { snippet: CodeSnippet }) {
   }, [snippet.code]);
 
   return (
-    <div className="rounded-xl border-2 border-stone-900 overflow-hidden shadow-[3px_3px_0px_0px_#1c1917]">
-      {/* Header bar with developer terminal chrome */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-stone-900 border-b border-stone-800">
+    <div className="bg-stone-950 border-[3px] border-black rounded-2xl overflow-hidden shadow-[4px_4px_0px_0px_#000]">
+      {/* Header bar with arcade terminal chrome */}
+      <div className="flex items-center justify-between px-4 py-2.5 bg-stone-900 border-b-2 border-black">
         <div className="flex items-center gap-2.5">
-          {/* Mac-style traffic light dots */}
+          {/* Traffic light dots */}
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+            <span className="w-3 h-3 rounded-full bg-rose-500 border border-black" />
+            <span className="w-3 h-3 rounded-full bg-amber-400 border border-black" />
+            <span className="w-3 h-3 rounded-full bg-emerald-400 border border-black" />
           </div>
-          <Badge variant="violet" className="text-[10px] py-0 px-2 font-mono">
+          <span className="bg-yellow-300 text-black px-2 py-0.5 rounded border border-black text-[10px] font-black uppercase tracking-wider">
             {snippet.language.toUpperCase()}
-          </Badge>
+          </span>
         </div>
 
         {snippet.explanation && (
-          <span className="text-stone-400 text-xs font-medium truncate max-w-[50%] hidden sm:inline">
+          <span className="text-stone-300 text-xs font-bold truncate max-w-[50%] hidden sm:inline">
             {snippet.explanation}
           </span>
         )}
@@ -49,21 +130,20 @@ function CodeBlock({ snippet }: { snippet: CodeSnippet }) {
         <button
           onClick={handleCopy}
           className={cn(
-            "flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer",
-            "border border-stone-700",
+            "flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-black transition-all cursor-pointer border-2 border-black shadow-[2px_2px_0px_0px_#000] active:translate-x-[1px] active:translate-y-[1px]",
             copied
-              ? "bg-emerald-600 text-white border-emerald-500"
-              : "bg-stone-800 text-stone-300 hover:bg-stone-700 hover:text-white",
+              ? "bg-emerald-400 text-black"
+              : "bg-yellow-300 hover:bg-yellow-200 text-black",
           )}
         >
           {copied ? (
             <>
-              <Check className="w-3 h-3" strokeWidth={2.5} />
+              <Check className="w-3.5 h-3.5" strokeWidth={3} />
               Copied!
             </>
           ) : (
             <>
-              <Copy className="w-3 h-3" strokeWidth={2.5} />
+              <Copy className="w-3.5 h-3.5" strokeWidth={3} />
               Copy ⚡
             </>
           )}
@@ -71,27 +151,28 @@ function CodeBlock({ snippet }: { snippet: CodeSnippet }) {
       </div>
 
       {/* Code body */}
-      <pre className="bg-[#0d1117] text-emerald-400 text-xs sm:text-sm font-mono p-4 sm:p-5 overflow-x-auto leading-relaxed">
+      <pre className="text-emerald-400 font-mono text-sm leading-relaxed p-4 sm:p-5 overflow-x-auto bg-[#0d1117]">
         <code>{snippet.code}</code>
       </pre>
     </div>
   );
 }
 
-// ─── Bangla TL;DR callout ─────────────────────────────────────────────────────
+// ─── Bengali TL;DR Comic Bubble ───────────────────────────────────────────────
 
 function BanglaTldr({ text }: { text: string }) {
   return (
-    <div className="flex gap-3.5 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#FFFDF5] via-[#FEF9E7] to-[#FEF3C7]/80 border-2 border-stone-900 shadow-[3px_3px_0px_0px_#78350f]">
-      <div className="w-9 h-9 rounded-xl bg-amber-400 border-2 border-stone-900 flex items-center justify-center shadow-[1.5px_1.5px_0px_0px_#000] flex-shrink-0 text-lg">
+    <div className="bg-amber-100 border-[3px] border-black rounded-2xl p-5 sm:p-6 shadow-[4px_4px_0px_0px_#000] flex flex-col sm:flex-row items-start gap-4">
+      <div className="w-11 h-11 rounded-xl bg-yellow-300 border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_#000] flex-shrink-0 text-2xl">
         💡
       </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-xs font-black uppercase tracking-widest text-amber-900 mb-1 flex items-center gap-1.5">
-          <span>🇧🇩</span>
-          <span>সহজ কথায় (TL;DR):</span>
-        </p>
-        <p className="text-stone-900 font-bold text-sm sm:text-base leading-relaxed">
+      <div className="flex-1 min-w-0 space-y-2">
+        <div className="inline-flex items-center gap-2">
+          <span className="bg-rose-500 text-white font-black text-xs md:text-sm px-3 py-1 rounded-md border border-black uppercase tracking-wide shadow-[1px_1px_0px_0px_#000]">
+            সহজ কথায় (TL;DR)
+          </span>
+        </div>
+        <p className="text-base md:text-lg font-bold text-stone-900 leading-relaxed">
           {text}
         </p>
       </div>
@@ -99,19 +180,21 @@ function BanglaTldr({ text }: { text: string }) {
   );
 }
 
+// ─── Comparison Battles ───────────────────────────────────────────────────────
+
 function ComparisonTableBlock({ table }: { table: ComparisonTable }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917] bg-white">
-      <table className="w-full text-sm min-w-max border-collapse">
-        <caption className="text-left px-5 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-black text-sm border-b-2 border-stone-900">
+    <div className="overflow-x-auto rounded-2xl border-[3px] border-black shadow-[4px_4px_0px_0px_#000] bg-white">
+      <table className="w-full text-sm sm:text-base min-w-max border-collapse">
+        <caption className="text-left px-5 py-3 bg-yellow-300 text-stone-900 font-black text-sm sm:text-base border-b-2 border-black">
           ⚡ {table.title}
         </caption>
         <thead>
-          <tr className="bg-stone-900 text-white">
+          <tr className="bg-sky-200 text-stone-900 border-b-2 border-black">
             {table.headers.map((h, i) => (
               <th
                 key={i}
-                className="px-5 py-3 text-left font-black text-xs uppercase tracking-wider whitespace-nowrap border-r border-stone-800 last:border-r-0"
+                className="px-5 py-3.5 text-left font-black text-xs sm:text-sm uppercase tracking-wider whitespace-nowrap border-r-2 border-black last:border-r-0"
               >
                 {h}
               </th>
@@ -123,14 +206,14 @@ function ComparisonTableBlock({ table }: { table: ComparisonTable }) {
             <tr
               key={ri}
               className={cn(
-                "transition-colors hover:bg-violet-50/50",
-                ri % 2 === 0 ? "bg-white" : "bg-stone-50/80",
+                "transition-colors hover:bg-amber-50/50",
+                ri % 2 === 0 ? "bg-white" : "bg-stone-50/90",
               )}
             >
               {row.map((cell, ci) => (
                 <td
                   key={ci}
-                  className="px-5 py-3 text-stone-800 font-medium border-t border-stone-200 border-r border-stone-200 last:border-r-0"
+                  className="px-5 py-3.5 text-stone-900 font-semibold text-sm sm:text-base border-t-2 border-stone-300 border-r-2 border-stone-300 last:border-r-0"
                 >
                   {cell}
                 </td>
@@ -143,26 +226,31 @@ function ComparisonTableBlock({ table }: { table: ComparisonTable }) {
   );
 }
 
-// ─── Q&A Reveal Item ─────────────────────────────────────────────────────────
+// ─── Concept Check Accordions (Q&A) ──────────────────────────────────────────
 
 function QAItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="rounded-xl border-2 border-stone-900 overflow-hidden shadow-[2px_2px_0px_0px_#1c1917] bg-white">
+    <div className="rounded-xl border-2 border-black overflow-hidden shadow-[3px_3px_0px_0px_#000] bg-white">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center justify-between gap-3 px-4 sm:px-5 py-3.5 bg-white hover:bg-stone-50 transition-colors text-left cursor-pointer"
+        className="w-full flex items-center justify-between gap-3.5 py-4 px-5 bg-white hover:bg-stone-50 transition-colors text-left cursor-pointer"
       >
-        <span className="font-bold text-stone-900 text-sm sm:text-base leading-snug">
-          ❓ {question}
-        </span>
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <span className="w-8 h-8 rounded-lg bg-yellow-300 border-2 border-black flex items-center justify-center text-sm font-black shrink-0 shadow-[1px_1px_0px_0px_#000]">
+            ?
+          </span>
+          <span className="font-bold text-stone-900 text-base md:text-lg leading-snug">
+            {question}
+          </span>
+        </div>
         <motion.span
           animate={{ rotate: open ? 180 : 0 }}
           transition={{ type: "spring", stiffness: 400, damping: 25 }}
           className="flex-shrink-0"
         >
-          <ChevronDown className="w-4 h-4 text-stone-600" strokeWidth={2.5} />
+          <ChevronDown className="w-5 h-5 text-stone-900" strokeWidth={3} />
         </motion.span>
       </button>
 
@@ -175,10 +263,8 @@ function QAItem({ question, answer }: { question: string; answer: string }) {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="overflow-hidden"
           >
-            <div className="px-5 py-4 bg-emerald-50/80 border-t-2 border-stone-900">
-              <p className="text-sm sm:text-base text-stone-800 font-semibold leading-relaxed">
-                ✅ {answer}
-              </p>
+            <div className="p-5 bg-violet-50/70 border-t-2 border-black text-stone-800 text-sm md:text-base font-medium leading-relaxed">
+              ✅ {answer}
             </div>
           </motion.div>
         )}
@@ -187,112 +273,131 @@ function QAItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-import { useGameStore } from "@/stores/gameStore";
-import { CheckCircle2 } from "lucide-react";
-
 // ─── Topic Card ────────────────────────────────────────────────────────────────
 
-function TopicCard({ topic, index }: { topic: Topic; index: number }) {
+interface TopicCardProps {
+  topic: Topic;
+  index: number;
+  isGuest?: boolean;
+  onRequireAuth?: () => void;
+}
+
+function TopicCard({
+  topic,
+  index,
+  isGuest,
+  onRequireAuth,
+}: TopicCardProps) {
   const { completedTopics, completeTopic } = useGameStore();
   const isCompleted = completedTopics.includes(topic.id);
 
   return (
-    <div className="p-0">
-      <Card className="p-6 sm:p-7 space-y-6 relative overflow-hidden border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917]">
-        {/* Top colored accent line */}
-        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600" />
+    <div className="bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[6px_6px_0px_0px_#000] p-6 sm:p-8 mb-10 pb-8 text-stone-900 relative overflow-hidden space-y-6">
+      {/* Top colored accent line */}
+      <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 border-b-2 border-black" />
 
-        {/* Topic header */}
-        <div className="flex items-start gap-3.5 pt-1">
-          <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-violet-600 border-2 border-stone-900 flex items-center justify-center shadow-[2px_2px_0px_0px_#1c1917]">
-            <span className="text-white text-xs font-black">{index + 1}</span>
-          </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-black text-stone-900 text-xl md:text-2xl leading-tight pr-4">
-              {topic.title}
-            </h3>
-            {topic.explanation && (
-              <p className="text-stone-800 text-base md:text-lg mt-2 leading-relaxed whitespace-pre-line font-normal">
-                {topic.explanation}
-              </p>
-            )}
-          </div>
-          {isCompleted && (
-            <div className="flex-shrink-0 bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-lg border-2 border-emerald-400 text-xs font-black flex items-center gap-1 shadow-[1px_1px_0px_0px_#064e3b]">
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              Done
-            </div>
+      {/* Topic header */}
+      <div className="flex items-start gap-3.5 pt-1">
+        <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-violet-600 border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_#000]">
+          <span className="text-white text-base font-black">{index + 1}</span>
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-xl md:text-2xl font-black tracking-tight text-stone-900 leading-tight pr-4 uppercase">
+            {topic.title}
+          </h3>
+          {topic.explanation && (
+            <FormattedExplanation text={topic.explanation} />
           )}
         </div>
-
-        {/* Key points */}
-        {topic.keyPoints && topic.keyPoints.length > 0 && (
-          <div className="p-4 sm:p-5 rounded-2xl bg-stone-50/90 border-2 border-stone-200">
-            <p className="text-xs font-black uppercase tracking-widest text-stone-500 mb-2">
-              Key Insights
-            </p>
-            <ul className="space-y-2">
-              {topic.keyPoints.map((pt, i) => (
-                <li
-                  key={i}
-                  className="flex items-start gap-2.5 text-base md:text-lg text-stone-800 font-medium"
-                >
-                  <span className="text-violet-600 font-black flex-shrink-0 text-sm mt-1">
-                    ✦
-                  </span>
-                  <span className="leading-snug">{pt}</span>
-                </li>
-              ))}
-            </ul>
+        {isCompleted && (
+          <div className="flex-shrink-0 bg-emerald-300 text-black px-3 py-1.5 rounded-lg border-2 border-black text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-[2px_2px_0px_0px_#000]">
+            <CheckCircle2 className="w-4 h-4" strokeWidth={3} />
+            Done
           </div>
         )}
+      </div>
 
-        {/* TL;DR */}
-        {topic.tldr && <BanglaTldr text={topic.tldr} />}
-
-        {/* Code snippets */}
-        {topic.codeSnippets && topic.codeSnippets.length > 0 && (
-          <div className="space-y-3">
-            {topic.codeSnippets.map((s, i) => (
-              <CodeBlock key={i} snippet={s} />
+      {/* Key points / Takeaways */}
+      {topic.keyPoints && topic.keyPoints.length > 0 && (
+        <div className="my-6 space-y-2.5">
+          <p className="text-xs md:text-sm font-black uppercase tracking-wider text-stone-700">
+            ✦ Key Takeaways
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            {topic.keyPoints.map((pt, i) => (
+              <div
+                key={i}
+                className="bg-white border-2 border-black rounded-xl p-4 sm:p-5 shadow-[2px_2px_0px_0px_#000] font-semibold text-sm md:text-base text-stone-800 leading-normal flex items-start gap-3"
+              >
+                <span className="text-amber-500 font-black flex-shrink-0 text-base mt-0.5">
+                  ✦
+                </span>
+                <span className="leading-snug">{pt}</span>
+              </div>
             ))}
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Comparison tables */}
-        {topic.comparisons && topic.comparisons.length > 0 && (
-          <div className="space-y-4">
-            {topic.comparisons.map((t, i) => (
-              <ComparisonTableBlock key={i} table={t} />
-            ))}
-          </div>
-        )}
+      {/* Bengali TL;DR Comic Bubble */}
+      {topic.tldr && (
+        <div className="my-6">
+          <BanglaTldr text={topic.tldr} />
+        </div>
+      )}
 
-        {/* Q&A */}
-        {topic.questions && topic.questions.length > 0 && (
-          <div className="space-y-3">
-            <p className="text-xs font-black uppercase tracking-widest text-stone-500">
-              💡 Concept Check &amp; Q&amp;A
-            </p>
-            {topic.questions.map((q, i) => (
-              <QAItem key={i} question={q.question} answer={q.answer} />
-            ))}
-          </div>
-        )}
+      {/* Code snippets */}
+      {topic.codeSnippets && topic.codeSnippets.length > 0 && (
+        <div className="my-6 space-y-4">
+          {topic.codeSnippets.map((s, i) => (
+            <CodeBlock key={i} snippet={s} />
+          ))}
+        </div>
+      )}
 
-        {/* Action Bar */}
-        {!isCompleted && (
-          <div className="pt-4 border-t-2 border-stone-100 flex justify-end">
+      {/* Comparison tables */}
+      {topic.comparisons && topic.comparisons.length > 0 && (
+        <div className="my-6 space-y-4">
+          {topic.comparisons.map((t, i) => (
+            <ComparisonTableBlock key={i} table={t} />
+          ))}
+        </div>
+      )}
+
+      {/* Concept Check Accordions (Q&A) */}
+      {topic.questions && topic.questions.length > 0 && (
+        <div className="my-6 space-y-4">
+          <p className="text-xs md:text-sm font-black uppercase tracking-wider text-stone-700">
+            💡 Concept Check &amp; Q&amp;A
+          </p>
+          {topic.questions.map((q, i) => (
+            <QAItem key={i} question={q.question} answer={q.answer} />
+          ))}
+        </div>
+      )}
+
+      {/* Complete Action Button */}
+      {!isCompleted && (
+        <div className="pt-6 border-t-2 border-black/20 flex justify-end">
+          {isGuest ? (
+            <button
+              onClick={onRequireAuth}
+              className="flex items-center gap-2 px-5 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-600 border-[3px] border-black cursor-pointer font-black text-sm sm:text-base rounded-xl shadow-[3px_3px_0px_0px_#000] transition-all hover:-translate-y-0.5"
+            >
+              <Lock className="w-4 h-4 text-stone-600" />
+              <span>🔒 Sign In to Claim (+10 XP)</span>
+            </button>
+          ) : (
             <button
               onClick={() => completeTopic(topic.id)}
-              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-black text-sm rounded-xl border-2 border-stone-900 shadow-[3px_3px_0px_0px_#064e3b] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_0px_#064e3b] active:translate-y-0 active:shadow-none cursor-pointer"
+              className="flex items-center gap-2 px-6 py-3 bg-emerald-400 hover:bg-emerald-300 text-black border-[3px] border-black font-black text-sm sm:text-base rounded-xl shadow-[3px_3px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all hover:-translate-y-0.5 cursor-pointer"
             >
-              <CheckCircle2 className="w-4 h-4" />
-              Mark Completed (+10 XP)
+              <CheckCircle2 className="w-5 h-5 text-black" strokeWidth={3} />
+              <span>Mark Completed (+10 XP)</span>
             </button>
-          </div>
-        )}
-      </Card>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -301,9 +406,15 @@ function TopicCard({ topic, index }: { topic: Topic; index: number }) {
 
 interface LearnModeProps {
   chapter: Chapter;
+  isGuest?: boolean;
+  onRequireAuth?: () => void;
 }
 
-export function LearnMode({ chapter }: LearnModeProps) {
+export function LearnMode({
+  chapter,
+  isGuest,
+  onRequireAuth,
+}: LearnModeProps) {
   let globalTopicIndex = 0;
 
   return (
@@ -311,14 +422,19 @@ export function LearnMode({ chapter }: LearnModeProps) {
       {chapter.sections.map((section) => (
         <section key={section.id}>
           {/* Section header */}
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex-1 h-0.5 bg-stone-200" />
-            <Badge variant="violet">{section.title}</Badge>
-            <div className="flex-1 h-0.5 bg-stone-200" />
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex-1 h-0.5 bg-yellow-400/30" />
+            <Badge
+              variant="amber"
+              className="text-sm sm:text-base py-1.5 px-4 shadow-[3px_3px_0px_0px_#000] uppercase tracking-wide"
+            >
+              {section.title}
+            </Badge>
+            <div className="flex-1 h-0.5 bg-yellow-400/30" />
           </div>
 
           {/* Topics */}
-          <div className="space-y-4">
+          <div>
             {section.topics
               .filter((topic) => {
                 // Remove flashcards topics or trap checklist topics
@@ -333,7 +449,15 @@ export function LearnMode({ chapter }: LearnModeProps) {
               })
               .map((topic) => {
                 const idx = globalTopicIndex++;
-                return <TopicCard key={topic.id} topic={topic} index={idx} />;
+                return (
+                  <TopicCard
+                    key={topic.id}
+                    topic={topic}
+                    index={idx}
+                    isGuest={isGuest}
+                    onRequireAuth={onRequireAuth}
+                  />
+                );
               })}
           </div>
         </section>

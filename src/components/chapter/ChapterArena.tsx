@@ -1,10 +1,11 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Clock, Trophy, CheckCircle2, Lock } from "lucide-react";
+import { ArrowLeft, Clock, Trophy, CheckCircle2 } from "lucide-react";
 import type { Chapter } from "@/lib/schema";
 import { LearnMode } from "./LearnMode";
 import { PracticeMode } from "./PracticeMode";
@@ -27,39 +28,105 @@ const MODES: { id: Mode; label: string; emoji: string }[] = [
 
 function ModeSwitcher({
   active,
+  isGuest,
   onChange,
+  onLockedClick,
 }: {
   active: Mode;
+  isGuest: boolean;
   onChange: (m: Mode) => void;
+  onLockedClick: (m: Mode) => void;
 }) {
   return (
-    <div className="inline-flex items-center gap-1 p-1 rounded-2xl bg-stone-100 border-2 border-stone-900 shadow-[3px_3px_0px_0px_#1c1917]">
+    <div className="inline-flex items-center gap-1 bg-stone-100 p-1 border-2 border-black rounded-xl">
       {MODES.map(({ id, label, emoji }) => {
         const isActive = active === id;
+        const isLocked = isGuest && (id === "practice" || id === "traps");
+
         return (
           <button
             key={id}
-            onClick={() => onChange(id)}
+            type="button"
+            onClick={() => {
+              if (isLocked) {
+                onLockedClick(id);
+              } else {
+                onChange(id);
+              }
+            }}
             className={cn(
-              "relative px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-black transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 cursor-pointer",
-              isActive ? "text-white" : "text-stone-600 hover:text-stone-900",
+              "relative px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-black transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer",
+              isActive && !isLocked
+                ? "bg-amber-300 text-black font-black border-2 border-black shadow-[2px_2px_0px_0px_#000]"
+                : isLocked
+                  ? "text-stone-500 opacity-70 hover:opacity-100 border-2 border-dashed border-stone-400"
+                  : "text-stone-700 hover:text-black border-2 border-transparent",
             )}
           >
-            {/* Sliding pill background */}
-            {isActive && (
-              <motion.span
-                layoutId="mode-pill"
-                className="absolute inset-0 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 border-2 border-stone-900 shadow-[2px_2px_0px_0px_#3b0764]"
-                transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              />
-            )}
-            <span className="relative z-10 flex items-center gap-1.5">
-              <span>{emoji}</span>
+            <span className="relative z-10 flex items-center gap-1.5 font-black">
+              <span>{isLocked ? "🔒" : emoji}</span>
               <span>{label}</span>
             </span>
           </button>
         );
       })}
+    </div>
+  );
+}
+
+// ─── Comic-Arcade Unlock Modal ────────────────────────────────────────────────
+
+interface UnlockModalProps {
+  chapterId: string;
+  onClose: () => void;
+}
+
+function UnlockModal({ chapterId, onClose }: UnlockModalProps) {
+  return (
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.92, y: 16 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.92, y: 16 }}
+        transition={{ type: "spring", stiffness: 320, damping: 26 }}
+        className="w-full max-w-md"
+      >
+        <div className="bg-[#fffdf7] border-[3px] border-black shadow-[6px_6px_0px_0px_#000] rounded-2xl p-6 max-w-md mx-auto text-stone-900 space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-yellow-300 border-2 border-black flex items-center justify-center text-2xl shadow-[2px_2px_0px_0px_#000] flex-shrink-0">
+              🔒
+            </div>
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-wider bg-rose-500 text-white px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000]">
+                MEMBER FEATURE
+              </span>
+              <h3 className="font-black text-lg sm:text-xl text-black leading-tight mt-1">
+                ⚡ PLAYER SIGN-IN REQUIRED
+              </h3>
+            </div>
+          </div>
+
+          <p className="text-stone-800 text-sm font-semibold leading-relaxed">
+            Track your XP, build daily streaks, unlock interactive flashcards, and defuse tricky interview gotchas by signing in.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center gap-2.5 pt-2">
+            <Link
+              href={`/login?callbackUrl=/chapter/${chapterId}`}
+              className="w-full sm:flex-1 text-center bg-amber-400 hover:bg-amber-300 text-black font-black border-2 border-black shadow-[3px_3px_0px_0px_#000] px-4 py-2 rounded-xl cursor-pointer active:translate-x-[2px] active:translate-y-[2px] transition-all"
+            >
+              Sign In / Register
+            </Link>
+            <button
+              type="button"
+              onClick={onClose}
+              className="w-full sm:w-auto bg-stone-200 hover:bg-stone-300 border-2 border-black text-black font-bold px-4 py-2 rounded-xl cursor-pointer transition-colors"
+            >
+              Keep Reading
+            </button>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 }
@@ -72,19 +139,35 @@ interface ChapterArenaProps {
 
 export function ChapterArena({ chapter }: ChapterArenaProps) {
   const { status } = useSession();
+  const isGuest = status === "unauthenticated";
+
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const [showUnlockModal, setShowUnlockModal] = useState(false);
 
   const { completedChapterIds, completeChapter } = useGameStore();
   const isChapterCompleted = completedChapterIds.includes(chapter.id);
 
   // Access Gating Rule: Guest users cannot access chapters beyond Chapter 2
-  const isLockedForGuest =
-    status === "unauthenticated" && chapter.chapterNumber > 2;
+  const isLockedForGuest = isGuest && chapter.chapterNumber > 2;
 
   const rawMode = searchParams.get("mode") ?? "learn";
+
+  // If unauthenticated guest lands on ?mode=practice or ?mode=traps, default to learn
   const activeMode: Mode =
-    rawMode === "practice" || rawMode === "traps" ? rawMode : "learn";
+    isGuest && (rawMode === "practice" || rawMode === "traps")
+      ? "learn"
+      : rawMode === "practice" || rawMode === "traps"
+        ? rawMode
+        : "learn";
+
+  // Direct URL protection: trigger modal when guest lands on locked mode
+  useEffect(() => {
+    if (isGuest && (rawMode === "practice" || rawMode === "traps")) {
+      setShowUnlockModal(true);
+    }
+  }, [isGuest, rawMode]);
 
   function handleModeChange(mode: Mode) {
     const params = new URLSearchParams(searchParams.toString());
@@ -92,26 +175,33 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
     router.push(`?${params.toString()}`, { scroll: false });
   }
 
+  function handleDismissModal() {
+    setShowUnlockModal(false);
+    if (
+      searchParams.get("mode") === "practice" ||
+      searchParams.get("mode") === "traps"
+    ) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("mode", "learn");
+      router.replace(`?${params.toString()}`, { scroll: false });
+    }
+  }
+
   if (isLockedForGuest) {
     return (
-      <div className="min-h-[80vh] bg-gradient-to-b from-[#FAF9FE] to-[#F5F3FF]/40 flex items-center justify-center p-4 relative overflow-hidden">
-        {/* Ambient glow */}
-        <div
-          aria-hidden
-          className="w-96 h-96 rounded-full bg-amber-400/10 blur-[100px] pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
-        <div className="relative z-10 max-w-md w-full bg-white p-6 sm:p-8 rounded-2xl border-2 border-stone-900 shadow-[6px_6px_0px_0px_#1c1917] text-center space-y-5">
-          <div className="w-14 h-14 rounded-2xl bg-amber-100 border-2 border-stone-900 flex items-center justify-center text-3xl mx-auto shadow-[2px_2px_0px_0px_#1c1917]">
+      <div className="min-h-[80vh] flex items-center justify-center p-4 relative overflow-hidden">
+        <div className="relative z-10 max-w-md w-full bg-[#fffbf0] p-6 sm:p-8 rounded-2xl border-[3px] border-black shadow-[8px_8px_0px_0px_#000] text-center space-y-5">
+          <div className="w-16 h-16 rounded-2xl bg-yellow-300 border-[3px] border-black flex items-center justify-center text-3xl mx-auto shadow-[3px_3px_0px_0px_#000]">
             🔒
           </div>
           <div>
-            <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded border border-amber-300">
+            <span className="text-[10px] font-black uppercase tracking-wider text-black bg-yellow-300 px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000]">
               MEMBER EXCLUSIVE
             </span>
-            <h2 className="text-2xl font-black text-stone-900 mt-2">
-              Chapter {chapter.chapterNumber} is Locked
+            <h2 className="text-2xl sm:text-3xl font-black text-black mt-2">
+              Level {chapter.chapterNumber} is Locked
             </h2>
-            <p className="text-stone-600 text-sm font-medium mt-1 leading-relaxed">
+            <p className="text-stone-800 text-sm font-bold mt-1 leading-relaxed">
               Guest access is limited to Chapters 1 and 2. Sign in with a free
               account to unlock all 12 chapters, flashcard decks, and cloud
               progress tracking.
@@ -119,7 +209,7 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
           </div>
           <div className="flex flex-col gap-3 pt-2">
             <Link href={`/login?callbackUrl=/chapter/${chapter.id}`}>
-              <Button variant="primary" className="w-full">
+              <Button variant="accent" className="w-full">
                 Sign In to Unlock &rarr;
               </Button>
             </Link>
@@ -135,57 +225,62 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#FAF9FE] via-[#F8F7FC] to-[#F5F3FF]/40 pb-20 relative overflow-hidden">
-      {/* Ambient background glows */}
-      <div
-        aria-hidden
-        className="w-[500px] h-[500px] rounded-full bg-violet-500/8 blur-[100px] pointer-events-none absolute -top-24 -left-24"
-      />
-      <div
-        aria-hidden
-        className="w-[450px] h-[450px] rounded-full bg-sky-400/8 blur-[100px] pointer-events-none absolute top-48 -right-24"
-      />
+    <div className="min-h-screen pt-4 sm:pt-6 pb-20 relative overflow-hidden">
+      {/* ── Unlock Modal ────────────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {showUnlockModal && (
+          <UnlockModal
+            chapterId={chapter.id}
+            onClose={handleDismissModal}
+          />
+        )}
+      </AnimatePresence>
 
-      {/* ── Top bar ──────────────────────────────────────────────────────────── */}
-      <div className="bg-white/90 backdrop-blur-md border-b-2 border-stone-900 sticky top-14 sm:top-16 z-40 transition-colors">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+      {/* ── Secondary Control Bar (Floating Neo-Brutalist Panel, offset from Navbar) ── */}
+      <div className="sticky top-20 sm:top-24 z-30 px-4 sm:px-6 mb-6">
+        <div className="bg-[#fffdf7] text-stone-900 border-[3px] border-black shadow-[4px_4px_0px_0px_#000] rounded-2xl p-3 max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           {/* Back + title row */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <Link
               href="/"
-              className="flex-shrink-0 flex items-center gap-1.5 text-xs sm:text-sm font-black text-stone-600 hover:text-stone-900 transition-colors group cursor-pointer bg-stone-100 hover:bg-stone-200 px-2.5 py-1.5 rounded-xl border border-stone-300"
+              className="flex-shrink-0 flex items-center gap-1.5 text-xs sm:text-sm font-black text-black hover:text-rose-600 transition-colors group cursor-pointer bg-yellow-300 hover:bg-yellow-400 px-3 py-1.5 rounded-xl border-2 border-black shadow-[2px_2px_0px_0px_#000]"
             >
               <ArrowLeft
                 className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
-                strokeWidth={2.5}
+                strokeWidth={3}
               />
               <span>Arena</span>
             </Link>
 
-            <div className="w-px h-5 bg-stone-300 flex-shrink-0" />
+            <div className="w-0.5 h-6 bg-black flex-shrink-0" />
 
             <h1 className="font-black text-stone-900 text-base sm:text-lg leading-tight truncate flex items-center gap-2">
               {chapter.title}
               {isChapterCompleted && (
-                <Trophy className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                <Trophy className="w-5 h-5 text-amber-500 flex-shrink-0" />
               )}
             </h1>
 
-            <span className="flex-shrink-0 hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border-2 border-stone-200 bg-stone-100 text-stone-600 text-xs font-bold">
-              <Clock className="w-3.5 h-3.5 text-stone-500" />
+            <span className="flex-shrink-0 hidden md:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border-2 border-black bg-white text-stone-900 text-xs font-black shadow-[1px_1px_0px_0px_#000]">
+              <Clock className="w-3.5 h-3.5 text-stone-900" />
               {chapter.estimatedMinutes} min
             </span>
           </div>
 
           {/* Mode switcher */}
           <div className="flex-shrink-0 cursor-pointer self-start sm:self-auto">
-            <ModeSwitcher active={activeMode} onChange={handleModeChange} />
+            <ModeSwitcher
+              active={activeMode}
+              isGuest={isGuest}
+              onChange={handleModeChange}
+              onLockedClick={() => setShowUnlockModal(true)}
+            />
           </div>
         </div>
       </div>
 
       {/* ── Mode content ─────────────────────────────────────────────────────── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4">
         <AnimatePresence mode="wait">
           {activeMode === "learn" && (
             <motion.div
@@ -195,7 +290,11 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
             >
-              <LearnMode chapter={chapter} />
+              <LearnMode
+                chapter={chapter}
+                isGuest={isGuest}
+                onRequireAuth={() => setShowUnlockModal(true)}
+              />
             </motion.div>
           )}
 
@@ -227,13 +326,17 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
         {/* ── Chapter Complete Button ── */}
         <div className="mt-16 text-center">
           {isChapterCompleted ? (
-            <div className="inline-flex items-center gap-2.5 bg-gradient-to-r from-emerald-100 via-teal-100 to-emerald-100 text-emerald-950 border-2 border-stone-900 px-7 py-3.5 rounded-2xl shadow-[4px_4px_0px_0px_#064e3b] font-black text-base sm:text-lg">
-              <Trophy className="w-6 h-6 text-amber-500" />
+            <div className="inline-flex items-center gap-2.5 bg-emerald-300 text-black border-[3px] border-black px-8 py-4 rounded-2xl shadow-[5px_5px_0px_0px_#000] font-black text-base sm:text-lg">
+              <Trophy className="w-6 h-6 text-black" />
               <span>Chapter Mastered (+100 XP) 🏆</span>
             </div>
           ) : (
             <button
               onClick={() => {
+                if (isGuest) {
+                  setShowUnlockModal(true);
+                  return;
+                }
                 completeChapter(chapter.id);
                 // Confetti burst for chapter complete
                 void import("canvas-confetti").then(({ default: confetti }) => {
@@ -241,18 +344,15 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
                     particleCount: 150,
                     spread: 100,
                     origin: { y: 0.6 },
-                    colors: ["#7c3aed", "#f59e0b", "#10b981"],
+                    colors: ["#facc15", "#fb7185", "#34d399"],
                     scalar: 1.2,
                     disableForReducedMotion: true,
                   });
                 });
               }}
-              className="inline-flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-amber-400 via-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-stone-950 font-black text-base sm:text-lg rounded-2xl border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917] transition-all hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_#1c1917] active:translate-y-0 active:shadow-none cursor-pointer"
+              className="inline-flex items-center gap-2.5 px-8 py-4 bg-yellow-300 hover:bg-yellow-200 text-black font-black text-base sm:text-lg rounded-2xl border-[3px] border-black shadow-[5px_5px_0px_0px_#000] transition-all hover:-translate-y-1 hover:shadow-[7px_7px_0px_0px_#000] active:translate-y-0 active:shadow-[1px_1px_0px_0px_#000] cursor-pointer uppercase tracking-wider"
             >
-              <CheckCircle2
-                className="w-5 h-5 text-stone-950"
-                strokeWidth={2.5}
-              />
+              <CheckCircle2 className="w-6 h-6 text-black" strokeWidth={3} />
               <span>Mark Chapter Complete (+100 XP)</span>
             </button>
           )}

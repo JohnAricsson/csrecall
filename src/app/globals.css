@@ -1,67 +1,61 @@
 @import "tailwindcss";
 
-/* ─── CSRecall game design system ────────────────────────────────────────── */
-/* Palette: Warm chalk canvas, crisp white cards, energetic neo-brutalist     */
+/* ─── CSRecall Borderlands Comic-Arcade Design System ──────────────────────── */
+/* Palette: Rich Maroon/Wine canvas, warm ivory/cream cards, bold comic-ink linework */
 
 @theme inline {
   /* ── Canvas & surfaces ── */
-  --color-background: #f8f7fc; /* soft neutral base           */
-  --color-surface: #ffffff; /* white card surfaces         */
-  --color-border: #1c1917; /* stone-900 brutalist borders */
+  --color-background: #3b0b18; /* Rich deep wine/maroon base */
+  --color-surface: #fffbf0; /* Warm cream/ivory card surfaces */
+  --color-border: #000000; /* Bold comic-ink border */
 
   /* ── Semantic Surface Tints ── */
-  --color-surface-purple: rgba(139, 92, 246, 0.04);
-  --color-surface-blue: rgba(59, 130, 246, 0.04);
-  --color-surface-cyan: rgba(6, 182, 212, 0.04);
-  --color-surface-amber: rgba(245, 158, 11, 0.05);
-  --color-surface-rose: rgba(244, 63, 94, 0.04);
-  --color-surface-emerald: rgba(16, 185, 129, 0.04);
+  --color-surface-purple: rgba(139, 92, 246, 0.08);
+  --color-surface-blue: rgba(56, 189, 248, 0.08);
+  --color-surface-cyan: rgba(6, 182, 212, 0.08);
+  --color-surface-amber: rgba(250, 204, 21, 0.1);
+  --color-surface-rose: rgba(251, 113, 133, 0.1);
+  --color-surface-emerald: rgba(110, 231, 183, 0.1);
 
-  /* ── Game accent palette ── */
-  --color-primary: #7c3aed; /* violet-600 – XP / primary actions  */
-  --color-primary-hover: #6d28d9; /* violet-700                         */
-  --color-accent: #f59e0b; /* amber-500  – flame / streaks        */
-  --color-accent-hover: #d97706; /* amber-600                         */
-  --color-success: #10b981; /* emerald-500 – mastery / success    */
-  --color-success-hover: #059669; /* emerald-600                       */
-  --color-trap: #f43f5e; /* rose-500   – traps / danger         */
-  --color-trap-hover: #e11d48; /* rose-600                          */
-  --color-sky: #0284c7; /* sky-600    – architecture / info   */
-  --color-indigo: #4f46e5; /* indigo-600                        */
-
-  /* ── Typography ── */
-  --color-foreground: #1c1917; /* stone-900  – primary text           */
-  --color-muted: #78716c; /* stone-500  – secondary text         */
+  /* ── Arcade Comic Accent Palette ── */
+  --color-primary: #7c3aed;
+  --color-accent: #facc15; /* High-voltage solar yellow */
+  --color-mint: #6ee7b7; /* Electric mint */
+  --color-sky: #38bdf8; /* Electric sky */
+  --color-coral: #fb7185; /* Danger coral/pink */
+  --color-foreground: #000000;
+  --color-muted: #57534e;
 
   /* ── Fonts ── */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-/* ─── Layered Ambient App Background ──────────────────────────────────────── */
+/* ─── Base Comic Canvas Background ────────────────────────────────────────── */
 body {
-  background-color: #f8f7fc;
+  background-color: #3b0b18;
   background-image:
+    radial-gradient(rgba(253, 224, 71, 0.15) 1.5px, transparent 1.5px),
     radial-gradient(
-      circle at 10% 8%,
-      rgba(139, 92, 246, 0.07),
-      transparent 32%
+      ellipse 80% 65% at 50% 20%,
+      rgba(244, 63, 94, 0.12),
+      transparent 60%
     ),
     radial-gradient(
-      circle at 90% 16%,
-      rgba(59, 130, 246, 0.06),
-      transparent 30%
+      circle at 85% 20%,
+      rgba(250, 204, 21, 0.1),
+      transparent 50%
     ),
     radial-gradient(
-      circle at 50% 55%,
-      rgba(245, 158, 11, 0.025),
-      transparent 45%
-    ),
-    radial-gradient(
-      circle at 20% 85%,
-      rgba(124, 58, 237, 0.04),
-      transparent 35%
+      circle at 50% 80%,
+      rgba(56, 189, 248, 0.08),
+      transparent 60%
     );
+  background-size:
+    20px 20px,
+    100% 100%,
+    100% 100%,
+    100% 100%;
   background-attachment: fixed;
   color: #1c1917;
   font-family:
@@ -72,110 +66,90 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ─── Neo-brutalist drop-shadow utilities ─────────────────────────────────── */
+/* ─── Comic Inked Offset Shadows ──────────────────────────────────────────── */
+.shadow-comic {
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+.shadow-comic-sm {
+  box-shadow: 2px 2px 0px 0px #000000;
+}
+.shadow-comic-md {
+  box-shadow: 5px 5px 0px 0px #000000;
+}
+.shadow-comic-lg {
+  box-shadow: 6px 6px 0px 0px #000000;
+}
+.shadow-comic-xl {
+  box-shadow: 8px 8px 0px 0px #000000;
+}
+
+/* Backward compatibility aliases */
 .shadow-brutal {
-  box-shadow: 4px 4px 0px 0px #1c1917;
+  box-shadow: 4px 4px 0px 0px #000000;
 }
 .shadow-brutal-sm {
-  box-shadow: 2px 2px 0px 0px #1c1917;
+  box-shadow: 2px 2px 0px 0px #000000;
 }
 .shadow-brutal-lg {
-  box-shadow: 6px 6px 0px 0px #1c1917;
+  box-shadow: 6px 6px 0px 0px #000000;
 }
 .shadow-brutal-xl {
-  box-shadow: 8px 8px 0px 0px #1c1917;
-}
-.shadow-brutal-primary {
-  box-shadow: 4px 4px 0px 0px #3b0764;
-}
-.shadow-brutal-accent {
-  box-shadow: 4px 4px 0px 0px #78350f;
-}
-.shadow-brutal-success {
-  box-shadow: 4px 4px 0px 0px #064e3b;
-}
-.shadow-brutal-trap {
-  box-shadow: 4px 4px 0px 0px #881337;
+  box-shadow: 8px 8px 0px 0px #000000;
 }
 
-/* ─── Soft Ambient Glow Shadows ───────────────────────────────────────────── */
-.shadow-glow-purple {
-  box-shadow:
-    0 10px 30px -5px rgba(139, 92, 246, 0.14),
-    4px 4px 0px 0px #1c1917;
-}
-.shadow-glow-blue {
-  box-shadow:
-    0 10px 30px -5px rgba(59, 130, 246, 0.12),
-    4px 4px 0px 0px #1c1917;
-}
-.shadow-glow-cyan {
-  box-shadow:
-    0 10px 30px -5px rgba(6, 182, 212, 0.12),
-    4px 4px 0px 0px #1c1917;
-}
-.shadow-glow-amber {
-  box-shadow:
-    0 10px 30px -5px rgba(245, 158, 11, 0.14),
-    4px 4px 0px 0px #1c1917;
-}
-.shadow-glow-rose {
-  box-shadow:
-    0 10px 30px -5px rgba(244, 63, 94, 0.14),
-    4px 4px 0px 0px #1c1917;
-}
-.shadow-glow-emerald {
-  box-shadow:
-    0 10px 30px -5px rgba(16, 185, 129, 0.14),
-    4px 4px 0px 0px #1c1917;
+/* ─── Halftone & Comic Grid Patterns ──────────────────────────────────────── */
+.bg-comic-dots {
+  background-image: radial-gradient(#000000 1.2px, transparent 1.2px);
+  background-size: 14px 14px;
 }
 
-/* ─── Dot grid background ─────────────────────────────────────────────────── */
+.bg-comic-dots-yellow {
+  background-image: radial-gradient(#fde047 1.5px, transparent 1.5px);
+  background-size: 18px 18px;
+}
+
 .bg-grid-dots {
-  background-image: radial-gradient(circle, #1c1917 1px, transparent 1px);
+  background-image: radial-gradient(circle, #fde047 1.5px, transparent 1.5px);
+  background-size: 20px 20px;
+}
+
+.bg-tech-grid {
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
-/* ─── Technical Developer Grid ────────────────────────────────────────────── */
-.bg-tech-grid {
-  background-image:
-    linear-gradient(to right, rgba(28, 25, 23, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(28, 25, 23, 0.035) 1px, transparent 1px);
-  background-size: 32px 32px;
+.bg-comic-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 8px,
+    transparent 8px,
+    transparent 16px
+  );
 }
 
-/* ─── Shimmer effect for progress and level cards ─────────────────────────── */
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-.animate-shimmer {
-  animation: shimmer 2.5s infinite;
-}
-
-/* ─── Custom scrollbar ────────────────────────────────────────────────────── */
+/* ─── Custom Scrollbar ────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #f5f5f4;
+  background: #270710;
+  border-left: 2px solid #000000;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d6d3d1;
-  border-radius: 3px;
+  background: #facc15;
+  border: 2px solid #000000;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a29e;
+  background: #f59e0b;
 }
 
-/* ─── Selection highlight ─────────────────────────────────────────────────── */
+/* ─── Selection Highlight ─────────────────────────────────────────────────── */
 ::selection {
-  background: #ede9fe;
-  color: #4c1d95;
+  background: #facc15;
+  color: #000000;
 }

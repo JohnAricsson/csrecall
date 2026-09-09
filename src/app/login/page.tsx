@@ -120,23 +120,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-stone-100 flex items-center justify-center p-4 sm:p-6 lg:p-12 overflow-x-hidden">
-      {/* ── Background: Technical Dot-Grid Pattern with Radial Fade Mask ── */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:20px_20px] [mask-image:radial-gradient(ellipse_65%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-80"
-      />
-
-      {/* Ambient glowing atmosphere strictly behind everything */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute top-1/4 left-10 w-96 h-96 bg-violet-400/20 blur-[130px] rounded-full -z-10"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-10 right-10 w-96 h-96 bg-amber-400/20 blur-[130px] rounded-full -z-10"
-      />
-
+    <div className="relative min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-12 overflow-x-hidden">
       {/* ── Main Split-Screen Container ── */}
       <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
         {/* ── Left Column: The Interview Arena Showcase ── */}
@@ -145,27 +129,27 @@ export default function LoginPage() {
           <div>
             <Link
               href="/"
-              className="inline-flex items-center gap-2.5 font-black text-2xl text-stone-900 hover:text-violet-600 transition-colors group cursor-pointer"
+              className="inline-flex items-center gap-2.5 font-black text-2xl text-white hover:text-yellow-300 transition-colors group cursor-pointer"
             >
-              <div className="w-10 h-10 bg-violet-600 rounded-xl border-2 border-stone-900 flex items-center justify-center text-white shadow-[2px_2px_0px_0px_#000] group-hover:-translate-y-0.5 transition-transform">
-                <Zap className="w-5 h-5" strokeWidth={2.5} />
+              <div className="w-10 h-10 bg-yellow-300 rounded-xl border-2 border-black flex items-center justify-center text-black shadow-[2px_2px_0px_0px_#000] group-hover:-translate-y-0.5 transition-transform">
+                <Zap
+                  className="w-6 h-6 fill-black text-black"
+                  strokeWidth={2.5}
+                />
               </div>
-              <span className="tracking-tight">CSRecall</span>
+              <span className="tracking-tight text-white font-black drop-shadow-[2px_2px_0px_#000]">
+                CS<span className="text-rose-500">RECALL</span>
+              </span>
             </Link>
 
-            <h1 className="text-4xl sm:text-5xl xl:text-6xl font-black text-stone-900 tracking-tight leading-[1.08] mt-6">
-              Master the{" "}
-              <span className="text-violet-600 underline decoration-wavy decoration-amber-400">
-                Gotchas
+            <h1 className="text-4xl sm:text-5xl xl:text-6xl font-black text-white tracking-tight leading-[1.08] mt-6 drop-shadow-[3px_3px_0px_#000]">
+              Master the Gotchas.
+              <br />
+              <span className="bg-yellow-300 px-3 py-0.5 border-[3px] border-black shadow-[4px_4px_0px_0px_#000] rounded-xl inline-block my-2 text-black rotate-[-1deg]">
+                CRACK THE INTERVIEW.
               </span>
-              .<br />
-              Crack the{" "}
-              <span className="bg-amber-300 px-2.5 py-0.5 border-2 border-stone-900 shadow-[3px_3px_0px_0px_#000] rounded-xl inline-block my-1 text-stone-900">
-                Interview
-              </span>
-              .
             </h1>
-            <p className="text-stone-600 font-semibold text-base sm:text-lg max-w-lg mt-4 leading-relaxed">
+            <p className="text-yellow-100 font-bold text-base sm:text-lg max-w-lg mt-4 leading-relaxed drop-shadow-[1px_1px_0px_#000]">
               The high-intensity training arena for CS fundamentals. Defuse real
               interview traps, cement core concepts with rapid flashcards, and
               track your mastery score.
@@ -176,59 +160,59 @@ export default function LoginPage() {
           <div className="space-y-3.5 max-w-lg">
             {/* Card 1: Trap Defused */}
             <motion.div
-              animate={{ y: [0, -10, 0] }}
+              animate={{ y: [0, -8, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="p-4 rounded-2xl bg-white border-2 border-stone-900 shadow-[4px_4px_0px_0px_#000] flex items-center gap-4 hover:-translate-y-1 transition-transform"
+              className="p-4 rounded-2xl bg-[#fffbf0] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] flex items-center gap-4 hover:-translate-y-1 transition-transform"
             >
-              <div className="w-11 h-11 rounded-xl bg-amber-100 border-2 border-stone-900 flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_#000]">
-                <ShieldAlert className="w-6 h-6 text-amber-600" />
+              <div className="w-11 h-11 rounded-xl bg-rose-400 border-2 border-black flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_#000]">
+                <ShieldAlert className="w-6 h-6 text-black" strokeWidth={2.5} />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-400 font-black text-xs">
+                  <span className="px-2 py-0.5 rounded-md bg-yellow-300 text-black border border-black font-black text-xs shadow-[1px_1px_0px_0px_#000]">
                     ⚡ +30 XP
                   </span>
-                  <span className="text-xs font-bold text-stone-400 uppercase tracking-wider">
+                  <span className="text-xs font-black text-stone-600 uppercase tracking-wider">
                     Trap Defused
                   </span>
                 </div>
-                <p className="font-black text-sm text-stone-900 mt-1 truncate">
+                <p className="font-black text-sm text-black mt-1 truncate">
                   Defused: JavaScript Event Loop Trap
                 </p>
               </div>
-              <span className="text-emerald-500 font-black text-sm">
+              <span className="text-black bg-emerald-300 px-2 py-0.5 rounded border border-black font-black text-xs shadow-[1px_1px_0px_0px_#000]">
                 ✓ Defused
               </span>
             </motion.div>
 
             {/* Card 2: Streak */}
             <motion.div
-              animate={{ y: [0, -12, 0] }}
+              animate={{ y: [0, -10, 0] }}
               transition={{
                 repeat: Infinity,
                 duration: 4.8,
                 ease: "easeInOut",
                 delay: 0.6,
               }}
-              className="p-4 rounded-2xl bg-white border-2 border-stone-900 shadow-[4px_4px_0px_0px_#000] flex items-center gap-4 hover:-translate-y-1 transition-transform"
+              className="p-4 rounded-2xl bg-[#fffbf0] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] flex items-center gap-4 hover:-translate-y-1 transition-transform"
             >
-              <div className="w-11 h-11 rounded-xl bg-rose-100 border-2 border-stone-900 flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_#000]">
-                <Flame className="w-6 h-6 text-rose-600" />
+              <div className="w-11 h-11 rounded-xl bg-orange-300 border-2 border-black flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_#000]">
+                <Flame className="w-6 h-6 text-orange-600 fill-orange-500" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-900 border border-rose-400 font-black text-xs">
+                  <span className="px-2 py-0.5 rounded-md bg-orange-300 text-black border border-black font-black text-xs shadow-[1px_1px_0px_0px_#000]">
                     🔥 5-Day Streak
                   </span>
-                  <span className="text-xs font-bold text-stone-400 uppercase tracking-wider">
+                  <span className="text-xs font-black text-stone-600 uppercase tracking-wider">
                     Consistency Bonus
                   </span>
                 </div>
-                <p className="font-black text-sm text-stone-900 mt-1 truncate">
+                <p className="font-black text-sm text-black mt-1 truncate">
                   System Design Sprint Active
                 </p>
               </div>
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping mr-2" />
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 border border-black animate-ping mr-2" />
             </motion.div>
 
             {/* Card 3: Flashcard */}
@@ -240,25 +224,25 @@ export default function LoginPage() {
                 ease: "easeInOut",
                 delay: 1.2,
               }}
-              className="p-4 rounded-2xl bg-white border-2 border-stone-900 shadow-[4px_4px_0px_0px_#000] flex items-center gap-4 hover:-translate-y-1 transition-transform"
+              className="p-4 rounded-2xl bg-[#fffbf0] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] flex items-center gap-4 hover:-translate-y-1 transition-transform"
             >
-              <div className="w-11 h-11 rounded-xl bg-violet-100 border-2 border-stone-900 flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_#000]">
-                <Layers className="w-6 h-6 text-violet-600" />
+              <div className="w-11 h-11 rounded-xl bg-sky-300 border-2 border-black flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_#000]">
+                <Layers className="w-6 h-6 text-black" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-md bg-violet-100 text-violet-900 border border-violet-400 font-black text-xs">
+                  <span className="px-2 py-0.5 rounded-md bg-sky-300 text-black border border-black font-black text-xs shadow-[1px_1px_0px_0px_#000]">
                     🃏 Flashcard
                   </span>
-                  <span className="text-xs font-bold text-stone-400 uppercase tracking-wider">
+                  <span className="text-xs font-black text-stone-600 uppercase tracking-wider">
                     OS Internals
                   </span>
                 </div>
-                <p className="font-black text-sm text-stone-900 mt-1 truncate">
+                <p className="font-black text-sm text-black mt-1 truncate">
                   Difference between Process and Thread?
                 </p>
               </div>
-              <span className="text-xs font-bold text-violet-600">
+              <span className="text-xs font-black text-rose-600">
                 Review &rarr;
               </span>
             </motion.div>
@@ -266,16 +250,16 @@ export default function LoginPage() {
 
           {/* Marquee Ticker */}
           <div className="pt-2">
-            <div className="overflow-hidden rounded-xl border-2 border-stone-900 bg-stone-900 py-2.5 shadow-[3px_3px_0px_0px_#000]">
+            <div className="overflow-hidden rounded-xl border-[3px] border-black bg-black py-2.5 shadow-[4px_4px_0px_0px_#000]">
               <motion.div
                 animate={{ x: [0, -750] }}
                 transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
-                className="flex items-center gap-6 whitespace-nowrap text-xs font-black text-amber-300 uppercase tracking-wider"
+                className="flex items-center gap-6 whitespace-nowrap text-xs font-black text-yellow-300 uppercase tracking-wider"
               >
                 {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, idx) => (
                   <span key={idx} className="inline-flex items-center gap-2">
                     {item}
-                    <span className="text-stone-600">/</span>
+                    <span className="text-stone-500">/</span>
                   </span>
                 ))}
               </motion.div>
@@ -283,14 +267,14 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* ── Right Column: Neo-Brutalist Authentication Card ── */}
+        {/* ── Right Column: Comic Authentication Card ── */}
         <div className="w-full max-w-md mx-auto">
-          <Card className="p-6 sm:p-8 space-y-6 bg-white border-2 border-stone-900 shadow-[6px_6px_0px_0px_#1c1917] relative overflow-hidden">
+          <Card className="p-6 sm:p-8 space-y-6 bg-[#fffbf0] border-[3px] border-black shadow-[8px_8px_0px_0px_#000] relative overflow-hidden">
             {/* Top accent line */}
-            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-violet-600 via-indigo-600 to-amber-400" />
+            <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 border-b-2 border-black" />
 
             {/* Tabs */}
-            <div className="flex rounded-xl border-2 border-stone-900 overflow-hidden shadow-[2px_2px_0px_0px_#1c1917] pt-0.5">
+            <div className="flex rounded-xl border-2 border-black overflow-hidden shadow-[3px_3px_0px_0px_#000] pt-0.5">
               {(["signin", "register"] as const).map((t) => (
                 <button
                   key={t}
@@ -301,8 +285,8 @@ export default function LoginPage() {
                   }}
                   className={`flex-1 py-2.5 text-sm font-black transition-colors cursor-pointer ${
                     tab === t
-                      ? "bg-violet-600 text-white"
-                      : "bg-white text-stone-600 hover:bg-stone-50"
+                      ? "bg-yellow-300 text-black border-r-2 border-black last:border-r-0"
+                      : "bg-white text-stone-700 hover:bg-yellow-50 border-r-2 border-black last:border-r-0"
                   }`}
                 >
                   {t === "signin" ? "🔑 Sign In" : "✨ Create Account"}
@@ -315,7 +299,7 @@ export default function LoginPage() {
               variant="ghost"
               type="button"
               onClick={() => void signIn("google", { callbackUrl: "/profile" })}
-              className="w-full gap-2 !justify-center cursor-pointer border-2 border-stone-900 shadow-[2px_2px_0px_0px_#000] hover:shadow-[3px_3px_0px_0px_#000]"
+              className="w-full gap-2 !justify-center cursor-pointer border-[3px] border-black shadow-[3px_3px_0px_0px_#000] font-black"
             >
               <svg viewBox="0 0 24 24" className="w-4 h-4">
                 <path
@@ -359,7 +343,7 @@ export default function LoginPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your full name"
-                    className="w-full px-4 py-3 rounded-xl border-2 border-stone-900 bg-white text-stone-900 font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-violet-600 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-xl border-2 border-black bg-white text-black font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
                   />
                 </div>
               )}
@@ -374,7 +358,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="you@example.com"
-                  className="w-full px-4 py-3 rounded-xl border-2 border-stone-900 bg-white text-stone-900 font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-violet-600 transition-colors"
+                  className="w-full px-4 py-2.5 rounded-xl border-2 border-black bg-white text-black font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
                 />
               </div>
 
@@ -393,7 +377,7 @@ export default function LoginPage() {
                         setDevResetUrl(null);
                         setShowForgotModal(true);
                       }}
-                      className="text-xs font-black text-violet-600 hover:text-violet-800 transition-colors cursor-pointer hover:underline"
+                      className="text-xs font-black text-rose-600 hover:text-rose-700 transition-colors cursor-pointer hover:underline"
                     >
                       Forgot Password?
                     </button>
@@ -408,7 +392,7 @@ export default function LoginPage() {
                     placeholder={
                       tab === "register" ? "Min. 6 characters" : "Your password"
                     }
-                    className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-stone-900 bg-white text-stone-900 font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-violet-600 transition-colors"
+                    className="w-full px-4 py-2.5 pr-12 rounded-xl border-2 border-black bg-white text-black font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
                   />
                   <button
                     type="button"
@@ -432,8 +416,8 @@ export default function LoginPage() {
 
               <Button
                 type="submit"
-                variant="primary"
-                className="w-full gap-2 !justify-center cursor-pointer border-2 border-stone-900 shadow-[3px_3px_0px_0px_#000]"
+                variant="accent"
+                className="w-full gap-2 !justify-center cursor-pointer shadow-[3px_3px_0px_0px_#000]"
                 disabled={loading}
               >
                 {tab === "signin" ? (
@@ -456,23 +440,23 @@ export default function LoginPage() {
       {/* ── Forgot Password Modal ── */}
       <AnimatePresence>
         {showForgotModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-xs">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               className="w-full max-w-md"
             >
-              <Card className="p-6 sm:p-8 space-y-5 bg-white border-2 border-stone-900 shadow-[6px_6px_0px_0px_#000]">
+              <Card className="p-6 sm:p-8 space-y-5 bg-[#fffbf0] border-[3px] border-black shadow-[8px_8px_0px_0px_#000] relative">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500 border-2 border-stone-900 flex items-center justify-center shadow-[2px_2px_0px_0px_#000]">
-                    <Mail className="w-5 h-5 text-stone-900" />
+                  <div className="w-10 h-10 rounded-xl bg-yellow-300 border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_#000]">
+                    <Mail className="w-5 h-5 text-black" />
                   </div>
                   <div>
-                    <h3 className="font-black text-xl text-stone-900">
+                    <h3 className="font-black text-xl text-black">
                       Reset Password
                     </h3>
-                    <p className="text-xs text-stone-500 font-bold">
+                    <p className="text-xs text-stone-600 font-bold">
                       We'll generate a secure reset link for your account
                     </p>
                   </div>
@@ -480,10 +464,10 @@ export default function LoginPage() {
 
                 {forgotSuccess ? (
                   <div className="space-y-4">
-                    <div className="p-4 rounded-xl bg-emerald-50 border-2 border-emerald-400 text-emerald-800 text-sm font-medium flex items-start gap-2.5">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <div className="p-4 rounded-xl bg-emerald-100 border-2 border-black text-emerald-950 text-sm font-bold flex items-start gap-2.5 shadow-[2px_2px_0px_0px_#000]">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-700 flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="font-bold text-emerald-950">
+                        <p className="font-black text-emerald-950">
                           Reset link generated!
                         </p>
                         <p className="mt-1">
@@ -495,13 +479,13 @@ export default function LoginPage() {
                     </div>
 
                     {devResetUrl && (
-                      <div className="p-3 bg-stone-100 rounded-xl border border-stone-300 text-xs break-all space-y-1">
-                        <span className="font-bold text-stone-700 block">
+                      <div className="p-3 bg-yellow-100 rounded-xl border-2 border-black text-xs break-all space-y-1">
+                        <span className="font-black text-black block">
                           Development Link:
                         </span>
                         <a
                           href={devResetUrl}
-                          className="text-violet-600 underline font-semibold"
+                          className="text-rose-600 underline font-bold"
                         >
                           Click here to open password reset form &rarr;
                         </a>
@@ -509,7 +493,7 @@ export default function LoginPage() {
                     )}
 
                     <Button
-                      variant="primary"
+                      variant="accent"
                       onClick={() => setShowForgotModal(false)}
                       className="w-full cursor-pointer"
                     >
@@ -519,7 +503,7 @@ export default function LoginPage() {
                 ) : (
                   <form onSubmit={handleForgotPassword} className="space-y-4">
                     <div>
-                      <label className="block text-xs font-black text-stone-700 uppercase tracking-wider mb-1.5">
+                      <label className="block text-xs font-black text-black uppercase tracking-wider mb-1.5">
                         Account Email
                       </label>
                       <input
@@ -528,12 +512,12 @@ export default function LoginPage() {
                         onChange={(e) => setForgotEmail(e.target.value)}
                         required
                         placeholder="you@example.com"
-                        className="w-full px-4 py-3 rounded-xl border-2 border-stone-900 bg-white text-stone-900 font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-violet-600 transition-colors"
+                        className="w-full px-4 py-3 rounded-xl border-2 border-black bg-white text-black font-bold text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-rose-600 transition-colors"
                       />
                     </div>
 
                     {forgotError && (
-                      <div className="px-4 py-3 rounded-xl bg-rose-50 border-2 border-rose-300 text-rose-700 text-sm font-medium">
+                      <div className="px-4 py-3 rounded-xl bg-rose-100 border-2 border-black text-rose-800 text-sm font-black shadow-[2px_2px_0px_0px_#000]">
                         ⚠️ {forgotError}
                       </div>
                     )}
@@ -549,7 +533,7 @@ export default function LoginPage() {
                       </Button>
                       <Button
                         type="submit"
-                        variant="primary"
+                        variant="accent"
                         disabled={forgotLoading}
                         className="flex-1 cursor-pointer"
                       >

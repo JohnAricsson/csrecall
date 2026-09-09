@@ -64,23 +64,23 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
     >
       <Card
         className={cn(
-          "overflow-hidden transition-all duration-300 relative border-2 border-stone-900",
+          "overflow-hidden transition-all duration-300 relative border-[3px] border-black",
           isDefused
-            ? "border-emerald-500 shadow-[4px_4px_0px_0px_#064e3b]"
-            : "shadow-[4px_4px_0px_0px_#1c1917]",
+            ? "border-emerald-500 shadow-[5px_5px_0px_0px_#000] bg-emerald-50"
+            : "shadow-[5px_5px_0px_0px_#000] bg-white",
         )}
       >
         {/* Top colored accent line */}
         <div
           className={cn(
-            "absolute top-0 left-0 right-0 h-1.5",
+            "absolute top-0 left-0 right-0 h-2 border-b-2 border-black",
             isDefused
-              ? "bg-emerald-500"
+              ? "bg-emerald-400"
               : trap.category === "interview-gotcha"
-                ? "bg-rose-500"
+                ? "bg-rose-400"
                 : trap.category === "common-mistake"
-                  ? "bg-amber-500"
-                  : "bg-sky-500",
+                  ? "bg-amber-400"
+                  : "bg-sky-400",
           )}
         />
 
@@ -88,7 +88,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
         <div
           className={cn(
             "px-5 sm:px-6 py-5 pt-5.5",
-            isDefused ? "bg-emerald-50/50" : "bg-white",
+            isDefused ? "bg-emerald-50" : "bg-white",
           )}
         >
           {/* Badges row */}
@@ -98,8 +98,8 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
             </Badge>
             {isDefused && (
               <Badge variant="emerald">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                Defused!
+                <ShieldCheck className="w-3.5 h-3.5 text-black" />
+                DEFUSED!
               </Badge>
             )}
           </div>
@@ -108,7 +108,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
           <p
             className={cn(
               "font-black text-base sm:text-lg leading-snug mb-4",
-              isDefused ? "line-through text-stone-400" : "text-stone-900",
+              isDefused ? "line-through text-stone-500" : "text-black",
             )}
           >
             🪤 &ldquo;{trap.statement}&rdquo;
@@ -120,21 +120,21 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
             <button
               onClick={onDefuse}
               className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-xl border-2 font-black text-sm transition-all cursor-pointer",
+                "flex items-center gap-2 px-4 py-2 rounded-xl border-[3px] border-black font-black text-sm transition-all cursor-pointer",
                 "active:translate-x-[2px] active:translate-y-[2px]",
                 isDefused
-                  ? "bg-gradient-to-r from-emerald-500 to-teal-600 border-stone-900 text-white shadow-[2px_2px_0px_0px_#064e3b] active:shadow-none"
-                  : "bg-gradient-to-r from-rose-500 to-red-600 border-stone-900 text-white shadow-[2px_2px_0px_0px_#881337] hover:from-rose-400 hover:to-red-500 active:shadow-none",
+                  ? "bg-emerald-400 text-black shadow-[3px_3px_0px_0px_#000] active:shadow-none"
+                  : "bg-rose-500 text-white shadow-[3px_3px_0px_0px_#000] hover:bg-rose-400 active:shadow-none uppercase tracking-wider",
               )}
             >
               {isDefused ? (
                 <>
-                  <ShieldCheck className="w-4 h-4" strokeWidth={2.5} />
+                  <ShieldCheck className="w-4 h-4 text-black" strokeWidth={3} />
                   Defused! (+20 XP)
                 </>
               ) : (
                 <>
-                  <Shield className="w-4 h-4" strokeWidth={2.5} />
+                  <Shield className="w-4 h-4 text-white" strokeWidth={3} />
                   Defuse Trap
                 </>
               )}
@@ -143,17 +143,14 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
             {/* Expand explanation */}
             <button
               onClick={() => setExpanded((e) => !e)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border-2 border-stone-900 bg-stone-50 hover:bg-stone-100 text-stone-700 text-sm font-bold transition-colors cursor-pointer shadow-[2px_2px_0px_0px_#1c1917]"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border-[3px] border-black bg-yellow-300 hover:bg-yellow-200 text-black text-sm font-black transition-colors cursor-pointer shadow-[2px_2px_0px_0px_#000]"
             >
               Why tricky?
               <motion.span
                 animate={{ rotate: expanded ? 180 : 0 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
               >
-                <ChevronDown
-                  className="w-4 h-4 text-stone-600"
-                  strokeWidth={2.5}
-                />
+                <ChevronDown className="w-4 h-4 text-black" strokeWidth={3} />
               </motion.span>
             </button>
           </div>
@@ -169,12 +166,12 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="overflow-hidden"
             >
-              <div className="px-5 sm:px-6 py-4 bg-rose-50/80 border-t-2 border-stone-900">
+              <div className="px-5 sm:px-6 py-4 bg-[#fffbf0] border-t-2 border-black">
                 <p className="text-xs font-black uppercase tracking-widest text-rose-600 mb-1.5 flex items-center gap-1">
                   <span>🔍</span>
                   <span>Why developers get tricked:</span>
                 </p>
-                <p className="text-stone-800 text-sm sm:text-base leading-relaxed font-medium">
+                <p className="text-stone-900 text-sm sm:text-base leading-relaxed font-bold">
                   {trap.explanation}
                 </p>
               </div>
@@ -216,8 +213,8 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
             particleCount: 50,
             spread: 70,
             origin: { y: 0.8 },
-            colors: ["#f43f5e", "#fb7185", "#10b981"],
-            scalar: 0.8,
+            colors: ["#fb7185", "#f43f5e", "#facc15", "#34d399"],
+            scalar: 0.9,
             disableForReducedMotion: true,
           });
         });
@@ -239,39 +236,39 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 24 }}
         className={cn(
-          "p-5 sm:p-6 rounded-2xl border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917] relative overflow-hidden",
+          "p-5 sm:p-6 rounded-2xl border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden",
           defusedCount === totalCount && totalCount > 0
-            ? "bg-gradient-to-br from-emerald-50 via-white to-teal-50 shadow-[4px_4px_0px_0px_#064e3b]"
-            : "bg-white",
+            ? "bg-emerald-100"
+            : "bg-[#fffbf0]",
         )}
       >
         {/* Top accent line */}
         <div
           className={cn(
-            "absolute top-0 left-0 right-0 h-1.5",
+            "absolute top-0 left-0 right-0 h-2 border-b-2 border-black",
             defusedCount === totalCount && totalCount > 0
-              ? "bg-gradient-to-r from-emerald-400 to-teal-500"
-              : "bg-gradient-to-r from-rose-500 via-amber-500 to-sky-500",
+              ? "bg-emerald-400"
+              : "bg-rose-500",
           )}
         />
 
         <div className="flex items-start justify-between gap-4 mb-4 pt-1">
           <div>
-            <p className="text-xs font-black uppercase tracking-widest text-stone-500 mb-1">
+            <p className="text-xs font-black uppercase tracking-widest text-stone-600 mb-1">
               Trap Defusal Arena
             </p>
-            <p className="font-black text-2xl sm:text-3xl text-stone-900">
+            <p className="font-black text-2xl sm:text-3xl text-black">
               {defusedCount} of {totalCount} Defused 🛡️
             </p>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-rose-100 border-2 border-stone-900 flex items-center justify-center text-2xl shadow-[2px_2px_0px_0px_#1c1917]">
+          <div className="w-12 h-12 rounded-2xl bg-yellow-300 border-[3px] border-black flex items-center justify-center text-2xl shadow-[2px_2px_0px_0px_#000]">
             {defusedCount === totalCount && totalCount > 0 ? "🏆" : "🪤"}
           </div>
         </div>
 
         <ProgressBar
           value={progress}
-          variant={defusedCount === totalCount ? "readiness" : "xp"}
+          variant={defusedCount === totalCount ? "readiness" : "topic"}
           showLabel={false}
         />
 
@@ -308,10 +305,10 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
             className="text-center py-10 space-y-3"
           >
             <div className="text-5xl">🏆</div>
-            <h3 className="font-black text-2xl text-emerald-700">
+            <h3 className="font-black text-2xl text-emerald-400 drop-shadow-[2px_2px_0px_#000]">
               All Traps Defused!
             </h3>
-            <p className="text-stone-500 font-medium text-sm">
+            <p className="text-yellow-100 font-bold text-sm drop-shadow-[1px_1px_0px_#000]">
               You&apos;re interview-ready. No trap can catch you now.
             </p>
           </motion.div>

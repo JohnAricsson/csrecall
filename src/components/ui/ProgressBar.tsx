@@ -21,21 +21,21 @@ interface ProgressBarProps {
 // ─── Variant map ──────────────────────────────────────────────────────────────
 
 const FILL_CLASSES: Record<ProgressBarVariant, string> = {
-  xp: "bg-gradient-to-r from-amber-400 via-amber-500 to-orange-500 shadow-[0_0_12px_rgba(245,158,11,0.4)]",
-  readiness:
-    "bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-500 shadow-[0_0_12px_rgba(16,185,129,0.4)]",
-  topic:
-    "bg-gradient-to-r from-violet-500 via-purple-600 to-indigo-600 shadow-[0_0_12px_rgba(124,58,237,0.4)]",
+  xp: "bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-500",
+  readiness: "bg-gradient-to-r from-emerald-300 via-emerald-400 to-teal-400",
+  topic: "bg-gradient-to-r from-rose-400 via-red-500 to-rose-600",
 };
 
 const SIZE_CLASSES: Record<ProgressBarSize, { track: string; height: string }> =
   {
     sm: {
-      track: "h-2 border border-stone-900 bg-stone-200/90 shadow-inner",
+      track:
+        "h-2.5 border-2 border-black bg-stone-200 shadow-[1px_1px_0px_0px_#000]",
       height: "h-full",
     },
     md: {
-      track: "h-3 border-2 border-stone-900 bg-stone-100 shadow-inner",
+      track:
+        "h-4 border-2 border-black bg-stone-200 shadow-[2px_2px_0px_0px_#000]",
       height: "h-full",
     },
   };
@@ -56,10 +56,10 @@ export function ProgressBar({
     <div className={cn("relative w-full", className)}>
       {showLabel && (
         <div className="flex justify-between mb-1.5 items-center">
-          <span className="text-xs font-black text-stone-500 uppercase tracking-wider">
-            Progress
+          <span className="text-xs font-black text-black uppercase tracking-wider">
+            HP / Progress
           </span>
-          <span className="text-xs font-black text-stone-900 bg-stone-100 px-1.5 py-0.5 rounded border border-stone-300">
+          <span className="text-xs font-black text-black bg-yellow-300 px-2 py-0.5 rounded-md border-2 border-black shadow-[1px_1px_0px_0px_#000]">
             {clamped}%
           </span>
         </div>
@@ -72,11 +72,11 @@ export function ProgressBar({
           sizeCfg.track,
         )}
       >
-        {/* Animated fill */}
+        {/* Animated fill with comic striping */}
         <motion.div
           className={cn(
             sizeCfg.height,
-            "rounded-full relative overflow-hidden",
+            "rounded-full relative overflow-hidden border-r-2 border-black",
             FILL_CLASSES[variant],
           )}
           initial={{ width: 0 }}
@@ -88,8 +88,9 @@ export function ProgressBar({
             delay: 0.15,
           }}
         >
-          {/* Subtle sheen highlight */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent pointer-events-none" />
+          {/* Comic health bar diagonal stripes */}
+          <div className="absolute inset-0 bg-comic-stripes opacity-30 pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-1/2 bg-white/30 pointer-events-none" />
         </motion.div>
       </div>
     </div>

@@ -95,51 +95,40 @@ export function ProfileClient({ user }: ProfileClientProps) {
   ];
 
   return (
-    <div className="relative min-h-screen bg-stone-50 overflow-hidden pb-20">
-      {/* Floating animated particles */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, #1c1917 2px, transparent 2px)",
-          backgroundSize: "32px 32px",
-        }}
-      />
-
+    <div className="relative min-h-screen overflow-hidden pb-20">
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-10">
         {/* ── Header Card ── */}
-        <Card className="p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 bg-white relative overflow-hidden">
-          <div className="absolute -top-10 -right-10 w-40 h-40 bg-violet-100 rounded-full blur-3xl opacity-50 pointer-events-none" />
+        <Card className="p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 bg-[#fffbf0] border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 border-b-2 border-black" />
           {user.image ? (
             <img
               src={user.image}
               alt={user.name}
-              className="w-24 h-24 rounded-2xl border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917] object-cover"
+              className="w-24 h-24 rounded-2xl border-[3px] border-black shadow-[4px_4px_0px_0px_#000] object-cover"
             />
           ) : (
-            <div className="w-24 h-24 rounded-2xl border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917] bg-violet-100 flex items-center justify-center text-violet-600">
-              <User className="w-10 h-10" />
+            <div className="w-24 h-24 rounded-2xl border-[3px] border-black shadow-[4px_4px_0px_0px_#000] bg-yellow-300 flex items-center justify-center text-black">
+              <User className="w-12 h-12" />
             </div>
           )}
 
           <div className="flex-1 text-center sm:text-left">
-            <h1 className="text-4xl font-black text-stone-900 leading-none">
+            <h1 className="text-3xl sm:text-4xl font-black text-black leading-none">
               {user.name}
             </h1>
-            <p className="text-stone-500 font-bold mt-2 text-lg">
+            <p className="text-stone-700 font-bold mt-2 text-lg">
               {user.email}
             </p>
-            <div className="mt-4 inline-flex items-center gap-2 bg-stone-100 px-3 py-1.5 rounded-lg border-2 border-stone-200 text-sm font-semibold text-stone-600">
+            <div className="mt-4 inline-flex items-center gap-2 bg-yellow-200 px-3 py-1.5 rounded-xl border-2 border-black text-sm font-black text-black shadow-[2px_2px_0px_0px_#000]">
               <span>Joined:</span>
-              <span className="text-stone-900">{user.joinDate}</span>
+              <span className="text-black">{user.joinDate}</span>
             </div>
           </div>
 
           <Button
             variant="ghost"
             onClick={handleSignOut}
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto font-black"
           >
             <LogOut className="w-4 h-4" />
             Sign Out
@@ -149,121 +138,129 @@ export function ProfileClient({ user }: ProfileClientProps) {
         {/* ── Stats Grid ── */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           <TiltCard>
-            <div className="h-full p-6 flex flex-col items-center justify-center text-center gap-3 bg-violet-50 border-2 border-violet-900 rounded-2xl shadow-[4px_4px_0px_0px_#4c1d95]">
-              <Zap className="w-10 h-10 text-violet-600" />
-              <p className="text-4xl font-black text-stone-900">{xp}</p>
-              <p className="text-sm font-black uppercase tracking-widest text-violet-700">
+            <div className="h-full p-6 flex flex-col items-center justify-center text-center gap-2 bg-yellow-300 border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000]">
+              <Zap className="w-10 h-10 text-black fill-black" />
+              <p className="text-4xl font-black text-black">{xp}</p>
+              <p className="text-xs font-black uppercase tracking-widest text-black">
                 Total XP
               </p>
             </div>
           </TiltCard>
 
           <TiltCard>
-            <div className="h-full p-6 flex flex-col items-center justify-center text-center gap-3 bg-emerald-50 border-2 border-emerald-900 rounded-2xl shadow-[4px_4px_0px_0px_#064e3b]">
-              <BookOpen className="w-10 h-10 text-emerald-600" />
-              <p className="text-4xl font-black text-stone-900">
-                {completedChapterIds.length}{" "}
-                <span className="text-xl">/ 12</span>
+            <div className="h-full p-6 flex flex-col items-center justify-center text-center gap-2 bg-emerald-300 border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000]">
+              <BookOpen className="w-10 h-10 text-black" />
+              <p className="text-4xl font-black text-black">
+                {completedChapterIds.length}
               </p>
-              <p className="text-sm font-black uppercase tracking-widest text-emerald-700">
-                Mastered
+              <p className="text-xs font-black uppercase tracking-widest text-black">
+                Cleared
               </p>
             </div>
           </TiltCard>
 
           <TiltCard>
-            <div className="h-full p-6 flex flex-col items-center justify-center text-center gap-3 bg-rose-50 border-2 border-rose-900 rounded-2xl shadow-[4px_4px_0px_0px_#9f1239]">
-              <ShieldAlert className="w-10 h-10 text-rose-600" />
-              <p className="text-4xl font-black text-stone-900">
+            <div className="h-full p-6 flex flex-col items-center justify-center text-center gap-2 bg-rose-300 border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000]">
+              <ShieldAlert className="w-10 h-10 text-black" />
+              <p className="text-4xl font-black text-black">
                 {totalTrapsDefused}
               </p>
-              <p className="text-sm font-black uppercase tracking-widest text-rose-700">
+              <p className="text-xs font-black uppercase tracking-widest text-black">
                 Defused
               </p>
             </div>
           </TiltCard>
 
           <TiltCard>
-            <div className="h-full p-6 flex flex-col items-center justify-center text-center gap-3 bg-amber-50 border-2 border-amber-900 rounded-2xl shadow-[4px_4px_0px_0px_#78350f]">
-              <Flame className="w-10 h-10 text-amber-600" />
-              <p className="text-4xl font-black text-stone-900">{streakDays}</p>
-              <p className="text-sm font-black uppercase tracking-widest text-amber-700">
+            <div className="h-full p-6 flex flex-col items-center justify-center text-center gap-2 bg-orange-300 border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000]">
+              <Flame className="w-10 h-10 text-orange-600 fill-orange-500" />
+              <p className="text-4xl font-black text-black">{streakDays}</p>
+              <p className="text-xs font-black uppercase tracking-widest text-black">
                 Day Streak
               </p>
             </div>
           </TiltCard>
         </div>
 
-        {/* ── Badges ── */}
-        <Card className="p-6 sm:p-8">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-stone-900 flex items-center justify-center rounded-xl text-amber-400 border-2 border-stone-700 shadow-[2px_2px_0px_0px_#1c1917]">
-              <Trophy className="w-6 h-6" />
+        {/* ── Badge Matrix ── */}
+        <div className="space-y-6">
+          <div className="flex items-center justify-between bg-[#fffbf0] p-4 rounded-2xl border-[3px] border-black shadow-[4px_4px_0px_0px_#000]">
+            <div>
+              <h2 className="text-2xl font-black text-black">Trophy Matrix</h2>
+              <p className="text-stone-700 text-sm font-bold">
+                Arcade achievements &amp; mastery trophies
+              </p>
             </div>
-            <h2 className="text-3xl font-black text-stone-900">Badge Matrix</h2>
+            <span className="bg-yellow-300 text-black border-2 border-black font-black text-xs px-3 py-1 rounded-xl shadow-[2px_2px_0px_0px_#000]">
+              {allBadges.filter((b) => b.isUnlocked).length} /{" "}
+              {allBadges.length} Unlocked
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {allBadges.map((badge, i) => (
-              <div
+              <Card
                 key={i}
                 className={cn(
-                  "relative p-4 rounded-xl border-2 flex items-center gap-4 shadow-[2px_2px_0px_0px_#1c1917] transition-all",
+                  "p-5 flex items-start gap-4 transition-all duration-200 border-[3px] border-black",
                   badge.isUnlocked
-                    ? "bg-amber-50 border-amber-500 shadow-[3px_3px_0px_0px_#f59e0b]"
-                    : "bg-stone-50 border-stone-300 grayscale opacity-60",
+                    ? "bg-white shadow-[4px_4px_0px_0px_#000]"
+                    : "bg-stone-200/80 opacity-60 shadow-[2px_2px_0px_0px_#000]",
                 )}
               >
                 <div
                   className={cn(
-                    "flex-shrink-0 w-12 h-12 rounded-full border-2 flex items-center justify-center",
+                    "w-12 h-12 rounded-xl border-2 border-black flex items-center justify-center text-2xl flex-shrink-0 shadow-[2px_2px_0px_0px_#000]",
                     badge.isUnlocked
-                      ? "bg-amber-400 border-amber-700 text-stone-900"
-                      : "bg-stone-200 border-stone-400 text-stone-500",
+                      ? "bg-yellow-300"
+                      : "bg-stone-300 text-stone-500",
                   )}
                 >
                   {badge.isUnlocked ? (
-                    <Trophy className="w-6 h-6" />
+                    <Trophy className="w-6 h-6 text-black" />
                   ) : (
-                    <Lock className="w-5 h-5" />
+                    <Lock className="w-5 h-5 text-black" />
                   )}
                 </div>
-                <div>
+                <div className="flex-1 min-w-0">
                   <p
                     className={cn(
                       "font-black text-sm",
-                      badge.isUnlocked ? "text-stone-900" : "text-stone-500",
+                      badge.isUnlocked ? "text-black" : "text-stone-600",
                     )}
                   >
                     {badge.name}
                   </p>
-                  <p className="text-xs font-bold text-stone-500 mt-0.5">
-                    {badge.isUnlocked ? "Unlocked!" : "Locked"}
+                  <p className="text-xs font-bold text-stone-600 mt-0.5">
+                    {badge.isUnlocked ? "✓ Unlocked!" : "Locked"}
                   </p>
                 </div>
-              </div>
+              </Card>
             ))}
           </div>
-        </Card>
+        </div>
 
         {/* ── Danger Zone ── */}
-        <Card className="p-6 sm:p-8 bg-rose-50/50 border-rose-200">
-          <h2 className="text-xl font-black text-rose-900 mb-2">Danger Zone</h2>
-          <p className="text-stone-600 text-sm mb-6 max-w-xl">
+        <Card className="p-6 sm:p-8 bg-[#fffbf0] border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-2 bg-rose-500 border-b-2 border-black" />
+          <h2 className="text-xl font-black text-rose-600 mb-2 uppercase tracking-wider">
+            ⚠️ Danger Zone
+          </h2>
+          <p className="text-stone-700 text-sm font-bold mb-6 max-w-xl">
             Need a fresh start? This will permanently wipe your XP, completed
             chapters, and defused traps. This action cannot be undone.
           </p>
 
           {resetSuccess && (
-            <div className="mb-4 p-3 bg-emerald-100 text-emerald-800 border-2 border-emerald-900 rounded-xl text-sm font-bold shadow-[2px_2px_0px_0px_#064e3b]">
+            <div className="mb-4 p-3 bg-emerald-200 text-black border-2 border-black rounded-xl text-sm font-black shadow-[2px_2px_0px_0px_#000]">
               ✅ Progress has been successfully reset!
             </div>
           )}
 
           <Button
-            variant="primary"
+            variant="danger"
             onClick={() => setShowReset(true)}
-            className="!bg-rose-600 !border-rose-900 hover:!bg-rose-700 !shadow-[3px_3px_0px_0px_#881337] gap-2"
+            className="cursor-pointer"
           >
             <RotateCcw className="w-4 h-4" />
             Reset All Progress
@@ -272,8 +269,8 @@ export function ProfileClient({ user }: ProfileClientProps) {
 
         {/* ── Reset Modal ── */}
         {showReset && (
-          <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <Card className="max-w-sm w-full p-6 space-y-4 shadow-[8px_8px_0px_0px_#000]">
+          <div className="fixed inset-0 bg-black/75 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+            <Card className="max-w-sm w-full p-6 space-y-4 bg-[#fffbf0] border-[3px] border-black shadow-[8px_8px_0px_0px_#000]">
               <h2 className="font-black text-stone-900 text-xl">
                 ⚠️ Reset All Progress?
               </h2>
@@ -291,10 +288,10 @@ export function ProfileClient({ user }: ProfileClientProps) {
                   Cancel
                 </Button>
                 <Button
-                  variant="primary"
+                  variant="danger"
                   onClick={handleReset}
                   disabled={resetting}
-                  className="flex-1 !bg-rose-600 !border-rose-900 !shadow-[3px_3px_0px_0px_#881337]"
+                  className="flex-1 shadow-[3px_3px_0px_0px_#000]"
                 >
                   {resetting ? "Resetting..." : "🔄 Yes, Reset"}
                 </Button>

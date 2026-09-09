@@ -53,69 +53,71 @@ function FlashCard({ card, index, total, isFlipped, onFlip }: FlashCardProps) {
       >
         {/* ── Front face ──────────────────────────────────────── */}
         <div
-          className="w-full min-h-[280px] p-6 sm:p-8 rounded-2xl border-2 border-stone-900 bg-white shadow-[6px_6px_0px_0px_#1c1917] flex flex-col justify-between relative overflow-hidden"
+          className="w-full min-h-[320px] p-6 sm:p-8 rounded-3xl border-[4px] border-black bg-[#fffdfa] shadow-[8px_8px_0px_0px_#000] flex flex-col justify-between relative overflow-hidden"
           style={{ backfaceVisibility: "hidden" }}
         >
           {/* Top colored accent line */}
-          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600" />
+          <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 border-b-2 border-black" />
 
           <div className="flex items-start justify-between pt-1">
-            <Badge
-              variant="violet"
-              className="shadow-[1px_1px_0px_0px_#4c1d95]"
-            >
+            <Badge variant="amber" className="shadow-[2px_2px_0px_0px_#000]">
               Card {index + 1} of {total}
             </Badge>
-            <span className="text-[11px] text-stone-500 font-bold uppercase tracking-wider bg-stone-100 px-2 py-0.5 rounded border border-stone-300">
-              Click or <kbd className="font-mono text-stone-700">Space</kbd> to
+            <span className="text-[11px] text-black font-black uppercase tracking-wider bg-yellow-200 px-2.5 py-0.5 rounded-md border-2 border-black shadow-[1px_1px_0px_0px_#000]">
+              Click or{" "}
+              <kbd className="font-mono text-black font-bold">Space</kbd> to
               flip
             </span>
           </div>
 
           <div className="my-6 flex items-center justify-center text-center px-2 sm:px-6">
-            <p className="text-stone-900 font-black text-xl sm:text-2xl lg:text-3xl leading-snug">
+            <p className="text-black font-black text-xl sm:text-2xl lg:text-3xl leading-snug">
               {card.question}
             </p>
           </div>
 
-          <div className="flex items-center justify-between text-xs font-bold text-stone-400 pt-3 border-t border-stone-100">
+          <div className="flex items-center justify-between text-xs font-black text-stone-600 pt-3 border-t-2 border-black/20">
             <span>Flip to reveal answer</span>
-            <span className="text-violet-600">⚡ Tap or Spacebar</span>
+            <span className="text-rose-600 uppercase tracking-wider">
+              ⚡ Tap or Spacebar
+            </span>
           </div>
         </div>
 
         {/* ── Back face ───────────────────────────────────────── */}
         <div
-          className="w-full min-h-[280px] p-6 sm:p-8 rounded-2xl border-2 border-stone-900 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 shadow-[6px_6px_0px_0px_#064e3b] flex flex-col justify-between absolute inset-0 relative overflow-hidden"
+          className="w-full min-h-[320px] p-6 sm:p-8 rounded-3xl border-[4px] border-black bg-emerald-400 shadow-[8px_8px_0px_0px_#000] flex flex-col justify-between absolute inset-0 relative overflow-hidden"
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
           }}
         >
           {/* Top colored accent line */}
-          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-300 via-yellow-400 to-emerald-300" />
+          <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-300 border-b-2 border-black" />
 
           <div className="flex items-start justify-between pt-1">
             <Badge
               variant="emerald"
-              className="bg-white text-emerald-900 border-white shadow-none"
+              className="bg-white text-black border-2 border-black shadow-[2px_2px_0px_0px_#000]"
             >
               ✓ Core Answer
             </Badge>
-            <span className="text-[11px] text-emerald-100 font-bold uppercase tracking-wider bg-emerald-700/60 px-2 py-0.5 rounded border border-emerald-400/40">
+            <span className="text-[11px] text-black font-black uppercase tracking-wider bg-yellow-300 px-2.5 py-0.5 rounded-md border-2 border-black shadow-[1px_1px_0px_0px_#000]">
               1 = Hard · 2 = Nailed
             </span>
           </div>
 
           <div className="my-6 flex items-center justify-center text-center px-2 sm:px-6">
-            <p className="text-white font-black text-lg sm:text-xl lg:text-2xl leading-relaxed text-shadow-sm">
+            <p className="text-black font-black text-lg sm:text-xl lg:text-2xl leading-relaxed">
               {card.answer}
             </p>
           </div>
 
-          <div className="flex items-center justify-between text-xs font-bold text-emerald-200 pt-3 border-t border-emerald-400/40">
+          <div className="flex items-center justify-between text-xs font-black text-stone-900 pt-3 border-t-2 border-black/20">
             <span>Rate your recall below:</span>
-            <span className="text-white font-black">Nailed it? Press 2 🎯</span>
+            <span className="text-black font-black bg-white px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000]">
+              Nailed it? Press 2 🎯
+            </span>
           </div>
         </div>
       </motion.div>
@@ -242,15 +244,15 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Progress */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs font-bold text-stone-500 uppercase tracking-widest">
+        <div className="flex items-center justify-between text-xs font-black text-yellow-200 uppercase tracking-widest drop-shadow-[1px_1px_0px_#000]">
           <span>Session Progress</span>
-          <span>
+          <span className="bg-yellow-300 text-black px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000]">
             {nailedCount} / {allCards.length} nailed
           </span>
         </div>
         <ProgressBar value={progress} variant="readiness" />
         {reviewQueue.length > 0 && (
-          <p className="text-xs text-amber-600 font-bold">
+          <p className="text-xs text-amber-200 font-black bg-black/40 px-3 py-1 rounded-lg border border-black/60 inline-block">
             🔄 {reviewQueue.length} card{reviewQueue.length > 1 ? "s" : ""} to
             review again
           </p>
@@ -293,7 +295,7 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
               className="flex-1 max-w-[200px] cursor-pointer"
             >
               <span>🔴 Hard / Again</span>
-              <kbd className="ml-auto px-1.5 py-0.5 rounded border border-rose-700 bg-rose-700/80 text-white text-xs font-mono">
+              <kbd className="ml-auto px-2 py-0.5 rounded-md border-2 border-black bg-white text-black text-xs font-mono font-black shadow-[2px_2px_0px_0px_#000]">
                 1
               </kbd>
             </Button>
@@ -304,7 +306,7 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
               className="flex-1 max-w-[200px] cursor-pointer"
             >
               <span>🟢 Nailed It!</span>
-              <kbd className="ml-auto px-1.5 py-0.5 rounded border border-emerald-800 bg-emerald-700/80 text-white text-xs font-mono">
+              <kbd className="ml-auto px-2 py-0.5 rounded-md border-2 border-black bg-white text-black text-xs font-mono font-black shadow-[2px_2px_0px_0px_#000]">
                 2
               </kbd>
             </Button>
@@ -313,16 +315,16 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
       </AnimatePresence>
 
       {/* Keyboard hint */}
-      <p className="text-center text-xs text-stone-400 font-medium">
-        <kbd className="px-1.5 py-0.5 rounded border border-stone-300 bg-stone-100 text-stone-500 font-mono">
+      <p className="text-center text-xs text-yellow-100 font-bold drop-shadow-[1px_1px_0px_#000]">
+        <kbd className="px-2 py-0.5 rounded-md border-2 border-black bg-white text-black font-mono font-bold shadow-[2px_2px_0px_0px_#000]">
           Space
         </kbd>{" "}
         to flip &nbsp;·&nbsp;{" "}
-        <kbd className="px-1.5 py-0.5 rounded border border-stone-300 bg-stone-100 text-stone-500 font-mono">
+        <kbd className="px-2 py-0.5 rounded-md border-2 border-black bg-white text-black font-mono font-bold shadow-[2px_2px_0px_0px_#000]">
           1
         </kbd>{" "}
         Hard &nbsp;·&nbsp;{" "}
-        <kbd className="px-1.5 py-0.5 rounded border border-stone-300 bg-stone-100 text-stone-500 font-mono">
+        <kbd className="px-2 py-0.5 rounded-md border-2 border-black bg-white text-black font-mono font-bold shadow-[2px_2px_0px_0px_#000]">
           2
         </kbd>{" "}
         Nailed

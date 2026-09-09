@@ -28,11 +28,11 @@ export function Card({
   return (
     <div
       className={cn(
-        "bg-white rounded-2xl",
-        !borderless && "border-2 border-stone-900",
+        "bg-[#fffbf0] rounded-2xl",
+        !borderless && "border-[3px] border-black",
         soft
-          ? "shadow-[2px_2px_0px_0px_#1c1917]"
-          : "shadow-[4px_4px_0px_0px_#1c1917]",
+          ? "shadow-[2px_2px_0px_0px_#000]"
+          : "shadow-[5px_5px_0px_0px_#000]",
         className,
       )}
       {...props}

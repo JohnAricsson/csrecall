@@ -1,7 +1,7 @@
 {
   "id": "chapter-3",
   "chapterNumber": 3,
-  "title": "ALGORITHMS — INTERVIEW REVISION CHEAT SHEET",
+  "title": "ALGORITHMS",
   "description": "Goal: Quickly revise core algorithms, time complexity, use cases, edge cases, and common interview traps.",
   "estimatedMinutes": 60,
   "sections": [
