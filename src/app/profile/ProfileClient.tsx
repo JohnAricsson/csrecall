@@ -39,7 +39,6 @@ export function ProfileClient({ user }: ProfileClientProps) {
   const {
     xp,
     completedChapterIds,
-    totalTrapsDefused,
     defusedTrapIds,
     masteredFlashcardIds,
     streakDays,

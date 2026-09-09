@@ -82,12 +82,12 @@ function CodeBlock({ snippet }: { snippet: CodeSnippet }) {
 
 function BanglaTldr({ text }: { text: string }) {
   return (
-    <div className="flex gap-3.5 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-50 via-amber-100/60 to-amber-50 border-2 border-stone-900 shadow-[3px_3px_0px_0px_#78350f]">
+    <div className="flex gap-3.5 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#FFFDF5] via-[#FEF9E7] to-[#FEF3C7]/80 border-2 border-stone-900 shadow-[3px_3px_0px_0px_#78350f]">
       <div className="w-9 h-9 rounded-xl bg-amber-400 border-2 border-stone-900 flex items-center justify-center shadow-[1.5px_1.5px_0px_0px_#000] flex-shrink-0 text-lg">
         💡
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-black uppercase tracking-widest text-amber-800 mb-1 flex items-center gap-1.5">
+        <p className="text-xs font-black uppercase tracking-widest text-amber-900 mb-1 flex items-center gap-1.5">
           <span>🇧🇩</span>
           <span>সহজ কথায় (TL;DR):</span>
         </p>

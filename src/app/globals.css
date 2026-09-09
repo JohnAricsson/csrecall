@@ -5,9 +5,17 @@
 
 @theme inline {
   /* ── Canvas & surfaces ── */
-  --color-background: #fafaf9; /* stone-50  – app canvas            */
-  --color-surface: #ffffff; /* white     – card surfaces           */
-  --color-border: #1c1917; /* stone-900 – neo-brutalist borders   */
+  --color-background: #f8f7fc; /* soft neutral base           */
+  --color-surface: #ffffff; /* white card surfaces         */
+  --color-border: #1c1917; /* stone-900 brutalist borders */
+
+  /* ── Semantic Surface Tints ── */
+  --color-surface-purple: rgba(139, 92, 246, 0.04);
+  --color-surface-blue: rgba(59, 130, 246, 0.04);
+  --color-surface-cyan: rgba(6, 182, 212, 0.04);
+  --color-surface-amber: rgba(245, 158, 11, 0.05);
+  --color-surface-rose: rgba(244, 63, 94, 0.04);
+  --color-surface-emerald: rgba(16, 185, 129, 0.04);
 
   /* ── Game accent palette ── */
   --color-primary: #7c3aed; /* violet-600 – XP / primary actions  */
@@ -30,9 +38,31 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* ─── Base reset ──────────────────────────────────────────────────────────── */
+/* ─── Layered Ambient App Background ──────────────────────────────────────── */
 body {
-  background-color: #fafaf9;
+  background-color: #f8f7fc;
+  background-image:
+    radial-gradient(
+      circle at 10% 8%,
+      rgba(139, 92, 246, 0.07),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 90% 16%,
+      rgba(59, 130, 246, 0.06),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 50% 55%,
+      rgba(245, 158, 11, 0.025),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 20% 85%,
+      rgba(124, 58, 237, 0.04),
+      transparent 35%
+    );
+  background-attachment: fixed;
   color: #1c1917;
   font-family:
     var(--font-sans),
@@ -68,10 +98,50 @@ body {
   box-shadow: 4px 4px 0px 0px #881337;
 }
 
+/* ─── Soft Ambient Glow Shadows ───────────────────────────────────────────── */
+.shadow-glow-purple {
+  box-shadow:
+    0 10px 30px -5px rgba(139, 92, 246, 0.14),
+    4px 4px 0px 0px #1c1917;
+}
+.shadow-glow-blue {
+  box-shadow:
+    0 10px 30px -5px rgba(59, 130, 246, 0.12),
+    4px 4px 0px 0px #1c1917;
+}
+.shadow-glow-cyan {
+  box-shadow:
+    0 10px 30px -5px rgba(6, 182, 212, 0.12),
+    4px 4px 0px 0px #1c1917;
+}
+.shadow-glow-amber {
+  box-shadow:
+    0 10px 30px -5px rgba(245, 158, 11, 0.14),
+    4px 4px 0px 0px #1c1917;
+}
+.shadow-glow-rose {
+  box-shadow:
+    0 10px 30px -5px rgba(244, 63, 94, 0.14),
+    4px 4px 0px 0px #1c1917;
+}
+.shadow-glow-emerald {
+  box-shadow:
+    0 10px 30px -5px rgba(16, 185, 129, 0.14),
+    4px 4px 0px 0px #1c1917;
+}
+
 /* ─── Dot grid background ─────────────────────────────────────────────────── */
 .bg-grid-dots {
   background-image: radial-gradient(circle, #1c1917 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* ─── Technical Developer Grid ────────────────────────────────────────────── */
+.bg-tech-grid {
+  background-image:
+    linear-gradient(to right, rgba(28, 25, 23, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(28, 25, 23, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
 /* ─── Shimmer effect for progress and level cards ─────────────────────────── */

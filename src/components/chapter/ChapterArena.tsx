@@ -94,8 +94,13 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
 
   if (isLockedForGuest) {
     return (
-      <div className="min-h-[80vh] bg-stone-50 flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white p-6 sm:p-8 rounded-2xl border-2 border-stone-900 shadow-[6px_6px_0px_0px_#1c1917] text-center space-y-5">
+      <div className="min-h-[80vh] bg-gradient-to-b from-[#FAF9FE] to-[#F5F3FF]/40 flex items-center justify-center p-4 relative overflow-hidden">
+        {/* Ambient glow */}
+        <div
+          aria-hidden
+          className="w-96 h-96 rounded-full bg-amber-400/10 blur-[100px] pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
+        <div className="relative z-10 max-w-md w-full bg-white p-6 sm:p-8 rounded-2xl border-2 border-stone-900 shadow-[6px_6px_0px_0px_#1c1917] text-center space-y-5">
           <div className="w-14 h-14 rounded-2xl bg-amber-100 border-2 border-stone-900 flex items-center justify-center text-3xl mx-auto shadow-[2px_2px_0px_0px_#1c1917]">
             🔒
           </div>
@@ -130,7 +135,17 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 pb-20">
+    <div className="min-h-screen bg-gradient-to-b from-[#FAF9FE] via-[#F8F7FC] to-[#F5F3FF]/40 pb-20 relative overflow-hidden">
+      {/* Ambient background glows */}
+      <div
+        aria-hidden
+        className="w-[500px] h-[500px] rounded-full bg-violet-500/8 blur-[100px] pointer-events-none absolute -top-24 -left-24"
+      />
+      <div
+        aria-hidden
+        className="w-[450px] h-[450px] rounded-full bg-sky-400/8 blur-[100px] pointer-events-none absolute top-48 -right-24"
+      />
+
       {/* ── Top bar ──────────────────────────────────────────────────────────── */}
       <div className="bg-white/90 backdrop-blur-md border-b-2 border-stone-900 sticky top-14 sm:top-16 z-40 transition-colors">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">

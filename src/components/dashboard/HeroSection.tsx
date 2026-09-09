@@ -189,6 +189,8 @@ interface FeatureFlipCardProps {
   backDetail: string;
   backTag: string;
   confettiColors: string[];
+  cardTint?: string;
+  glowShadow?: string;
 }
 
 function FeatureFlipCard({
@@ -203,6 +205,8 @@ function FeatureFlipCard({
   backDetail,
   backTag,
   confettiColors,
+  cardTint = "from-white to-white",
+  glowShadow = "hover:shadow-[6px_6px_0px_0px_#1c1917]",
 }: FeatureFlipCardProps) {
   const [flipped, setFlipped] = useState(false);
 
@@ -242,7 +246,9 @@ function FeatureFlipCard({
         <div
           style={{ backfaceVisibility: "hidden" }}
           className={cn(
-            "w-full h-full p-4 sm:p-5 rounded-2xl bg-white border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917] hover:shadow-[6px_6px_0px_0px_#1c1917] hover:-translate-y-0.5 transition-all flex flex-col justify-between overflow-hidden relative",
+            "w-full h-full p-4 sm:p-5 rounded-2xl bg-gradient-to-b border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917] hover:-translate-y-0.5 transition-all flex flex-col justify-between overflow-hidden relative",
+            cardTint,
+            glowShadow,
           )}
         >
           {/* Colored top accent line */}
@@ -342,6 +348,9 @@ const STAT_ITEMS = [
       "Covers OOP, Data Structures, System Design, and Web fundamentals without 500-page textbooks.",
     backTag: "Roadmap",
     confettiColors: ["#7c3aed", "#a78bfa", "#c4b5fd"],
+    cardTint: "from-[#FAF8FF] to-white",
+    glowShadow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(124,58,237,0.18)]",
   },
   {
     icon: Layers,
@@ -356,6 +365,9 @@ const STAT_ITEMS = [
       "Flip cards using Spacebar, tap 1 for Hard, or tap 2 for Nailed to lock key terms in memory.",
     backTag: "Recall",
     confettiColors: ["#10b981", "#6ee7b7", "#a7f3d0"],
+    cardTint: "from-[#F0FDF8] to-white",
+    glowShadow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(16,185,129,0.18)]",
   },
   {
     icon: ShieldAlert,
@@ -370,6 +382,9 @@ const STAT_ITEMS = [
       "Spot edge cases, syntax surprises, and common gotchas before you enter your interview.",
     backTag: "Defense",
     confettiColors: ["#f43f5e", "#fb7185", "#fecdd3"],
+    cardTint: "from-[#FFF5F6] to-white",
+    glowShadow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(244,63,94,0.18)]",
   },
   {
     icon: Zap,
@@ -384,6 +399,9 @@ const STAT_ITEMS = [
       "Run through 5 rapid interview questions to keep your CS knowledge sharp between rounds.",
     backTag: "Warmup",
     confettiColors: ["#f59e0b", "#fbbf24", "#fde68a"],
+    cardTint: "from-[#FFFDF2] to-white",
+    glowShadow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(245,158,11,0.18)]",
   },
 ];
 
@@ -415,21 +433,25 @@ function MovingBorderButton() {
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-stone-50 border-b-2 border-stone-900">
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#FAF9FE] via-[#F8F7FC] to-[#F5F3FF]/40 border-b-2 border-stone-900">
       {/* Ambient background glows */}
       <div
         aria-hidden
-        className="w-96 h-96 rounded-full bg-violet-400/15 blur-3xl pointer-events-none absolute -top-20 -left-20"
+        className="w-[520px] h-[520px] rounded-full bg-violet-500/10 blur-[100px] pointer-events-none absolute -top-28 -left-24"
       />
       <div
         aria-hidden
-        className="w-96 h-96 rounded-full bg-amber-400/10 blur-3xl pointer-events-none absolute top-1/3 -right-20"
+        className="w-[420px] h-[420px] rounded-full bg-sky-400/12 blur-[90px] pointer-events-none absolute top-10 -right-20"
+      />
+      <div
+        aria-hidden
+        className="w-80 h-80 rounded-full bg-amber-400/10 blur-[80px] pointer-events-none absolute bottom-6 left-1/3"
       />
 
       {/* Dot-grid background decoration */}
       <div
         aria-hidden
-        className="absolute inset-0 pointer-events-none opacity-[0.04]"
+        className="absolute inset-0 pointer-events-none opacity-[0.035]"
         style={{
           backgroundImage:
             "radial-gradient(circle, #1c1917 1px, transparent 1px)",

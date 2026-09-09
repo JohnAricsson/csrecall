@@ -74,6 +74,8 @@ interface ChapterTheme {
     | "rose"
     | "amber";
   spotlightRgba: string;
+  cardBg: string;
+  hoverGlow: string;
 }
 
 const CHAPTER_THEMES: Record<number, ChapterTheme> = {
@@ -81,61 +83,97 @@ const CHAPTER_THEMES: Record<number, ChapterTheme> = {
     accentColor: "from-violet-500 to-indigo-600",
     badgeVariant: "violet",
     spotlightRgba: "rgba(124, 58, 237, 0.12)",
+    cardBg: "from-[#FAF8FF] to-white",
+    hoverGlow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(124,58,237,0.16)]",
   },
   2: {
     accentColor: "from-blue-500 to-cyan-500",
     badgeVariant: "sky",
     spotlightRgba: "rgba(14, 165, 233, 0.12)",
+    cardBg: "from-[#F2F8FD] to-white",
+    hoverGlow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(14,165,233,0.16)]",
   },
   3: {
     accentColor: "from-teal-500 to-emerald-500",
     badgeVariant: "cyan",
     spotlightRgba: "rgba(20, 184, 166, 0.12)",
+    cardBg: "from-[#F0FDF8] to-white",
+    hoverGlow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(20,184,166,0.16)]",
   },
   4: {
     accentColor: "from-rose-500 to-pink-500",
     badgeVariant: "pink",
     spotlightRgba: "rgba(244, 63, 94, 0.12)",
+    cardBg: "from-[#FFF5F7] to-white",
+    hoverGlow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(244,63,94,0.16)]",
   },
   5: {
     accentColor: "from-amber-500 to-orange-500",
     badgeVariant: "orange",
     spotlightRgba: "rgba(245, 158, 11, 0.12)",
+    cardBg: "from-[#FFF8F0] to-white",
+    hoverGlow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(245,158,11,0.16)]",
   },
   6: {
     accentColor: "from-indigo-500 to-violet-600",
     badgeVariant: "indigo",
     spotlightRgba: "rgba(99, 102, 241, 0.12)",
+    cardBg: "from-[#F5F3FF] to-white",
+    hoverGlow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(99,102,241,0.16)]",
   },
   7: {
     accentColor: "from-emerald-500 to-teal-600",
     badgeVariant: "emerald",
     spotlightRgba: "rgba(16, 185, 129, 0.12)",
+    cardBg: "from-[#F0FDF4] to-white",
+    hoverGlow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(16,185,129,0.16)]",
   },
   8: {
     accentColor: "from-fuchsia-500 to-purple-600",
     badgeVariant: "pink",
     spotlightRgba: "rgba(217, 70, 239, 0.12)",
+    cardBg: "from-[#FDF2F8] to-white",
+    hoverGlow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(217,70,239,0.16)]",
   },
   9: {
     accentColor: "from-sky-500 to-blue-600",
     badgeVariant: "sky",
     spotlightRgba: "rgba(2, 132, 199, 0.12)",
+    cardBg: "from-[#F0F9FF] to-white",
+    hoverGlow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(2,132,199,0.16)]",
   },
   10: {
     accentColor: "from-rose-600 to-red-600",
     badgeVariant: "rose",
     spotlightRgba: "rgba(225, 29, 72, 0.12)",
+    cardBg: "from-[#FFF1F2] to-white",
+    hoverGlow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(225,29,72,0.16)]",
   },
   11: {
     accentColor: "from-amber-400 to-yellow-500",
     badgeVariant: "amber",
     spotlightRgba: "rgba(217, 119, 6, 0.12)",
+    cardBg: "from-[#FEFCE8] to-white",
+    hoverGlow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(217,119,6,0.16)]",
   },
   12: {
     accentColor: "from-emerald-500 to-green-600",
     badgeVariant: "emerald",
     spotlightRgba: "rgba(5, 150, 105, 0.12)",
+    cardBg: "from-[#ECFDF5] to-white",
+    hoverGlow:
+      "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(5,150,105,0.16)]",
   },
 };
 
@@ -145,6 +183,9 @@ function getChapterTheme(num: number): ChapterTheme {
       accentColor: "from-violet-500 to-indigo-600",
       badgeVariant: "violet",
       spotlightRgba: "rgba(124, 58, 237, 0.12)",
+      cardBg: "from-[#FAF8FF] to-white",
+      hoverGlow:
+        "hover:shadow-[6px_6px_0px_0px_#1c1917,0_0_24px_rgba(124,58,237,0.16)]",
     }
   );
 }
@@ -194,14 +235,18 @@ function ChapterCard({
         "relative h-full p-4 sm:p-5 flex flex-col justify-between overflow-hidden transition-all duration-200 group select-none",
         isLocked
           ? "bg-stone-50/90 border-dashed border-2 border-stone-300 shadow-[3px_3px_0px_0px_#a8a29e] cursor-pointer hover:border-stone-500 hover:-translate-y-0.5"
-          : "bg-white border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_#1c1917] active:translate-y-0 active:shadow-[2px_2px_0px_0px_#1c1917] hover:border-stone-900 cursor-pointer",
+          : cn(
+              "bg-gradient-to-b border-2 border-stone-900 shadow-[4px_4px_0px_0px_#1c1917] hover:-translate-y-1 active:translate-y-0 active:shadow-[2px_2px_0px_0px_#1c1917] hover:border-stone-900 cursor-pointer",
+              theme.cardBg,
+              theme.hoverGlow,
+            ),
       )}
     >
       {/* Top thematic accent line */}
       <div
         className={cn(
           "absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r",
-          isLocked ? "bg-stone-300" : theme.accentColor,
+          isLocked ? cn(theme.accentColor, "opacity-40") : theme.accentColor,
         )}
       />
 

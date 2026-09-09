@@ -1,15 +1,15 @@
-﻿import NextAuth from "next-auth";
+import NextAuth from "next-auth";
 import type { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { connectDB } from "@/lib/mongodb";
+import { dbConnect } from "@/lib/mongodb";
 import UserModel from "@/models/User";
 
 const config: NextAuthConfig = {
-  session: { 
+  session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60 // 30 days
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
 
   providers: [
@@ -35,22 +35,43 @@ const config: NextAuthConfig = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        await connectDB();
+        await dbConnect();
 
         // 1. Always query MongoDB using .lean() to prevent Mongoose proxy getters
-        const user = await UserModel.findOne({
-          email: (credentials.email as string).toLowerCase().trim(),
-        })
+        const email = (credentials.email as string).toLowerCase().trim();
+        const user = await UserModel.findOne({ email })
           .select("+password")
           .lean();
 
-        if (!user || !user.password) return null;
+        if (!user) {
+          console.warn(
+            `[auth] Login failed: No account exists with email "${email}". Please create an account first.`,
+          );
+          return null;
+        }
+
+        if (!user.password) {
+          console.warn(
+            `[auth] Login failed: Account "${email}" was registered via Google OAuth without a password.`,
+          );
+          return null;
+        }
 
         const valid = await bcrypt.compare(
-          credentials.password as string,
-          user.password
+          String(credentials.password),
+          user.password,
         );
-        if (!valid) return null;
+
+        if (!valid) {
+          console.warn(
+            `[auth] Login failed: Incorrect password for "${email}".`,
+          );
+          return null;
+        }
+
+        console.log(
+          `[auth] Login successful for user: "${email}" (${user._id})`,
+        );
 
         // 2. Normalize the return payload into pure serializable primitives only
         return {
@@ -66,7 +87,7 @@ const config: NextAuthConfig = {
   callbacks: {
     async signIn({ account, profile }) {
       if (account?.provider === "google" && profile?.email) {
-        await connectDB();
+        await dbConnect();
         await UserModel.findOneAndUpdate(
           { email: profile.email.toLowerCase().trim() },
           {
@@ -82,7 +103,7 @@ const config: NextAuthConfig = {
               masteredFlashcards: [],
             },
           },
-          { upsert: true, new: true, setDefaultsOnInsert: true }
+          { upsert: true, new: true, setDefaultsOnInsert: true },
         ).lean();
       }
       return true;
@@ -91,20 +112,24 @@ const config: NextAuthConfig = {
     async jwt({ token, user }) {
       // 3. Keep the JWT token payload minimal (only standard claims: id, name, email, image)
       if (user) {
-        token.id = user.id;
-        if (user.name) token.name = user.name;
-        if (user.email) token.email = user.email;
-        if ((user as any).image) token.picture = (user as any).image;
+        token.id = typeof user.id === "string" ? user.id : String(user.id);
+        token.name = typeof user.name === "string" ? user.name : "";
+        token.email = typeof user.email === "string" ? user.email : "";
+        token.picture = (user as { image?: string | null }).image
+          ? String((user as { image?: string | null }).image)
+          : null;
       }
       return token;
     },
 
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.id = token.id as string;
-        if (token.name) session.user.name = token.name as string;
-        if (token.email) session.user.email = token.email as string;
-        if (token.picture) session.user.image = token.picture as string;
+        session.user.id =
+          typeof token.id === "string" ? token.id : String(token.sub ?? "");
+        session.user.name = typeof token.name === "string" ? token.name : "";
+        session.user.email = typeof token.email === "string" ? token.email : "";
+        session.user.image =
+          typeof token.picture === "string" ? token.picture : null;
       }
       return session;
     },
@@ -113,6 +138,17 @@ const config: NextAuthConfig = {
   pages: {
     signIn: "/login",
     error: "/login",
+  },
+
+  logger: {
+    error(error) {
+      // In Auth.js, CredentialsSignin is expected when a user enters wrong credentials or has no account.
+      // We log helpful dev guidance directly in authorize, so suppress redundant noisy callstack here.
+      if (error.name === "CredentialsSignin") {
+        return;
+      }
+      console.error("[auth][error]", error);
+    },
   },
 };
 

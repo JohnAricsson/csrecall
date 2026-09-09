@@ -5,35 +5,48 @@ interface MongooseCache {
   promise: Promise<typeof mongoose> | null;
 }
 
-const globalForMongoose = globalThis as unknown as { mongoose?: MongooseCache };
+declare global {
+  // eslint-disable-next-line no-var
+  var mongoose: MongooseCache | undefined;
+}
 
-const cached: MongooseCache = globalForMongoose.mongoose ?? {
-  conn: null,
-  promise: null,
-};
+const cached: MongooseCache = global.mongoose ?? { conn: null, promise: null };
 
-if (!globalForMongoose.mongoose) {
-  globalForMongoose.mongoose = cached;
+if (!global.mongoose) {
+  global.mongoose = cached;
 }
 
 export async function connectDB(): Promise<typeof mongoose> {
   const uri = process.env.MONGODB_URI;
 
   if (!uri) {
+    console.error("Missing MONGODB_URI in environment variables.");
     throw new Error("Please define MONGODB_URI in your .env.local file.");
   }
 
-  if (cached.conn) return cached.conn;
+  if (cached.conn) {
+    return cached.conn;
+  }
 
   if (!cached.promise) {
     cached.promise = mongoose
       .connect(uri, {
         bufferCommands: false,
-        dbName: "csrecall",
       })
-      .then((m) => m);
+      .then((m) => {
+        console.log("Connected to MongoDB database:", m.connection.name);
+        return m;
+      });
   }
 
-  cached.conn = await cached.promise;
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
+
   return cached.conn;
 }
+
+export const dbConnect = connectDB;

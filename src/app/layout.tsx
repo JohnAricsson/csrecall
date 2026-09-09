@@ -30,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="min-h-screen bg-stone-50 text-stone-900">
+      <body className="min-h-screen text-stone-900 bg-[#F8F7FC] relative selection:bg-violet-100 selection:text-violet-900">
         <Providers>
           {/* Sticky app shell */}
           <Navbar />
