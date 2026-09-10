@@ -13,7 +13,7 @@
         {
           "id": "top-ds-overview",
           "title": "DATA STRUCTURES OVERVIEW",
-          "explanation": "Data structure is a way of organizing and storing data so that it can be accessed and modified efficiently. The main categories are:\n->Linear Data Structures : Elements are arranged sequentially. Examples: Arrays, Strings, Linked Lists, Stacks, Queues. \n->Non-Linear Data Structures : Elements are organized hierarchically or as networks. Examples: Trees, Heaps, Graphs, Hash Tables",
+          "explanation": "-Data Structure: Data structure is a way of organizing and storing data so that it can be accessed and modified efficiently. The main categories are:\n->Linear Data Structures : Elements are arranged sequentially. Examples: Arrays, Strings, Linked Lists, Stacks, Queues. \n->Non-Linear Data Structures : Elements are organized hierarchically or as networks. Examples: Trees, Heaps, Graphs, Hash Tables",
           "tldr": "Data Structure হলো data এমনভাবে organize করা যাতে efficiently use করা যায়।",
           "questions": [
             {

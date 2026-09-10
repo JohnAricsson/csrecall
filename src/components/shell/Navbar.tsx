@@ -13,7 +13,7 @@ export function Navbar() {
 
   return (
     <header className="w-full mt-2 mb-3 sm:mt-3 sm:mb-4 z-50 max-w-6xl mx-auto px-4 sm:px-6 transition-all">
-      <div className="bg-[#fffdf7] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] rounded-2xl px-4 py-2 h-12 sm:h-13 flex items-center justify-between">
+      <div className="bg-[#fffdf7] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] rounded-2xl px-4 py-2 sm:px-6 sm:py-3 h-12 sm:h-13 flex items-center justify-between max-sm:px-3 max-sm:py-2">
         {/* Brand Logo */}
         <Link
           href="/"
@@ -37,7 +37,7 @@ export function Navbar() {
           <div className="w-28 h-9 bg-stone-200 animate-pulse rounded-xl border-2 border-black" />
         ) : session?.user ? (
           <Link href="/profile" className="cursor-pointer group">
-            <div className="flex items-center gap-2 sm:gap-3 bg-[#fffdf7] hover:bg-yellow-50 transition-all px-3 py-1.5 rounded-xl border-2 border-black shadow-[3px_3px_0px_0px_#000] group-hover:shadow-[4px_4px_0px_0px_#000] group-hover:-translate-y-0.5">
+            <div className="flex items-center gap-2 sm:gap-3 bg-[#fffdf7] hover:bg-yellow-50 transition-all px-3 py-1.5 rounded-xl border-2 border-black shadow-[3px_3px_0px_0px_#000] group-hover:shadow-[4px_4px_0px_0px_#000] group-hover:-translate-y-0.5 max-sm:gap-1.5 max-sm:shrink-0">
               {streakDays > 0 && (
                 <>
                   <div className="flex items-center gap-1 text-xs font-black text-orange-950 bg-orange-300 px-2 py-0.5 rounded-md border border-black shadow-[1px_1px_0px_0px_#000]">
@@ -47,7 +47,7 @@ export function Navbar() {
                   <div className="w-px h-4 bg-black" />
                 </>
               )}
-              <div className="font-black text-xs sm:text-sm text-black bg-yellow-300 px-2 py-0.5 rounded-md border border-black shadow-[1px_1px_0px_0px_#000] flex items-center gap-1">
+              <div className="font-black text-xs sm:text-sm text-black bg-yellow-300 px-2 py-0.5 rounded-md border border-black shadow-[1px_1px_0px_0px_#000] flex items-center gap-1 max-sm:text-[11px] max-sm:px-2 max-sm:py-1">
                 <span>🪙</span>
                 <span>{xp} XP</span>
               </div>
@@ -56,7 +56,7 @@ export function Navbar() {
                 <div className="w-5 h-5 rounded-full bg-emerald-300 border border-black flex items-center justify-center">
                   <User className="w-3 h-3 text-black" />
                 </div>
-                <span className="max-w-[80px] sm:max-w-[120px] truncate font-black">
+                <span className="max-w-[80px] sm:max-w-[120px] truncate font-black max-sm:max-w-[100px] max-sm:truncate max-sm:text-xs">
                   {session.user.name?.split(" ")[0] || "Player"}
                 </span>
               </div>

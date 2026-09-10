@@ -39,7 +39,7 @@ function ModeSwitcher({
   onLockedClick: (m: Mode) => void;
 }) {
   return (
-    <div className="inline-flex items-center gap-1 bg-stone-100 p-1 border-2 border-black rounded-xl">
+    <div className="flex items-center justify-center sm:justify-start gap-1 sm:gap-2 w-full sm:w-auto bg-stone-100 p-1 border-2 border-black rounded-xl">
       {MODES.map(({ id, label, emoji }) => {
         const isActive = active === id;
         const isLocked = isGuest && (id === "practice" || id === "traps");
@@ -56,7 +56,7 @@ function ModeSwitcher({
               }
             }}
             className={cn(
-              "relative px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-black transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer",
+              "relative px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-bold sm:font-black transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer flex-1 sm:flex-initial text-center justify-center",
               isActive && !isLocked
                 ? "bg-amber-300 text-black font-black border-2 border-black shadow-[2px_2px_0px_0px_#000]"
                 : isLocked
@@ -64,7 +64,7 @@ function ModeSwitcher({
                   : "text-stone-700 hover:text-black border-2 border-transparent",
             )}
           >
-            <span className="relative z-10 flex items-center gap-1.5 font-black">
+            <span className="relative z-10 flex items-center justify-center gap-1 sm:gap-1.5 font-bold sm:font-black">
               <span>{isLocked ? "🔒" : emoji}</span>
               <span>{label}</span>
             </span>
@@ -285,7 +285,7 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
       </AnimatePresence>
 
       {/* ── Secondary Control Bar (Floating Neo-Brutalist Panel, offset from Navbar) ── */}
-      <div className="sticky top-20 sm:top-24 z-30 px-4 sm:px-6 mb-8 sm:mb-10">
+      <div className="sticky top-20 sm:top-24 z-30 px-4 sm:px-6 mb-4 sm:mb-5">
         <div className="bg-[#fffdf7] text-stone-900 border-[3px] border-black shadow-[4px_4px_0px_0px_#000] rounded-2xl p-3 max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           {/* Back + title row */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -316,7 +316,7 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
           </div>
 
           {/* Mode switcher */}
-          <div className="flex-shrink-0 cursor-pointer self-start sm:self-auto">
+          <div className="flex-shrink-0 cursor-pointer w-full sm:w-auto flex justify-center sm:justify-end">
             <ModeSwitcher
               active={activeMode}
               isGuest={isGuest}

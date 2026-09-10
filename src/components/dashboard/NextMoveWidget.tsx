@@ -188,7 +188,7 @@ export function NextMoveWidget({ chapters = [] }: NextMoveWidgetProps) {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 24 }}
-      className="bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000] p-5 sm:p-6 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+      className="bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000] p-3.5 sm:p-6 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
     >
       <div className="flex items-start gap-4">
         {/* Mission Icon */}
@@ -214,23 +214,23 @@ export function NextMoveWidget({ chapters = [] }: NextMoveWidgetProps) {
             </span>
           </div>
 
-          <h3 className="font-black text-black text-lg sm:text-xl tracking-tight leading-snug">
+          <h3 className="font-black text-black text-sm sm:text-base md:text-xl tracking-tight leading-snug">
             {missionData.headline}
           </h3>
 
-          <p className="text-sm sm:text-base font-medium text-stone-700 max-w-xl leading-relaxed">
+          <p className="text-sm sm:text-base font-medium text-stone-700 max-w-xl leading-relaxed max-sm:text-xs max-sm:line-clamp-2">
             {missionData.subtitle}
           </p>
         </div>
       </div>
 
       {/* CTA Button */}
-      <div className="flex-shrink-0 md:self-center mt-2 md:mt-0">
-        <Link href={missionData.href}>
+      <div className="flex-shrink-0 md:self-center mt-2 md:mt-0 max-sm:w-full">
+        <Link href={missionData.href} className="max-sm:w-full block">
           <Button
             variant="primary"
             size="md"
-            className="w-full md:w-auto font-black shadow-[3px_3px_0px_0px_#000] border-2 border-black hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform flex items-center gap-2 justify-center"
+            className="w-full md:w-auto font-black shadow-[3px_3px_0px_0px_#000] border-2 border-black hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform flex items-center gap-2 justify-center max-sm:w-full max-sm:py-2 max-sm:text-xs"
           >
             <span>{missionData.buttonText}</span>
           </Button>

@@ -123,7 +123,7 @@ function ChapterCard({
   const cardContent = (
     <Card
       className={cn(
-        "relative h-full p-4 sm:p-5 flex flex-col justify-between overflow-hidden transition-all duration-200 group select-none",
+        "relative h-full p-3.5 sm:p-5 flex flex-col justify-between overflow-hidden transition-all duration-200 group select-none",
         isLocked
           ? "bg-[#fffdf7]/80 border-[3px] border-dashed border-stone-600 shadow-[3px_3px_0px_0px_#000] cursor-pointer hover:border-black hover:-translate-y-0.5"
           : cn(
@@ -143,11 +143,11 @@ function ChapterCard({
 
       <div className="pt-1">
         {/* Header Badges */}
-        <div className="flex items-center justify-between mb-2.5 gap-2">
+        <div className="flex items-center justify-between mb-1.5 sm:mb-2.5 gap-2">
           <Badge
             variant={isLocked ? "stone" : theme.badgeVariant}
             className={cn(
-              "px-2.5 py-0.5 text-xs font-black uppercase tracking-wider",
+              "px-2 sm:px-2.5 py-0.5 text-[11px] sm:text-xs font-black uppercase tracking-wider",
               isLocked &&
                 "bg-stone-300 text-stone-700 border-black shadow-[1px_1px_0px_0px_#000]",
             )}
@@ -161,7 +161,7 @@ function ChapterCard({
           {isLocked ? (
             <Badge
               variant="stone"
-              className="px-2 py-0.5 text-xs font-black gap-1 bg-stone-300 text-stone-800 border-black shadow-[1px_1px_0px_0px_#000]"
+              className="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[11px] sm:text-xs font-black gap-1 bg-stone-300 text-stone-800 border-black shadow-[1px_1px_0px_0px_#000]"
             >
               <Lock className="w-3 h-3 text-black" />
               LOCKED
@@ -169,21 +169,21 @@ function ChapterCard({
           ) : isCompleted ? (
             <Badge
               variant="emerald"
-              className="px-2 py-0.5 text-xs font-black gap-1"
+              className="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[11px] sm:text-xs font-black gap-1"
             >
               🏆 সম্পন্ন
             </Badge>
           ) : progress > 0 ? (
             <Badge
               variant="amber"
-              className="px-2 py-0.5 text-xs font-black gap-1"
+              className="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[11px] sm:text-xs font-black gap-1"
             >
               ⚡ চলমান ({progress}%)
             </Badge>
           ) : (
             <Badge
               variant="sky"
-              className="px-2 py-0.5 text-xs font-black gap-1"
+              className="px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold sm:font-black gap-1"
             >
               ▶ শুরু করুন
             </Badge>
@@ -194,7 +194,7 @@ function ChapterCard({
         <h3
           title={normalizedTitle}
           className={cn(
-            "min-h-[3rem] line-clamp-2 font-black text-base leading-tight mb-2 transition-colors",
+            "min-h-[2.5rem] sm:min-h-[3rem] line-clamp-2 font-black text-sm sm:text-base leading-tight mt-1.5 mb-1 sm:mb-2 transition-colors",
             isLocked
               ? "text-stone-500 font-bold"
               : "text-black group-hover:text-rose-600",
@@ -204,7 +204,7 @@ function ChapterCard({
         </h3>
 
         {/* Metadata row */}
-        <div className="flex items-center gap-3 text-xs text-stone-700 font-black mb-3.5">
+        <div className="flex items-center gap-2.5 sm:gap-3 text-[11px] sm:text-xs text-stone-700 font-bold sm:font-black mb-2 sm:mb-3.5">
           <span className="flex items-center gap-1">
             <BookOpen className="w-3.5 h-3.5 text-black" />
             {topicCount} টি টপিক
@@ -218,7 +218,7 @@ function ChapterCard({
 
       <div>
         {/* Health-bar Style Progress Track */}
-        <div className="h-3 w-full overflow-hidden rounded-full border-2 border-black bg-stone-200 shadow-[1px_1px_0px_0px_#000]">
+        <div className="h-2 sm:h-2.5 w-full overflow-hidden rounded-full border-2 border-black bg-stone-200 shadow-[1px_1px_0px_0px_#000] my-2 sm:my-3">
           <div
             className={cn(
               "h-full rounded-full transition-all duration-500 border-r border-black relative overflow-hidden",
@@ -236,7 +236,7 @@ function ChapterCard({
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-xs font-bold text-stone-600 mt-2.5">
+        <div className="flex items-center justify-between text-[11px] sm:text-xs font-bold text-stone-600 mt-1.5 sm:mt-2.5">
           <span className="font-bold text-stone-800">
             {isLocked
               ? "Sign in to unlock"
@@ -249,7 +249,7 @@ function ChapterCard({
 
           <span
             className={cn(
-              "font-black inline-flex items-center gap-0.5 transition-colors",
+              "font-black text-[11px] sm:text-xs inline-flex items-center gap-0.5 transition-colors",
               isLocked
                 ? "text-black bg-yellow-300 px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000] group-hover:bg-yellow-400"
                 : "text-black group-hover:text-rose-600",
@@ -324,20 +324,20 @@ export function QuestMap({ chapters }: QuestMapProps) {
   return (
     <section id="quest-map" className="scroll-mt-12">
       {/* Section header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 bg-[#fffdf7] p-5 sm:p-6 rounded-2xl border-[3px] border-black shadow-[5px_5px_0px_0px_#000]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6 bg-[#fffdf7] p-3.5 sm:p-6 rounded-2xl border-[3px] border-black shadow-[5px_5px_0px_0px_#000]">
         <div>
-          <div className="flex items-center gap-2.5 flex-wrap">
-            <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-black tracking-tight flex items-center gap-1.5 sm:gap-2">
               <span>📍</span>
               <span>QUEST MAP</span>
             </h2>
             {!isAuthenticated && (
-              <span className="bg-yellow-300 text-black border-2 border-black text-xs font-black uppercase px-2.5 py-0.5 rounded-md shadow-[1px_1px_0px_0px_#000] rotate-[-1deg]">
+              <span className="bg-yellow-300 text-black border-2 border-black text-[10px] sm:text-xs font-black uppercase px-2 sm:px-2.5 py-0.5 rounded-md shadow-[1px_1px_0px_0px_#000] rotate-[-1deg]">
                 গেস্ট মোড: ১ম ও ২য় চ্যাপ্টার সম্পূর্ণ ফ্রি!
               </span>
             )}
           </div>
-          <p className="text-sm md:text-base font-medium text-stone-700 leading-relaxed mt-1">
+          <p className="text-xs sm:text-sm md:text-base font-medium text-stone-700 leading-relaxed mt-1 mb-1.5 sm:mb-0">
             ইন্টারভিউ ক্র্যাক করার ১২টি আর্কেড লেভেল। ট্রিকি ফাঁদগুলো শিখুন আর
             সহজেই ইন্টারভিউ ক্লিয়ার করুন।
           </p>
@@ -345,14 +345,14 @@ export function QuestMap({ chapters }: QuestMapProps) {
 
         <Badge
           variant="amber"
-          className="px-3.5 py-1.5 font-black text-xs self-start sm:self-auto shadow-[2px_2px_0px_0px_#000]"
+          className="px-2.5 sm:px-3.5 py-1 sm:py-1.5 font-black text-[10px] sm:text-xs self-start sm:self-auto shadow-[2px_2px_0px_0px_#000]"
         >
           {hydrated ? completedChapterIds.length : 0} / {chapters.length}{" "}
           CLEARED
         </Badge>
       </div>
       {/* Grid of Chapter Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
         {chapters.map((chapter, i) => {
           const isCompleted =
             hydrated && completedChapterIds.includes(chapter.id);

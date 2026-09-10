@@ -67,6 +67,8 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
 
   return (
     <motion.div
+      layout
+      className="mb-4 sm:mb-5"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
@@ -101,7 +103,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
         {/* Card header */}
         <div
           className={cn(
-            "px-5 sm:px-6 py-5 pt-5.5",
+            "p-3 sm:p-4 md:px-6 md:py-5 pt-3.5 sm:pt-4.5 md:pt-5.5",
             isDefused ? "bg-emerald-50" : "bg-[#fffdf7]",
           )}
         >
@@ -120,7 +122,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
           {/* Trap statement */}
           <p
             className={cn(
-              "font-black text-base sm:text-lg leading-snug mb-4",
+              "font-bold text-xs sm:text-sm md:text-lg leading-snug mb-3 sm:mb-4",
               isDefused ? "line-through text-stone-500" : "text-black",
             )}
           >
@@ -128,12 +130,12 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
           </p>
 
           {/* Actions row */}
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
             {/* Defuse toggle */}
             <button
               onClick={onDefuse}
               className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-xl border-[3px] border-black font-black text-sm transition-all cursor-pointer",
+                "flex items-center gap-1.5 sm:gap-2 py-1.5 px-3 sm:py-2 sm:px-4 rounded-xl border-2 sm:border-[3px] border-black font-black text-xs sm:text-sm transition-all cursor-pointer",
                 "active:translate-x-[2px] active:translate-y-[2px]",
                 isDefused
                   ? "bg-emerald-400 text-black shadow-[3px_3px_0px_0px_#000] active:shadow-none"
@@ -156,7 +158,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
             {/* Expand explanation */}
             <button
               onClick={() => setExpanded((e) => !e)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border-[3px] border-black bg-yellow-300 hover:bg-yellow-200 text-black text-sm font-black transition-colors cursor-pointer shadow-[2px_2px_0px_0px_#000]"
+              className="flex items-center gap-1.5 py-1.5 px-3 sm:py-2 sm:px-4 rounded-xl border-2 sm:border-[3px] border-black bg-yellow-300 hover:bg-yellow-200 text-black text-xs sm:text-sm font-black transition-colors cursor-pointer shadow-[2px_2px_0px_0px_#000]"
             >
               কেন এটা ট্রিকি?
               <motion.span
@@ -179,12 +181,12 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="overflow-hidden"
             >
-              <div className="px-5 sm:px-6 py-4 bg-[#fffdf7] border-t-2 border-black">
-                <p className="text-xs font-black uppercase tracking-widest text-rose-600 mb-1.5 flex items-center gap-1">
+              <div className="px-4 sm:px-6 py-3.5 sm:py-4 bg-[#fffdf7] border-t-2 border-black">
+                <p className="text-xs sm:text-sm font-black uppercase tracking-widest text-rose-600 mb-1 flex items-center gap-1">
                   <span>🔍</span>
                   <span>কেন ডেভেলপাররা ফাঁদে পড়েন:</span>
                 </p>
-                <p className="text-stone-900 text-sm sm:text-base leading-relaxed font-bold">
+                <p className="text-stone-800 text-xs sm:text-base leading-relaxed font-medium sm:font-bold">
                   {trap.explanation}
                 </p>
               </div>
@@ -244,14 +246,14 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
   const conceptuals = traps.filter((t) => t.category === "conceptual").length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pt-4 sm:pt-6">
       {/* ── Defusal Tracker Banner ─────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 24 }}
         className={cn(
-          "p-5 sm:p-6 rounded-2xl border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden",
+          "mt-4 sm:mt-6 p-3.5 sm:p-5 rounded-2xl border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden",
           defusedCount === totalCount && totalCount > 0
             ? "bg-emerald-100"
             : "bg-[#fffdf7]",
@@ -272,12 +274,12 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
             <p className="text-xs font-black uppercase tracking-widest text-stone-600 mb-1">
               Trap Defusal Arena
             </p>
-            <p className="font-black text-2xl sm:text-3xl text-black">
+            <p className="font-black text-base sm:text-xl md:text-3xl text-black">
               {toBengaliDigits(totalCount)} টির মধ্যে{" "}
               {toBengaliDigits(defusedCount)} টি ডিফিউজড 🛡️
             </p>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-yellow-300 border-[3px] border-black flex items-center justify-center text-2xl shadow-[2px_2px_0px_0px_#000]">
+          <div className="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 rounded-xl sm:rounded-2xl bg-yellow-300 border-2 sm:border-[3px] border-black flex items-center justify-center text-sm sm:text-xl md:text-2xl shadow-[2px_2px_0px_0px_#000]">
             {defusedCount === totalCount && totalCount > 0 ? "🏆" : "🪤"}
           </div>
         </div>
@@ -290,20 +292,29 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
 
         {/* Category summary */}
         <div className="flex flex-wrap gap-2 mt-4">
-          <Badge variant="rose">
+          <Badge
+            variant="rose"
+            className="py-1 px-2.5 sm:py-1.5 sm:px-3 text-[10px] sm:text-xs font-black"
+          >
             🚨 {toBengaliDigits(gotchas)}টি ট্রিকি পয়েন্ট (Tricky)
           </Badge>
-          <Badge variant="amber">
+          <Badge
+            variant="amber"
+            className="py-1 px-2.5 sm:py-1.5 sm:px-3 text-[10px] sm:text-xs font-black"
+          >
             ⚠️ {toBengaliDigits(mistakes)}টি সাধারণ ভুল (Mistakes)
           </Badge>
-          <Badge variant="sky">
+          <Badge
+            variant="sky"
+            className="py-1 px-2.5 sm:py-1.5 sm:px-3 text-[10px] sm:text-xs font-black"
+          >
             💡 {toBengaliDigits(conceptuals)}টি কনসেপচুয়াল (Conceptual)
           </Badge>
         </div>
       </motion.div>
 
       {/* ── Trap Cards ─────────────────────────────────────────── */}
-      <div className="space-y-4">
+      <div className="space-y-4 sm:space-y-5">
         {traps.map((trap, i) => {
           const isDefused = isTrapDefused(
             defusedTrapIds,
