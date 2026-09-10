@@ -302,15 +302,15 @@ function FeatureFlipCard({
             <p className="text-xs font-black text-black mt-1 line-clamp-1">
               {title}
             </p>
-            <p className="text-[11px] text-stone-700 font-bold mt-0.5 line-clamp-2 leading-relaxed">
+            <p className="text-xs sm:text-[13px] text-stone-800 font-semibold mt-1 line-clamp-2 leading-relaxed">
               {detail}
             </p>
           </div>
 
-          <div className="mt-2 pt-2 border-t-2 border-black/20 flex items-center justify-between text-[10px] font-black text-black">
+          <div className="mt-2 pt-2 border-t-2 border-black/20 flex items-center justify-between text-[11px] font-black text-black">
             <span>Payoff &amp; Tips</span>
-            <span className="inline-flex items-center gap-1 text-rose-600 font-black">
-              Flip <RotateCw className="w-3 h-3" />
+            <span className="inline-flex items-center gap-1 text-rose-600 font-black text-xs">
+              ফ্লিপ করুন ⟳
             </span>
           </div>
         </div>
@@ -322,22 +322,22 @@ function FeatureFlipCard({
         >
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-black text-black line-clamp-1">
+              <span className="text-sm font-black text-black line-clamp-1">
                 {backTitle}
               </span>
               <span className="text-[10px] font-black uppercase tracking-wider text-black bg-yellow-300 px-1.5 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000]">
                 {backTag}
               </span>
             </div>
-            <p className="text-[11px] text-stone-800 font-bold leading-relaxed">
+            <p className="text-xs sm:text-[13px] text-stone-800 font-semibold leading-relaxed">
               {backDetail}
             </p>
           </div>
 
-          <div className="pt-2 border-t-2 border-black/20 flex items-center justify-between text-[10px] font-black text-black">
+          <div className="pt-2 border-t-2 border-black/20 flex items-center justify-between text-[11px] font-black text-black">
             <span className="text-rose-600">⚡ Arcade Card</span>
-            <span className="inline-flex items-center gap-1 text-stone-600 font-bold">
-              Flip back <RotateCw className="w-2.5 h-2.5" />
+            <span className="inline-flex items-center gap-1 text-stone-600 font-bold text-xs">
+              ফ্লিপ ব্যাক ⟳
             </span>
           </div>
         </div>
@@ -356,11 +356,11 @@ const STAT_ITEMS: FeatureFlipCardProps[] = [
     badgeClass: "bg-emerald-400 text-black",
     value: "12",
     unit: "Chapters",
-    title: "12 Chapters",
-    detail: "Everything you need for CS interviews, simplified.",
-    backTitle: "Structured Step-by-Step",
+    title: "12 CHAPTERS",
+    detail: "১২টি চ্যাপ্টারের সহজ ও পয়েন্ট-টু-পয়েন্ট নোট",
+    backTitle: "গোছানো রোডম্যাপ",
     backDetail:
-      "Covers OOP, Data Structures, System Design, and Web fundamentals without 500-page textbooks.",
+      "৫০০ পৃষ্ঠার বই না পড়েই শিখুন OOP, Data Structures আর Web-এর মূল বিষয়গুলো সংক্ষেপে।",
     backTag: "Roadmap",
     confettiColors: ["#10b981", "#34d399", "#6ee7b7", "#059669"], // Lime / mint burst
     cardBg: "bg-[#fffbf0]",
@@ -373,11 +373,11 @@ const STAT_ITEMS: FeatureFlipCardProps[] = [
     badgeClass: "bg-amber-400 text-black",
     value: "200+",
     unit: "Cards",
-    title: "200+ Flashcards",
-    detail: "Quick spaced-repetition cards to build recall.",
-    backTitle: "Fast Review Sessions",
+    title: "200+ CARDS",
+    detail: "কোর কনসেপ্ট সহজে মনে রাখার মেমোরি কার্ড",
+    backTitle: "দ্রুত রিভিশন সেশন",
     backDetail:
-      "Tap to flip through rapid-fire CS concept decks and lock core definitions into memory.",
+      "কার্ডে ট্যাপ করে উল্টান আর ঝটপট রিভাইজ দিয়ে নিন দরকারি কনসেপ্ট ও ডেফিনিশনগুলো।",
     backTag: "Recall",
     confettiColors: ["#f59e0b", "#fbbf24", "#fde047", "#d97706"], // Solar gold burst
     cardBg: "bg-[#fffbf0]",
@@ -386,15 +386,15 @@ const STAT_ITEMS: FeatureFlipCardProps[] = [
   {
     icon: ShieldAlert,
     accent: "bg-rose-300",
-    badge: "200+ Traps",
+    badge: "60+ Traps",
     badgeClass: "bg-rose-400 text-black",
-    value: "200+",
+    value: "60+",
     unit: "Traps",
-    title: "60+ Interview Traps",
-    detail: "Learn the trick questions interviewers love to ask.",
-    backTitle: "Never Get Caught Off Guard",
+    title: "60+ TRAPS",
+    detail: "ইন্টারভিউতে আসা কঠিন ও ট্রিকি প্রশ্নগুলোর সমাধান",
+    backTitle: "ইন্টারভিউ ফাঁদ ও ট্রিকস",
     backDetail:
-      "Spot edge cases, syntax surprises, and common gotchas before you enter your interview.",
+      "ইন্টারভিউতে যাওয়ার আগেই জেনে নিন ট্রিকি প্রশ্ন, সাধারণ ভুল আর লুকানো সব কনসেপচুয়াল ফাঁদ।",
     backTag: "Defense",
     confettiColors: ["#f43f5e", "#fb7185", "#fda4af", "#e11d48"], // Hot coral burst
     cardBg: "bg-[#fffbf0]",
@@ -407,11 +407,11 @@ const STAT_ITEMS: FeatureFlipCardProps[] = [
     badgeClass: "bg-sky-400 text-black",
     value: "Level Up",
     unit: "XP",
-    title: "Earn XP & Badges",
-    detail: "Rack up points as you master modules and conquer decks.",
-    backTitle: "Rank Up Your Recall",
+    title: "LEVEL UP XP",
+    detail: "টপিক কমপ্লিট করে পয়েন্ট বাড়ান ও র্যাঙ্ক আপ করুন",
+    backTitle: "র্যাঙ্ক ও লেভেল আপ",
     backDetail:
-      "Claim +10 XP for finished topics and +100 XP for full chapter mastery to climb the ranks.",
+      "টপিক শেষ করে নিন +10 XP এবং সম্পূর্ণ চ্যাপ্টার ক্লিয়ার করে +100 XP নিয়ে লেভেল আপ করুন।",
     backTag: "Rank",
     confettiColors: ["#0284c7", "#38bdf8", "#7dd3fc", "#0369a1"],
     cardBg: "bg-[#fffbf0]",
@@ -437,7 +437,7 @@ export function HeroSection() {
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
             >
               <Zap className="w-4 h-4 fill-black text-black" />
-              INTERVIEW REVISION ARENA
+              CS INTERVIEW PLAYGROUND
             </motion.div>
 
             {/* Headline */}
@@ -450,15 +450,15 @@ export function HeroSection() {
 
             {/* Subtitle */}
             <motion.div
-              className="bg-black/35 border-2 border-black/60 rounded-xl p-3.5 text-stone-100 font-medium leading-relaxed max-w-md mb-7 backdrop-blur-xs"
+              className="bg-black/35 border-2 border-black/60 rounded-xl p-4 text-stone-100 font-semibold leading-relaxed max-w-lg mb-7 backdrop-blur-xs"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <p className="text-sm sm:text-base leading-relaxed text-stone-100 font-medium">
-                Simple, short notes, quick flashcards, and tricky interview
-                traps. Revise OOP, memory, and coding basics in minutes without
-                reading long books.
+              <p className="text-base md:text-lg font-semibold text-stone-100 leading-relaxed">
+                মোটা বই না পড়ে কয়েক মিনিটেই রিভাইজ করুন OOP, মেমোরি আর কোডিংয়ের
+                কোর কনসেপ্ট। সাথে থাকছে দ্রুত পড়ার ফ্ল্যাশকার্ড এবং ট্রিকি
+                ইন্টারভিউ ট্র্যাপস।
               </p>
             </motion.div>
 

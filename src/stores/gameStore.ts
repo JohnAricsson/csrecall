@@ -1,6 +1,10 @@
 import { create } from "zustand";
 import { XP_REWARDS } from "@/lib/gameConstants";
-import { isTopicCompleted } from "@/lib/topicUtils";
+import {
+  isTopicCompleted,
+  isTrapDefused,
+  getCanonicalTrapId,
+} from "@/lib/topicUtils";
 
 export interface GameState {
   xp: number;
@@ -15,7 +19,11 @@ export interface GameState {
   // Actions
   completeTopic: (id: string, chapterId?: string) => void;
   masterFlashcard: (id: string) => void;
-  defuseTrap: (id: string) => void;
+  defuseTrap: (
+    canonicalId: string,
+    chapterId?: string,
+    topicId?: string,
+  ) => void;
   completeChapter: (id: string) => void;
   updateStreak: () => void;
   reset: () => void;
@@ -100,16 +108,72 @@ export const useGameStore = create<GameState>()((set, get) => ({
     debouncedSyncProgress(get());
   },
 
-  defuseTrap: (id) => {
+  defuseTrap: (id, chapterId, topicId) => {
     const s = get();
-    if (s.defusedTrapIds.includes(id)) return;
-    const nextTraps = [...s.defusedTrapIds, id];
+    let canonicalId = id;
+    if (!canonicalId.includes("::") && chapterId && topicId) {
+      canonicalId = getCanonicalTrapId(chapterId, topicId, id);
+    }
+
+    if (s.defusedTrapIds.includes(canonicalId)) return;
+
+    const parts = canonicalId.split("::");
+    if (parts.length === 3) {
+      const [cId, topId, trId] = parts;
+      if (isTrapDefused(s.defusedTrapIds, cId, topId, trId)) return;
+    }
+
+    const nextTraps = [...s.defusedTrapIds, canonicalId];
     const nextXp = s.xp + XP_REWARDS.TRAP_DEFUSED;
     set({
       defusedTrapIds: nextTraps,
       xp: nextXp,
     });
-    debouncedSyncProgress(get());
+
+    if (typeof window !== "undefined") {
+      const parts = canonicalId.split("::");
+      const effChapterId = parts.length === 3 ? parts[0] : (chapterId ?? "");
+      const effTopicId = parts.length === 3 ? parts[1] : (topicId ?? "");
+      const effTrapId = parts.length === 3 ? parts[2] : id;
+
+      fetch("/api/user/progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "defuseTrap",
+          chapterId: effChapterId,
+          topicId: effTopicId,
+          trapId: effTrapId,
+          scopedTrapId: canonicalId,
+        }),
+      })
+        .then(async (res) => {
+          if (res.ok) {
+            const resData = await res.json();
+            if (resData?.data?.defusedTraps) {
+              set((cur) => ({
+                defusedTrapIds: Array.from(
+                  new Set([
+                    ...cur.defusedTrapIds,
+                    ...resData.data.defusedTraps,
+                  ]),
+                ),
+                xp:
+                  typeof resData.data.xp === "number"
+                    ? Math.max(cur.xp, resData.data.xp)
+                    : cur.xp,
+              }));
+            }
+          } else {
+            debouncedSyncProgress(get());
+          }
+        })
+        .catch(() => {
+          debouncedSyncProgress(get());
+        });
+    } else {
+      debouncedSyncProgress(get());
+    }
   },
 
   completeChapter: (id) => {

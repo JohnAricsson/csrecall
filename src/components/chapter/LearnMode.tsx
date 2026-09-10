@@ -12,7 +12,7 @@ import type {
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
 import { useGameStore } from "@/stores/gameStore";
-import { isTopicCompleted } from "@/lib/topicUtils";
+import { isTopicCompleted, isLearnableTopic } from "@/lib/topicUtils";
 
 // ─── Universal Line-by-Line Parsing Engine ────────────────────────────────────
 
@@ -322,8 +322,8 @@ function TopicCard({
         </div>
         {isCompleted && (
           <div className="flex-shrink-0 bg-emerald-300 text-black px-3 py-1.5 rounded-lg border-2 border-black text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-[2px_2px_0px_0px_#000]">
-            <CheckCircle2 className="w-4 h-4" strokeWidth={3} />
-            Done
+            <CheckCircle2 className="w-4 h-4" strokeWidth={3} />✓ শেষ করা হয়েছে
+            (+১০ XP)
           </div>
         )}
       </div>
@@ -332,7 +332,7 @@ function TopicCard({
       {topic.keyPoints && topic.keyPoints.length > 0 && (
         <div className="my-6 space-y-2.5">
           <p className="text-xs md:text-sm font-black uppercase tracking-wider text-stone-700">
-            ✦ Key Takeaways
+            ✦ মূল বিষয়বস্তু (KEY TAKEAWAYS)
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             {topic.keyPoints.map((pt, i) => (
@@ -379,7 +379,7 @@ function TopicCard({
       {topic.questions && topic.questions.length > 0 && (
         <div className="my-6 space-y-4">
           <p className="text-xs md:text-sm font-black uppercase tracking-wider text-stone-700">
-            💡 Concept Check &amp; Q&amp;A
+            ❓ নিজেকে যাচাই করুন (Concept Check)
           </p>
           {topic.questions.map((q, i) => (
             <QAItem key={i} question={q.question} answer={q.answer} />
@@ -396,7 +396,7 @@ function TopicCard({
               className="flex items-center gap-2 px-5 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-600 border-[3px] border-black cursor-pointer font-black text-sm sm:text-base rounded-xl shadow-[3px_3px_0px_0px_#000] transition-all hover:-translate-y-0.5"
             >
               <Lock className="w-4 h-4 text-stone-600" />
-              <span>🔒 Sign In to Claim (+10 XP)</span>
+              <span>🔒 লগইন করে +১০ XP নিন</span>
             </button>
           ) : (
             <button
@@ -404,7 +404,7 @@ function TopicCard({
               className="flex items-center gap-2 px-6 py-3 bg-emerald-400 hover:bg-emerald-300 text-black border-[3px] border-black font-black text-sm sm:text-base rounded-xl shadow-[3px_3px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all hover:-translate-y-0.5 cursor-pointer"
             >
               <CheckCircle2 className="w-5 h-5 text-black" strokeWidth={3} />
-              <span>Mark Completed (+10 XP)</span>
+              <span>✓ সম্পন্ন হয়েছে (+১০ XP)</span>
             </button>
           )}
         </div>
@@ -442,31 +442,19 @@ export function LearnMode({ chapter, isGuest, onRequireAuth }: LearnModeProps) {
 
           {/* Topics */}
           <div>
-            {section.topics
-              .filter((topic) => {
-                // Remove flashcards topics or trap checklist topics
-                if (topic.flashcards && topic.flashcards.length > 0)
-                  return false;
-                if (
-                  topic.title.includes("CHECKLIST") ||
-                  topic.title.includes("FLASHCARDS")
-                )
-                  return false;
-                return true;
-              })
-              .map((topic) => {
-                const idx = globalTopicIndex++;
-                return (
-                  <TopicCard
-                    key={topic.id}
-                    topic={topic}
-                    chapterId={chapter.id}
-                    index={idx}
-                    isGuest={isGuest}
-                    onRequireAuth={onRequireAuth}
-                  />
-                );
-              })}
+            {section.topics.filter(isLearnableTopic).map((topic) => {
+              const idx = globalTopicIndex++;
+              return (
+                <TopicCard
+                  key={topic.id}
+                  topic={topic}
+                  chapterId={chapter.id}
+                  index={idx}
+                  isGuest={isGuest}
+                  onRequireAuth={onRequireAuth}
+                />
+              );
+            })}
           </div>
         </section>
       ))}

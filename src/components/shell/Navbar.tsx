@@ -12,7 +12,7 @@ export function Navbar() {
   const streakDays = useGameStore((s) => s.streakDays);
 
   return (
-    <header className="sticky top-3 sm:top-4 z-50 max-w-5xl mx-auto px-4 sm:px-6 transition-all">
+    <header className=" top-3 sm:top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6 transition-all">
       <div className="bg-[#fffbf0] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] rounded-2xl px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <Link

@@ -9,13 +9,27 @@ import { Badge } from "@/components/ui/Badge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { useGameStore } from "@/stores/gameStore";
 import { cn } from "@/lib/utils";
+import { toBengaliDigits, isTrapDefused } from "@/lib/topicUtils";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-/** Aggregates all traps from every topic in every section. */
-function getAllTraps(chapter: Chapter): Trap[] {
+export interface ScopedTrap extends Trap {
+  chapterId: string;
+  topicId: string;
+  canonicalId: string;
+}
+
+/** Aggregates all traps from every topic in every section preserving canonical identity. */
+function getAllTraps(chapter: Chapter): ScopedTrap[] {
   return chapter.sections.flatMap((s) =>
-    s.topics.flatMap((t) => t.traps ?? []),
+    s.topics.flatMap((t) =>
+      (t.traps ?? []).map((trap) => ({
+        ...trap,
+        chapterId: chapter.id,
+        topicId: t.id,
+        canonicalId: `${chapter.id}::${t.id}::${trap.id}`,
+      })),
+    ),
   );
 }
 
@@ -26,7 +40,7 @@ const CATEGORY_META: Record<
   { label: string; badgeVariant: "rose" | "amber" | "sky"; emoji: string }
 > = {
   "interview-gotcha": {
-    label: "Interview Gotcha",
+    label: "TRICKY",
     badgeVariant: "rose",
     emoji: "🎯",
   },
@@ -98,8 +112,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
             </Badge>
             {isDefused && (
               <Badge variant="emerald">
-                <ShieldCheck className="w-3.5 h-3.5 text-black" />
-                DEFUSED!
+                <ShieldCheck className="w-3.5 h-3.5 text-black" />✓ ডিফিউজড!
               </Badge>
             )}
           </div>
@@ -130,12 +143,12 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
               {isDefused ? (
                 <>
                   <ShieldCheck className="w-4 h-4 text-black" strokeWidth={3} />
-                  Defused! (+20 XP)
+                  ✓ ডিফিউজড (+৩০ XP)
                 </>
               ) : (
                 <>
                   <Shield className="w-4 h-4 text-white" strokeWidth={3} />
-                  Defuse Trap
+                  🛡️ডিফিউজ করুন
                 </>
               )}
             </button>
@@ -145,7 +158,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
               onClick={() => setExpanded((e) => !e)}
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl border-[3px] border-black bg-yellow-300 hover:bg-yellow-200 text-black text-sm font-black transition-colors cursor-pointer shadow-[2px_2px_0px_0px_#000]"
             >
-              Why tricky?
+              কেন এটা ট্রিকি?
               <motion.span
                 animate={{ rotate: expanded ? 180 : 0 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -169,7 +182,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
               <div className="px-5 sm:px-6 py-4 bg-[#fffbf0] border-t-2 border-black">
                 <p className="text-xs font-black uppercase tracking-widest text-rose-600 mb-1.5 flex items-center gap-1">
                   <span>🔍</span>
-                  <span>Why developers get tricked:</span>
+                  <span>কেন ডেভেলপাররা ফাঁদে পড়েন:</span>
                 </p>
                 <p className="text-stone-900 text-sm sm:text-base leading-relaxed font-bold">
                   {trap.explanation}
@@ -194,9 +207,11 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
   const defusedTrapIds = useGameStore((s) => s.defusedTrapIds);
   const defuseTrap = useGameStore((s) => s.defuseTrap);
 
-  // Derive defusal count strictly from the store's traps that belong to this chapter
+  // Derive defusal count strictly from the store's traps that belong to this chapter and topic
   const defusedCount = useMemo(() => {
-    return traps.filter((t) => defusedTrapIds.includes(t.id)).length;
+    return traps.filter((t) =>
+      isTrapDefused(defusedTrapIds, t.chapterId, t.topicId, t.id),
+    ).length;
   }, [traps, defusedTrapIds]);
 
   const totalCount = traps.length;
@@ -204,10 +219,10 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
     totalCount > 0 ? Math.round((defusedCount / totalCount) * 100) : 0;
 
   const handleDefuse = useCallback(
-    (trapId: string, isCurrentlyDefused: boolean) => {
+    (canonicalId: string, isCurrentlyDefused: boolean) => {
       if (!isCurrentlyDefused) {
         // Award XP + update store + trigger confetti
-        defuseTrap(trapId);
+        defuseTrap(canonicalId);
         void import("canvas-confetti").then(({ default: confetti }) => {
           confetti({
             particleCount: 50,
@@ -258,7 +273,8 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
               Trap Defusal Arena
             </p>
             <p className="font-black text-2xl sm:text-3xl text-black">
-              {defusedCount} of {totalCount} Defused 🛡️
+              {toBengaliDigits(totalCount)} টির মধ্যে{" "}
+              {toBengaliDigits(defusedCount)} টি ডিফিউজড 🛡️
             </p>
           </div>
           <div className="w-12 h-12 rounded-2xl bg-yellow-300 border-[3px] border-black flex items-center justify-center text-2xl shadow-[2px_2px_0px_0px_#000]">
@@ -274,23 +290,34 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
 
         {/* Category summary */}
         <div className="flex flex-wrap gap-2 mt-4">
-          <Badge variant="rose">🎯 {gotchas} Gotchas</Badge>
-          <Badge variant="amber">⚠️ {mistakes} Mistakes</Badge>
-          <Badge variant="sky">💡 {conceptuals} Conceptual</Badge>
+          <Badge variant="rose">
+            🚨 {toBengaliDigits(gotchas)}টি ট্রিকি পয়েন্ট (Tricky)
+          </Badge>
+          <Badge variant="amber">
+            ⚠️ {toBengaliDigits(mistakes)}টি সাধারণ ভুল (Mistakes)
+          </Badge>
+          <Badge variant="sky">
+            💡 {toBengaliDigits(conceptuals)}টি কনসেপচুয়াল (Conceptual)
+          </Badge>
         </div>
       </motion.div>
 
       {/* ── Trap Cards ─────────────────────────────────────────── */}
       <div className="space-y-4">
         {traps.map((trap, i) => {
-          const isDefused = defusedTrapIds.includes(trap.id);
+          const isDefused = isTrapDefused(
+            defusedTrapIds,
+            trap.chapterId,
+            trap.topicId,
+            trap.id,
+          );
           return (
             <TrapCard
-              key={trap.id}
+              key={trap.canonicalId}
               trap={trap}
               index={i}
               isDefused={isDefused}
-              onDefuse={() => handleDefuse(trap.id, isDefused)}
+              onDefuse={() => handleDefuse(trap.canonicalId, isDefused)}
             />
           );
         })}

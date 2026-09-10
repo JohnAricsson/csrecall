@@ -13,15 +13,16 @@ import { TrapsMode } from "./TrapsMode";
 import { cn } from "@/lib/utils";
 import { useGameStore } from "@/stores/gameStore";
 import { Button } from "@/components/ui/Button";
+import { toBengaliDigits } from "@/lib/topicUtils";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type Mode = "learn" | "practice" | "traps";
 
 const MODES: { id: Mode; label: string; emoji: string }[] = [
-  { id: "learn", label: "Learn", emoji: "📖" },
-  { id: "practice", label: "Practice", emoji: "🃏" },
-  { id: "traps", label: "Traps", emoji: "🪤" },
+  { id: "learn", label: "শিখুন", emoji: "📖" },
+  { id: "practice", label: "প্র্যাকটিস", emoji: "🗂️" },
+  { id: "traps", label: "ট্র্যাপস", emoji: "🪤" },
 ];
 
 // ─── Mode Switcher ────────────────────────────────────────────────────────────
@@ -98,17 +99,17 @@ function UnlockModal({ chapterId, onClose }: UnlockModalProps) {
             </div>
             <div>
               <span className="text-[10px] font-black uppercase tracking-wider bg-rose-500 text-white px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000]">
-                MEMBER FEATURE
+                সদস্যদের জন্য
               </span>
               <h3 className="font-black text-lg sm:text-xl text-black leading-tight mt-1">
-                ⚡ PLAYER SIGN-IN REQUIRED
+                ⚡ প্লেয়ার Sign-In প্রয়োজন
               </h3>
             </div>
           </div>
 
           <p className="text-stone-800 text-sm font-semibold leading-relaxed">
-            Track your XP, build daily streaks, unlock interactive flashcards,
-            and defuse tricky interview gotchas by signing in.
+            Sign in করে আপনার XP track করুন, daily streak তৈরি করুন, interactive
+            flashcard unlock করুন এবং tricky interview gotcha practice করুন।
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-2.5 pt-2">
@@ -123,7 +124,7 @@ function UnlockModal({ chapterId, onClose }: UnlockModalProps) {
               onClick={onClose}
               className="w-full sm:w-auto bg-stone-200 hover:bg-stone-300 border-2 border-black text-black font-bold px-4 py-2 rounded-xl cursor-pointer transition-colors"
             >
-              Keep Reading
+              পড়া চালিয়ে যান
             </button>
           </div>
         </div>
@@ -295,7 +296,7 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
                 className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
                 strokeWidth={3}
               />
-              <span>Arena</span>
+              <span>BACK</span>
             </Link>
 
             <div className="w-0.5 h-6 bg-black flex-shrink-0" />
@@ -309,7 +310,7 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
 
             <span className="flex-shrink-0 hidden md:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border-2 border-black bg-white text-stone-900 text-xs font-black shadow-[1px_1px_0px_0px_#000]">
               <Clock className="w-3.5 h-3.5 text-stone-900" />
-              {chapter.estimatedMinutes} min
+              ⏱️ {toBengaliDigits(chapter.estimatedMinutes)} মিনিট
             </span>
           </div>
 
@@ -388,12 +389,12 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
                   className="w-6 h-6 text-emerald-950"
                   strokeWidth={3}
                 />
-                <span>✓ Chapter Mastered (+100 XP)</span>
+                <span>✓ চ্যাপ্টার ক্লিয়ার (+১০০ XP)</span>
               </>
             ) : (
               <>
                 <Trophy className="w-6 h-6 text-stone-950" />
-                <span>Chapter Mastered (+100 XP)</span>
+                <span>🏆 চ্যাপ্টার সম্পন্ন (+১০০ XP)</span>
               </>
             )}
           </button>

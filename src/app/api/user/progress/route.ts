@@ -64,6 +64,52 @@ export async function POST(req: NextRequest) {
 
   try {
     const rawBody = await req.json();
+
+    // ── Dedicated Trap Defusal Action Mutation ──
+    if (
+      rawBody.action === "defuseTrap" ||
+      (rawBody.chapterId && rawBody.topicId && rawBody.trapId) ||
+      (rawBody.scopedTrapId && rawBody.scopedTrapId.split("::").length >= 2)
+    ) {
+      let scopedId = rawBody.scopedTrapId as string;
+      if (!scopedId || scopedId.split("::").length < 3) {
+        const chapterId = (rawBody.chapterId || "chapter-1") as string;
+        const topicId = (rawBody.topicId || "legacy") as string;
+        const rawTrapId = (rawBody.trapId || scopedId) as string;
+        scopedId = `${chapterId}::${topicId}::${rawTrapId}`;
+      }
+
+      await connectDB();
+      const user = await UserModel.findOne({
+        email: session.user.email.toLowerCase(),
+      });
+      if (!user) {
+        return NextResponse.json({ error: "User not found" }, { status: 404 });
+      }
+
+      const alreadyDefused = (user.defusedTraps || []).includes(scopedId);
+
+      if (!alreadyDefused) {
+        user.defusedTraps = Array.from(
+          new Set([...(user.defusedTraps || []), scopedId]),
+        );
+        user.xp = (user.xp ?? 0) + 15;
+        await user.save();
+      }
+
+      return NextResponse.json({
+        ok: true,
+        data: {
+          xp: user.xp,
+          streakDays: user.streak,
+          completedChapterIds: Array.from(user.completedChapters || []),
+          completedTopics: sanitizeTopics(user.completedTopics || []),
+          defusedTraps: Array.from(user.defusedTraps || []),
+          masteredFlashcards: Array.from(user.masteredFlashcards || []),
+        },
+      });
+    }
+
     const parsed = ProgressSchema.safeParse(rawBody);
 
     if (!parsed.success) {

@@ -1,4 +1,4 @@
-﻿export const XP_REWARDS = {
+export const XP_REWARDS = {
   TOPIC_COMPLETED: 10,
   FLASHCARD_MASTERED: 15,
   TRAP_DEFUSED: 30,

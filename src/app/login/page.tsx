@@ -22,13 +22,14 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
 const MARQUEE_ITEMS = [
-  "⚡ CONCURRENCY & THREADS",
-  "🪤 PROMISE RESOLUTION GOTCHAS",
-  "🛡️ DATABASE INDEXING & B-TREES",
-  "👑 DISTRIBUTED CONSENSUS",
-  "🔥 TIME COMPLEXITY PITFALLS",
-  "🃏 VIRTUAL MEMORY & PAGING",
-  "🎯 OOP INHERITANCE TRAPS",
+  "⚡ DATA STRUCTURES & ALGORITHMS",
+  "🏗️ SOFTWARE DESIGN",
+  "🧩 OOP & DESIGN PATTERNS",
+  "🗄️ DATABASES & SQL",
+  "🌐 APIs & WEB DEVELOPMENT",
+  "🔐 AUTHENTICATION & SECURITY",
+  "🧪 TESTING & DEBUGGING",
+  "🚀 GIT & CI/CD",
 ];
 
 export default function LoginPage() {
@@ -143,16 +144,15 @@ export default function LoginPage() {
             </Link>
 
             <h1 className="text-4xl sm:text-5xl xl:text-6xl font-black text-white tracking-tight leading-[1.08] mt-6 drop-shadow-[3px_3px_0px_#000]">
-              Master the Gotchas.
+              MASTER THE BASIC
               <br />
               <span className="bg-yellow-300 px-3 py-0.5 border-[3px] border-black shadow-[4px_4px_0px_0px_#000] rounded-xl inline-block my-2 text-black rotate-[-1deg]">
-                CRACK THE INTERVIEW.
+                CRACK THE INTERVIEW
               </span>
             </h1>
-            <p className="text-yellow-100 font-bold text-base sm:text-lg max-w-lg mt-4 leading-relaxed drop-shadow-[1px_1px_0px_#000]">
-              The high-intensity training arena for CS fundamentals. Defuse real
-              interview traps, cement core concepts with rapid flashcards, and
-              track your mastery score.
+            <p className="text-sm md:text-base font-medium text-white max-w-lg mt-4 leading-relaxed">
+              ইন্টারভিউয়ের ট্রিকি ফাঁদ, কমন ভুল আর কোর কনসেপ্ট সহজে আয়ত্ত করার
+              হাই-ইনটেনসিটি আর্কেড অ্যারিনা। রিভাইজ করুন এবং স্কোর ট্র্যাক করুন।
             </p>
           </div>
 

@@ -23,7 +23,7 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { useGameStore } from "@/stores/gameStore";
-import { isTopicCompleted } from "@/lib/topicUtils";
+import { isTopicCompleted, getLearnableTopics } from "@/lib/topicUtils";
 import { useHydration } from "@/hooks/useHydration";
 import { cn } from "@/lib/utils";
 
@@ -184,24 +184,21 @@ function ChapterCard({
               variant="emerald"
               className="px-2 py-0.5 text-xs font-black gap-1"
             >
-              <Trophy className="w-3 h-3 text-black" />
-              CLEARED 🏆
+              🏆 সম্পন্ন
             </Badge>
           ) : progress > 0 ? (
             <Badge
               variant="amber"
               className="px-2 py-0.5 text-xs font-black gap-1"
             >
-              <Zap className="w-3 h-3 text-black fill-black" />
-              ACTIVE ({progress}%)
+              ⚡ চলমান ({progress}%)
             </Badge>
           ) : (
             <Badge
               variant="sky"
               className="px-2 py-0.5 text-xs font-black gap-1"
             >
-              <PlayCircle className="w-3 h-3 text-black" />
-              READY
+              ▶ শুরু করুন
             </Badge>
           )}
         </div>
@@ -223,11 +220,11 @@ function ChapterCard({
         <div className="flex items-center gap-3 text-xs text-stone-700 font-black mb-3.5">
           <span className="flex items-center gap-1">
             <BookOpen className="w-3.5 h-3.5 text-black" />
-            {topicCount} topics
+            {topicCount} টি টপিক
           </span>
           <span className="flex items-center gap-1">
             <Clock className="w-3.5 h-3.5 text-black" />
-            {chapter.estimatedMinutes} min
+            {chapter.estimatedMinutes} মিনিট
           </span>
         </div>
       </div>
@@ -257,10 +254,10 @@ function ChapterCard({
             {isLocked
               ? "Sign in to unlock"
               : isCompleted
-                ? "100% Cleared 🎉"
+                ? "১০০% সম্পন্ন 🎉"
                 : progress > 0
-                  ? `${progress}% in progress`
-                  : "Start level"}
+                  ? `${progress}% সম্পন্ন হয়েছে`
+                  : "শুরু করুন"}
           </span>
 
           <span
@@ -275,7 +272,7 @@ function ChapterCard({
               <>Unlock 🚀</>
             ) : (
               <>
-                Enter{" "}
+                প্রবেশ করুন{" "}
                 <ArrowRight
                   className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"
                   strokeWidth={3}
@@ -348,14 +345,14 @@ export function QuestMap({ chapters }: QuestMapProps) {
               <span>QUEST MAP</span>
             </h2>
             {!isAuthenticated && (
-              <span className="bg-yellow-300 text-black border-2 border-black text-[11px] font-black uppercase px-2.5 py-0.5 rounded-md shadow-[1px_1px_0px_0px_#000] rotate-[-1deg]">
-                Guest Mode: Ch 1 &amp; 2 Free
+              <span className="bg-yellow-300 text-black border-2 border-black text-xs font-black uppercase px-2.5 py-0.5 rounded-md shadow-[1px_1px_0px_0px_#000] rotate-[-1deg]">
+                গেস্ট মোড: ১ম ও ২য় চ্যাপ্টার সম্পূর্ণ ফ্রি!
               </span>
             )}
           </div>
-          <p className="text-stone-700 text-sm mt-1 font-bold">
-            12 arcade levels of interview-ready CS knowledge. Master gotchas,
-            defuse traps, clear interviews.
+          <p className="text-sm md:text-base font-medium text-stone-700 leading-relaxed mt-1">
+            ইন্টারভিউ ক্র্যাক করার ১২টি আর্কেড লেভেল। ট্রিকি ফাঁদগুলো শিখুন আর
+            সহজেই ইন্টারভিউ ক্লিয়ার করুন।
           </p>
         </div>
 
@@ -367,24 +364,16 @@ export function QuestMap({ chapters }: QuestMapProps) {
           CLEARED
         </Badge>
       </div>
-
       {/* Grid of Chapter Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {chapters.map((chapter, i) => {
           const isCompleted =
             hydrated && completedChapterIds.includes(chapter.id);
-          const totalTopics = chapter.sections.reduce(
-            (acc, s) => acc + s.topics.length,
-            0,
-          );
-          const finishedTopics = chapter.sections.reduce(
-            (acc, s) =>
-              acc +
-              s.topics.filter((t) =>
-                isTopicCompleted(completedTopics, chapter.id, t.id),
-              ).length,
-            0,
-          );
+          const learnableTopics = getLearnableTopics(chapter);
+          const totalTopics = learnableTopics.length;
+          const finishedTopics = learnableTopics.filter((t) =>
+            isTopicCompleted(completedTopics, chapter.id, t.id),
+          ).length;
 
           const progress = isCompleted
             ? 100
@@ -438,35 +427,32 @@ export function QuestMap({ chapters }: QuestMapProps) {
                       ARENA ACCESS
                     </span>
                     <h3 className="font-black text-2xl text-black leading-tight mt-0.5">
-                      Unlock the Full Arena 🚀
+                      পুরো Arena আনলক করুন
                     </h3>
                   </div>
                 </div>
 
                 {selectedLockedChapter && (
                   <div className="p-3 bg-yellow-100 rounded-xl border-2 border-black text-xs text-black font-black">
-                    Target: Chapter {selectedLockedChapter.chapterNumber} —{" "}
+                    টার্গেট: Chapter {selectedLockedChapter.chapterNumber} —{" "}
                     {toTitleCase(selectedLockedChapter.title)}
                   </div>
                 )}
 
                 <p className="text-stone-800 text-sm leading-relaxed font-bold">
-                  Chapters 3 through 12, the full 60+ trap bank, and cloud
-                  progress tracking require a free account.
+                  Chapter 3 থেকে 12, সম্পূর্ণ 200+ ট্র্যাপ ব্যাংক এবং cloud
+                  progress tracking ব্যবহার করতে একটি ফ্রি অ্যাকাউন্ট প্রয়োজন।
                 </p>
 
                 <div className="space-y-2 bg-emerald-50 p-3.5 rounded-xl border-2 border-black text-xs text-black font-bold shadow-[2px_2px_0px_0px_#000]">
                   <div className="flex items-center gap-2">
                     <span className="text-emerald-700 font-black">✓</span>{" "}
-                    1-click free sign in with Google or email
+                    Google বা email দিয়ে এক ক্লিকেই ফ্রি sign in করুন
                   </div>
+
                   <div className="flex items-center gap-2">
-                    <span className="text-emerald-700 font-black">✓</span>{" "}
-                    Persistent XP, streaks &amp; loot saved to MongoDB
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-emerald-700 font-black">✓</span> Full
-                    access to all 12 chapters &amp; rapid flashcard decks
+                    <span className="text-emerald-700 font-black">✓</span> সব
+                    12টি Chapter এবং rapid flashcard deck-এ সম্পূর্ণ access
                   </div>
                 </div>
 
@@ -476,14 +462,14 @@ export function QuestMap({ chapters }: QuestMapProps) {
                     onClick={() => setShowUnlockModal(false)}
                     className="flex-1 cursor-pointer order-2 sm:order-1"
                   >
-                    Keep Exploring
+                    ঘুরে দেখুন
                   </Button>
                   <Link href="/login" className="flex-1 order-1 sm:order-2">
                     <Button
                       variant="accent"
                       className="w-full cursor-pointer shadow-[3px_3px_0px_0px_#000]"
                     >
-                      Sign In Free &rarr;
+                      ফ্রিতে Sign In করুন &rarr;
                     </Button>
                   </Link>
                 </div>

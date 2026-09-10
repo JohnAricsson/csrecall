@@ -12,7 +12,7 @@
         {
           "id": "topic-1",
           "title": "VARIABLES, REFERENCES & POINTERS",
-          "explanation": "-Variable: Variable is a named storage location used to store data that can be accessed and modified during program execution. There are 2 types of Variables: \n Primitive types: Premitive types generally store the actual value directly. \nReference types: Reference types represent or refer to objects stored elsewhere in memory. \n- Pointer: pointer is a variable that stores the memory address of another variable.",
+          "explanation": "-Variable: Variable is a named storage location used to store data that can be accessed and modified during program execution. There are 2 types of Variables: \n -1. Primitive types: Premitive types generally store the actual value directly. \n-2. Reference types: Reference types represent or refer to objects stored elsewhere in memory. \n- Pointer: Pointer is a variable that stores the memory address of another variable.",
           "tldr": "Variable হলো data রাখার জন্য নাম দেওয়া একটি memory location। Pointer variable-এর value না, তার memory address ধরে রাখে।",
           "keyPoints": [
             "Primitive types store the actual value directly (e.g., int, char, float, double, bool).",
@@ -56,7 +56,7 @@
         },
         {
           "id": "topic-2",
-          "title": "JAVASCRIPT VALUE VS REFERENCE",
+          "title": "VALUE VS REFERENCE",
           "explanation": "-Value: Primitive values (like numbers, strings, booleans) are copied by value, meaning each variable holds its own copy of the data.\n-Reference: Objects (including arrays and functions) are copied by reference, meaning multiple variables can refer to the same object in memory.",
           "tldr": "Primitive copy করলে আলাদা value হয়, কিন্তু Object assign করলে সাধারণত একই object-এর reference share হয়।",
           "codeSnippets": [

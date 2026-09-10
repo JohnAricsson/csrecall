@@ -8,7 +8,7 @@ import type { Chapter } from "@/lib/schema";
 import { Button } from "@/components/ui/Button";
 import { useGameStore } from "@/stores/gameStore";
 import { useHydration } from "@/hooks/useHydration";
-import { isTopicCompleted } from "@/lib/topicUtils";
+import { isTopicCompleted, getLearnableTopics } from "@/lib/topicUtils";
 
 // ─── Title Case Helper ────────────────────────────────────────────────────────
 
@@ -60,18 +60,11 @@ export function NextMoveWidget({ chapters = [] }: NextMoveWidgetProps) {
   // Calculate progress for each chapter
   const chapterProgressList = chapters.map((chapter) => {
     const isCompleted = completedChapterIds.includes(chapter.id);
-    const totalTopics = chapter.sections.reduce(
-      (acc, s) => acc + s.topics.length,
-      0,
-    );
-    const finishedTopics = chapter.sections.reduce(
-      (acc, s) =>
-        acc +
-        s.topics.filter((t) =>
-          isTopicCompleted(completedTopics, chapter.id, t.id),
-        ).length,
-      0,
-    );
+    const learnableTopics = getLearnableTopics(chapter);
+    const totalTopics = learnableTopics.length;
+    const finishedTopics = learnableTopics.filter((t) =>
+      isTopicCompleted(completedTopics, chapter.id, t.id),
+    ).length;
 
     const progress = isCompleted
       ? 100
@@ -127,12 +120,12 @@ export function NextMoveWidget({ chapters = [] }: NextMoveWidgetProps) {
       icon: Zap,
       iconBg: "bg-yellow-300",
       iconColor: "text-black",
-      pillText: "⚡ ACTIVE OBJECTIVE",
+      pillText: "⚡ চলমান মিশন (ACTIVE)",
       pillBg: "bg-yellow-300 text-black",
-      rewardText: "REWARD: +100 XP",
-      headline: `Resume Chapter ${ch.chapterNumber}: ${formattedTitle} (${highestInProgress.progress}% Cleared)`,
-      subtitle: `Jump right back into level ${ch.chapterNumber} to conquer your next interview flashcard or trap!`,
-      buttonText: "Resume Mission →",
+      rewardText: "পুরস্কার: +100 XP",
+      headline: `Chapter ${ch.chapterNumber}: ${formattedTitle} সম্পন্ন করুন (${highestInProgress.progress}% সম্পন্ন)`,
+      subtitle: `চ্যাপ্টার ${ch.chapterNumber}-এ ফিরে গিয়ে বাকি টপিকগুলো শেষ করুন এবং ব্যাজ ও XP আনলক করুন!`,
+      buttonText: "সম্পন্ন করুন →",
       href: `/chapter/${ch.id}?mode=learn`,
     };
   } else if (isAuthenticated && allMastered) {
@@ -141,13 +134,13 @@ export function NextMoveWidget({ chapters = [] }: NextMoveWidgetProps) {
       icon: Trophy,
       iconBg: "bg-amber-300",
       iconColor: "text-black",
-      pillText: "🏆 ARENA MASTER",
+      pillText: "🏆 এরিনা মাস্টার (ARENA MASTER)",
       pillBg: "bg-amber-300 text-black",
-      rewardText: "REWARD: +100 XP",
-      headline: "All Quest Levels Cleared!",
+      rewardText: "পুরস্কার: +100 XP",
+      headline: "সবগুলো কোয়েস্ট লেভেল সম্পন্ন হয়েছে!",
       subtitle:
-        "You've completed every chapter in the CS Arena! Keep your reflexes sharp with endless flashcard recall drills.",
-      buttonText: "Practice Blitz →",
+        "অভিনন্দন! আপনি সবগুলো মডিউল শেষ করেছেন। রিকল ধারালো রাখতে ফ্ল্যাশকার্ড দিয়ে প্র্যাকটিস চালিয়ে যান।",
+      buttonText: "প্র্যাকটিস শুরু করুন →",
       href: `/chapter/chapter-1?mode=practice`,
     };
   } else if (isAuthenticated && nextUnlocked) {
@@ -158,13 +151,13 @@ export function NextMoveWidget({ chapters = [] }: NextMoveWidgetProps) {
       icon: Target,
       iconBg: "bg-sky-300",
       iconColor: "text-black",
-      pillText: "🎯 NEXT OBJECTIVE",
+      pillText: "🎯 পরবর্তী টার্গেট (NEXT)",
       pillBg: "bg-sky-300 text-black",
-      rewardText: "REWARD: +100 XP",
-      headline: `Begin Chapter ${ch.chapterNumber}: ${formattedTitle}`,
+      rewardText: "পুরস্কার: +100 XP",
+      headline: `Chapter ${ch.chapterNumber}: ${formattedTitle} শুরু করুন`,
       subtitle:
-        "Dive into core computer science fundamentals and build high-confidence recall for your interviews.",
-      buttonText: "Start Chapter →",
+        "পরবর্তী এরিনাতে প্রবেশ করে কোর কনসেপ্ট ও ইন্টারভিউ ট্র্যাপের মুখোমুখি হোন।",
+      buttonText: "চ্যাপ্টার শুরু করুন →",
       href: `/chapter/${ch.id}?mode=learn`,
     };
   } else {
@@ -177,13 +170,13 @@ export function NextMoveWidget({ chapters = [] }: NextMoveWidgetProps) {
       icon: Sparkles,
       iconBg: "bg-emerald-300",
       iconColor: "text-black",
-      pillText: "👋 WELCOME RECRUIT",
+      pillText: "👋 স্বাগতম (WELCOME RECRUIT)",
       pillBg: "bg-emerald-300 text-black",
-      rewardText: "REWARD: +100 XP",
-      headline: `Start Chapter 1: ${ch1Title}`,
+      rewardText: "পুরস্কার: +100 XP",
+      headline: `Chapter 1: ${ch1Title} দিয়ে শুরু করুন`,
       subtitle:
-        "Begin your interview preparation journey with object-oriented paradigms and essential language features.",
-      buttonText: "Begin Quest →",
+        "ফ্রি চ্যাপ্টার দিয়ে প্রস্তুতি নিন অথবা সম্পূর্ণ প্রগ্রেস সেভ ও ফ্ল্যাশকার্ড ডেক আনলক করতে সাইন ইন করুন।",
+      buttonText: "শুরু করুন →",
       href: `/chapter/${ch1?.id || "chapter-1"}?mode=learn`,
     };
   }
@@ -225,7 +218,7 @@ export function NextMoveWidget({ chapters = [] }: NextMoveWidgetProps) {
             {missionData.headline}
           </h3>
 
-          <p className="text-xs sm:text-sm font-bold text-stone-600 max-w-xl leading-relaxed">
+          <p className="text-sm sm:text-base font-medium text-stone-700 max-w-xl leading-relaxed">
             {missionData.subtitle}
           </p>
         </div>

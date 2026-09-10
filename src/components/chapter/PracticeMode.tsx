@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Chapter, Flashcard } from "@/lib/schema";
 import { cn } from "@/lib/utils";
+import { toBengaliDigits } from "@/lib/topicUtils";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -10,7 +11,11 @@ import { cn } from "@/lib/utils";
 function getFlashcards(chapter: Chapter): Flashcard[] {
   for (const section of chapter.sections) {
     for (const topic of section.topics) {
-      if (topic.id === "topic-15" && topic.flashcards && topic.flashcards.length > 0) {
+      if (
+        topic.id === "topic-15" &&
+        topic.flashcards &&
+        topic.flashcards.length > 0
+      ) {
         return topic.flashcards;
       }
     }
@@ -100,10 +105,11 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
             {/* Top header row */}
             <div className="flex items-center justify-between pt-1">
               <span className="bg-amber-300 text-stone-950 font-black text-xs sm:text-sm px-3 py-1 rounded-lg border-2 border-black shadow-[2px_2px_0px_0px_#000] uppercase tracking-wider">
-                CARD {currentIndex + 1} OF {totalCards}
+                কার্ড {toBengaliDigits(currentIndex + 1)} /{" "}
+                {toBengaliDigits(totalCards)}
               </span>
               <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider bg-yellow-200 text-stone-950 px-2.5 py-1 rounded-md border-2 border-black shadow-[1px_1px_0px_0px_#000]">
-                TAP TO FLIP 🔄
+                উল্টাতে ট্যাপ করুন 🔄
               </span>
             </div>
 
@@ -116,9 +122,11 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
 
             {/* Bottom hint pill */}
             <div className="flex items-center justify-between text-xs font-black text-stone-600 pt-3 border-t-2 border-black/20">
-              <span className="text-stone-700">⚡ Click anywhere to reveal answer</span>
+              <span className="text-stone-700">
+                ⚡ উত্তর দেখতে কার্ডে ট্যাপ করুন
+              </span>
               <span className="text-rose-600 uppercase tracking-wider font-black">
-                Tap Card 👆
+                কার্ড ফ্লিপ করুন 👆
               </span>
             </div>
           </div>
@@ -137,10 +145,11 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
             {/* Top header row */}
             <div className="flex items-center justify-between pt-1">
               <span className="bg-white text-stone-950 font-black text-xs sm:text-sm px-3 py-1 rounded-lg border-2 border-black shadow-[2px_2px_0px_0px_#000] uppercase tracking-wider">
-                ✓ CORE ANSWER
+                ✓ সঠিক উত্তর
               </span>
               <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider bg-yellow-300 text-stone-950 px-2.5 py-1 rounded-md border-2 border-black shadow-[1px_1px_0px_0px_#000]">
-                CARD {currentIndex + 1} OF {totalCards}
+                কার্ড {toBengaliDigits(currentIndex + 1)} /{" "}
+                {toBengaliDigits(totalCards)}
               </span>
             </div>
 
@@ -153,9 +162,9 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
 
             {/* Bottom hint */}
             <div className="flex items-center justify-between text-xs font-black text-stone-900 pt-3 border-t-2 border-black/20">
-              <span>Tap to flip back</span>
+              <span>প্রশ্ন দেখতে আবার ট্যাপ করুন 🔄</span>
               <span className="bg-white text-stone-950 px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000] uppercase tracking-wider font-black">
-                TAP TO FLIP BACK 🔄
+                উল্টাতে ট্যাপ করুন 🔄
               </span>
             </div>
           </div>
@@ -171,11 +180,11 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
           className="bg-stone-200 hover:bg-stone-300 disabled:opacity-40 disabled:cursor-not-allowed text-black font-black text-sm md:text-base px-5 py-2.5 rounded-xl border-[3px] border-black shadow-[3px_3px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center gap-2"
         >
           <span>←</span>
-          <span>Previous</span>
+          <span>পূর্ববর্তী</span>
         </button>
 
         <span className="text-xs sm:text-sm font-black text-stone-900 bg-[#fffdf7] px-3.5 py-2 rounded-xl border-2 border-black shadow-[2px_2px_0px_0px_#000]">
-          {currentIndex + 1} / {totalCards}
+          {toBengaliDigits(currentIndex + 1)} / {toBengaliDigits(totalCards)}
         </span>
 
         <button
@@ -184,7 +193,7 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
           onClick={handleNext}
           className="bg-amber-400 hover:bg-amber-300 disabled:opacity-40 disabled:cursor-not-allowed text-black font-black text-sm md:text-base px-6 py-2.5 rounded-xl border-[3px] border-black shadow-[3px_3px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center gap-2"
         >
-          <span>Next</span>
+          <span>পরবর্তী</span>
           <span>→</span>
         </button>
       </div>

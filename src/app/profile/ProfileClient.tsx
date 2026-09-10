@@ -70,26 +70,31 @@ export function ProfileClient({ user }: ProfileClientProps) {
   const allBadges = [
     {
       ...BADGE_REQUIREMENTS.NOVICE_CODER,
+      displayName: "নতুন কোডার (Novice Coder)",
       isUnlocked: xp >= BADGE_REQUIREMENTS.NOVICE_CODER.xp,
     },
     {
       ...BADGE_REQUIREMENTS.TRAP_DEFUSER,
+      displayName: "ট্র্যাপ ডিফিউজার (Trap Defuser)",
       isUnlocked: totalTrapsDefused >= BADGE_REQUIREMENTS.TRAP_DEFUSER.traps,
     },
     {
       ...BADGE_REQUIREMENTS.MEMORY_ENGINE,
+      displayName: "মেমোরি ইঞ্জিন (Memory Engine)",
       isUnlocked:
         masteredFlashcardIds.length >=
         BADGE_REQUIREMENTS.MEMORY_ENGINE.flashcards,
     },
     {
       ...BADGE_REQUIREMENTS.SYSTEM_ARCHITECT,
+      displayName: "সিস্টেম আর্কিটেক্ট (System Architect)",
       isUnlocked:
         completedChapterIds.length >=
         BADGE_REQUIREMENTS.SYSTEM_ARCHITECT.chapters,
     },
     {
       ...BADGE_REQUIREMENTS.INTERVIEW_GRANDMASTER,
+      displayName: "ইন্টারভিউ গ্র্যান্ডমাস্টার (Grandmaster)",
       isUnlocked: xp >= BADGE_REQUIREMENTS.INTERVIEW_GRANDMASTER.xp,
     },
   ];
@@ -136,7 +141,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
         </Card>
 
         {/* ── Stats Grid ── */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
           <TiltCard>
             <div className="h-full p-6 flex flex-col items-center justify-center text-center gap-2 bg-yellow-300 border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000]">
               <Zap className="w-10 h-10 text-black fill-black" />
@@ -170,30 +175,22 @@ export function ProfileClient({ user }: ProfileClientProps) {
               </p>
             </div>
           </TiltCard>
-
-          <TiltCard>
-            <div className="h-full p-6 flex flex-col items-center justify-center text-center gap-2 bg-orange-300 border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000]">
-              <Flame className="w-10 h-10 text-orange-600 fill-orange-500" />
-              <p className="text-4xl font-black text-black">{streakDays}</p>
-              <p className="text-xs font-black uppercase tracking-widest text-black">
-                Day Streak
-              </p>
-            </div>
-          </TiltCard>
         </div>
 
         {/* ── Badge Matrix ── */}
         <div className="space-y-6">
           <div className="flex items-center justify-between bg-[#fffbf0] p-4 rounded-2xl border-[3px] border-black shadow-[4px_4px_0px_0px_#000]">
             <div>
-              <h2 className="text-2xl font-black text-black">Trophy Matrix</h2>
+              <h2 className="text-2xl font-black text-black">
+                ট্রফি ম্যাট্রিক্স (Trophies)
+              </h2>
               <p className="text-stone-700 text-sm font-bold">
-                Arcade achievements &amp; mastery trophies
+                আর্কেড অর্জন ও মাস্টারি ট্রফি
               </p>
             </div>
             <span className="bg-yellow-300 text-black border-2 border-black font-black text-xs px-3 py-1 rounded-xl shadow-[2px_2px_0px_0px_#000]">
               {allBadges.filter((b) => b.isUnlocked).length} /{" "}
-              {allBadges.length} Unlocked
+              {allBadges.length} টি আনলকড
             </span>
           </div>
 
@@ -229,10 +226,10 @@ export function ProfileClient({ user }: ProfileClientProps) {
                       badge.isUnlocked ? "text-black" : "text-stone-600",
                     )}
                   >
-                    {badge.name}
+                    {badge.displayName}
                   </p>
                   <p className="text-xs font-bold text-stone-600 mt-0.5">
-                    {badge.isUnlocked ? "✓ Unlocked!" : "Locked"}
+                    {badge.isUnlocked ? "✓ আনলকড!" : "লক করা"}
                   </p>
                 </div>
               </Card>
@@ -244,11 +241,11 @@ export function ProfileClient({ user }: ProfileClientProps) {
         <Card className="p-6 sm:p-8 bg-[#fffbf0] border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-2 bg-rose-500 border-b-2 border-black" />
           <h2 className="text-xl font-black text-rose-600 mb-2 uppercase tracking-wider">
-            ⚠️ Danger Zone
+            ⚠️ DANGER ZONE
           </h2>
-          <p className="text-stone-700 text-sm font-bold mb-6 max-w-xl">
-            Need a fresh start? This will permanently wipe your XP, completed
-            chapters, and defused traps. This action cannot be undone.
+          <p className="text-sm font-semibold text-stone-800 mb-6 max-w-xl leading-relaxed">
+            নতুন করে শুরু করতে চান? রিসেট করলে আপনার অর্জিত সমস্ত XP, কমপ্লিট
+            করা চ্যাপ্টার এবং ট্র্যাপস স্কোর স্থায়ীভাবে মুছে যাবে।
           </p>
 
           {resetSuccess && (
@@ -260,10 +257,10 @@ export function ProfileClient({ user }: ProfileClientProps) {
           <Button
             variant="danger"
             onClick={() => setShowReset(true)}
-            className="cursor-pointer"
+            className="cursor-pointer font-black"
           >
             <RotateCcw className="w-4 h-4" />
-            Reset All Progress
+            RESET ALL PROGRESS
           </Button>
         </Card>
 
@@ -274,9 +271,9 @@ export function ProfileClient({ user }: ProfileClientProps) {
               <h2 className="font-black text-stone-900 text-xl">
                 ⚠️ Reset All Progress?
               </h2>
-              <p className="text-stone-700 text-sm leading-relaxed">
-                This will permanently wipe your XP, completed chapters, defused
-                traps, and local game cache. This action cannot be undone.
+              <p className="text-sm font-semibold text-stone-800 leading-relaxed">
+                রিসেট করলে আপনার অর্জিত সমস্ত XP, কমপ্লিট করা চ্যাপ্টার এবং
+                ট্র্যাপস স্কোর স্থায়ীভাবে মুছে যাবে। এটি আর ফিরিয়ে আনা সম্ভব নয়।
               </p>
               <div className="flex gap-3 pt-2">
                 <Button
