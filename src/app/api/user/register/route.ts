@@ -16,9 +16,19 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
-    if (password.length < 6) {
+
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { error: "Password must be at least 6 characters." },
+        { error: "Please enter a valid email address." },
+        { status: 400 },
+      );
+    }
+
+    if (password.length < 8) {
+      return NextResponse.json(
+        { error: "Password must be at least 8 characters." },
         { status: 400 },
       );
     }
@@ -33,21 +43,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const hashed = await bcrypt.hash(password, 10);
+    const hashed = await bcrypt.hash(password, 12);
     await UserModel.create({
-      name,
+      name: name || undefined,
       email,
       password: hashed,
     });
 
     return NextResponse.json({ ok: true }, { status: 201 });
   } catch (error: unknown) {
-    console.error("Register Error:", error);
+    console.error("[register error]", error);
     return NextResponse.json(
-      {
-        error:
-          error instanceof Error ? error.message : "Internal server error.",
-      },
+      { error: "Internal server error. Please try again later." },
       { status: 500 },
     );
   }

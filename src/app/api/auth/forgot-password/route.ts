@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
+import { Resend } from "resend";
 import { connectDB } from "@/lib/mongodb";
 import UserModel from "@/models/User";
 
@@ -9,7 +10,7 @@ export async function POST(req: NextRequest) {
 
     if (!email || !email.trim()) {
       return NextResponse.json(
-        { error: "Email is required." },
+        { error: "Email is required. / ইমেইল প্রদান করা আবশ্যক।" },
         { status: 400 },
       );
     }
@@ -19,16 +20,19 @@ export async function POST(req: NextRequest) {
 
     const user = await UserModel.findOne({ email: cleanEmail });
 
-    // Always respond with success to avoid email enumeration, but only act if user exists
+    // Always respond with success to avoid email enumeration, but only process if user exists
     if (!user) {
+      console.warn(
+        `⚠️ [forgot-password] No account exists for: "${cleanEmail}". Email dispatch skipped.`,
+      );
       return NextResponse.json({
         ok: true,
         message:
-          "If an account exists with that email, a password reset link has been generated.",
+          "If an account exists with that email, a password reset link has been dispatched.",
       });
     }
 
-    // Generate raw token and hash it for DB storage
+    // Generate raw cryptographically secure token and hash it for DB storage
     const rawToken = crypto.randomBytes(32).toString("hex");
     const hashedToken = crypto
       .createHash("sha256")
@@ -36,30 +40,142 @@ export async function POST(req: NextRequest) {
       .digest("hex");
 
     // Token valid for 1 hour
-    const expires = new Date(Date.now() + 60 * 60 * 1000);
+    const expires = new Date(Date.now() + 3600000);
 
     user.resetPasswordToken = hashedToken;
     user.resetPasswordExpires = expires;
     await user.save();
 
-    const origin =
-      req.headers.get("origin") ||
+    const baseUrl =
+      process.env.NEXTAUTH_URL ||
       process.env.AUTH_URL ||
+      req.headers.get("origin") ||
       "http://localhost:3000";
-    const resetUrl = `${origin}/reset-password?token=${rawToken}&email=${encodeURIComponent(cleanEmail)}`;
 
-    console.log("==================================================");
-    console.log(`[PASSWORD RESET] For: ${cleanEmail}`);
-    console.log(`[PASSWORD RESET] Reset URL: ${resetUrl}`);
-    console.log(`[PASSWORD RESET] Token expires at: ${expires.toISOString()}`);
-    console.log("==================================================");
+    const resetUrl = `${baseUrl}/reset-password?token=${rawToken}&email=${encodeURIComponent(cleanEmail)}`;
 
+    // Inked Neo-Brutalist HTML Email Template
+    const emailHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Reset • পাসওয়ার্ড রিসেট</title>
+</head>
+<body style="margin: 0; padding: 28px 12px; background-color: #f5f5f4; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1c1917;">
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" style="max-width: 520px; background-color: #fffdf7; border: 3px solid #000000; border-radius: 16px; box-shadow: 6px 6px 0px #000000; overflow: hidden; text-align: left;" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="background-color: #FBBF24; height: 8px; border-bottom: 2px solid #000000;"></td>
+          </tr>
+          <tr>
+            <td style="padding: 28px 28px 16px 28px;">
+              <div style="display: inline-block; background-color: #facc15; border: 2px solid #000000; border-radius: 8px; padding: 4px 10px; font-weight: 900; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 2px 2px 0px #000000; margin-bottom: 12px;">
+                SECURITY ALERT &bull; নিরাপত্তা সতর্কতা
+              </div>
+              <h1 style="margin: 0; font-size: 20px; font-weight: 900; color: #1c1917; line-height: 1.3;">
+                ⚡ CSRECALL &bull; পাসওয়ার্ড রিসেট
+              </h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 0 28px 28px 28px; font-size: 15px; line-height: 1.6; color: #292524;">
+              <p style="margin: 0 0 10px 0; font-weight: 500;">
+                You requested a password reset for your CSRecall account. Click the button below to choose a new password.
+              </p>
+              <p style="margin: 0 0 24px 0; font-weight: 600; color: #44403c;">
+                আপনার CSRecall অ্যাকাউন্টের পাসওয়ার্ড পরিবর্তন করতে নিচের বাটনে ক্লিক করুন।
+              </p>
+
+              <div style="text-align: center; margin: 28px 0;">
+                <a href="${resetUrl}" style="background: #FBBF24; border: 3px solid #000000; border-radius: 12px; box-shadow: 4px 4px 0px #000000; padding: 14px 26px; font-weight: 900; font-size: 14px; color: #000000; text-decoration: none; display: inline-block; text-transform: uppercase; letter-spacing: 0.5px;">
+                  RESET PASSWORD / পাসওয়ার্ড রিসেট করুন
+                </a>
+              </div>
+
+              <div style="background-color: #fafaf9; border: 2px dashed #000000; border-radius: 10px; padding: 14px 16px; margin: 24px 0 0 0;">
+                <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 600; color: #57534e; line-height: 1.5;">
+                  ✦ This link is valid for 1 hour. If you didn't request this, ignore this email.
+                </p>
+                <p style="margin: 0; font-size: 12px; font-weight: 600; color: #57534e; line-height: 1.5;">
+                  ✦ এই লিংকের মেয়াদ ১ ঘণ্টা। আপনি অনুরোধ না করে থাকলে ইমেইলটি এড়িয়ে চলুন।
+                </p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 14px 28px; background-color: #f5f5f4; border-top: 2px solid #000000; font-size: 11px; font-weight: 800; color: #78716c; text-align: center;">
+              ⚡ CSRECALL ARCADE &bull; CS INTERVIEW TRAINING ARENA
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+
+    // Real email dispatch via Resend
+    const resendApiKey = process.env.RESEND_API_KEY;
+    let emailDispatchFailed = false;
+
+    if (resendApiKey) {
+      try {
+        const resend = new Resend(resendApiKey);
+        const fromEmail =
+          process.env.EMAIL_FROM || "CSRecall <onboarding@resend.dev>";
+
+        const { data: resendData, error: sendError } = await resend.emails.send(
+          {
+            from: fromEmail,
+            to: cleanEmail,
+            subject: "⚡ CSRecall Password Reset • পাসওয়ার্ড রিসেট",
+            html: emailHtml,
+          },
+        );
+
+        if (sendError) {
+          emailDispatchFailed = true;
+          console.error(
+            "❌ [forgot-password] Resend dispatch error:",
+            sendError,
+          );
+        } else {
+          console.log(
+            `✅ [forgot-password] Email successfully dispatched via Resend (ID: ${resendData?.id}) to ${cleanEmail}`,
+          );
+        }
+      } catch (sendErr) {
+        emailDispatchFailed = true;
+        console.error("❌ [forgot-password] Resend exception:", sendErr);
+      }
+    } else {
+      emailDispatchFailed = true;
+      console.warn(
+        `\n⚠️ [forgot-password] RESEND_API_KEY is not defined in .env.local! Email dispatch was skipped.\n` +
+          `   Add RESEND_API_KEY=re_... in .env.local to receive emails via Resend.\n` +
+          `   [DEV RESET URL for ${cleanEmail}]:\n` +
+          `   ${resetUrl}\n`,
+      );
+    }
+
+    if (emailDispatchFailed) {
+      return NextResponse.json(
+        {
+          error:
+            "The reset email could not be sent. Please check the email service configuration and try again.",
+        },
+        { status: 503 },
+      );
+    }
+
+    // Return clean JSON without any dev-link or plain-text reset URL
     return NextResponse.json({
       ok: true,
       message:
-        "If an account exists with that email, a password reset link has been generated.",
-      // Include resetUrl in development or for convenience testing if needed
-      resetUrl: process.env.NODE_ENV !== "production" ? resetUrl : undefined,
+        "If an account exists with that email, a password reset link has been dispatched.",
     });
   } catch (error: unknown) {
     console.error("[forgot-password error]", error);

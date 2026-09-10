@@ -22,6 +22,9 @@ export const metadata: Metadata = {
   },
   description:
     "Interactive, zero-fluff CS interview revision hub for students and young developers.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

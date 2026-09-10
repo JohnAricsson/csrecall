@@ -390,9 +390,9 @@ const STAT_ITEMS: FeatureFlipCardProps[] = [
     accent: "bg-rose-300",
     badge: "60+ Traps",
     badgeClass: "bg-rose-400 text-black",
-    value: "60+",
+    value: "200+",
     unit: "Traps",
-    title: "60+ TRAPS",
+    title: "200+ TRAPS",
     detail: "ইন্টারভিউতে আসা কঠিন ও ট্রিকি প্রশ্নগুলোর সমাধান",
     backTitle: "ইন্টারভিউ ফাঁদ ও ট্রিকস",
     backDetail:

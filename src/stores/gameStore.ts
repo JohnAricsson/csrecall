@@ -200,6 +200,10 @@ export const useGameStore = create<GameState>()((set, get) => ({
   },
 
   reset: () => {
+    if (syncTimeout) {
+      clearTimeout(syncTimeout);
+      syncTimeout = null;
+    }
     set({
       xp: 0,
       streakDays: 0,

@@ -3,9 +3,9 @@ import React from "react";
 export function Footer() {
   return (
     <footer className="w-full px-4 sm:px-6 mt-auto">
-      <div className="bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[6px_6px_0px_0px_#000] max-w-5xl mx-auto my-12 p-6 sm:p-8">
+      <div className="bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000] max-w-5xl mx-auto mt-2 mb-0 py-3 sm:py-4 px-6">
         {/* ── Two Balanced Columns with Clear Vertical Center Alignment ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pb-6 border-b-2 border-black/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center pb-3 border-b-2 border-black/10">
           {/* ── Left Side: Brand & Identity ── */}
           <div className="flex flex-col items-start">
             <span className="bg-amber-300 text-stone-950 border-2 border-black font-black text-xs px-3 py-1 rounded-md uppercase tracking-wider inline-block">
@@ -62,7 +62,7 @@ export function Footer() {
         </div>
 
         {/* ── Bottom Row (Compact Copyright & Meta) ── */}
-        <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-bold text-stone-500">
+        <div className="pt-2.5 flex flex-col sm:flex-row items-center justify-between gap-1.5 text-[11px] sm:text-xs font-bold text-stone-500">
           <p className="text-center sm:text-left">
             © 2026 CSRecall. All rights reserved.
           </p>

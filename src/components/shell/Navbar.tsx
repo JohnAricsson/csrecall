@@ -12,8 +12,8 @@ export function Navbar() {
   const streakDays = useGameStore((s) => s.streakDays);
 
   return (
-    <header className="w-full mt-3 mb-2 sm:mt-4 sm:mb-3 z-50 max-w-6xl mx-auto px-4 sm:px-6 transition-all">
-      <div className="bg-[#fffdf7] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] rounded-2xl px-4 sm:px-6 py-2 sm:py-2.5 h-12 sm:h-14 flex items-center justify-between">
+    <header className="w-full mt-2 mb-3 sm:mt-3 sm:mb-4 z-50 max-w-6xl mx-auto px-4 sm:px-6 transition-all">
+      <div className="bg-[#fffdf7] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] rounded-2xl px-4 py-2 h-12 sm:h-13 flex items-center justify-between">
         {/* Brand Logo */}
         <Link
           href="/"

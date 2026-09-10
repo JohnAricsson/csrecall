@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --test tests/**/*.test.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -19,6 +20,7 @@
     "next-auth": "^5.0.0-beta.32",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "resend": "^6.27.0",
     "zod": "^4.5.4",
     "zustand": "^5.0.15"
   },

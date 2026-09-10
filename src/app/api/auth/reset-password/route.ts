@@ -14,14 +14,20 @@ export async function POST(req: NextRequest) {
 
     if (!token || !email || !newPassword) {
       return NextResponse.json(
-        { error: "Token, email, and new password are required." },
+        {
+          error:
+            "Token, email, and new password are required. / টোকেন, ইমেইল এবং নতুন পাসওয়ার্ড আবশ্যক।",
+        },
         { status: 400 },
       );
     }
 
-    if (newPassword.length < 6) {
+    if (newPassword.length < 8) {
       return NextResponse.json(
-        { error: "Password must be at least 6 characters." },
+        {
+          error:
+            "Password must be at least 8 characters. / পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে।",
+        },
         { status: 400 },
       );
     }
@@ -39,13 +45,16 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: "Invalid or expired password reset link." },
+        {
+          error:
+            "Invalid or expired password reset link. / লিংকটি সঠিক নয় বা এর মেয়াদ শেষ হয়ে গেছে।",
+        },
         { status: 400 },
       );
     }
 
-    // Hash new password and clear reset fields
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    // Hash new password with 12 salt rounds and clear token fields
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
     user.password = hashedPassword;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
@@ -58,7 +67,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       ok: true,
       message:
-        "Password reset successful! You can now log in with your new password.",
+        "Password updated successfully! / পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!",
     });
   } catch (error: unknown) {
     console.error("[reset-password error]", error);
