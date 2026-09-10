@@ -69,10 +69,6 @@ const config: NextAuthConfig = {
           return null;
         }
 
-        console.log(
-          `[auth] Login successful for user: "${email}" (${user._id})`,
-        );
-
         // 2. Normalize the return payload into pure serializable primitives only
         return {
           id: user._id.toString(),

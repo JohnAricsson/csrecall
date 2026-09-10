@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/mongodb";
 import UserModel from "@/models/User";
@@ -41,10 +41,13 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ ok: true }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Register Error:", error);
     return NextResponse.json(
-      { error: error.message || "Internal server error." },
+      {
+        error:
+          error instanceof Error ? error.message : "Internal server error.",
+      },
       { status: 500 },
     );
   }

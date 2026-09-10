@@ -12,8 +12,8 @@ export function Navbar() {
   const streakDays = useGameStore((s) => s.streakDays);
 
   return (
-    <header className=" top-3 sm:top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6 transition-all">
-      <div className="bg-[#fffbf0] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] rounded-2xl px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
+    <header className="w-full mt-3 mb-2 sm:mt-4 sm:mb-3 z-50 max-w-6xl mx-auto px-4 sm:px-6 transition-all">
+      <div className="bg-[#fffdf7] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] rounded-2xl px-4 sm:px-6 py-2 sm:py-2.5 h-12 sm:h-14 flex items-center justify-between">
         {/* Brand Logo */}
         <Link
           href="/"
@@ -37,7 +37,7 @@ export function Navbar() {
           <div className="w-28 h-9 bg-stone-200 animate-pulse rounded-xl border-2 border-black" />
         ) : session?.user ? (
           <Link href="/profile" className="cursor-pointer group">
-            <div className="flex items-center gap-2 sm:gap-3 bg-[#fffbf0] hover:bg-yellow-50 transition-all px-3 py-1.5 rounded-xl border-2 border-black shadow-[3px_3px_0px_0px_#000] group-hover:shadow-[4px_4px_0px_0px_#000] group-hover:-translate-y-0.5">
+            <div className="flex items-center gap-2 sm:gap-3 bg-[#fffdf7] hover:bg-yellow-50 transition-all px-3 py-1.5 rounded-xl border-2 border-black shadow-[3px_3px_0px_0px_#000] group-hover:shadow-[4px_4px_0px_0px_#000] group-hover:-translate-y-0.5">
               {streakDays > 0 && (
                 <>
                   <div className="flex items-center gap-1 text-xs font-black text-orange-950 bg-orange-300 px-2 py-0.5 rounded-md border border-black shadow-[1px_1px_0px_0px_#000]">

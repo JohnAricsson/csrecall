@@ -3,21 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import {
-  motion,
-  AnimatePresence,
-  useMotionValue,
-  useMotionTemplate,
-} from "framer-motion";
-import {
-  Zap,
-  Clock,
-  BookOpen,
-  Trophy,
-  PlayCircle,
-  Lock,
-  ArrowRight,
-} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Clock, BookOpen, Lock, ArrowRight } from "lucide-react";
 import type { Chapter } from "@/lib/schema";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -138,9 +125,9 @@ function ChapterCard({
       className={cn(
         "relative h-full p-4 sm:p-5 flex flex-col justify-between overflow-hidden transition-all duration-200 group select-none",
         isLocked
-          ? "bg-[#fffbf0]/80 border-[3px] border-dashed border-stone-600 shadow-[3px_3px_0px_0px_#000] cursor-pointer hover:border-black hover:-translate-y-0.5"
+          ? "bg-[#fffdf7]/80 border-[3px] border-dashed border-stone-600 shadow-[3px_3px_0px_0px_#000] cursor-pointer hover:border-black hover:-translate-y-0.5"
           : cn(
-              "bg-white border-[3px] shadow-[5px_5px_0px_0px_#000] hover:-translate-y-1 active:translate-y-0 active:shadow-[2px_2px_0px_0px_#000] cursor-pointer",
+              "bg-[#fffdf7] border-[3px] shadow-[5px_5px_0px_0px_#000] hover:-translate-y-1 active:translate-y-0 active:shadow-[2px_2px_0px_0px_#000] cursor-pointer",
               theme.cardBorder,
               theme.hoverGlow,
             ),
@@ -335,9 +322,9 @@ export function QuestMap({ chapters }: QuestMapProps) {
   };
 
   return (
-    <section id="quest-map" className="scroll-mt-24">
+    <section id="quest-map" className="scroll-mt-12">
       {/* Section header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 bg-[#fffbf0] p-5 sm:p-6 rounded-2xl border-[3px] border-black shadow-[5px_5px_0px_0px_#000]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 bg-[#fffdf7] p-5 sm:p-6 rounded-2xl border-[3px] border-black shadow-[5px_5px_0px_0px_#000]">
         <div>
           <div className="flex items-center gap-2.5 flex-wrap">
             <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight flex items-center gap-2">
@@ -409,7 +396,7 @@ export function QuestMap({ chapters }: QuestMapProps) {
               exit={{ opacity: 0, scale: 0.95, y: 12 }}
               className="w-full max-w-md"
             >
-              <Card className="p-6 sm:p-8 space-y-5 bg-[#fffbf0] border-[3px] border-black shadow-[8px_8px_0px_0px_#000] relative">
+              <Card className="p-6 sm:p-8 space-y-5 bg-[#fffdf7] border-[3px] border-black shadow-[8px_8px_0px_0px_#000] relative">
                 <button
                   type="button"
                   onClick={() => setShowUnlockModal(false)}

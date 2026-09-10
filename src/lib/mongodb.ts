@@ -6,7 +6,6 @@ interface MongooseCache {
 }
 
 declare global {
-  // eslint-disable-next-line no-var
   var mongoose: MongooseCache | undefined;
 }
 
@@ -34,7 +33,6 @@ export async function connectDB(): Promise<typeof mongoose> {
         bufferCommands: false,
       })
       .then((m) => {
-        console.log("Connected to MongoDB database:", m.connection.name);
         return m;
       });
   }

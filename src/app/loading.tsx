@@ -27,7 +27,7 @@ export default function Loading() {
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className="h-40 rounded-2xl border-2 border-stone-200 bg-white animate-pulse"
+            className="h-40 rounded-2xl border-2 border-stone-200 bg-[#fffdf7] animate-pulse"
             style={{ animationDelay: `${i * 0.1}s` }}
           />
         ))}

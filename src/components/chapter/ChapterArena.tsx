@@ -167,6 +167,7 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
   // Direct URL protection: trigger modal when guest lands on locked mode
   useEffect(() => {
     if (isGuest && (rawMode === "practice" || rawMode === "traps")) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowUnlockModal(true);
     }
   }, [isGuest, rawMode]);
@@ -240,7 +241,7 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
   if (isLockedForGuest) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center p-4 relative overflow-hidden">
-        <div className="relative z-10 max-w-md w-full bg-[#fffbf0] p-6 sm:p-8 rounded-2xl border-[3px] border-black shadow-[8px_8px_0px_0px_#000] text-center space-y-5">
+        <div className="relative z-10 max-w-md w-full bg-[#fffdf7] p-6 sm:p-8 rounded-2xl border-[3px] border-black shadow-[8px_8px_0px_0px_#000] text-center space-y-5">
           <div className="w-16 h-16 rounded-2xl bg-yellow-300 border-[3px] border-black flex items-center justify-center text-3xl mx-auto shadow-[3px_3px_0px_0px_#000]">
             🔒
           </div>
@@ -308,7 +309,7 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
               )}
             </h1>
 
-            <span className="flex-shrink-0 hidden md:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border-2 border-black bg-white text-stone-900 text-xs font-black shadow-[1px_1px_0px_0px_#000]">
+            <span className="flex-shrink-0 hidden md:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border-2 border-black bg-[#fffdf7] text-stone-900 text-xs font-black shadow-[1px_1px_0px_0px_#000]">
               <Clock className="w-3.5 h-3.5 text-stone-900" />
               ⏱️ {toBengaliDigits(chapter.estimatedMinutes)} মিনিট
             </span>

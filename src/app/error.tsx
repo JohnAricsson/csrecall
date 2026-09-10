@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { RotateCcw, AlertTriangle } from "lucide-react";
 
+import { useRouter } from "next/navigation";
+
 interface ErrorProps {
   error: Error & { digest?: string };
   reset: () => void;
@@ -14,6 +16,8 @@ interface ErrorProps {
  * Must be a Client Component — `reset` is a client-side callback.
  */
 export default function GlobalError({ error, reset }: ErrorProps) {
+  const router = useRouter();
+
   useEffect(() => {
     // Log to an error tracking service in production
     console.error("[CSRecall] Global error:", error);
@@ -51,11 +55,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
           <RotateCcw className="w-4 h-4" strokeWidth={2.5} />
           Retry
         </Button>
-        <Button
-          variant="ghost"
-          size="lg"
-          onClick={() => (window.location.href = "/")}
-        >
+        <Button variant="ghost" size="lg" onClick={() => router.push("/")}>
           ← Back to Hub
         </Button>
       </div>

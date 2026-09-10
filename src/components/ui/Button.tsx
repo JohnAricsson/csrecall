@@ -29,7 +29,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
     "bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 text-black hover:from-emerald-300 hover:to-teal-400 active:from-emerald-500 active:to-teal-600",
   danger:
     "bg-gradient-to-r from-rose-500 to-red-600 text-white hover:from-rose-400 hover:to-red-500 active:from-rose-600 active:to-red-700",
-  ghost: "bg-[#fffbf0] text-black hover:bg-yellow-100 hover:text-black",
+  ghost: "bg-[#fffdf7] text-black hover:bg-yellow-100 hover:text-black",
 };
 
 /** Hard-offset drop-shadow per variant (comic-arcade style) */

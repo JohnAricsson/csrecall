@@ -193,9 +193,9 @@ function BanglaTldr({ text }: { text: string }) {
 
 function ComparisonTableBlock({ table }: { table: ComparisonTable }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border-[3px] border-black shadow-[4px_4px_0px_0px_#000] bg-white">
-      <table className="w-full text-sm sm:text-base min-w-max border-collapse">
-        <caption className="text-left px-5 py-3 bg-yellow-300 text-stone-900 font-black text-sm sm:text-base border-b-2 border-black">
+    <div className="w-full overflow-hidden rounded-2xl border-[3px] border-black shadow-[4px_4px_0px_0px_#000] bg-[#fffdf7]">
+      <table className="w-full table-fixed text-xs sm:text-sm md:text-base border-collapse">
+        <caption className="w-full text-left px-3 sm:px-5 py-3 bg-yellow-300 text-stone-900 font-black text-sm sm:text-base border-b-2 border-black wrap-break-word">
           ⚡ {table.title}
         </caption>
         <thead>
@@ -203,7 +203,7 @@ function ComparisonTableBlock({ table }: { table: ComparisonTable }) {
             {table.headers.map((h, i) => (
               <th
                 key={i}
-                className="px-5 py-3.5 text-left font-black text-xs sm:text-sm uppercase tracking-wider whitespace-nowrap border-r-2 border-black last:border-r-0"
+                className="px-2 sm:px-4 py-3.5 text-left align-top font-black text-[10px] sm:text-xs uppercase tracking-wider whitespace-normal wrap-break-word border-r-2 border-black last:border-r-0"
               >
                 {h}
               </th>
@@ -216,13 +216,13 @@ function ComparisonTableBlock({ table }: { table: ComparisonTable }) {
               key={ri}
               className={cn(
                 "transition-colors hover:bg-amber-50/50",
-                ri % 2 === 0 ? "bg-white" : "bg-stone-50/90",
+                ri % 2 === 0 ? "bg-[#fffdf7]" : "bg-[#f7f4ec]",
               )}
             >
               {row.map((cell, ci) => (
                 <td
                   key={ci}
-                  className="px-5 py-3.5 text-stone-900 font-semibold text-sm sm:text-base border-t-2 border-stone-300 border-r-2 border-stone-300 last:border-r-0"
+                  className="px-2 sm:px-4 py-3.5 text-stone-900 font-semibold align-top wrap-break-word whitespace-normal border-t-2 border-stone-300 border-r-2 last:border-r-0"
                 >
                   {cell}
                 </td>
@@ -241,10 +241,10 @@ function QAItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="rounded-xl border-2 border-black overflow-hidden shadow-[3px_3px_0px_0px_#000] bg-white">
+    <div className="rounded-xl border-2 border-black overflow-hidden shadow-[3px_3px_0px_0px_#000] bg-[#fffdf7]">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center justify-between gap-3.5 py-4 px-5 bg-white hover:bg-stone-50 transition-colors text-left cursor-pointer"
+        className="w-full flex items-center justify-between gap-3.5 py-4 px-5 bg-[#fffdf7] hover:bg-[#f7f4ec] transition-colors text-left cursor-pointer"
       >
         <div className="flex items-center gap-3 flex-1 min-w-0">
           <span className="w-8 h-8 rounded-lg bg-yellow-300 border-2 border-black flex items-center justify-center text-sm font-black shrink-0 shadow-[1px_1px_0px_0px_#000]">
@@ -316,9 +316,6 @@ function TopicCard({
           <h3 className="text-xl md:text-2xl font-black tracking-tight text-stone-900 leading-tight pr-4 uppercase">
             {topic.title}
           </h3>
-          {topic.explanation && (
-            <FormattedExplanation text={topic.explanation} />
-          )}
         </div>
         {isCompleted && (
           <div className="flex-shrink-0 bg-emerald-300 text-black px-3 py-1.5 rounded-lg border-2 border-black text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-[2px_2px_0px_0px_#000]">
@@ -327,6 +324,8 @@ function TopicCard({
           </div>
         )}
       </div>
+
+      {topic.explanation && <FormattedExplanation text={topic.explanation} />}
 
       {/* Key points / Takeaways */}
       {topic.keyPoints && topic.keyPoints.length > 0 && (
@@ -338,7 +337,7 @@ function TopicCard({
             {topic.keyPoints.map((pt, i) => (
               <div
                 key={i}
-                className="bg-white border-2 border-black rounded-xl p-4 sm:p-5 shadow-[2px_2px_0px_0px_#000] font-semibold text-sm md:text-base text-stone-800 leading-normal flex items-start gap-3"
+                className="bg-[#fffdf7] border-2 border-black rounded-xl p-4 sm:p-5 shadow-[2px_2px_0px_0px_#000] font-semibold text-sm md:text-base text-stone-800 leading-normal flex items-start gap-3"
               >
                 <span className="text-amber-500 font-black flex-shrink-0 text-base mt-0.5">
                   ✦

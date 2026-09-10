@@ -162,7 +162,7 @@ export default function LoginPage() {
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="p-4 rounded-2xl bg-[#fffbf0] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] flex items-center gap-4 hover:-translate-y-1 transition-transform"
+              className="p-4 rounded-2xl bg-[#fffdf7] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] flex items-center gap-4 hover:-translate-y-1 transition-transform"
             >
               <div className="w-11 h-11 rounded-xl bg-rose-400 border-2 border-black flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_#000]">
                 <ShieldAlert className="w-6 h-6 text-black" strokeWidth={2.5} />
@@ -170,7 +170,7 @@ export default function LoginPage() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="px-2 py-0.5 rounded-md bg-yellow-300 text-black border border-black font-black text-xs shadow-[1px_1px_0px_0px_#000]">
-                    ⚡ +30 XP
+                    ⚡ +15 XP
                   </span>
                   <span className="text-xs font-black text-stone-600 uppercase tracking-wider">
                     Trap Defused
@@ -194,7 +194,7 @@ export default function LoginPage() {
                 ease: "easeInOut",
                 delay: 0.6,
               }}
-              className="p-4 rounded-2xl bg-[#fffbf0] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] flex items-center gap-4 hover:-translate-y-1 transition-transform"
+              className="p-4 rounded-2xl bg-[#fffdf7] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] flex items-center gap-4 hover:-translate-y-1 transition-transform"
             >
               <div className="w-11 h-11 rounded-xl bg-orange-300 border-2 border-black flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_#000]">
                 <Flame className="w-6 h-6 text-orange-600 fill-orange-500" />
@@ -224,7 +224,7 @@ export default function LoginPage() {
                 ease: "easeInOut",
                 delay: 1.2,
               }}
-              className="p-4 rounded-2xl bg-[#fffbf0] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] flex items-center gap-4 hover:-translate-y-1 transition-transform"
+              className="p-4 rounded-2xl bg-[#fffdf7] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] flex items-center gap-4 hover:-translate-y-1 transition-transform"
             >
               <div className="w-11 h-11 rounded-xl bg-sky-300 border-2 border-black flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_#000]">
                 <Layers className="w-6 h-6 text-black" />
@@ -269,7 +269,7 @@ export default function LoginPage() {
 
         {/* ── Right Column: Comic Authentication Card ── */}
         <div className="w-full max-w-md mx-auto">
-          <Card className="p-6 sm:p-8 space-y-6 bg-[#fffbf0] border-[3px] border-black shadow-[8px_8px_0px_0px_#000] relative overflow-hidden">
+          <Card className="p-6 sm:p-8 space-y-6 bg-[#fffdf7] border-[3px] border-black shadow-[8px_8px_0px_0px_#000] relative overflow-hidden">
             {/* Top accent line */}
             <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 border-b-2 border-black" />
 
@@ -286,7 +286,7 @@ export default function LoginPage() {
                   className={`flex-1 py-2.5 text-sm font-black transition-colors cursor-pointer ${
                     tab === t
                       ? "bg-yellow-300 text-black border-r-2 border-black last:border-r-0"
-                      : "bg-white text-stone-700 hover:bg-yellow-50 border-r-2 border-black last:border-r-0"
+                      : "bg-[#fffdf7] text-stone-700 hover:bg-yellow-50 border-r-2 border-black last:border-r-0"
                   }`}
                 >
                   {t === "signin" ? "🔑 Sign In" : "✨ Create Account"}
@@ -343,7 +343,7 @@ export default function LoginPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your full name"
-                    className="w-full px-4 py-2.5 rounded-xl border-2 border-black bg-white text-black font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-xl border-2 border-black bg-[#fffdf7] text-black font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
                   />
                 </div>
               )}
@@ -358,7 +358,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="you@example.com"
-                  className="w-full px-4 py-2.5 rounded-xl border-2 border-black bg-white text-black font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
+                  className="w-full px-4 py-2.5 rounded-xl border-2 border-black bg-[#fffdf7] text-black font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
                 />
               </div>
 
@@ -392,7 +392,7 @@ export default function LoginPage() {
                     placeholder={
                       tab === "register" ? "Min. 6 characters" : "Your password"
                     }
-                    className="w-full px-4 py-2.5 pr-12 rounded-xl border-2 border-black bg-white text-black font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
+                    className="w-full px-4 py-2.5 pr-12 rounded-xl border-2 border-black bg-[#fffdf7] text-black font-medium text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
                   />
                   <button
                     type="button"
@@ -447,7 +447,7 @@ export default function LoginPage() {
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               className="w-full max-w-md"
             >
-              <Card className="p-6 sm:p-8 space-y-5 bg-[#fffbf0] border-[3px] border-black shadow-[8px_8px_0px_0px_#000] relative">
+              <Card className="p-6 sm:p-8 space-y-5 bg-[#fffdf7] border-[3px] border-black shadow-[8px_8px_0px_0px_#000] relative">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-yellow-300 border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_#000]">
                     <Mail className="w-5 h-5 text-black" />
@@ -457,7 +457,7 @@ export default function LoginPage() {
                       Reset Password
                     </h3>
                     <p className="text-xs text-stone-600 font-bold">
-                      We'll generate a secure reset link for your account
+                      We&apos;ll generate a secure reset link for your account
                     </p>
                   </div>
                 </div>
@@ -512,7 +512,7 @@ export default function LoginPage() {
                         onChange={(e) => setForgotEmail(e.target.value)}
                         required
                         placeholder="you@example.com"
-                        className="w-full px-4 py-3 rounded-xl border-2 border-black bg-white text-black font-bold text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-rose-600 transition-colors"
+                        className="w-full px-4 py-3 rounded-xl border-2 border-black bg-[#fffdf7] text-black font-bold text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-rose-600 transition-colors"
                       />
                     </div>
 

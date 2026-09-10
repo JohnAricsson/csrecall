@@ -2,14 +2,12 @@
 
 import { useState } from "react";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import {
   User,
   LogOut,
   Zap,
   BookOpen,
   ShieldAlert,
-  Flame,
   Trophy,
   RotateCcw,
   Lock,
@@ -31,7 +29,6 @@ interface ProfileClientProps {
 }
 
 export function ProfileClient({ user }: ProfileClientProps) {
-  const router = useRouter();
   const [showReset, setShowReset] = useState(false);
   const [resetting, setResetting] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
@@ -41,7 +38,6 @@ export function ProfileClient({ user }: ProfileClientProps) {
     completedChapterIds,
     defusedTrapIds,
     masteredFlashcardIds,
-    streakDays,
     reset,
   } = useGameStore();
 
@@ -103,9 +99,10 @@ export function ProfileClient({ user }: ProfileClientProps) {
     <div className="relative min-h-screen overflow-hidden pb-20">
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-10">
         {/* ── Header Card ── */}
-        <Card className="p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 bg-[#fffbf0] border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden">
+        <Card className="p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 bg-[#fffdf7] border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 border-b-2 border-black" />
           {user.image ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={user.image}
               alt={user.name}
@@ -179,7 +176,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
 
         {/* ── Badge Matrix ── */}
         <div className="space-y-6">
-          <div className="flex items-center justify-between bg-[#fffbf0] p-4 rounded-2xl border-[3px] border-black shadow-[4px_4px_0px_0px_#000]">
+          <div className="flex items-center justify-between bg-[#fffdf7] p-4 rounded-2xl border-[3px] border-black shadow-[4px_4px_0px_0px_#000]">
             <div>
               <h2 className="text-2xl font-black text-black">
                 ট্রফি ম্যাট্রিক্স (Trophies)
@@ -201,7 +198,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
                 className={cn(
                   "p-5 flex items-start gap-4 transition-all duration-200 border-[3px] border-black",
                   badge.isUnlocked
-                    ? "bg-white shadow-[4px_4px_0px_0px_#000]"
+                    ? "bg-[#fffdf7] shadow-[4px_4px_0px_0px_#000]"
                     : "bg-stone-200/80 opacity-60 shadow-[2px_2px_0px_0px_#000]",
                 )}
               >
@@ -238,7 +235,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
         </div>
 
         {/* ── Danger Zone ── */}
-        <Card className="p-6 sm:p-8 bg-[#fffbf0] border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden">
+        <Card className="p-6 sm:p-8 bg-[#fffdf7] border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-2 bg-rose-500 border-b-2 border-black" />
           <h2 className="text-xl font-black text-rose-600 mb-2 uppercase tracking-wider">
             ⚠️ DANGER ZONE
@@ -267,7 +264,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
         {/* ── Reset Modal ── */}
         {showReset && (
           <div className="fixed inset-0 bg-black/75 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-            <Card className="max-w-sm w-full p-6 space-y-4 bg-[#fffbf0] border-[3px] border-black shadow-[8px_8px_0px_0px_#000]">
+            <Card className="max-w-sm w-full p-6 space-y-4 bg-[#fffdf7] border-[3px] border-black shadow-[8px_8px_0px_0px_#000]">
               <h2 className="font-black text-stone-900 text-xl">
                 ⚠️ Reset All Progress?
               </h2>
@@ -290,7 +287,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
                   disabled={resetting}
                   className="flex-1 shadow-[3px_3px_0px_0px_#000]"
                 >
-                  {resetting ? "Resetting..." : "🔄 Yes, Reset"}
+                  {resetting ? "Resetting..." : "🔄 Yes"}
                 </Button>
               </div>
             </Card>

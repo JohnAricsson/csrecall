@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CSRecall
+
+CSRecall is an interactive computer science interview preparation platform. It helps users rapidly review core concepts, data structures, and algorithms while actively practicing with flashcards and interview "traps" (common mistakes and tricky questions).
+
+## Features
+
+- **12 Arcade-Style Levels**: Progressive chapters from fundamentals to system design.
+- **Interactive Flashcards**: Over 200+ memory cards to drill definitions and core concepts.
+- **Trap Defusal Arena**: 60+ common interview traps and gotchas to master.
+- **Progress Tracking**: Level up, earn XP, unlock achievements, and build streaks.
+- **Bilingual Hybrid UI**: English technical content with Bengali micro-copy for better local accessibility.
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Styling**: Tailwind CSS 4, Framer Motion
+- **Database**: MongoDB (Mongoose)
+- **Auth**: NextAuth.js
+- **State Management**: Zustand
+- **Validation**: Zod
 
 ## Getting Started
 
-First, run the development server:
+1. Copy `.env.example` to `.env.local` and configure the required keys.
+2. Run `npm install`
+3. Run `npm run dev`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the app.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `/src/data/chapters/` - Core educational JSON data. (Immutable architecture)
+- `/src/components/` - React components including chapter arenas, learning modes, and dashboards.
+- `/src/app/` - Next.js routes and API endpoints.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Contributing
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project relies on immutable JSON chapter structures. Please avoid modifying `/src/data/chapters/` directly unless necessary for content updates.

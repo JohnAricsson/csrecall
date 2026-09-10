@@ -81,7 +81,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
           "overflow-hidden transition-all duration-300 relative border-[3px] border-black",
           isDefused
             ? "border-emerald-500 shadow-[5px_5px_0px_0px_#000] bg-emerald-50"
-            : "shadow-[5px_5px_0px_0px_#000] bg-white",
+            : "shadow-[5px_5px_0px_0px_#000] bg-[#fffdf7]",
         )}
       >
         {/* Top colored accent line */}
@@ -102,7 +102,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
         <div
           className={cn(
             "px-5 sm:px-6 py-5 pt-5.5",
-            isDefused ? "bg-emerald-50" : "bg-white",
+            isDefused ? "bg-emerald-50" : "bg-[#fffdf7]",
           )}
         >
           {/* Badges row */}
@@ -143,7 +143,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
               {isDefused ? (
                 <>
                   <ShieldCheck className="w-4 h-4 text-black" strokeWidth={3} />
-                  ✓ ডিফিউজড (+৩০ XP)
+                  ✓ ডিফিউজড (+১৫ XP)
                 </>
               ) : (
                 <>
@@ -179,7 +179,7 @@ function TrapCard({ trap, index, isDefused, onDefuse }: TrapCardProps) {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="overflow-hidden"
             >
-              <div className="px-5 sm:px-6 py-4 bg-[#fffbf0] border-t-2 border-black">
+              <div className="px-5 sm:px-6 py-4 bg-[#fffdf7] border-t-2 border-black">
                 <p className="text-xs font-black uppercase tracking-widest text-rose-600 mb-1.5 flex items-center gap-1">
                   <span>🔍</span>
                   <span>কেন ডেভেলপাররা ফাঁদে পড়েন:</span>
@@ -254,7 +254,7 @@ export function TrapsMode({ chapter }: TrapsModeProps) {
           "p-5 sm:p-6 rounded-2xl border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden",
           defusedCount === totalCount && totalCount > 0
             ? "bg-emerald-100"
-            : "bg-[#fffbf0]",
+            : "bg-[#fffdf7]",
         )}
       >
         {/* Top accent line */}

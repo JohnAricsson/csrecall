@@ -32,7 +32,7 @@ const VARIANT_CLASSES: Record<BadgeVariant, string> = {
   mint: "bg-emerald-300 text-black border-black shadow-[2px_2px_0px_0px_#000]",
   rose: "bg-rose-300 text-black border-black shadow-[2px_2px_0px_0px_#000]",
   pink: "bg-pink-300 text-black border-black shadow-[2px_2px_0px_0px_#000]",
-  stone: "bg-[#fffbf0] text-black border-black shadow-[2px_2px_0px_0px_#000]",
+  stone: "bg-[#fffdf7] text-black border-black shadow-[2px_2px_0px_0px_#000]",
   sky: "bg-sky-300 text-black border-black shadow-[2px_2px_0px_0px_#000]",
   indigo: "bg-indigo-300 text-black border-black shadow-[2px_2px_0px_0px_#000]",
   cyan: "bg-cyan-300 text-black border-black shadow-[2px_2px_0px_0px_#000]",

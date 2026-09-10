@@ -28,7 +28,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "bg-[#fffbf0] rounded-2xl",
+        "bg-[#fffdf7] rounded-2xl",
         !borderless && "border-[3px] border-black",
         soft
           ? "shadow-[2px_2px_0px_0px_#000]"

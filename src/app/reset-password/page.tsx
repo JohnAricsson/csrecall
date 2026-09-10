@@ -73,7 +73,7 @@ function ResetPasswordForm() {
   }
 
   return (
-    <Card className="p-6 sm:p-8 space-y-6 bg-[#fffbf0] border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden">
+    <Card className="p-6 sm:p-8 space-y-6 bg-[#fffdf7] border-[3px] border-black shadow-[6px_6px_0px_0px_#000] relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 border-b-2 border-black" />
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-yellow-300 border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_#000]">
@@ -130,7 +130,7 @@ function ResetPasswordForm() {
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
                 placeholder="Min. 6 characters"
-                className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-black bg-white text-black font-bold text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-rose-600 transition-colors"
+                className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-black bg-[#fffdf7] text-black font-bold text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-rose-600 transition-colors"
               />
               <button
                 type="button"
@@ -156,7 +156,7 @@ function ResetPasswordForm() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
               placeholder="Re-enter password"
-              className="w-full px-4 py-3 rounded-xl border-2 border-black bg-white text-black font-bold text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-rose-600 transition-colors"
+              className="w-full px-4 py-3 rounded-xl border-2 border-black bg-[#fffdf7] text-black font-bold text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:border-rose-600 transition-colors"
             />
           </div>
 

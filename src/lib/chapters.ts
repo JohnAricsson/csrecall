@@ -16,7 +16,6 @@ export const getAllChapters = cache((): Chapter[] => {
   let filenames: string[] = [];
   try {
     filenames = fs.readdirSync(chaptersDirectory);
-    console.log("Detected chapter files:", filenames);
   } catch (err) {
     console.error("Error reading chapters directory:", err);
     return [];

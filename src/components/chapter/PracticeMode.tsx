@@ -144,7 +144,7 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
 
             {/* Top header row */}
             <div className="flex items-center justify-between pt-1">
-              <span className="bg-white text-stone-950 font-black text-xs sm:text-sm px-3 py-1 rounded-lg border-2 border-black shadow-[2px_2px_0px_0px_#000] uppercase tracking-wider">
+              <span className="bg-[#fffdf7] text-stone-950 font-black text-xs sm:text-sm px-3 py-1 rounded-lg border-2 border-black shadow-[2px_2px_0px_0px_#000] uppercase tracking-wider">
                 ✓ সঠিক উত্তর
               </span>
               <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider bg-yellow-300 text-stone-950 px-2.5 py-1 rounded-md border-2 border-black shadow-[1px_1px_0px_0px_#000]">
@@ -163,7 +163,7 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
             {/* Bottom hint */}
             <div className="flex items-center justify-between text-xs font-black text-stone-900 pt-3 border-t-2 border-black/20">
               <span>প্রশ্ন দেখতে আবার ট্যাপ করুন 🔄</span>
-              <span className="bg-white text-stone-950 px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000] uppercase tracking-wider font-black">
+              <span className="bg-[#fffdf7] text-stone-950 px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000] uppercase tracking-wider font-black">
                 উল্টাতে ট্যাপ করুন 🔄
               </span>
             </div>

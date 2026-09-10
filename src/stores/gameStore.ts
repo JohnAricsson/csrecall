@@ -232,12 +232,12 @@ export const useGameStore = create<GameState>()((set, get) => ({
       ...s,
       ...data,
       defusedTrapIds:
-        (data as any).defusedTraps ??
-        (data as any).defusedTrapIds ??
+        ((data as Record<string, unknown>).defusedTraps as string[]) ??
+        ((data as Record<string, unknown>).defusedTrapIds as string[]) ??
         s.defusedTrapIds,
       masteredFlashcardIds:
-        (data as any).masteredFlashcards ??
-        (data as any).masteredFlashcardIds ??
+        ((data as Record<string, unknown>).masteredFlashcards as string[]) ??
+        ((data as Record<string, unknown>).masteredFlashcardIds as string[]) ??
         s.masteredFlashcardIds,
       isHydrated: true,
     }));

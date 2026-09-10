@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/mongodb";
@@ -15,14 +15,14 @@ export async function POST(req: NextRequest) {
     if (!token || !email || !newPassword) {
       return NextResponse.json(
         { error: "Token, email, and new password are required." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (newPassword.length < 6) {
       return NextResponse.json(
         { error: "Password must be at least 6 characters." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     if (!user) {
       return NextResponse.json(
         { error: "Invalid or expired password reset link." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -51,17 +51,23 @@ export async function POST(req: NextRequest) {
     user.resetPasswordExpires = undefined;
     await user.save();
 
-    console.log(`[PASSWORD RESET] Successfully updated password for: ${cleanEmail}`);
+    console.log(
+      `[PASSWORD RESET] Successfully updated password for: ${cleanEmail}`,
+    );
 
     return NextResponse.json({
       ok: true,
-      message: "Password reset successful! You can now log in with your new password.",
+      message:
+        "Password reset successful! You can now log in with your new password.",
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[reset-password error]", error);
     return NextResponse.json(
-      { error: error?.message || "Internal server error." },
-      { status: 500 }
+      {
+        error:
+          error instanceof Error ? error.message : "Internal server error.",
+      },
+      { status: 500 },
     );
   }
 }

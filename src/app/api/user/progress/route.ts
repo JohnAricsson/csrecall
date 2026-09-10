@@ -47,10 +47,12 @@ export async function GET() {
         masteredFlashcards: Array.from(user.masteredFlashcards || []),
       },
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Progress fetch error:", err);
     return NextResponse.json(
-      { error: err?.message || "Failed to fetch progress" },
+      {
+        error: err instanceof Error ? err.message : "Failed to fetch progress",
+      },
       { status: 500 },
     );
   }
@@ -189,10 +191,10 @@ export async function POST(req: NextRequest) {
         masteredFlashcards: Array.from(user.masteredFlashcards),
       },
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Progress sync error:", err);
     return NextResponse.json(
-      { error: err?.message || "Sync failed" },
+      { error: err instanceof Error ? err.message : "Sync failed" },
       { status: 500 },
     );
   }

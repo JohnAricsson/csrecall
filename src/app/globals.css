@@ -6,8 +6,12 @@
 @theme inline {
   /* ── Canvas & surfaces ── */
   --color-background: #3b0b18; /* Rich deep wine/maroon base */
-  --color-surface: #fffbf0; /* Warm cream/ivory card surfaces */
+  --color-surface: #fffdf7; /* Warm retro paper card surfaces */
   --color-border: #000000; /* Bold comic-ink border */
+
+  /* ── Arcade surface tokens ── */
+  --color-arcade-surface: #fffdf7;
+  --color-arcade-muted: #f7f4ec;
 
   /* ── Semantic Surface Tints ── */
   --color-surface-purple: rgba(139, 92, 246, 0.08);
