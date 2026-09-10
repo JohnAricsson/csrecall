@@ -29,7 +29,11 @@ export async function GET() {
     await connectDB();
     const user = await UserModel.findOne({
       email: session.user.email.toLowerCase(),
-    }).lean();
+    })
+      .select(
+        "xp streak completedChapters completedTopics defusedTraps masteredFlashcards",
+      )
+      .lean();
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }

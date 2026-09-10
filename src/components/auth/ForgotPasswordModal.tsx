@@ -37,18 +37,13 @@ export function ForgotPasswordModal({
       const data = (await res.json()) as { error?: string };
 
       if (!res.ok) {
-        setError(
-          data.error ||
-            "Failed to process request. / অনুরোধ সম্পন্ন করা যায়নি।",
-        );
+        setError(data.error || "অনুরোধ সম্পন্ন করা যায়নি।");
       } else {
         setSubmittedEmail(email.trim());
         setSuccess(true);
       }
     } catch {
-      setError(
-        "Network error. Please try again. / নেটওয়ার্ক ত্রুটি। আবার চেষ্টা করুন।",
-      );
+      setError("নেটওয়ার্ক ত্রুটি। আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
@@ -81,16 +76,16 @@ export function ForgotPasswordModal({
                 </div>
                 <div>
                   <h3 className="font-black text-xl text-black">
-                    Reset Password • পাসওয়ার্ড রিসেট
+                    পাসওয়ার্ড রিসেট
                   </h3>
                   <p className="text-xs text-stone-600 font-bold">
-                    We&apos;ll send a secure reset link to your email
+                    আপনার ইমেইলে একটি নিরাপদ রিসেট লিংক পাঠানো হবে
                   </p>
                 </div>
               </div>
 
               {success ? (
-                /* Bilingual Confirmation Card */
+                /* Confirmation Card (Bengali only) */
                 <div className="space-y-5">
                   <div className="p-5 rounded-xl bg-emerald-100 border-2 border-black text-emerald-950 text-sm font-bold flex items-start gap-3 shadow-[3px_3px_0px_0px_#000]">
                     <CheckCircle2
@@ -99,17 +94,10 @@ export function ForgotPasswordModal({
                     />
                     <div className="space-y-1.5">
                       <p className="font-black text-base text-emerald-950">
-                        Check Your Inbox! • ইমেইল চেক করুন
-                      </p>
-                      <p className="text-emerald-900 font-medium text-xs sm:text-sm leading-relaxed">
-                        We&apos;ve dispatched a secure reset link to{" "}
-                        <span className="font-black text-black underline">
-                          {submittedEmail}
-                        </span>
-                        . Check your inbox and spam folder.
+                        ইমেইল চেক করুন!
                       </p>
                       <p className="text-emerald-950 font-bold text-xs sm:text-sm leading-relaxed">
-                        <span className="font-black text-black">
+                        <span className="font-black text-black underline">
                           {submittedEmail}
                         </span>{" "}
                         ঠিকানায় একটি পাসওয়ার্ড রিসেট লিংক পাঠানো হয়েছে। আপনার
@@ -123,7 +111,7 @@ export function ForgotPasswordModal({
                     onClick={handleClose}
                     className="w-full py-3 px-4 bg-amber-400 hover:bg-amber-300 border-2 border-black font-black text-xs sm:text-sm rounded-xl shadow-[3px_3px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer text-center text-black"
                   >
-                    DONE & BACK TO LOGIN • লগইন-এ ফিরে যান
+                    লগইন-এ ফিরে যান
                   </button>
                 </div>
               ) : (
@@ -131,7 +119,7 @@ export function ForgotPasswordModal({
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-xs font-black text-black uppercase tracking-wider mb-1.5">
-                      Account Email • আপনার ইমেইল
+                      আপনার অ্যাকাউন্ট ইমেইল
                     </label>
                     <input
                       type="email"
@@ -156,7 +144,7 @@ export function ForgotPasswordModal({
                       onClick={handleClose}
                       className="flex-1 cursor-pointer"
                     >
-                      <ArrowLeft className="w-4 h-4" /> Cancel
+                      <ArrowLeft className="w-4 h-4" /> বাতিল
                     </Button>
                     <Button
                       type="submit"
@@ -164,9 +152,7 @@ export function ForgotPasswordModal({
                       disabled={loading}
                       className="flex-1 cursor-pointer"
                     >
-                      {loading
-                        ? "Sending... • পাঠানো হচ্ছে..."
-                        : "Send Reset Link →"}
+                      {loading ? "পাঠানো হচ্ছে..." : "রিসেট লিংক পাঠান →"}
                     </Button>
                   </div>
                 </form>

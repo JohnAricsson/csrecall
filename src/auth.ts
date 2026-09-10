@@ -1,10 +1,14 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import type { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { dbConnect } from "@/lib/mongodb";
 import UserModel from "@/models/User";
+
+class UnverifiedEmailError extends CredentialsSignin {
+  code = "unverified_email";
+}
 
 const config: NextAuthConfig = {
   session: {
@@ -57,6 +61,14 @@ const config: NextAuthConfig = {
           return null;
         }
 
+        // Prevent unverified accounts from signing in (must explicitly be true)
+        if (user.isVerified !== true) {
+          console.warn(
+            `[auth] Login rejected: Account "${email}" has not verified their email yet.`,
+          );
+          throw new UnverifiedEmailError();
+        }
+
         const valid = await bcrypt.compare(
           String(credentials.password),
           user.password,
@@ -87,6 +99,7 @@ const config: NextAuthConfig = {
         await UserModel.findOneAndUpdate(
           { email: profile.email.toLowerCase().trim() },
           {
+            $set: { isVerified: true }, // Google accounts are pre-verified
             $setOnInsert: {
               name: profile.name,
               email: profile.email.toLowerCase().trim(),
@@ -138,9 +151,11 @@ const config: NextAuthConfig = {
 
   logger: {
     error(error) {
-      // In Auth.js, CredentialsSignin is expected when a user enters wrong credentials or has no account.
-      // We log helpful dev guidance directly in authorize, so suppress redundant noisy callstack here.
-      if (error.name === "CredentialsSignin") {
+      // In Auth.js, CredentialsSignin is expected when a user enters wrong credentials or has unverified email.
+      if (
+        error.name === "CredentialsSignin" ||
+        (error as { code?: string })?.code === "unverified_email"
+      ) {
         return;
       }
       console.error("[auth][error]", error);

@@ -6,10 +6,31 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Clock, Trophy, CheckCircle2 } from "lucide-react";
+import dynamic from "next/dynamic";
 import type { Chapter } from "@/lib/schema";
 import { LearnMode } from "./LearnMode";
-import { PracticeMode } from "./PracticeMode";
-import { TrapsMode } from "./TrapsMode";
+
+const PracticeMode = dynamic(
+  () => import("./PracticeMode").then((m) => m.PracticeMode),
+  {
+    loading: () => (
+      <div className="flex justify-center items-center py-16 text-stone-500 font-bold text-sm">
+        ফ্ল্যাশকার্ড লোড হচ্ছে...
+      </div>
+    ),
+  },
+);
+
+const TrapsMode = dynamic(
+  () => import("./TrapsMode").then((m) => m.TrapsMode),
+  {
+    loading: () => (
+      <div className="flex justify-center items-center py-16 text-stone-500 font-bold text-sm">
+        ট্র্যাপস লোড হচ্ছে...
+      </div>
+    ),
+  },
+);
 import { cn } from "@/lib/utils";
 import { useGameStore } from "@/stores/gameStore";
 import { Button } from "@/components/ui/Button";
@@ -102,14 +123,14 @@ function UnlockModal({ chapterId, onClose }: UnlockModalProps) {
                 সদস্যদের জন্য
               </span>
               <h3 className="font-black text-lg sm:text-xl text-black leading-tight mt-1">
-                ⚡ প্লেয়ার Sign-In প্রয়োজন
+                ⚡ প্লেয়ার সাইন-ইন প্রয়োজন
               </h3>
             </div>
           </div>
 
           <p className="text-stone-800 text-sm font-semibold leading-relaxed">
-            Sign in করে আপনার XP track করুন, daily streak তৈরি করুন, interactive
-            flashcard unlock করুন এবং tricky interview gotcha practice করুন।
+            সাইন ইন করে আপনার XP ট্র্যাক করুন, ডেইলি স্ট্রিক তৈরি করুন,
+            ফ্ল্যাশকার্ড আনলক করুন এবং ইন্টারভিউ ট্র্যাপস প্র্যাকটিস করুন।
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-2.5 pt-2">
@@ -117,7 +138,7 @@ function UnlockModal({ chapterId, onClose }: UnlockModalProps) {
               href={`/login?callbackUrl=/chapter/${chapterId}`}
               className="w-full sm:flex-1 text-center bg-amber-400 hover:bg-amber-300 text-black font-black border-2 border-black shadow-[3px_3px_0px_0px_#000] px-4 py-2 rounded-xl cursor-pointer active:translate-x-[2px] active:translate-y-[2px] transition-all"
             >
-              Sign In / Register
+              লগইন / রেজিস্টার
             </Link>
             <button
               type="button"
@@ -148,7 +169,8 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
 
   const [showUnlockModal, setShowUnlockModal] = useState(false);
 
-  const { completedChapterIds, completeChapter } = useGameStore();
+  const completedChapterIds = useGameStore((s) => s.completedChapterIds);
+  const completeChapter = useGameStore((s) => s.completeChapter);
   const isChapterCompleted = completedChapterIds.includes(chapter.id);
 
   // Access Gating Rule: Guest users cannot access chapters beyond Chapter 2

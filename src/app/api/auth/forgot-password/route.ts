@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import { connectDB } from "@/lib/mongodb";
 import UserModel from "@/models/User";
 
@@ -99,8 +99,11 @@ export async function POST(req: NextRequest) {
                 <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 600; color: #57534e; line-height: 1.5;">
                   ✦ This link is valid for 1 hour. If you didn't request this, ignore this email.
                 </p>
-                <p style="margin: 0; font-size: 12px; font-weight: 600; color: #57534e; line-height: 1.5;">
-                  ✦ এই লিংকের মেয়াদ ১ ঘণ্টা। আপনি অনুরোধ না করে থাকলে ইমেইলটি এড়িয়ে চলুন।
+                <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 600; color: #57534e; line-height: 1.5;">
+                  ✦ Button not working? Copy and paste this URL into your browser:
+                </p>
+                <p style="margin: 0; font-size: 11px; word-break: break-all; color: #78716c; font-family: monospace;">
+                  ${resetUrl}
                 </p>
               </div>
             </td>
@@ -117,45 +120,55 @@ export async function POST(req: NextRequest) {
 </body>
 </html>`;
 
-    // Real email dispatch via Resend
-    const resendApiKey = process.env.RESEND_API_KEY;
+    // Real email dispatch via Nodemailer SMTP
+    const smtpUser = process.env.SMTP_USER?.trim();
+    const smtpPass = process.env.SMTP_PASSWORD?.trim();
     let emailDispatchFailed = false;
 
-    if (resendApiKey) {
+    // Always log reset link to console for debugging/fallback
+    console.log(
+      `\n=======================================================\n` +
+        `🔗 [CSRecall Password Reset Link for ${cleanEmail}]:\n` +
+        `   ${resetUrl}\n` +
+        `=======================================================\n`,
+    );
+
+    if (smtpUser && smtpPass) {
       try {
-        const resend = new Resend(resendApiKey);
+        const host = process.env.SMTP_HOST || "smtp.gmail.com";
+        const port = parseInt(process.env.SMTP_PORT || "587", 10);
+        const secure = process.env.SMTP_SECURE === "true" || port === 465;
         const fromEmail =
-          process.env.EMAIL_FROM || "CSRecall <onboarding@resend.dev>";
+          process.env.EMAIL_FROM?.trim() || `CSRecall <${smtpUser}>`;
 
-        const { data: resendData, error: sendError } = await resend.emails.send(
-          {
-            from: fromEmail,
-            to: cleanEmail,
-            subject: "⚡ CSRecall Password Reset • পাসওয়ার্ড রিসেট",
-            html: emailHtml,
+        const transporter = nodemailer.createTransport({
+          host,
+          port,
+          secure,
+          auth: {
+            user: smtpUser,
+            pass: smtpPass,
           },
-        );
+        });
 
-        if (sendError) {
-          emailDispatchFailed = true;
-          console.error(
-            "❌ [forgot-password] Resend dispatch error:",
-            sendError,
-          );
-        } else {
-          console.log(
-            `✅ [forgot-password] Email successfully dispatched via Resend (ID: ${resendData?.id}) to ${cleanEmail}`,
-          );
-        }
-      } catch (sendErr) {
+        const info = await transporter.sendMail({
+          from: fromEmail,
+          to: cleanEmail,
+          subject: "⚡ CSRecall Password Reset • পাসওয়ার্ড রিসেট",
+          html: emailHtml,
+        });
+
+        console.log(
+          `✅ [forgot-password] Reset email dispatched via Nodemailer SMTP to ${cleanEmail} (MessageId: ${info.messageId})`,
+        );
+      } catch (smtpErr) {
         emailDispatchFailed = true;
-        console.error("❌ [forgot-password] Resend exception:", sendErr);
+        console.error("❌ [forgot-password] SMTP dispatch error:", smtpErr);
       }
     } else {
       emailDispatchFailed = true;
       console.warn(
-        `\n⚠️ [forgot-password] RESEND_API_KEY is not defined in .env.local! Email dispatch was skipped.\n` +
-          `   Add RESEND_API_KEY=re_... in .env.local to receive emails via Resend.\n` +
+        `\n⚠️ [forgot-password] SMTP_USER or SMTP_PASSWORD is not configured in .env.local! Email dispatch was skipped.\n` +
           `   [DEV RESET URL for ${cleanEmail}]:\n` +
           `   ${resetUrl}\n`,
       );
@@ -165,7 +178,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           error:
-            "The reset email could not be sent. Please check the email service configuration and try again.",
+            "The reset email could not be sent. Please check your SMTP configuration and try again.",
         },
         { status: 503 },
       );

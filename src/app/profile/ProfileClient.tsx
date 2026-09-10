@@ -33,13 +33,11 @@ export function ProfileClient({ user }: ProfileClientProps) {
   const [resetting, setResetting] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
 
-  const {
-    xp,
-    completedChapterIds,
-    defusedTrapIds,
-    masteredFlashcardIds,
-    reset,
-  } = useGameStore();
+  const xp = useGameStore((s) => s.xp);
+  const completedChapterIds = useGameStore((s) => s.completedChapterIds);
+  const defusedTrapIds = useGameStore((s) => s.defusedTrapIds);
+  const masteredFlashcardIds = useGameStore((s) => s.masteredFlashcardIds);
+  const reset = useGameStore((s) => s.reset);
 
   const totalTrapsDefused = defusedTrapIds.length;
 
@@ -268,7 +266,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
           <div className="fixed inset-0 bg-black/75 backdrop-blur-xs z-50 flex items-center justify-center p-4">
             <Card className="max-w-sm w-full p-6 space-y-4 bg-[#fffdf7] border-[3px] border-black shadow-[8px_8px_0px_0px_#000]">
               <h2 className="font-black text-stone-900 text-xl">
-                ⚠️ Reset All Progress?
+                ⚠️ সমস্ত প্রগ্রেস রিসেট করবেন?
               </h2>
               <p className="text-sm font-semibold text-stone-800 leading-relaxed">
                 রিসেট করলে আপনার অর্জিত সমস্ত XP, কমপ্লিট করা চ্যাপ্টার এবং
@@ -281,7 +279,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
                   className="flex-1"
                   disabled={resetting}
                 >
-                  Cancel
+                  বাতিল
                 </Button>
                 <Button
                   variant="danger"
@@ -289,7 +287,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
                   disabled={resetting}
                   className="flex-1 shadow-[3px_3px_0px_0px_#000]"
                 >
-                  {resetting ? "Resetting..." : "🔄 Yes"}
+                  {resetting ? "রিসেট হচ্ছে..." : "🔄 হ্যাঁ, রিসেট করুন"}
                 </Button>
               </div>
             </Card>

@@ -4,13 +4,18 @@ import path from "path";
 import { validateChapter } from "@/lib/schema";
 import type { Chapter, Flashcard } from "@/lib/schema";
 
-// ─── Memoised loaders (React cache – one value per request/render) ────────────
+// ─── In-memory module cache (persists across requests in Node process) ────────
+let memoryChaptersCache: Chapter[] | null = null;
+let memoryChapterMap: Map<string, Chapter> | null = null;
 
-/**
- * Returns all validated chapters, sorted by chapterNumber.
- * Reads all .json files from src/data/chapters using fs.
- */
-export const getAllChapters = cache((): Chapter[] => {
+function loadAllChaptersFromDisk(): {
+  chapters: Chapter[];
+  map: Map<string, Chapter>;
+} {
+  if (memoryChaptersCache && memoryChapterMap) {
+    return { chapters: memoryChaptersCache, map: memoryChapterMap };
+  }
+
   const chaptersDirectory = path.join(process.cwd(), "src/data/chapters");
 
   let filenames: string[] = [];
@@ -18,13 +23,14 @@ export const getAllChapters = cache((): Chapter[] => {
     filenames = fs.readdirSync(chaptersDirectory);
   } catch (err) {
     console.error("Error reading chapters directory:", err);
-    return [];
+    return { chapters: [], map: new Map() };
   }
 
   const jsonFiles = filenames.filter((file) =>
     file.toLowerCase().endsWith(".json"),
   );
   const chapters: Chapter[] = [];
+  const map = new Map<string, Chapter>();
 
   for (const file of jsonFiles) {
     const filePath = path.join(chaptersDirectory, file);
@@ -33,19 +39,34 @@ export const getAllChapters = cache((): Chapter[] => {
       const rawJson = JSON.parse(fileContents);
       const chapter = validateChapter(rawJson);
       chapters.push(chapter);
+      map.set(chapter.id, chapter);
     } catch (err) {
       console.error(`Zod parse error in ${file}:`, err);
     }
   }
 
-  return chapters.sort((a, b) => a.chapterNumber - b.chapterNumber);
+  chapters.sort((a, b) => a.chapterNumber - b.chapterNumber);
+  memoryChaptersCache = chapters;
+  memoryChapterMap = map;
+
+  return { chapters, map };
+}
+
+// ─── Memoised loaders (React cache – one value per request/render) ────────────
+
+/**
+ * Returns all validated chapters, sorted by chapterNumber.
+ * Reads once from src/data/chapters, thereafter served instantly from memory.
+ */
+export const getAllChapters = cache((): Chapter[] => {
+  return loadAllChaptersFromDisk().chapters;
 });
 
 /**
- * Returns a single validated chapter by its `id` string (e.g. "chapter-1").
+ * Returns a single validated chapter by its `id` string (e.g. "chapter-1") in O(1) time.
  */
 export const getChapterById = cache((id: string): Chapter | undefined => {
-  return getAllChapters().find((c) => c.id === id);
+  return loadAllChaptersFromDisk().map.get(id);
 });
 
 /**

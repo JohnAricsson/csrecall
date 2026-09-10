@@ -12,9 +12,17 @@ import {
   UserPlus,
   ShieldAlert,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { ForgotPasswordModal } from "@/components/auth/ForgotPasswordModal";
+
+const ForgotPasswordModal = dynamic(
+  () =>
+    import("@/components/auth/ForgotPasswordModal").then(
+      (m) => m.ForgotPasswordModal,
+    ),
+  { ssr: false },
+);
 
 const MARQUEE_ITEMS = [
   "⚡ DATA STRUCTURES & ALGORITHMS",
@@ -38,12 +46,21 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Email verification states
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState("");
+  const [isUnverified, setIsUnverified] = useState(false);
+  const [resending, setResending] = useState(false);
+  const [resendFeedback, setResendFeedback] = useState("");
+
   // Forgot password modal state
   const [showForgotModal, setShowForgotModal] = useState(false);
 
   async function handleCredentials(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    setIsUnverified(false);
+    setResendFeedback("");
     setLoading(true);
 
     try {
@@ -53,12 +70,24 @@ export default function LoginPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, email, password }),
         });
-        const data = (await res.json()) as { error?: string };
+        const data = (await res.json()) as {
+          error?: string;
+          ok?: boolean;
+          requiresVerification?: boolean;
+        };
         if (!res.ok) {
           setError(data.error ?? "Registration failed.");
           setLoading(false);
           return;
         }
+
+        // Registration successful: notify user to verify email and switch to sign in
+        setRegistrationSuccess(true);
+        setRegisteredEmail(email);
+        setTab("signin");
+        setPassword("");
+        setLoading(false);
+        return;
       }
 
       const result = await signIn("credentials", {
@@ -68,7 +97,20 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
-        setError("Invalid email or password.");
+        const isUnverifiedAccount =
+          result.error === "unverified_email" ||
+          (result as { code?: string })?.code === "unverified_email" ||
+          result.url?.includes("code=unverified_email");
+
+        if (isUnverifiedAccount) {
+          setIsUnverified(true);
+          setError(
+            "আপনার ইমেইলটি এখনও ভেরিফাই করা হয়নি। অনুগ্রহ করে ইনবক্স চেক করুন।",
+          );
+        } else {
+          setIsUnverified(false);
+          setError("Invalid email or password.");
+        }
       } else {
         router.push("/profile");
         router.refresh();
@@ -77,6 +119,39 @@ export default function LoginPage() {
       setError("Something went wrong. Try again.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleResendVerification() {
+    if (!email.trim()) return;
+    setResending(true);
+    setResendFeedback("");
+
+    try {
+      const res = await fetch("/api/auth/resend-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+
+      const data = (await res.json()) as {
+        ok?: boolean;
+        message?: string;
+        error?: string;
+      };
+
+      if (res.ok) {
+        setResendFeedback(
+          data.message ||
+            "নতুন ভেরিফিকেশন লিংক পাঠানো হয়েছে! অনুগ্রহ করে আপনার ইনবক্স চেক করুন।",
+        );
+      } else {
+        setResendFeedback(data.error || "ভেরিফিকেশন লিংক পাঠাতে ব্যর্থ হয়েছে।");
+      }
+    } catch {
+      setResendFeedback("সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।");
+    } finally {
+      setResending(false);
     }
   }
 
@@ -236,6 +311,8 @@ export default function LoginPage() {
                   onClick={() => {
                     setTab(t);
                     setError("");
+                    setIsUnverified(false);
+                    setRegistrationSuccess(false);
                   }}
                   className={`flex-1 py-1.5 px-3 text-xs font-black transition-colors cursor-pointer ${
                     tab === t
@@ -247,6 +324,21 @@ export default function LoginPage() {
                 </button>
               ))}
             </div>
+
+            {/* Registration Success Notification */}
+            {registrationSuccess && (
+              <div className="mb-3 p-3 bg-emerald-100 border-2 border-black rounded-xl space-y-1 shadow-[2px_2px_0px_0px_#000]">
+                <p className="text-xs font-black text-black flex items-center gap-1.5">
+                  <span>🎉</span>
+                  <span>অ্যাকাউন্ট তৈরি হয়েছে!</span>
+                </p>
+                <p className="text-[11px] font-bold text-stone-800 leading-relaxed">
+                  <strong>{registeredEmail}</strong> ঠিকানায় ভেরিফিকেশন লিঙ্ক
+                  পাঠানো হয়েছে। দয়া করে ইনবক্স চেক করে ইমেইল ভেরিফাই করুন, তারপর
+                  লগইন করুন।
+                </p>
+              </div>
+            )}
 
             {/* Google */}
             <Button
@@ -338,7 +430,7 @@ export default function LoginPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     placeholder={
-                      tab === "register" ? "Min. 6 characters" : "Your password"
+                      tab === "register" ? "Min. 8 characters" : "Your password"
                     }
                     className="w-full h-9 sm:h-10 py-1.5 px-3 pr-10 rounded-xl border-2 border-black bg-[#fffdf7] text-black font-medium text-xs sm:text-sm placeholder-stone-400 shadow-[2px_2px_0px_0px_#000] focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
                   />
@@ -359,6 +451,31 @@ export default function LoginPage() {
               {error && (
                 <div className="px-3 py-2 rounded-xl bg-rose-50 border-2 border-rose-300 text-rose-700 text-xs font-medium">
                   ⚠️ {error}
+                </div>
+              )}
+
+              {/* Unverified Resend Link Helper */}
+              {isUnverified && (
+                <div className="p-3 bg-amber-50 border-2 border-black rounded-xl space-y-2 shadow-[2px_2px_0px_0px_#000]">
+                  <p className="text-xs font-bold text-amber-950 leading-snug">
+                    📩 আপনার ইনবক্স চেক করুন বা নতুন ভেরিফিকেশন লিঙ্ক চেয়ে
+                    পাঠান:
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleResendVerification}
+                    disabled={resending}
+                    className="w-full text-xs font-black text-black bg-yellow-300 hover:bg-yellow-400 border-2 border-black rounded-lg py-1.5 px-3 shadow-[1.5px_1.5px_0px_0px_#000] cursor-pointer"
+                  >
+                    {resending
+                      ? "পাঠানো হচ্ছে…"
+                      : "নতুন ভেরিফিকেশন লিঙ্ক পাঠান"}
+                  </button>
+                  {resendFeedback && (
+                    <p className="text-[11px] font-bold text-emerald-800 bg-emerald-50 p-1.5 rounded border border-emerald-300">
+                      {resendFeedback}
+                    </p>
+                  )}
                 </div>
               )}
 

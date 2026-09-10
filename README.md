@@ -12,7 +12,7 @@ CSRecall is an interactive, zero-fluff Computer Science interview revision and p
   - **Practice Mode**: 3D tap-to-flip rapid revision flashcard decks.
   - **Traps Mode**: Gotchas, tricky edge cases, and common interview mistakes to defuse.
 - **Player Progression & Trophies**: Earn XP (+10 per topic, +15-20 per trap, +100 per chapter), unlock trophies, track consistency streaks, and persist progress via MongoDB.
-- **Secure Authentication & Cloud Sync**: NextAuth.js v5 supporting Credentials and Google OAuth, plus cryptographically secure password reset flow via Resend email dispatch.
+- **Secure Authentication & Cloud Sync**: NextAuth.js v5 supporting Credentials and Google OAuth, plus cryptographically secure password reset flow via Nodemailer SMTP.
 - **Guest Play & Member Access**: Chapters 1 & 2 are open to guests; full access unlocks on free registration.
 
 ---
@@ -24,7 +24,7 @@ CSRecall is an interactive, zero-fluff Computer Science interview revision and p
 - **State Management**: [Zustand](https://zustand.docs.pmnd.rs/) (Optimistic client store with debounced server synchronization)
 - **Database**: [MongoDB](https://www.mongodb.com/) via [Mongoose](https://mongoosejs.com/)
 - **Authentication**: [NextAuth.js v5](https://authjs.dev/) (JWT strategy, bcryptjs)
-- **Email Service**: [Resend](https://resend.com/)
+- **Email Delivery**: [Nodemailer](https://nodemailer.com/) (Verification & password reset via SMTP)
 - **Schema Validation**: [Zod](https://zod.dev/)
 - **Testing**: Node.js Native Test Runner (`node:test`, `node:assert`)
 
@@ -59,7 +59,8 @@ Fill in your credentials in `.env.local`:
 # MongoDB Connection String
 MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/csrecall?retryWrites=true&w=majority
 
-# NextAuth Configuration
+# NextAuth Configuration & App URLs
+# (Keep Vercel deployment URLs separate from email sender configuration)
 AUTH_SECRET=your_super_secret_min_32_characters_here
 AUTH_URL=http://localhost:3000
 NEXTAUTH_URL=http://localhost:3000
@@ -68,9 +69,18 @@ NEXTAUTH_URL=http://localhost:3000
 AUTH_GOOGLE_ID=your_google_client_id
 AUTH_GOOGLE_SECRET=your_google_client_secret
 
-# Resend Email Dispatch (Password Reset)
-RESEND_API_KEY=re_your_resend_api_key_here
-EMAIL_FROM=CSRecall <onboarding@resend.dev>
+# ── Nodemailer SMTP (Verification & Password Reset Emails) ──
+# Gmail Requirements:
+# 1. 2-Step Verification MUST be enabled on your Google account.
+# 2. Generate a 16-character App Password (Security -> 2-Step Verification -> App passwords).
+# 3. Your normal Google/Gmail account password MUST NOT be used.
+# 4. In production (e.g. Vercel), SMTP_PASSWORD is a sensitive secret and must be configured in Vercel Environment Variables.
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your-email@gmail.com
+SMTP_PASSWORD=your-gmail-app-password
+EMAIL_FROM=CSRecall <your-email@gmail.com>
 ```
 
 ### 4. Run Development Server

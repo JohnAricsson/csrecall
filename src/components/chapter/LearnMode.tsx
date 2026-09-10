@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Copy, Check, CheckCircle2, Lock } from "lucide-react";
 import type {
@@ -296,15 +296,17 @@ interface TopicCardProps {
   onRequireAuth?: () => void;
 }
 
-function TopicCard({
+const TopicCard = memo(function TopicCard({
   topic,
   chapterId,
   index,
   isGuest,
   onRequireAuth,
 }: TopicCardProps) {
-  const { completedTopics, completeTopic } = useGameStore();
-  const isCompleted = isTopicCompleted(completedTopics, chapterId, topic.id);
+  const isCompleted = useGameStore((s) =>
+    isTopicCompleted(s.completedTopics, chapterId, topic.id),
+  );
+  const completeTopic = useGameStore((s) => s.completeTopic);
 
   return (
     <div className="bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[6px_6px_0px_0px_#000] p-3.5 pb-4 sm:p-5 sm:pb-5 md:p-6 md:pb-6 mb-5 sm:mb-6 text-stone-900 relative overflow-hidden flex flex-col gap-3 sm:gap-4">
@@ -419,7 +421,7 @@ function TopicCard({
       )}
     </div>
   );
-}
+});
 
 // ─── Learn Mode ───────────────────────────────────────────────────────────────
 

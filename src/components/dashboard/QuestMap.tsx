@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, memo } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -108,7 +108,7 @@ interface ChapterCardProps {
   onLockedClick: (chapter: Chapter) => void;
 }
 
-function ChapterCard({
+const ChapterCard = memo(function ChapterCard({
   chapter,
   isCompleted,
   isLocked,
@@ -295,7 +295,7 @@ function ChapterCard({
       )}
     </motion.div>
   );
-}
+});
 
 // ─── Quest Map Component ──────────────────────────────────────────────────────
 
@@ -316,10 +316,10 @@ export function QuestMap({ chapters }: QuestMapProps) {
   const [selectedLockedChapter, setSelectedLockedChapter] =
     useState<Chapter | null>(null);
 
-  const handleLockedClick = (chapter: Chapter) => {
+  const handleLockedClick = useCallback((chapter: Chapter) => {
     setSelectedLockedChapter(chapter);
     setShowUnlockModal(true);
-  };
+  }, []);
 
   return (
     <section id="quest-map" className="scroll-mt-12">
@@ -411,10 +411,10 @@ export function QuestMap({ chapters }: QuestMapProps) {
                   </div>
                   <div>
                     <span className="text-[10px] font-black uppercase tracking-wider text-black bg-yellow-300 px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000]">
-                      ARENA ACCESS
+                      অ্যারেনা অ্যাক্সেস
                     </span>
                     <h3 className="font-black text-2xl text-black leading-tight mt-0.5">
-                      পুরো Arena আনলক করুন
+                      পুরো অ্যারেনা আনলক করুন
                     </h3>
                   </div>
                 </div>
@@ -434,12 +434,12 @@ export function QuestMap({ chapters }: QuestMapProps) {
                 <div className="space-y-2 bg-emerald-50 p-3.5 rounded-xl border-2 border-black text-xs text-black font-bold shadow-[2px_2px_0px_0px_#000]">
                   <div className="flex items-center gap-2">
                     <span className="text-emerald-700 font-black">✓</span>{" "}
-                    Google বা email দিয়ে এক ক্লিকেই ফ্রি sign in করুন
+                    Google বা ইমেইল দিয়ে এক ক্লিকেই ফ্রিতে সাইন ইন করুন
                   </div>
 
                   <div className="flex items-center gap-2">
                     <span className="text-emerald-700 font-black">✓</span> সব
-                    12টি Chapter এবং rapid flashcard deck-এ সম্পূর্ণ access
+                    ১২টি চ্যাপ্টার এবং ফ্ল্যাশকার্ড ডেকে সম্পূর্ণ অ্যাক্সেস
                   </div>
                 </div>
 
@@ -456,7 +456,7 @@ export function QuestMap({ chapters }: QuestMapProps) {
                       variant="accent"
                       className="w-full cursor-pointer shadow-[3px_3px_0px_0px_#000]"
                     >
-                      ফ্রিতে Sign In করুন &rarr;
+                      ফ্রিতে সাইন ইন করুন &rarr;
                     </Button>
                   </Link>
                 </div>
