@@ -3,7 +3,7 @@
   "chapterNumber": 8,
   "title": "AI, Data Science & Machine Learning",
   "description": "Interactive Interview Revision Cheat Sheet",
-  "estimatedMinutes": 60,
+  "estimatedMinutes": 70,
   "sections": [
     {
       "id": "sec-core-concepts",
@@ -42,7 +42,7 @@
         {
           "id": "topic-supervised-unsupervised",
           "title": "Supervised vs Unsupervised Learning",
-          "explanation": "Supervised Learning: Model is trained using labeled data where the dataset contains the correct answers (labels or targets) to learn the relationship between input features and correct output.\nUnsupervised Learning: Dataset does not contain labels; the model tries to discover hidden patterns, structures, or groups by itself (such as clustering).",
+          "explanation": "-Supervised Learning: Model is trained using labeled data where the dataset contains the correct answers (labels or targets) to learn the relationship between input features and correct output.\n-Unsupervised Learning: Dataset does not contain labels; the model tries to discover hidden patterns, structures, or groups by itself (such as clustering).",
           "tldr": "Supervised Learning-এ input-এর সাথে correct answer আগে থেকেই থাকে। Unsupervised Learning-এ correct answer থাকে না, model নিজে pattern বা group খুঁজে বের করে।",
           "keyPoints": [
             "Supervised Learning main types: Classification and Regression",
@@ -187,7 +187,7 @@
         {
           "id": "topic-overfitting-underfitting",
           "title": "Overfitting vs Underfitting",
-          "explanation": "Overfitting happens when a model learns the training data too well, including noise and unnecessary details, leading to very good training performance but poor testing performance.\nUnderfitting happens when the model is too simple to learn the important patterns, resulting in poor training and testing performance.",
+          "explanation": "-Overfitting: Overfitting happens when a model learns the training data too well, including noise and unnecessary details, leading to very good training performance but poor testing performance.\n-Underfitting: Underfitting happens when the model is too simple to learn the important patterns, resulting in poor training and testing performance.",
           "tldr": "Training data মুখস্থ করে ফেলে, কিন্তু নতুন problem solve করতে পারে না (Overfitting)। Model ঠিকমতো শেখেইনি (Underfitting)।",
           "keyPoints": [
             "Techniques to reduce overfitting: Use more training data, Simplify the model, Regularization, Cross-validation, Early stopping, Dropout for neural networks, Remove irrelevant features."
@@ -320,7 +320,7 @@
         {
           "id": "topic-data-preprocessing",
           "title": "Data Preprocessing",
-          "explanation": "Raw data usually needs to be prepared before training a Machine Learning model by handling missing values, removing duplicate records, fixing formats, encoding categorical values, scaling numerical features, removing irrelevant features, and handling outliers.",
+          "explanation": "-Data Preprocessing: Raw data usually needs to be prepared before training a Machine Learning model by handling missing values, removing duplicate records, fixing formats, encoding categorical values, scaling numerical features, removing irrelevant features, and handling outliers.",
           "tldr": "Raw data সাধারণত সরাসরি model-এ দেওয়া যায় না, আগে clean এবং prepare করতে হয়।",
           "keyPoints": [
             "Missing Values: Can remove rows, fill with mean, median, mode, or use advanced imputation. Mean is sensitive to outliers, while median is more robust.",
@@ -342,7 +342,7 @@
         {
           "id": "topic-feature-scaling",
           "title": "Normalization and Feature Scaling",
-          "explanation": "Normalization brings numerical features to a similar scale to prevent one feature with large numerical values from dominating another. It prevents large-valued features from dominating, improves training speed, and is critical for distance-based algorithms and neural networks.",
+          "explanation": "-Normalization: Brings numerical features to a similar scale to prevent one feature with large numerical values from dominating another. It prevents large-valued features from dominating, improves training speed, and is critical for distance-based algorithms and neural networks.",
           "tldr": "Test data-এর information training-এর সময় leak করা যাবে না।",
           "keyPoints": [
             "Algorithms that benefit from scaling: KNN, K-Means, Neural Networks, SVM, Gradient-based algorithms.",
@@ -439,7 +439,7 @@
         {
           "id": "topic-nlp",
           "title": "NLP — Natural Language Processing",
-          "explanation": "Natural Language Processing (NLP) is a branch of AI that helps computers understand, process, interpret, and generate human language.",
+          "explanation": "-Natural Language Processing: NLP is a branch of AI that helps computers understand, process, interpret, and generate human language.",
           "tldr": "NLP হলো computer দিয়ে মানুষের ভাষা বোঝা এবং generate করানো।",
           "examples": [
             "ChatGPT, Language translation, Spam detection, Sentiment analysis, Voice assistants, Text summarization, Chatbots",

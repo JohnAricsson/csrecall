@@ -3,7 +3,7 @@
   "chapterNumber": 11,
   "title": "Software Engineering Practices & Core Concepts",
   "description": "Quick Interview Revision Cheat Sheet",
-  "estimatedMinutes": 45,
+  "estimatedMinutes": 120,
   "sections": [
     {
       "id": "sec-fundamentals-sdlc",
@@ -12,7 +12,7 @@
         {
           "id": "topic-software-engineering-crisis",
           "title": "Software Engineering & The Software Crisis",
-          "explanation": "Software engineering is a disciplined approach to building reliable software on time and within budget. The software crisis refers to common problems where projects run late, exceed budgets, and carry bugs.",
+          "explanation": "-Software Engineering: Software engineering is a disciplined approach to building reliable software on time and within budget.\n-Software Crisis: The software crisis refers to common problems where projects run late, exceed budgets, and carry bugs.",
           "tldr": "Software Engineering মানে সময় ও বাজেটের মধ্যে ভালো সফটওয়্যার বানানো। সফটওয়্যার কখনো ঘুণ ধরে নষ্ট হয় না, বারবার ভুলভাল চেঞ্জ করলে নষ্ট হয়।",
           "keyPoints": [
             "Software engineering focuses on practical, cost-effective methods to deliver working systems.",
@@ -62,7 +62,7 @@
         {
           "id": "topic-sdlc-lifecycle",
           "title": "Software Development Life Cycle (SDLC)",
-          "explanation": "SDLC is the step-by-step workflow used to plan, create, test, and maintain software. It ensures software is built systematically from start to finish.",
+          "explanation": "-Software Development Life Cycle : SDLC is the step-by-step workflow used to plan, create, test, and maintain software. It ensures software is built systematically from start to finish.",
           "tldr": "SDLC steps: Requirements → Design → Coding → Testing → Deployment → Maintenance.",
           "keyPoints": [
             "Requirements: Understand what the user needs and what constraints exist.",
@@ -134,7 +134,7 @@
         {
           "id": "topic-waterfall-vs-agile",
           "title": "Agile Principles",
-          "explanation": "Agile is an iterative way of building software in short cycles called iterations or sprints.",
+          "explanation": "-Agile: Agile is an iterative way of building software in short cycles called iterations or sprints.",
           "tldr": "Agile-এ time আর budget ফিক্সড, কিন্তু requirement flex করা যায়; কাজ চলে ১-৪ সপ্তাহের sprint-এ।",
           "keyPoints": [
             "Agile works best when requirements change frequently.",
@@ -178,7 +178,7 @@
         {
           "id": "topic-scrum-framework",
           "title": "Scrum",
-          "explanation": "Scrum is a popular Agile framework. Work is split into fixed time periods called Sprints (1 to 4 weeks). It defines three roles, four main meetings, and three core artifacts.",
+          "explanation": "-Scrum: Scrum is a popular Agile framework. Work is split into fixed time periods called Sprints (1 to 4 weeks). It defines three roles, four main meetings, and three core artifacts.",
           "tldr": "Scrum চলে ছোট ছোট sprint-এ; Product Owner কাজ ঠিক করে, Scrum Master blocker সরায়, আর Dev Team কোড বানায়।",
           "keyPoints": [
             "Product Owner: Decides feature priorities and owns the Product Backlog.",
@@ -222,7 +222,7 @@
         {
           "id": "topic-extreme-programming-xp",
           "title": "Extreme Programming (XP)",
-          "explanation": "Extreme Programming (XP) is an agile framework focused on clean engineering practices. It emphasizes pair programming, test-first coding, refactoring, and regular customer feedback.",
+          "explanation": "-Extreme Programming: XP is an agile framework focused on clean engineering practices. It emphasizes pair programming, test-first coding, refactoring, and regular customer feedback.",
           "tldr": "XP হলো engineering practice-focused agile method; সবচেয়ে পপুলার হাইব্রিড হলো Scrum + XP।",
           "keyPoints": [
             "Pair Programming: Two developers share one computer; one types (Driver), one reviews (Navigator).",
@@ -249,7 +249,7 @@
         {
           "id": "topic-requirements-engineering-overview",
           "title": "Software Requirements Engineering",
-          "explanation": "Requirements Engineering is the process of discovering, analyzing, documenting, validating, and managing what a software system needs to do.",
+          "explanation": "-Software Requirements Engineering: SRE is the process of discovering, analyzing, documenting, validating, and managing what a software system needs to do.",
           "tldr": "Requirements Engineering = বুঝে নেওয়া, analyze করা, document করা এবং validate করা যে software-এ কী কী দরকার।",
           "keyPoints": [
             "Requirements describe what the system must provide and the constraints it must follow.",
@@ -288,7 +288,7 @@
         {
           "id": "topic-requirement-elicitation",
           "title": "Requirement Elicitation",
-          "explanation": "Requirement elicitation is the process of collecting requirements from stakeholders and understanding their actual needs.",
+          "explanation": "-Elicitation: Requirement elicitation is the process of collecting requirements from stakeholders and understanding their actual needs.",
           "tldr": "Elicitation মানে stakeholder-এর কাছ থেকে আসল requirements বের করে আনা।",
           "keyPoints": [
             "Common techniques include interviews, questionnaires, observation, workshops, brainstorming, and prototyping.",
@@ -321,7 +321,7 @@
         {
           "id": "topic-functional-vs-non-functional",
           "title": "Functional vs Non-Functional Requirements",
-          "explanation": "Functional requirements define what the system should do.\nNon-functional requirements define how well the system should do it, covering quality traits like speed, security, and availability.",
+          "explanation": "-Functional requirements:It define what the system should do.\n-Non-functional requirements: It define how well the system should do it, covering quality traits like speed, security, and availability.",
           "tldr": "Functional = system features; Non-functional = quality and performance.",
           "keyPoints": [
             "Functional: Specific features, user actions, and system responses (e.g., login, payment).",
@@ -360,7 +360,7 @@
         {
           "id": "topic-user-stories",
           "title": "User Stories & Acceptance Criteria",
-          "explanation": "A user story describes a feature from the user's perspective. Acceptance criteria define the conditions that must be satisfied for the story to be considered complete.",
+          "explanation": "-User Story: A user story describes a feature from the user's perspective. \n-Acceptance criteria: It defines the conditions that must be satisfied for the story to be considered complete.",
           "tldr": "User Story বলে user কী চায়; Acceptance Criteria বলে কখন feature-টাকে complete বলা যাবে।",
           "keyPoints": [
             "A common user story format is: As a [user], I want [goal], so that [benefit].",
@@ -403,7 +403,7 @@
         {
           "id": "topic-requirement-analysis-prioritization",
           "title": "Requirement Analysis, Prioritization & Validation",
-          "explanation": "After requirements are collected, they are analyzed for conflicts, dependencies, feasibility, and priority. Validation checks whether the documented requirements are correct and usable.",
+          "explanation": "Simple flow: Collect Requirements → Analyze → Check Feasibility & Conflicts → Set Priority → Validate Requirements → Final Requirements",
           "tldr": "Requirements analyze করে conflict/feasibility দেখা হয়, priority দেওয়া হয় এবং শেষে validate করা হয়।",
           "keyPoints": [
             "Analysis identifies ambiguity, conflicts, dependencies, feasibility issues, and missing requirements.",
@@ -448,7 +448,7 @@
         {
           "id": "topic-software-design-principles",
           "title": "Software Design",
-          "explanation": "Good software design keeps parts independent and easy to understand.\nCohesion refers to how focused a single module is on doing one job well.\nCoupling refers to how much different modules depend on each other.",
+          "explanation": "Good software design keeps parts independent and easy to understand.\n-Cohesion: Cohesion refers to how focused a single module is on doing one job well.\n-Coupling: Coupling refers to how much different modules depend on each other.",
           "tldr": "Software design-এর গোল একটাই: High Cohesion (একটা module একটাই কাজ করবে) আর Low Coupling (একে অন্যের ওপর কম depend করবে)।",
           "keyPoints": [
             "High Cohesion: A module has one clear responsibility and does it well.",
@@ -493,7 +493,7 @@
         {
           "id": "topic-software-quality",
           "title": "Software Quality Assurance VS Quality Control",
-          "explanation": "Quality Assurance (QA) focuses on improving processes to prevent defects before they happen. \nQuality Control (QC) focuses on checking the software to find defects after or during development. In simple terms, QA prevents problems, while QC finds problems.",
+          "explanation": "-Software Quality Assurance: QA focuses on improving processes to prevent defects before they happen. \n-Software Quality Control: QC focuses on checking the software to find defects after or during development. In simple terms, QA prevents problems, while QC finds problems.",
           "tldr": "QA = Process improve করে defect prevent করা। QC = Software check করে defect খুঁজে বের করা।",
           "keyPoints": [
             "Quality Assurance (QA) is process-oriented and focuses on preventing defects.",
@@ -539,7 +539,7 @@
         {
           "id": "topic-verification-vs-validation",
           "title": "Testing Fundamentals: Verification vs Validation",
-          "explanation": "Testing is running a system to catch defects before delivery. Verification checks if the software meets its technical specs. Validation checks if it actually meets user needs.",
+          "explanation": "-Software Testing: Testing is running a system to catch defects before delivery. \n-Verification: Verification checks if the software meets its technical specs. \n-Validation: Validation checks if it actually meets user needs.",
           "tldr": "Verification কোড চেক করে, Validation ইউজারের আসল দরকার মেলায়",
           "keyPoints": [
             "Verification: Checking code, designs, and specs during development.",
@@ -583,7 +583,7 @@
         {
           "id": "topic-testing-strategies-levels",
           "title": "Testing Strategies",
-          "explanation": "Testing starts small and moves up to the complete system. Unit tests check single components. Integration tests check how components communicate. System tests check the whole assembled application.",
+          "explanation": "Simple Flow: Unit Testing → Integration Testing → System Testing → Acceptance Testing.",
           "tldr": "Testing শুরু হয় Unit দিয়ে, এরপর Integration, System এবং শেষে UAT; টেস্টের প্রয়োজনে সাহায্য নেওয়া হয় Driver (caller) আর Stub (callee) দিয়ে।",
           "keyPoints": [
             "Unit Testing: Tests individual functions or classes in isolation to catch bugs early.",
@@ -605,7 +605,7 @@
         {
           "id": "topic-black-box-techniques",
           "title": "Common Black-Box Testing Techniques",
-          "explanation": "Black-box techniques design test cases from requirements and expected behavior without examining the internal implementation.",
+          "explanation": "-Black-Box Testing:Black-box techniques design test cases from requirements and expected behavior without examining the internal implementation.",
           "tldr": "Black-box testing-এ code না দেখে input-এর important groups আর boundary ধরে test case বানানো হয়।",
           "keyPoints": [
             "Equivalence Partitioning: Divide inputs into groups expected to behave similarly and test representative values.",
@@ -643,7 +643,7 @@
         {
           "id": "topic-test-case-bug-basics",
           "title": "Test Cases, Bugs, Severity & Priority",
-          "explanation": "A test case defines inputs, conditions, actions, and expected results for checking a requirement. Bugs are defects where actual behavior differs from expected behavior.",
+          "explanation": "-Test-case: A test case defines inputs, conditions, actions, and expected results for checking a requirement. -Bugs: Bugs are defects where actual behavior differs from expected behavior.",
           "tldr": "Test Case বলে কীভাবে feature check করবে; Severity বলে bug কতটা damaging, Priority বলে কত দ্রুত fix করা দরকার।",
           "keyPoints": [
             "A test case commonly includes preconditions, test steps, input data, expected result, and actual result.",
@@ -687,7 +687,7 @@
         {
           "id": "topic-test-types-smoke-regression",
           "title": "Smoke, Sanity & Regression Testing",
-          "explanation": "Different testing types are used for different purposes. Smoke testing checks whether a build is stable enough for deeper testing, sanity testing checks a focused change, and regression testing checks that existing functionality still works after changes.",
+          "explanation": "-Smoke Testing: Smoke testing checks whether a build is stable enough for deeper testing. \n-Sanity Testing: Sanity testing checks a focused change. \n-Regression Testing: Regression testing checks that existing functionality still works after changes.",
           "tldr": "Smoke = build ঠিক আছে কিনা; Sanity = specific change ঠিক আছে কিনা; Regression = পুরোনো feature ভাঙেনি কিনা।",
           "keyPoints": [
             "Smoke Testing: Broad and shallow testing of critical functionality on a new build.",
@@ -721,13 +721,11 @@
         },
         {
           "id": "topic-white-vs-black-box",
-          "title": "White-Box & Black-Box Testing",
-          "explanation": "White-Box testing looks directly inside the code to check internal paths and logic. Black-Box testing tests features from the outside without checking the underlying code.",
+          "title": "White-Box Testing",
+          "explanation": "-White-Box Testing:White-Box testing looks directly inside the code to check internal paths and logic.",
           "tldr": "White-box টেস্ট করে ভেতরের কোড; Black-box ভেতরের কোড না দেখেই শুধু ইনপুট-আউটপুট মিলিয়ে দেখে।",
           "keyPoints": [
-            "White-Box Testing: Tests internal code paths, branches, conditions, and loops.",
-            "Black-Box Testing: Tests user inputs and expected outputs without looking at source code.",
-            "Black-box tests common edge cases, invalid inputs, and user workflows."
+            "White-Box Testing: Tests internal code paths, branches, conditions, and loops."
           ],
           "comparisons": [
             {
@@ -770,7 +768,7 @@
         {
           "id": "topic-git-basics-concepts",
           "title": "Git & Version Control in Practice",
-          "explanation": "Git is a distributed version control system where each developer keeps a full copy of the project history locally. Common actions include staging changes, committing snapshots, branching, and syncing with a remote server.\nGitHub is a cloud-based hosting service for Git repositories that lets developers store, track, and collaborate on software projects.",
+          "explanation": "-Git: Git is a distributed version control system where each developer keeps a full copy of the project history locally. Common actions include staging changes, committing snapshots, branching, and syncing with a remote server.\n-GitHub: GitHub is a cloud-based hosting service for Git repositories that lets developers store, track, and collaborate on software projects.",
           "tldr": "Git লোকালি কোডের চেঞ্জ ট্র্যাক করে আর GitHub ক্লাউডে টিমের সাথে শেয়ার করে; মেইন ফ্লো: Working Tree → add → commit → push।",
           "keyPoints": [
             "Working Directory: The local folder where you actively edit files.",
@@ -866,7 +864,7 @@
         {
           "id": "topic-cicd-fundamentals",
           "title": "CI/CD & DevOps Automation",
-          "explanation": "Continuous Integration automatically tests and builds code as soon as developers commit it. Continuous Delivery keeps the software ready to release at any time. Continuous Deployment automatically ships every passing update directly to users.",
+          "explanation": "-CI: Continuous Integration automatically tests and builds code as soon as developers commit it. \n-CD:Continuous Delivery keeps the software ready to release at any time. Continuous Deployment automatically ships every passing update directly to users.",
           "tldr": "CI automates testing; Continuous Delivery prepares releases; Continuous Deployment releases automatically.",
           "keyPoints": [
             "CI catches bugs early by building and testing code on every commit.",
@@ -886,7 +884,7 @@
         {
           "id": "topic-architecture-debt-practices",
           "title": "Technical Debt, Code Review & Scalability",
-          "explanation": "Technical debt is the future cost of choosing a messy quick fix today instead of a clean design. Scalability is how a system grows to handle more users, either by making servers bigger or adding more servers.",
+          "explanation": "-Technical Debt: A quick or messy solution that creates more work later. \n-Scalability: A system's ability to handle more users or data as it grows.",
           "tldr": "Technical debt is tomorrow's rework for today's shortcuts. Scale vertically (bigger machine) or horizontally (more machines).",
           "keyPoints": [
             "Technical Debt: Caused by rushed deadlines, skipping tests, or postponing refactoring.",

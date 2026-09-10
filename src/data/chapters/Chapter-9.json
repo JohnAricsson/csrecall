@@ -3,7 +3,7 @@
   "chapterNumber": 9,
   "title": "Operating Systems & Core Architecture",
   "description": "Interactive Interview Revision Cheat Sheet",
-  "estimatedMinutes": 60,
+  "estimatedMinutes": 50,
   "sections": [
     {
       "id": "sec-os-process-threads",
@@ -196,7 +196,7 @@
         {
           "id": "topic-deadlocks-coffman",
           "title": "Deadlock Characterization, Prevention & Banker's Algorithm",
-          "explanation": "• Deadlock: A state where two or more processes are permanently stuck because each holds a resource the other needs.\n• 4 Coffman Conditions: Deadlock happens only if all 4 hold simultaneously: \n1. Mutual Exclusion, \n2. Hold and Wait, \n3. No Preemption, \n4. Circular Wait.\n• Deadlock Prevention: Break at least one Coffman condition (e.g., impose strict global resource ordering to eliminate Circular Wait).\n• Deadlock Avoidance (Banker's Algorithm): The OS grants resource requests only if the resulting state remains in a Safe State where at least one valid execution sequence exists without deadlock.",
+          "explanation": "• Deadlock: A state where two or more processes are permanently stuck because each holds a resource the other needs.\n• 4 Coffman Conditions: Deadlock happens only if all 4 hold simultaneously. \n->1. Mutual Exclusion, \n->2. Hold and Wait, \n->3. No Preemption, \n->4. Circular Wait.\n• Deadlock Prevention: Break at least one Coffman condition (e.g., impose strict global resource ordering to eliminate Circular Wait).\n• Deadlock Avoidance (Banker's Algorithm): The OS grants resource requests only if the resulting state remains in a Safe State where at least one valid execution sequence exists without deadlock.",
           "tldr": "Deadlock হতে হলে Coffman-এর ৪টি শর্ত একসাথে মিলতে হবে। যেকোনো ১টি শর্ত ভেঙে দিলে Deadlock কোনোদিন সম্ভব না।",
           "keyPoints": [
             "Resource Allocation Graph (RAG): A cycle with single-instance resources confirms a deadlock; with multi-instances it only indicates possible deadlock.",

@@ -3,7 +3,7 @@
   "chapterNumber": 5,
   "title": "CORE JAVASCRIPT & RUNTIME FUNDAMENTALS",
   "description": "Goal: Quickly revise core JavaScript concepts, syntax differences, common interview traps, and practical use cases.",
-  "estimatedMinutes": 45,
+  "estimatedMinutes": 50,
   "sections": [
     {
       "id": "sec-functions-objects-es6",
@@ -12,7 +12,7 @@
         {
           "id": "topic-functions-syntax",
           "title": "JAVASCRIPT FUNCTIONS & SYNTAX VARIATIONS",
-          "explanation": "JavaScript provides multiple ways to define functions: Function Declarations, Function Expressions, and Arrow Functions. Each has distinct behaviors regarding hoisting, execution context, and the 'this' binding.",
+          "explanation": "-Functions: JavaScript provides multiple ways to define functions: Function Declarations, Function Expressions, and Arrow Functions.",
           "tldr": "Normal function declaration আগে call করা যায় কারণ function definition hoist হয়। Function variable-এর ভিতরে রাখা হলে initialize হওয়ার আগে ব্যবহার করা যায় না। Arrow function নিজের this বানায় না, বাইরের scope-এর this ব্যবহার করে।",
           "keyPoints": [
             "Function declarations are hoisted and can be called before they are defined.",
@@ -66,7 +66,7 @@
         {
           "id": "topic-objects-methods",
           "title": "JAVASCRIPT OBJECTS & METHODS",
-          "explanation": "An Object stores related data and behavior using key-value pairs. Methods can be defined using traditional function syntax or ES6 method shorthand.",
+          "explanation": "-Object: An Object stores related data and behavior using key-value pairs.\n-Method: Methods are functions that can be defined using traditional function syntax or ES6 method shorthand.",
           "tldr": "Object-এর ভিতরে data এবং function একসাথে রাখা যায়।",
           "keyPoints": [
             "Properties can be accessed using dot notation or bracket notation.",
@@ -113,7 +113,7 @@
         {
           "id": "topic-closures",
           "title": "CLOSURES",
-          "explanation": "A Closure is a function that remembers and can access variables from its outer lexical scope even after the outer function has finished executing.",
+          "explanation": "-Closure: A Closure is a function that remembers and can access variables from its outer lexical scope even after the outer function has finished executing.",
           "tldr": "বাইরের function শেষ হলেও inner function বাইরের variable মনে রাখতে পারে।",
           "keyPoints": [
             "Maintains access to the variable's lexical environment rather than making a copy.",
@@ -141,7 +141,7 @@
         {
           "id": "topic-prototypes",
           "title": "PROTOTYPES & PROTOTYPE INHERITANCE",
-          "explanation": "JavaScript objects can inherit properties and methods from other objects through the prototype chain. Built-in instances inherit methods from their respective prototypes, such as Array.prototype.",
+          "explanation": "-Prototype: A prototype is an object that provides properties and methods to another object. JavaScript uses prototypes so objects can share common features instead of creating them again for every object.",
           "tldr": "JavaScript object অন্য object থেকে property এবং method inherit করতে পারে prototype-এর মাধ্যমে।",
           "codeSnippets": [
             {
@@ -168,7 +168,7 @@
         {
           "id": "topic-sync-async",
           "title": "SYNCHRONOUS VS ASYNCHRONOUS JAVASCRIPT",
-          "explanation": "Synchronous code executes one operation at a time, waiting for each step to finish. Asynchronous code allows JavaScript to initiate an operation and continue executing other tasks while waiting for results.",
+          "explanation": "-Synchronous: Synchronous code executes one operation at a time, waiting for each step to finish.\n-Asynchronous: Asynchronous code allows JavaScript to initiate an operation and continue executing other tasks while waiting for results.",
           "tldr": "Sync একটার পর একটা wait করে, Async কাজ শুরু করে অন্য কাজ চালিয়ে যেতে পারে।",
           "keyPoints": [
             "Synchronous examples: Direct variable assignment, loops, normal arithmetic.",
@@ -193,7 +193,7 @@
         {
           "id": "topic-promises",
           "title": "PROMISES",
-          "explanation": "A Promise represents the eventual result of an asynchronous operation. A Promise can exist in one of three states: Pending (running), Fulfilled (completed successfully), or Rejected (failed). Once fulfilled or rejected, a Promise is considered settled.",
+          "explanation": "-Promise: A Promise represents the eventual result of an asynchronous operation. A Promise can exist in one of three states:\n-> Pending (running)n-> Fulfilled (completed successfully)\n-> Rejected (failed).\nNote: Once fulfilled or rejected, a Promise is considered settled.",
           "tldr": "Promise হলো future-এ পাওয়া যাবে এমন async কাজের result-এর প্রতিনিধি।",
           "codeSnippets": [
             {
@@ -212,7 +212,7 @@
         {
           "id": "topic-async-await",
           "title": "ASYNC / AWAIT",
-          "explanation": "async/await provides a cleaner syntax for working with Promises. An async function always returns a Promise. The await keyword pauses execution inside the async function until the Promise settles.",
+          "explanation": "-Async: An async function always returns a Promise.\n-Await: The await keyword pauses execution inside the async function until the Promise settles.",
           "tldr": "Async/Await Promise handle করার cleaner এবং readable syntax।",
           "codeSnippets": [
             {
@@ -238,7 +238,7 @@
         {
           "id": "topic-fetch-api",
           "title": "FETCH API",
-          "explanation": "fetch() is commonly used to make HTTP requests and returns a Promise.",
+          "explanation": "-Fetch: Fetch() is commonly used to make HTTP requests and returns a Promise.",
           "tldr": "Fetch API HTTP request করে এবং Promise return করে।",
           "codeSnippets": [
             {
@@ -271,7 +271,7 @@
         {
           "id": "topic-spread-operator",
           "title": "SPREAD OPERATOR (...)",
-          "explanation": "The Spread Operator (...) expands elements from an iterable or properties from an object. It can be used for array expansion, copying, merging, and updating object properties.",
+          "explanation": "-The Spread Operator (...): Expands elements from an iterable or properties from an object. It can be used for array expansion, copying, merging, and updating object properties.",
           "tldr": "Spread দিয়ে array/object-এর contents expand বা shallow copy করা যায়।",
           "codeSnippets": [
             {
@@ -298,7 +298,7 @@
         {
           "id": "topic-array-map",
           "title": "ARRAY .map()",
-          "explanation": ".map() creates a new array by transforming every element of the original array without modifying the original array.",
+          "explanation": "-Map: .map() creates a new array by transforming every element of the original array without modifying the original array.",
           "tldr": "Map প্রতিটি element transform করে নতুন array দেয়।",
           "codeSnippets": [
             {
@@ -333,7 +333,7 @@
         {
           "id": "topic-generators",
           "title": "GENERATORS & yield",
-          "explanation": "A Generator Function can pause and resume execution. It uses function* syntax and the yield keyword. Invoking a generator returns an iterator object whose next() method yields values.",
+          "explanation": "-A Generator Function: Is is a function that can pause and continue later. It uses function* and yield. Calling it returns an iterator, and next() gives the next value.",
           "tldr": "Yield function-কে pause করে, পরে next() দিলে আবার সেখান থেকে শুরু হয়।",
           "codeSnippets": [
             {
@@ -364,7 +364,7 @@
         {
           "id": "topic-dom-manipulation",
           "title": "DOCUMENT OBJECT MODEL (DOM) & MANIPULATION",
-          "explanation": "The DOM is a tree-like representation of an HTML document created by the browser, used by JavaScript to modify content, structure, attributes, styles, and classes. Elements can be selected, created, updated, and listened to for browser events.",
+          "explanation": "-DOCUMENT OBJECT MODEL: The DOM is a tree-like representation of an HTML document created by the browser, used by JavaScript to modify content, structure, attributes, styles, and classes. Elements can be selected, created, updated, and listened to for browser events.",
           "tldr": "textContent plain text দেয়, innerHTML HTML parse করে render করে। JavaScript দিয়ে style লিখার চেয়ে CSS class add/remove করা cleaner।",
           "keyPoints": [
             "Selection: getElementById() selects by ID; querySelector() returns first matching element; querySelectorAll() returns all matches as a NodeList.",
@@ -413,7 +413,7 @@
         {
           "id": "topic-nodelist-array",
           "title": "NODELIST VS ARRAY",
-          "explanation": "A NodeList is a collection of DOM nodes returned by methods like querySelectorAll(). While it supports index access, length, and forEach(), it is not an Array and lacks methods like map(), filter(), or reduce().",
+          "explanation": "Difference: A NodeList is a collection of DOM nodes returned by methods like querySelectorAll(). While it supports index access, length, and forEach(), it is not an Array and lacks methods like map(), filter(), or reduce().",
           "tldr": "NodeList হলো DOM elements-এর collection, কিন্তু পুরোপুরি normal Array না।",
           "codeSnippets": [
             {
@@ -438,7 +438,7 @@
         {
           "id": "topic-equality",
           "title": "== VS ===",
-          "explanation": "Loose equality (==) compares values only. Strict equality (===) compares both value and type without converting types.",
+          "explanation": "Note: Loose equality (==) compares values only. Strict equality (===) compares both value and type without converting types.",
           "tldr": "== type convert করতে পারে, === value এবং type দুটোই check করে।",
           "codeSnippets": [
             {

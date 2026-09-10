@@ -12,8 +12,8 @@
       "topics": [
         {
           "id": "top-what-is-html",
-          "title": "HTML?",
-          "explanation": "HTML (HyperText Markup Language) is the standard markup language used to structure content on a web page. It defines headings, paragraphs, images, links, forms, buttons, lists, and overall document structure.\n\nKey Separation of Concerns:\n• HTML provides document structure and meaning.\n• CSS handles presentation, styling, and visual layout.\n• JavaScript manages dynamic behavior and interactivity.",
+          "title": "HTML",
+          "explanation": "-HyperText Markup Language: HTML is the standard markup language used to structure content on a web page. It defines headings, paragraphs, images, links, forms, buttons, lists, and overall document structure.\n\nKey Separation of Concerns:\n• HTML provides document structure and meaning.\n• CSS handles presentation, styling, and visual layout.\n• JavaScript manages dynamic behavior and interactivity.",
           "tldr": "HTML ওয়েবসাইটের structure বা skeleton তৈরি করে।",
           "codeSnippets": [
             {
@@ -39,7 +39,7 @@
         {
           "id": "top-html-structure",
           "title": "BASIC HTML DOCUMENT STRUCTURE",
-          "explanation": "A standard HTML document relies on foundational structural tags:\n• <!DOCTYPE html> instructs modern browsers to render using HTML5 standards in standard mode rather than quirks mode.\n• <html> serves as the root container element for the entire page.\n• <head> holds machine-readable metadata and external resources such as page title, charset definitions, responsive viewport settings, CSS stylesheets, web fonts, and tracking scripts.\n• <body> encapsulates all visible content rendered directly in the browser viewport.",
+          "explanation": "A standard HTML document relies on foundational structural tags:\n -<!DOCTYPE html>: Instructs modern browsers to render using HTML5 standards in standard mode rather than quirks mode.\n -<html>: Serves as the root container element for the entire page.\n -<head>: Holds machine-readable metadata and external resources such as page title, charset definitions, responsive viewport settings, CSS stylesheets, web fonts, and tracking scripts.\n -<body>: Encapsulates all visible content rendered directly in the browser viewport.",
           "tldr": "Head browser-এর জন্য information রাখে, Body user-এর দেখা content রাখে।",
           "codeSnippets": [
             {
@@ -173,7 +173,7 @@
         {
           "id": "top-forms",
           "title": "HTML FORMS, LABELS & PLACEHOLDERS",
-          "explanation": "• HTML Forms: Capture, validate, and submit user inputs using controls like text, email, password, checkbox, radio, and files.\n• <label>: Permanently identifies the input's purpose, increases the clickable area, and is vital for assistive screen readers.\n• Placeholder vs Label: A placeholder is only a temporary hint that disappears on input—it must never replace a permanent <label>.",
+          "explanation": "• HTML Forms: Capture, validate, and submit user inputs using controls like text, email, password, checkbox, radio, and files.\n• <label>: A tag used to provide a text description for an input field, such as a textbox or checkbox.\n• Placeholder vs Label: A placeholder is only a temporary hint that disappears on input—it must never replace a permanent <label>.",
           "tldr": "Label হলো field-এর আসল নাম, Placeholder হলো hint।",
           "codeSnippets": [
             {
@@ -199,7 +199,7 @@
         {
           "id": "top-accessibility-and-id-class",
           "title": "HTML ACCESSIBILITY BASICS & id vs class",
-          "explanation": "• Accessibility Core: Ensures web usability across assistive hardware, screen readers, and keyboard navigation.\n• Semantic Controls: Native elements (e.g., <button>) provide built-in focus, enter/space keyboard triggers, and screen reader roles that generic <div> tags lack.\n• Structure Rules: Pair inputs with explicit labels, supply descriptive alt text, and preserve strict heading hierarchies (<h1> to <h6>) without skipping levels.\n• id vs class: id must be globally unique per page for specific targets/anchors, whereas class is built for reusable styling across multiple elements.",
+          "explanation": "• Accessibility Core: Ensures web usability across assistive hardware, screen readers, and keyboard navigation.\n• Semantic Controls: HTML elements that clearly describe their purpose and provide built-in functionality and accessibility.Examples: <button>, <input>, <select>, and <textarea>.\n• id vs class: Id must be globally unique per page for specific targets/anchors, whereas class is built for reusable styling across multiple elements.",
           "tldr": "Accessibility মানে website যেন সবাই—including screen reader users—ব্যবহার করতে পারে। id সাধারণত unique, class অনেক element-এ reuse করা যায়।",
           "comparisons": [
             {
@@ -237,7 +237,7 @@
         {
           "id": "top-what-is-css-and-selectors",
           "title": "CSS & SELECTORS",
-          "explanation": "• Definition: CSS(Cascading Style Sheets) controls presentation, layout, styling, typography, responsive behavior, and animations of HTML.\n• Element Selector: Matches elements by tag name (e.g., p, h1).\n• Class Selector: Matches elements by class attribute using a dot prefix (e.g., .card).\n• ID Selector: Matches a unique element by id using a hash prefix (e.g., #title).\n• Descendant Selector: Matches elements nested anywhere inside an ancestor with space separation (e.g., .card p).\n• Direct Child Selector: Matches only immediate direct children using > syntax (e.g., .card > p).",
+          "explanation": "• Definition: CSS(Cascading Style Sheets) controls presentation, layout, styling, typography, responsive behavior, and animations of HTML.\n• Element Selector: Matches elements by tag name (e.g., p, h1).\n• Class Selector: Matches elements by class attribute using a dot prefix (e.g., .card).\n• ID Selector: Matches a unique element by id using a hash prefix (e.g., #title).\n• Descendant Selector: Selects elements that are inside another element, even if they are deeply nested. .\n• Direct Child Selector: Matches only immediate direct children using > syntax (e.g., .card > p).",
           "tldr": "CSS ওয়েবসাইটকে সুন্দর করে এবং layout control করে।",
           "codeSnippets": [
             {
@@ -249,7 +249,7 @@
         {
           "id": "top-specificity-and-cascade",
           "title": "CSS SPECIFICITY & CASCADE",
-          "explanation": "• Specificity: The scoring system browsers use to resolve conflicting CSS rules applied to the same element.\n• Precedence: Inline styles > ID (#id) > Class (.class), Attribute ([type]), Pseudo-class (:hover) > Element (p, div), Pseudo-element (::before).\n• !important: Bypasses standard specificity rankings; breaks cascade maintainability and should be avoided.\n• The Cascade: When competing rules have identical specificity, the rule written latest in the stylesheet wins.",
+          "explanation": "• Specificity: The scoring system browsers use to resolve conflicting CSS rules applied to the same element.\n• Precedence: Inline styles have the highest priority, followed by ID, then Class, Attribute, and Pseudo-class, and finally Element and Pseudo-element selectors.\n• !important: Bypasses standard specificity rankings; breaks cascade maintainability and should be avoided.\n• The Cascade: When competing rules have identical specificity, the rule written latest in the stylesheet wins.",
           "tldr": "একই element-এর জন্য অনেক CSS থাকলে specificity decide করে কোনটা apply হবে। একই specificity হলে পরে লেখা CSS সাধারণত apply হয়।",
           "questions": [
             {
@@ -320,8 +320,8 @@
         {
           "id": "top-position-and-z-index",
           "title": "CSS POSITION & Z-INDEX",
-          "explanation": "• static (Default): Normal flow placement; top, right, bottom, left offsets do not apply.\n• relative: Keeps its original space in normal flow while allowing offset shifts relative to itself.\n• absolute: Pulled from document flow, positioned relative to its nearest non-static positioned ancestor.\n• fixed: Pulled from document flow, pinned relative to the viewport window.\n• sticky: Behaves as relative until a scroll threshold is met, then pins as fixed inside its parent container.\n• z-index & Stacking: Controls layer depth along the z-axis, but cannot break out of parent stacking contexts created by opacity, transform, or positioning.\n• Sizing Units: Absolute units (px) maintain fixed dimensions, while relative units (%, em, rem, vw, vh, dvh) scale based on parent, root font size, or viewport.",
-          "tldr": "Absolute flow থেকে বের হয়, Fixed screen-এর সাথে থাকে, Sticky scroll করলে নির্দিষ্ট জায়গায় আটকে যায়। z-index element কে সামনে বা পিছনে নেয়, কিন্তু stacking context trap হতে পারে। px fixed, % parent-এর relative, rem root font-এর relative, vw/vh screen-এর relative।",
+          "explanation": "• static: Default position; follows normal page flow.\n• relative: Stays in its normal place but can be moved using offsets.\n• absolute: Removed from normal flow and positioned relative to its nearest positioned parent.\n• fixed: Removed from normal flow and fixed to the viewport.\n• sticky: Acts like relative, then sticks when scrolling.\n• z-index: Controls which element appears on top.\n• Sizing Units: px is fixed, while %, em, rem, vw, and vh are relative and can scale.",
+          "tldr": "Absolute parent-এর relative position হয়, Fixed screen-এর সাথে থাকে, আর Sticky scroll করলে নির্দিষ্ট জায়গায় আটকে যায়। z-index ঠিক করে কোন element সামনে থাকবে। px fixed size, % parent-এর উপর নির্ভরশীল, rem root font-এর উপর, আর vw/vh screen-এর উপর নির্ভরশীল।",
           "comparisons": [
             {
               "title": "CSS Position Comparison",
@@ -397,7 +397,7 @@
         {
           "id": "top-grid-core",
           "title": "CSS GRID & FLEXBOX",
-          "explanation": "• CSS Grid: A two-dimensional layout system that coordinates both rows and columns at the same time.\n• Core Features: Supports fractional units (fr), repeat() utilities, and responsive wrapping via auto-fit and minmax() without media queries.\n• Flexbox vs Grid: Use Flexbox for one-dimensional layouts (navbars, item rows, button groups) and Grid for complex two-dimensional structures (dashboards, card galleries, full-page layouts).",
+          "explanation": "• CSS Grid: A two-dimensional layout system that coordinates both rows and columns at the same time.\n• Flexbox vs Grid: Use Flexbox for one-dimensional layouts (navbars, item rows, button groups) and Grid for complex two-dimensional structures (dashboards, card galleries, full-page layouts).",
           "tldr": "Grid একসাথে row এবং column দুইটাই control করতে পারে। Flexbox এক direction-এর layout-এর জন্য, Grid row+column complex layout-এর জন্য।",
           "codeSnippets": [
             {

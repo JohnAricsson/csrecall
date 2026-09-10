@@ -3,7 +3,7 @@
   "chapterNumber": 3,
   "title": "ALGORITHMS",
   "description": "Goal: Quickly revise core algorithms, time complexity, use cases, edge cases, and common interview traps.",
-  "estimatedMinutes": 60,
+  "estimatedMinutes": 70,
   "sections": [
     {
       "id": "section-1",
@@ -12,7 +12,7 @@
         {
           "id": "topic-1",
           "title": "Linear Search",
-          "explanation": "Linear Search checks each element one by one from the beginning until the target is found, or the end of the collection is reached.",
+          "explanation": "-Linear Search: Linear Search checks each element one by one from the beginning until the target is found, or the end of the collection is reached.",
           "tldr": "শুরু থেকে এক এক করে সব element check করে target খোঁজে।",
           "keyPoints": [
             "Works on sorted and unsorted data.",
@@ -51,7 +51,7 @@
         {
           "id": "topic-2",
           "title": "Binary Search",
-          "explanation": "Binary Search finds an element in a sorted collection by repeatedly dividing the search space into two halves. The data must be sorted.\nHow It Works: Find the middle element. Compare it with the target. If the target is smaller, search the left half. If the target is larger, search the right half. Repeat until the target is found or no elements remain.",
+          "explanation": "-Binary Search: Binary Search finds an element in a sorted collection by repeatedly dividing the search space into two halves. The data must be sorted.\nHow It Works: Find the middle element. Compare it with the target. If the target is smaller, search the left half. If the target is larger, search the right half. Repeat until the target is found or no elements remain.",
           "tldr": "Sorted array হলে মাঝখান থেকে দেখে প্রতি step-এ অর্ধেক data বাদ দেয়।",
           "keyPoints": [
             "Prefer: int mid = low + (high - low) / 2; instead of: int mid = (low + high) / 2; The second version may cause integer overflow when low and high are very large."
@@ -109,7 +109,7 @@
         {
           "id": "topic-3",
           "title": "Bubble Sort",
-          "explanation": "Bubble Sort repeatedly compares adjacent elements and swaps them if they are in the wrong order. After each pass, the largest unsorted element moves to its correct position.",
+          "explanation": "-Bubble Sort: Bubble Sort repeatedly compares adjacent elements and swaps them if they are in the wrong order. After each pass, the largest unsorted element moves to its correct position.",
           "tldr": "পাশের দুইটা element compare করে swap করতে করতে বড় element শেষে চলে যায়।",
           "keyPoints": [
             "In-place: Yes",
@@ -148,7 +148,7 @@
         {
           "id": "topic-4",
           "title": "Selection Sort",
-          "explanation": "Selection Sort repeatedly finds the smallest element from the unsorted portion and places it at the beginning of that portion.",
+          "explanation": "-Selection Sort: Selection Sort repeatedly finds the smallest element from the unsorted portion and places it at the beginning of that portion.",
           "tldr": "প্রতি round-এ সবচেয়ে ছোট element খুঁজে সামনে বসায়।",
           "keyPoints": [
             "In-place: Yes",
@@ -187,7 +187,7 @@
         {
           "id": "topic-5",
           "title": "Insertion Sort",
-          "explanation": "Insertion Sort builds a sorted portion of the array one element at a time. Each new element is inserted into its correct position within the already sorted portion.",
+          "explanation": "-Insertion Sort: Insertion Sort builds a sorted portion of the array one element at a time. Each new element is inserted into its correct position within the already sorted portion.",
           "tldr": "এক একটা element নিয়ে আগে sorted থাকা অংশে সঠিক জায়গায় ঢুকায়।",
           "keyPoints": [
             "In-place: Yes",
@@ -232,7 +232,7 @@
         {
           "id": "topic-6",
           "title": "Merge Sort",
-          "explanation": "Merge Sort is a divide-and-conquer algorithm that divides the array into two halves, recursively sorts each half, and merges the sorted halves.",
+          "explanation": "-Merge Sort: Merge Sort is a divide-and-conquer algorithm that divides the array into two halves, recursively sorts each half, and merges the sorted halves.",
           "tldr": "Array-কে ছোট ছোট ভাগ করে sort করে পরে merge করে।",
           "keyPoints": [
             "Stable: Yes",
@@ -272,7 +272,7 @@
         {
           "id": "topic-7",
           "title": "Quick Sort",
-          "explanation": "Quick Sort is a divide-and-conquer algorithm that selects a pivot, places smaller elements on one side, places larger elements on the other side, and recursively sorts both partitions.",
+          "explanation": "-Quick Sort: Quick Sort is a divide-and-conquer algorithm that selects a pivot, places smaller elements on one side, places larger elements on the other side, and recursively sorts both partitions.",
           "tldr": "একটা pivot ধরে ছোটগুলো এক পাশে, বড়গুলো আরেক পাশে রেখে recursively sort করে।",
           "keyPoints": [
             "Stable: No",
@@ -312,7 +312,6 @@
         {
           "id": "topic-8",
           "title": "Important Sorting Concepts & Master Comparison",
-          "explanation": "A sorting algorithm is stable if elements with equal keys maintain their original relative order. An in-place algorithm uses only a small constant amount of extra memory.",
           "tldr": "একই value থাকলে stable sort তাদের আগের order নষ্ট করে না। নতুন বড় memory না নিয়ে existing array-তেই কাজ করলে in-place।",
           "keyPoints": [
             "Common Stable Algorithms: Bubble Sort, Insertion Sort, Merge Sort",
@@ -393,7 +392,7 @@
         {
           "id": "topic-9",
           "title": "Greedy Algorithms & Fractional Knapsack",
-          "explanation": "Greedy Algorithm solves a problem step by step by choosing the best available option at the current moment. Once a decision is made, it usually does not reconsider it.\nAdvantages: Simple, Fast, Often memory efficient.\nLimitation: A locally optimal choice does not always produce a globally optimal solution. \nIn Fractional Knapsack, items can be divided into fractions; the greedy strategy calculates Value / Weight, sorts items by ratio descending, and takes the highest ratio items first.",
+          "explanation": "-Greedy Algorithm:Greedy Algorithm solves a problem step by step by choosing the best available option at the current moment. Once a decision is made, it usually does not reconsider it.\nAdvantages: Simple, Fast, Often memory efficient.\nLimitation: A locally optimal choice does not always produce a globally optimal solution. \n-Fractional Knapsack: Items can be taken fully or partially (in fractions).",
           "tldr": "প্রতি step-এ তখনকার সবচেয়ে ভালো option নেয়। Value/weight ratio সবচেয়ে বেশি যেটার, সেটা আগে নেয়।",
           "keyPoints": [
             "Core Idea: Local Best Choice -> Repeat -> Hope for Global Optimal Solution",
@@ -435,7 +434,7 @@
         {
           "id": "topic-10",
           "title": "Minimum Spanning Tree (MST) & Kruskal's Algorithm",
-          "explanation": "Minimum Spanning Tree (MST) is a set of edges that connects all vertices, contains no cycles, and has the minimum possible total edge weight. Requirements: Connected, Undirected, Weighted. For V vertices, it contains exactly V - 1 edges.\nKruskal's Algorithm sorts all edges by increasing weight, picks the smallest edge, and adds it only if it does not create a cycle using Disjoint Set Union (DSU).",
+          "explanation": "-Minimum Spanning Tree: MST is a set of edges that connects all vertices, contains no cycles, and has the minimum possible total edge weight. Requirements: Connected, Undirected, Weighted. For V vertices, it contains exactly V - 1 edges.\n-Kruskal's Algorithm: Sorts all edges by increasing weight, picks the smallest edge, and adds it only if it does not create a cycle using Disjoint Set Union (DSU).",
           "tldr": "সব node connect করবে, cycle থাকবে না, আর মোট cost সবচেয়ে কম হবে। সব edge weight অনুযায়ী sort করে ছোট edge নেয়, তবে cycle হলে নেয় না।",
           "keyPoints": [
             "For V vertices, an MST contains exactly V - 1 edges.",
@@ -460,13 +459,13 @@
         {
           "id": "topic-11",
           "title": "Disjoint Set Union (DSU)",
-          "explanation": "DSU maintains multiple groups of connected elements using two main operations: Find (finds representative of a set) and Union (merges two sets). Optimizations include Path Compression (points nodes closer to root) and Union by Rank/Size (attaches smaller tree under larger tree).",
+          "explanation": "DSU maintains multiple groups of connected elements using two main operations:\n-> Find (finds representative of a set)\n-> Union (merges two sets).",
           "tldr": "কোন কোন node একই group-এ আছে সেটা দ্রুত check এবং merge করতে DSU ব্যবহার হয়।"
         },
         {
           "id": "topic-12",
           "title": "Prim's Algorithm",
-          "explanation": "Prim's Algorithm starts from any vertex, adds the smallest edge connecting the current tree to an unvisited vertex, and repeats until all vertices are included. It uses a Min-Heap / Priority Queue.",
+          "explanation": "-Prim's Algorithm: Prim's Algorithm starts from any vertex, adds the smallest edge connecting the current tree to an unvisited vertex, and repeats until all vertices are included.\nNote: It uses a Min-Heap / Priority Queue.",
           "tldr": "একটা node থেকে শুরু করে সবচেয়ে ছোট valid edge নিতে নিতে tree বড় করে।",
           "keyPoints": [
             "Time complexity using a binary min-heap: O(E log V)",
@@ -502,7 +501,7 @@
         {
           "id": "topic-13",
           "title": "Dijkstra's Shortest Path Algorithm",
-          "explanation": "Dijkstra's Algorithm finds the shortest path from a source vertex to all other vertices in a weighted graph. Requirement: All edge weights must be non-negative.\nHow It Works: Start from the source vertex. Set source distance to 0, all others to infinity. Select unvisited vertex with smallest known distance, relax its neighboring edges, and repeat.",
+          "explanation": "-Dijkstra's Algorithm: Dijkstra's Algorithm finds the shortest path from a source vertex to all other vertices in a weighted graph.\nRequirement: All edge weights must be non-negative.\nHow It Works: Start from the source vertex. Set source distance to 0, all others to infinity. Select unvisited vertex with smallest known distance, relax its neighboring edges, and repeat.",
           "tldr": "Source থেকে সবচেয়ে কম distance-এর node আগে নিয়ে পাশের distance update করে।",
           "keyPoints": [
             "Complexity using a priority queue: O((V + E) log V), commonly simplified to O(E log V)."
@@ -531,7 +530,7 @@
         {
           "id": "topic-14",
           "title": "Dynamic Programming Concepts",
-          "explanation": "Dynamic Programming (DP) solves complex problems by breaking them into smaller subproblems, solving subproblems, storing results, and reusing previous results.\nTwo Key Properties: 1. Overlapping Subproblems (same subproblem appears multiple times).\n2. Optimal Substructure (optimal solution can be built from optimal solutions to smaller subproblems).\nTwo Main Approaches: Memoization — Top Down (uses recursion, stores computed results, computes only required states) and Tabulation — Bottom Up (uses iteration, starts from smaller states, builds toward final answer).",
+          "explanation": "-Dynamic Programming: DP solves complex problems by breaking them into smaller subproblems, solving subproblems, storing results, and reusing previous results.\nTwo Key Properties:\n 1. Overlapping Subproblems (same subproblem appears multiple times).\n2. Optimal Substructure (optimal solution can be built from optimal solutions to smaller subproblems).\nTwo Main Approaches: Memoization — Top Down (uses recursion, stores computed results, computes only required states) and Tabulation — Bottom Up (uses iteration, starts from smaller states, builds toward final answer).",
           "tldr": "একই problem বারবার solve না করে আগের answer store করে reuse করে। Greedy এখনকার best নেয়, DP আগের result মনে রেখে overall best বের করে।",
           "keyPoints": [
             "Easy Memory Trick: Greedy = Best choice NOW, DP = Best answer using remembered results."

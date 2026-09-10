@@ -12,7 +12,7 @@
         {
           "id": "topic-1",
           "title": "VARIABLES, REFERENCES & POINTERS",
-          "explanation": "Variable is a named storage location used to store data that can be accessed and modified during program execution. There are 2 types of Variables: \n ->Primitive types generally store the actual value directly. \n->Reference types represent or refer to objects stored elsewhere in memory. \n Pointer: pointer is a variable that stores the memory address of another variable.",
+          "explanation": "-Variable: Variable is a named storage location used to store data that can be accessed and modified during program execution. There are 2 types of Variables: \n Primitive types: Premitive types generally store the actual value directly. \nReference types: Reference types represent or refer to objects stored elsewhere in memory. \n- Pointer: pointer is a variable that stores the memory address of another variable.",
           "tldr": "Variable হলো data রাখার জন্য নাম দেওয়া একটি memory location। Pointer variable-এর value না, তার memory address ধরে রাখে।",
           "keyPoints": [
             "Primitive types store the actual value directly (e.g., int, char, float, double, bool).",
@@ -57,7 +57,7 @@
         {
           "id": "topic-2",
           "title": "JAVASCRIPT VALUE VS REFERENCE",
-          "explanation": "In JavaScript, primitive values (like numbers, strings, booleans) are copied by value, meaning each variable holds its own copy of the data. Objects (including arrays and functions) are copied by reference, meaning multiple variables can refer to the same object in memory.",
+          "explanation": "-Value: Primitive values (like numbers, strings, booleans) are copied by value, meaning each variable holds its own copy of the data.\n-Reference: Objects (including arrays and functions) are copied by reference, meaning multiple variables can refer to the same object in memory.",
           "tldr": "Primitive copy করলে আলাদা value হয়, কিন্তু Object assign করলে সাধারণত একই object-এর reference share হয়।",
           "codeSnippets": [
             {
@@ -89,7 +89,7 @@
         {
           "id": "topic-18",
           "title": "PASS BY VALUE VS PASS BY REFERENCE",
-          "explanation": "Pass by value gives a function a copy of the argument, while pass by reference allows a function to access the original object or variable through a reference mechanism.",
+          "explanation": "-Pass by value: A copy of the argument is passed to the function, so changes do not affect the original value.\n-Pass by reference: The function can access and modify the original object or variable through a reference.",
           "tldr": "Pass by value-তে copy যায়, pass by reference-এ original data modify করা সম্ভব।",
           "comparisons": [
             {
@@ -129,8 +129,8 @@
         },
         {
           "id": "topic-3",
-          "title": "C++ POINTERS & MEMORY",
-          "explanation": "Arrays store elements sequentially in memory, enabling pointer arithmetic access.",
+          "title": "DIRECT MEMORY MANAGEMENT",
+          "explanation": "Languages like C, C++, Go, and Rust grant developers control to allocate, access, and free raw memory explicitly using pointers.",
           "tldr": "Array-এর elementগুলো sequential memory-তে থাকে, তাই pointer দিয়ে next element access করা যায়।",
           "codeSnippets": [
             {
@@ -156,8 +156,8 @@
         {
           "id": "topic-17",
           "title": "STACK VS HEAP MEMORY",
-          "explanation": "Stack and heap are two important areas of memory commonly discussed in programming interviews. Stack memory is typically associated with function calls and local variables, while heap memory is commonly used for dynamically allocated objects and data.",
-          "tldr": "Stack সাধারণত function call ও local data-এর জন্য, Heap সাধারণত dynamically allocated data-এর জন্য ব্যবহৃত হয়।",
+          "explanation": "Stack and heap are two important areas of memory commonly discussed in programming interviews.\n-Stack: Stack memory is typically associated with function calls and local variables.\n-Heap: Heap memory is commonly used for dynamically allocated objects and data.",
+          "tldr": "Stack সাধারণত function call ও local data-এর জন্য, Heap সাধারণত dynamically allocated data-এর জন্য ব্যবহৃত হয়।",
           "comparisons": [
             {
               "title": "Stack vs Heap",
@@ -198,7 +198,7 @@
         {
           "id": "topic-19",
           "title": "MUTABLE VS IMMUTABLE",
-          "explanation": "A mutable object can be changed after creation, while an immutable value or object cannot be changed directly after creation.",
+          "explanation": "-Mutable: A mutable object can be modified after it is created, such as a list.\n-Immutable: An immutable object cannot be changed after it is created, such as a string or number",
           "tldr": "Mutable data change করা যায়, immutable data directly change করা যায় না।",
           "comparisons": [
             {
@@ -231,7 +231,7 @@
         {
           "id": "topic-20",
           "title": "SHALLOW COPY VS DEEP COPY",
-          "explanation": "A shallow copy creates a new outer object while nested objects may still share references. A deep copy creates independent copies of nested data.",
+          "explanation": "-Shallow copy: Makes a new copy of the main object, but shares the items inside it.\n-Deep copy: Makes a completely new copy of the object and all the items inside it.",
           "tldr": "Shallow copy-তে nested reference share হতে পারে, Deep copy-তে nested data-ও আলাদা হয়।",
           "comparisons": [
             {
@@ -269,7 +269,7 @@
         {
           "id": "topic-9",
           "title": "PRE-INCREMENT VS POST-INCREMENT",
-          "explanation": "Post-Increment (x++): Use the current value first, then increment.\nPre-Increment (++x): Increment first, then use the updated value.",
+          "explanation": "-Post-Increment (x++): Use the current value first, then increment.\n-Pre-Increment (++x): Increment first, then use the updated value.",
           "tldr": "x++ আগে use পরে বাড়ে, ++x আগে বাড়ে পরে use হয়।",
           "comparisons": [
             {
@@ -303,7 +303,7 @@
         {
           "id": "topic-21",
           "title": "FUNCTIONS, PARAMETERS & ARGUMENTS",
-          "explanation": "A function is a reusable block of code that performs a specific task. Parameters are variables defined by the function, while arguments are the actual values supplied when calling it.",
+          "explanation": "-Function: A reusable block of code that performs a specific task.\n-Parameters and arguments: Parameters are variables in a function, while arguments are the actual values given to the function.",
           "tldr": "Parameter function definition-এ থাকে, argument function call-এর সময় দেওয়া actual value।",
           "comparisons": [
             {
@@ -332,7 +332,7 @@
         {
           "id": "topic-5",
           "title": "CONTROL FLOW & LOOPS",
-          "explanation": "Different types of loops serve different purposes based on whether the number of iterations is known and when the condition is checked.",
+          "explanation": "-Loops: Loops repeat a block of code multiple times. Types of Loops:for, while, do...while.",
           "tldr": "do...while condition false হলেও অন্তত একবার execute হবেই।",
           "comparisons": [
             {
@@ -449,7 +449,7 @@
         {
           "id": "topic-6",
           "title": "CALLBACK FUNCTIONS & forEach()",
-          "explanation": "A callback function is a function passed as an argument to another function and executed by that function. \n`forEach()` executes a callback function once for each element of an array.",
+          "explanation": "-Callback:A callback function is a function passed as an argument to another function and executed by that function. \nforEach(): Executes a callback function once for each element of an array.",
           "tldr": "forEach() দিয়ে loop করা সহজ, কিন্তু মাঝপথে break করা যায় না।",
           "codeSnippets": [
             {
@@ -481,7 +481,7 @@
         {
           "id": "topic-22",
           "title": "HIGHER-ORDER FUNCTIONS & ARRAY METHODS",
-          "explanation": "A higher-order function accepts another function as an argument, returns a function, or both. JavaScript array methods such as map, filter, reduce, find, some, and every commonly use callbacks.",
+          "explanation": "-Higher-order function: A function that takes another function as an argument or returns a function.\nCommon examples: JavaScript methods like map, filter, reduce, find, some, and every use callback functions.",
           "tldr": "Callback function হলো অন্য function-এ argument হিসেবে দেওয়া function; Higher-order function হলো যে function অন্য function গ্রহণ করে বা return করে।",
           "comparisons": [
             {
@@ -528,7 +528,7 @@
         {
           "id": "topic-13",
           "title": "RECURSION",
-          "explanation": "Recursion is a programming technique where a function calls itself to solve smaller versions of the same problem. Every recursive solution requires a Base Case and a Recursive Case.",
+          "explanation": "-Recursion: Recursion is a programming technique where a function calls itself to solve smaller versions of the same problem.\n Note: Every recursive solution requires a Base Case and a Recursive Case.",
           "tldr": "Function নিজেকে ছোট problem নিয়ে বারবার call করে, Base Case এ গিয়ে থামে।",
           "comparisons": [
             {
@@ -564,7 +564,7 @@
         {
           "id": "topic-7",
           "title": "TIME COMPLEXITY",
-          "explanation": "Time Complexity describes how the number of operations performed by an algorithm grows as the input size n increases. It does not measure actual execution time in seconds.",
+          "explanation": "-Time Complexity: Describes how the number of operations performed by an algorithm grows as the input size n increases. It does not measure actual execution time in seconds.",
           "tldr": "Input বাড়লে algorithm-এর কাজ কত দ্রুত বাড়ে, সেটাই Time Complexity।",
           "comparisons": [
             {
@@ -603,7 +603,7 @@
         {
           "id": "topic-8",
           "title": "SPACE COMPLEXITY",
-          "explanation": "Space Complexity measures how an algorithm's memory usage grows as input size increases.",
+          "explanation": "-Space Complexity: Measures how an algorithm's memory usage grows as input size increases.",
           "tldr": "Input বাড়লে algorithm-এর extra memory কত বাড়ে, সেটাই Space Complexity।",
           "codeSnippets": [
             {
@@ -627,7 +627,7 @@
         {
           "id": "topic-10",
           "title": "OBJECT-ORIENTED PROGRAMMING CONCEPTS",
-          "explanation": "Object-Oriented Programming (OOP) is a programming paradigm that organizes software around objects. An object combines data (attributes) and behavior (methods).\nThe four pillars are: Encapsulation, Inheritance, Abstraction, Polymorphism.",
+          "explanation": "-Object-Oriented Programming (OOP): OOP is a programming design that organizes software around objects. An object combines data (attributes) and behavior (methods).\nThe four pillars are: Encapsulation, Inheritance, Abstraction, Polymorphism.",
           "tldr": "Class হলো blueprint, Object হলো blueprint থেকে তৈরি real instance। Procedural-এ function main, OOP-তে object main।",
           "comparisons": [
             {
@@ -730,7 +730,7 @@
         {
           "id": "topic-23",
           "title": "CONSTRUCTOR & DESTRUCTOR",
-          "explanation": "A constructor initializes an object when it is created. A destructor performs cleanup when an object is destroyed in languages such as C++ that provide deterministic object destruction.",
+          "explanation": "-Constructor: A constructor initializes an object when it is created.\n-Destructor: A destructor performs cleanup when an object is destroyed in languages such as C++ that provide deterministic object destruction.",
           "tldr": "Constructor object তৈরি হওয়ার সময় initialize করে; Destructor object destroy হওয়ার সময় cleanup করে।",
           "comparisons": [
             {
@@ -768,7 +768,7 @@
         {
           "id": "topic-24",
           "title": "ACCESS MODIFIERS",
-          "explanation": "Access modifiers control where class members can be accessed. Common C++ access modifiers are public, private, and protected.",
+          "explanation": "Access modifiers control where class members can be accessed.\n-> Common C++ access modifiers are public, private, and protected.",
           "tldr": "public everywhere accessible, private class-এর ভিতরে controlled access, protected class ও derived class-এর জন্য accessible।",
           "comparisons": [
             {
@@ -814,7 +814,7 @@
         {
           "id": "topic-26",
           "title": "ABSTRACT CLASS VS INTERFACE",
-          "explanation": "An abstract class defines a common abstraction and may contain both implemented and abstract behavior. An interface primarily defines a contract that implementing classes must satisfy; the exact implementation depends on the programming language.",
+          "explanation": "-Abstract class: A class that provides common features and can have both complete and incomplete methods.\n-Interface: A set of rules that a class must follow by providing its own implementation.",
           "tldr": "Abstract class shared implementation রাখতে পারে; Interface মূলত behavior-এর contract define করে।",
           "comparisons": [
             {
@@ -878,7 +878,7 @@
         {
           "id": "topic-11",
           "title": "LIBRARY VS NAMESPACE",
-          "explanation": "Library is a collection of reusable code such as functions, classes, utilities, and modules. \nNamespace creates a logical scope to organize names and avoid naming conflicts.",
+          "explanation": "-Library: Library is a collection of reusable code such as functions, classes, utilities, and modules. \n-Namespace: Namespace creates a logical scope to organize names and avoid naming conflicts.",
           "tldr": "Library feature দেয়, Namespace name conflict আটকায়।",
           "comparisons": [
             {

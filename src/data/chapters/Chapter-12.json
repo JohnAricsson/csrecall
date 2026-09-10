@@ -13,8 +13,8 @@
         {
           "id": "top-database-dbms",
           "title": "Database & DBMS",
-          "explanation": "A Database is an organized collection of data. Example: users, products, orders, and payments.\n\nA Database Management System (DBMS) is software that stores, manages, updates, and retrieves data.\n\nExamples of DBMS: MySQL, PostgreSQL, SQL Server, and Oracle.\n\nEasy Memory:\nDatabase = The Data\nDBMS = The Software That Manages Data",
-          "tldr": "Database stores data. DBMS manages the data.",
+          "explanation": "-Database: A Database is an organized collection of data. Example: users, products, orders, and payments.\n\n-Database Management System: DBMS is software that stores, manages, updates, and retrieves data.\n\nExamples of DBMS: MySQL, PostgreSQL, SQL Server, and Oracle.\n\nEasy Memory: Database = The Data and DBMS = The Software That Manages Data",
+          "tldr": "Database data store করে, আর DBMS সেই data manage করে।",
           "comparisons": [
             {
               "title": "Database vs DBMS",
@@ -44,7 +44,7 @@
         {
           "id": "top-dbms-types",
           "title": "Types of Databases",
-          "explanation": "The two main types are:\n\n1. Relational Database: Stores data in tables and supports relationships. Examples: MySQL and PostgreSQL.\n\n2. Non-Relational Database: Uses flexible data models such as documents, key-value pairs, graphs, or column families.\n\nFor interviews, understand why an application may choose SQL or NoSQL."
+          "explanation": "The two main types are:\n\n- Relational Database: Stores data in tables and supports relationships. Examples: MySQL and PostgreSQL.\n\n- Non-Relational Database: Uses flexible data models such as documents, key-value pairs, graphs, or column families."
         }
       ]
     },
@@ -56,8 +56,8 @@
         {
           "id": "top-sql-vs-nosql",
           "title": "SQL vs NoSQL",
-          "explanation": "SQL databases are relational databases. They store data in tables with rows and columns. They support relationships and JOIN operations.\n\nNoSQL databases use flexible data models. They can be useful when the data structure changes often or when a document-based model fits the application.\n\nUse SQL when you need strong relationships, complex queries, transactions, and structured data.\n\nUse NoSQL when you need a flexible data model and the data naturally fits a non-relational structure.\n\nImportant: SQL and NoSQL are not competitors where one is always better. The choice depends on the application.",
-          "tldr": "SQL is good for structured relational data. NoSQL is useful for flexible data models.",
+          "explanation": "-SQL: SQL databases are relational databases. They store data in tables with rows and columns. They support relationships and JOIN operations.\n\n-NoSQL: NoSQL databases use flexible data models. They can be useful when the data structure changes often or when a document-based model fits the application.\n\nNote:Use SQL when you need strong relationships, complex queries, transactions, and structured data.\n\nNote: Use NoSQL when you need a flexible data model and the data naturally fits a non-relational structure.\n\nImportant: SQL and NoSQL are not competitors where one is always better. The choice depends on the application.",
+          "tldr": "SQL structured relational data-এর জন্য ভালো, আর NoSQL flexible data-এর জন্য useful।",
           "comparisons": [
             {
               "title": "SQL vs NoSQL",
@@ -100,8 +100,8 @@
         {
           "id": "top-table-keys",
           "title": "Tables, Rows, Columns & Keys",
-          "explanation": "Table = Collection of related data.\nRow = One record.\nColumn = One attribute.\n\nPrimary Key: Uniquely identifies each row.\nForeign Key: Creates a relationship with another table.",
-          "tldr": "Primary Key identifies a row. Foreign Key connects tables.",
+          "explanation": "-Table: Collection of related data.\n-Row: One record.\n-Column: One attribute.\n\n-Primary Key: Uniquely identifies each row.\n-Foreign Key: Creates a relationship with another table.",
+          "tldr": "Primary Key একটি row uniquely identify করে, আর Foreign Key দুইটি table-এর মধ্যে relationship তৈরি করে।",
           "codeSnippets": [
             {
               "language": "sql",
@@ -123,8 +123,8 @@
         {
           "id": "top-relationships",
           "title": "Database Relationships",
-          "explanation": "One-to-One: One user has one profile.\n\nOne-to-Many: One user has many orders.\n\nMany-to-Many: Many students can join many courses. This usually needs a junction table.",
-          "tldr": "Main relationships are One-to-One, One-to-Many, and Many-to-Many.",
+          "explanation": "-One-to-One: One user has one profile.\n\n-One-to-Many: One user has many orders.\n\n-Many-to-Many: Many students can join many courses. This usually needs a junction table.",
+          "tldr": "Database relationship 3 types: One-to-One (1:1), One-to-Many (1), আর Many-to-Many (N)।",
           "questions": [
             {
               "question": "How do you create a Many-to-Many relationship?",
@@ -135,7 +135,7 @@
         {
           "id": "top-constraints",
           "title": "Database Constraints",
-          "explanation": "Constraints are rules that protect data quality.\n\nPRIMARY KEY: Unique and NOT NULL.\nFOREIGN KEY: Maintains relationships.\nUNIQUE: Prevents duplicate values.\nNOT NULL: Requires a value.\nCHECK: Validates a condition.\nDEFAULT: Provides a default value.",
+          "explanation": "Constraints are rules that protect data quality.\n\n-PRIMARY KEY: Unique and NOT NULL.\n-Foreign Key: Maintains relationships.\n-UNIQUE: Prevents duplicate values.\n-NOT NULL: Requires a value.\n-CHECK: Validates a condition.\n-DEFAULT: Provides a default value.",
           "codeSnippets": [
             {
               "language": "sql",
@@ -160,7 +160,7 @@
         {
           "id": "top-sql-crud",
           "title": "CRUD Operations",
-          "explanation": "CRUD means Create, Read, Update, and Delete.\n\nINSERT creates data.\nSELECT reads data.\nUPDATE changes data.\nDELETE removes data.",
+          "explanation": "-CRUD: CRUD means Create, Read, Update, and Delete.\n\n-INSERT: Creates data.\n-SELECT: Reads data.\n-UPDATE: Changes data.\n-DELETE: Removes data.",
           "tldr": "CRUD = Create, Read, Update, Delete.",
           "codeSnippets": [
             {
@@ -181,8 +181,8 @@
         {
           "id": "top-delete-truncate-drop",
           "title": "DELETE vs TRUNCATE vs DROP",
-          "explanation": "DELETE removes rows and can use WHERE.\n\nTRUNCATE removes all rows from a table.\n\nDROP removes the table itself.",
-          "tldr": "DELETE = Remove rows. TRUNCATE = Remove all rows. DROP = Remove table.",
+          "explanation": "-DELETE: Removes rows and can use WHERE.\n\n-TRUNCATE: Removes all rows from a table.\n\n-DROP: Removes the table itself.",
+          "tldr": "DELETE = rows remove করে, TRUNCATE = সব rows remove করে, DROP = পুরো table remove করে।",
           "comparisons": [
             {
               "title": "DELETE vs TRUNCATE vs DROP",
@@ -211,7 +211,7 @@
         {
           "id": "top-filtering",
           "title": "WHERE & Filtering",
-          "explanation": "WHERE filters rows.\n\nCommon operators:\n= Equal\n> Greater than\n< Less than\n>= Greater than or equal\n<= Less than or equal\n<> Not equal\n\nOther useful keywords:\nAND\nOR\nIN\nBETWEEN\nLIKE",
+          "explanation": "-WHERE: Filters rows.\n\nCommon operators: = Equal, > Greater than, < Less than, >= Greater than or equal, <= Less than or equal, <> Not equal\n\nUseful keywords:AND, OR, IN, BETWEEN, LIKE",
           "codeSnippets": [
             {
               "language": "sql",
@@ -223,7 +223,7 @@
         {
           "id": "top-sorting-limit",
           "title": "ORDER BY & LIMIT",
-          "explanation": "ORDER BY sorts query results.\nASC means ascending.\nDESC means descending.\n\nLIMIT restricts the number of returned rows.",
+          "explanation": "-ORDER BY: Sorts query results.\n-ASC: Means ascending.\n-DESC: Means descending.\n\n-LIMIT: Restricts the number of returned rows.",
           "codeSnippets": [
             {
               "language": "sql",
@@ -235,8 +235,8 @@
         {
           "id": "top-null",
           "title": "NULL Values",
-          "explanation": "NULL means the value is missing or unknown.\n\nNULL is not zero.\nNULL is not an empty string.\n\nUse IS NULL or IS NOT NULL to check NULL values.",
-          "tldr": "NULL means missing or unknown data.",
+          "explanation": "-NULL: Null means the value is missing or unknown.\n\nNote: NULL is not zero.NULL is not an empty string. Use \"IS NULL\" or \"IS NOT NULL\" to check NULL values.",
+          "tldr": "NULL মানে কোনো data missing বা unknown।",
           "codeSnippets": [
             {
               "language": "sql",
@@ -261,7 +261,7 @@
         {
           "id": "top-aggregation",
           "title": "Aggregate Functions",
-          "explanation": "Aggregate functions calculate values from multiple rows.\n\nCOUNT() counts rows.\nSUM() adds values.\nAVG() finds the average.\nMAX() finds the highest value.\nMIN() finds the lowest value.",
+          "explanation": "-Aggregate Functions: Aggregate functions calculate values from multiple rows.\n\n-COUNT(): Counts rows.\n-SUM(): Adds values.\n-AVG(): Finds the average.\n-MAX(): Finds the highest value.\n-MIN(): Finds the lowest value.",
           "codeSnippets": [
             {
               "language": "sql",
@@ -273,8 +273,8 @@
         {
           "id": "top-groupby-having",
           "title": "GROUP BY & HAVING",
-          "explanation": "GROUP BY groups rows with the same value.\n\nHAVING filters grouped results.\n\nWHERE filters rows before grouping.\nHAVING filters groups after grouping.",
-          "tldr": "WHERE filters rows. HAVING filters groups.",
+          "explanation": "-GROUP BY: Groups rows with the same value.\n\n-HAVING: Filters grouped results.\n\n-WHERE: Filters rows before grouping.\n-HAVING: Filters groups after grouping.",
+          "tldr": "WHERE individual rows filter করে, আর HAVING grouped data filter করে।",
           "codeSnippets": [
             {
               "language": "sql",
@@ -318,8 +318,8 @@
         {
           "id": "top-joins",
           "title": "INNER JOIN, LEFT JOIN & Other JOINs",
-          "explanation": "A JOIN combines related data from multiple tables.\n\nINNER JOIN returns matching rows from both tables.\n\nLEFT JOIN returns all rows from the left table and matching rows from the right table.\n\nRIGHT JOIN returns all rows from the right table and matching rows from the left table.\n\nFULL JOIN returns matching and unmatched rows from both tables.",
-          "tldr": "INNER = Matches only. LEFT = Everything on left. FULL = Everything from both.",
+          "explanation": "-JOIN: Combines related data from multiple tables.\n\n-INNER JOIN: Returns matching rows from both tables.\n\n-LEFT JOIN: Returns all rows from the left table and matching rows from the right table.\n\n-RIGHT JOIN: Returns all rows from the right table and matching rows from the left table.\n\n-FULL JOIN: Returns matching and unmatched rows from both tables.",
+          "tldr": "INNER = শুধু matching data, LEFT = left table-এর সব data, FULL = দুই table-এর সব data।",
           "codeSnippets": [
             {
               "language": "sql",
@@ -353,7 +353,7 @@
         {
           "id": "top-self-join",
           "title": "SELF JOIN",
-          "explanation": "A SELF JOIN joins a table with itself. It is useful for hierarchical data such as employee and manager relationships.",
+          "explanation": "-SELF JOIN: Joins a table with itself. It is useful for hierarchical data such as employee and manager relationships.",
           "codeSnippets": [
             {
               "language": "sql",
@@ -378,7 +378,7 @@
         {
           "id": "top-subquery",
           "title": "Subquery",
-          "explanation": "A Subquery is a query inside another query. It can be used in SELECT, FROM, or WHERE.",
+          "explanation": "-Subquery: A query inside another query. It can be used in SELECT, FROM, or WHERE.",
           "codeSnippets": [
             {
               "language": "sql",
@@ -396,7 +396,7 @@
         {
           "id": "top-cte",
           "title": "Common Table Expression (CTE)",
-          "explanation": "A CTE creates a temporary named result for a query. It can make complex SQL easier to read and organize.",
+          "explanation": "-CTE: Creates a temporary named result for a query. It can make complex SQL easier to read and organize.",
           "codeSnippets": [
             {
               "language": "sql",
@@ -425,7 +425,7 @@
         {
           "id": "top-transactions",
           "title": "Database Transactions",
-          "explanation": "A Transaction is a group of database operations treated as one unit of work.\n\nBEGIN starts a transaction.\nCOMMIT saves changes.\nROLLBACK cancels changes after an error.\n\nExample: Money should not leave one account without reaching the other account.",
+          "explanation": "-Transaction: A Transaction is a group of database operations treated as one unit of work.\n\n-BEGIN: Starts a transaction.\n-COMMIT: Saves changes.\n-ROLLBACK: Cancels changes after an error.\n\nExample: Money should not leave one account without reaching the other account.",
           "codeSnippets": [
             {
               "language": "sql",
@@ -447,7 +447,7 @@
         {
           "id": "top-acid",
           "title": "ACID Properties",
-          "explanation": "Atomicity: All operations succeed together or fail together.\n\nConsistency: Data follows database rules and stays valid.\n\nIsolation: Concurrent transactions should not incorrectly affect each other.\n\nDurability: Committed data should survive crashes or restarts.",
+          "explanation": "-Atomicity: All operations succeed together or fail together.\n\n-Consistency: Data follows database rules and stays valid.\n\n-Isolation: Concurrent transactions should not incorrectly affect each other.\n\n-Durability: Committed data should survive crashes or restarts.",
           "tldr": "ACID = Atomicity, Consistency, Isolation, Durability.",
           "comparisons": [
             {
@@ -482,8 +482,8 @@
         {
           "id": "top-indexing",
           "title": "Database Index",
-          "explanation": "A Database Index is a data structure that helps the database find data faster without checking every row.\n\nIndexes can improve WHERE, JOIN, ORDER BY, and other queries.\n\nHowever, indexes use extra storage and add extra work during INSERT, UPDATE, and DELETE.",
-          "tldr": "Index makes reads faster but can make writes slower.",
+          "explanation": "-Database Index: A data structure that helps the database find data faster without checking every row.\n\nNote:Indexes can improve WHERE, JOIN, ORDER BY, and other queries.\n\n-Highlight: However, indexes use extra storage and add extra work during INSERT, UPDATE, and DELETE.",
+          "tldr": "Index data খোঁজা faster করে, কিন্তু INSERT/UPDATE/DELETE একটু slower করতে পারে।",
           "codeSnippets": [
             {
               "language": "sql",
@@ -513,7 +513,7 @@
         {
           "id": "top-btree",
           "title": "B-Tree Index",
-          "explanation": "A B-Tree is a balanced tree structure commonly used for database indexes. It helps search data efficiently and supports ordered and range queries.",
+          "explanation": "-B-Tree: A balanced tree structure commonly used for database indexes. It helps search data efficiently and supports ordered and range queries.",
           "questions": [
             {
               "question": "Why is B-Tree useful for database indexes?",
@@ -531,14 +531,14 @@
         {
           "id": "top-normalization",
           "title": "Normalization & Database Anomalies",
-          "explanation": "Normalization organizes database data to reduce duplication and improve consistency.\n\nUpdate Anomaly: The same data must be updated in many places.\n\nInsert Anomaly: Data cannot be added without other unrelated data.\n\nDelete Anomaly: Deleting data accidentally removes useful related data.",
-          "tldr": "Normalization reduces duplicate data and database anomalies."
+          "explanation": "-Normalization: Organizes database data to reduce duplication and improve consistency.\n\n-Update Anomaly: The same data must be updated in many places.\n\n-Insert Anomaly: Data cannot be added without other unrelated data.\n\n-Delete Anomaly: Deleting data accidentally removes useful related data.",
+          "tldr": "Normalization duplicate data কমায় এবং database-এর data সমস্যা (anomalies) prevent করে।"
         },
         {
           "id": "top-normal-forms",
           "title": "1NF, 2NF & 3NF",
-          "explanation": "1NF: Each field should contain atomic values.\n\n2NF: The table must be in 1NF and should not have partial dependency.\n\n3NF: The table must be in 2NF and should not have transitive dependency.\n\nFor most software engineering interviews, clearly understanding 1NF, 2NF, and 3NF is enough.",
-          "tldr": "1NF = Atomic values. 2NF = No partial dependency. 3NF = No transitive dependency.",
+          "explanation": "-1NF: Each field should contain atomic values.\n\n-2NF: The table must be in 1NF and should not have partial dependency.\n\n-3NF: The table must be in 2NF and should not have transitive dependency.\n\nFor most software engineering interviews, clearly understanding 1NF, 2NF, and 3NF is enough.",
+          "tldr": "1NF = প্রতিটি cell-এ single value, 2NF = partial dependency নেই, 3NF = transitive dependency নেই।",
           "comparisons": [
             {
               "title": "Normal Forms",
@@ -564,7 +564,7 @@
         {
           "id": "top-denormalization",
           "title": "Denormalization",
-          "explanation": "Denormalization intentionally adds some duplicate data to improve read performance and reduce expensive JOIN operations.\n\nIt can improve speed but may increase data duplication.",
+          "explanation": "-Denormalization: Intentionally adds some duplicate data to improve read performance and reduce expensive JOIN operations.\n\n-It can improve speed but may increase data duplication.",
           "questions": [
             {
               "question": "What is Denormalization?",

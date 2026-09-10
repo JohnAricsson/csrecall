@@ -403,17 +403,17 @@ const STAT_ITEMS: FeatureFlipCardProps[] = [
   {
     icon: Zap,
     accent: "bg-sky-300",
-    badge: "5-Min Sprint",
+    badge: "Arcade XP",
     badgeClass: "bg-sky-400 text-black",
-    value: "5 Min",
-    unit: "Sprint",
-    title: "5-Minute Sprint",
-    detail: "Short, high-impact practice rounds.",
-    backTitle: "Quick Daily Warm-Up",
+    value: "Level Up",
+    unit: "XP",
+    title: "Earn XP & Badges",
+    detail: "Rack up points as you master modules and conquer decks.",
+    backTitle: "Rank Up Your Recall",
     backDetail:
-      "Run through 5 rapid interview questions to keep your CS knowledge sharp between rounds.",
-    backTag: "Warmup",
-    confettiColors: ["#0284c7", "#38bdf8", "#7dd3fc", "#0369a1"], // Sky blue burst
+      "Claim +10 XP for finished topics and +100 XP for full chapter mastery to climb the ranks.",
+    backTag: "Rank",
+    confettiColors: ["#0284c7", "#38bdf8", "#7dd3fc", "#0369a1"],
     cardBg: "bg-[#fffbf0]",
     topAccent: "bg-sky-400",
   },
@@ -442,7 +442,7 @@ export function HeroSection() {
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight mb-4 text-white drop-shadow-[3px_3px_0px_#000]">
-              CRACK THE CODE.{" "}
+              CRACK THE INTERVIEW{" "}
               <span className="inline-block mt-2 px-3 py-1 bg-yellow-300 text-black border-[3px] border-black shadow-[4px_4px_0px_0px_#000] rounded-xl rotate-[-1deg]">
                 LEVEL UP YOUR MEMORY
               </span>

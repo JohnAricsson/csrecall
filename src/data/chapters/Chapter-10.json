@@ -3,7 +3,7 @@
   "chapterNumber": 10,
   "title": "Basic Software Security",
   "description": "Interactive Revision Cheat Sheet & Interview Guide for fundamental security concepts, web attacks, password safety, and defense best practices.",
-  "estimatedMinutes": 45,
+  "estimatedMinutes": 30,
   "sections": [
     {
       "id": "section-1",
@@ -12,7 +12,7 @@
         {
           "id": "topic-1",
           "title": "THE CIA TRIAD (CONFIDENTIALITY, INTEGRITY, AVAILABILITY)",
-          "explanation": "The CIA Triad is the base of software security. It has three main targets:\n\n1. Confidentiality: Only authorized people can view private data. We use tools like Encryption, Passwords, and Role-Based Access Control.\nExample: A student can view only their own grade sheet, not others.\n\n2. Integrity: Data must remain correct and untouched by unauthorized users. We use Hashing and Input Validation.\nExample: A hacker cannot secretly edit an account balance from $100 to $10,000.\n\n3. Availability: Systems and data must be running whenever users need them. We use Backups, Load Balancers, and Rate Limiting.\nExample: A university result website does not crash when thousands of students visit at once.",
+          "explanation": "The CIA Triad is the base of software security. It has three main targets:\n\n-Confidentiality: Only authorized people can view private data. We use tools like Encryption, Passwords, and Role-Based Access Control.\nExample: A student can view only their own grade sheet, not others.\n\n-Integrity: Data must remain correct and untouched by unauthorized users. We use Hashing and Input Validation.\nExample: A hacker cannot secretly edit an account balance from $100 to $10,000.\n\n- Availability: Systems and data must be running whenever users need them. We use Backups, Load Balancers, and Rate Limiting.\nExample: A university result website does not crash when thousands of students visit at once.",
           "tldr": "Confidentiality: যার permission আছে সে-ই শুধু দেখবে। Integrity: কেউ data পরিবর্তন করতে পারবে না। Availability: প্রয়োজনের সময় system চালু থাকবে।",
           "keyPoints": [
             "Confidentiality stops unauthorized people from viewing data (Encryption, MFA).",
@@ -111,7 +111,7 @@
         {
           "id": "topic-4",
           "title": "CROSS-SITE SCRIPTING (XSS) & PREVENTION",
-          "explanation": "Cross-Site Scripting happens when an app displays untrusted user input directly on a webpage without cleaning it. Malicious JavaScript then runs in another user's browser, potentially stealing session cookies.\n\nMain Types:\n1. Stored XSS: The bad script is saved in the database (e.g., in a comment box) and runs whenever anyone views that page.\n2. Reflected XSS: The bad script is bounced back immediately from a URL parameter or search query.\n3. DOM-based XSS: The vulnerability lives directly in client-side JavaScript modifying the DOM unsafely.\n\nDefense: Output encoding (convert special characters like < and > into text entities), avoiding innerHTML, and using the HttpOnly flag on cookies.",
+          "explanation": "Cross-Site Scripting happens when an app displays untrusted user input directly on a webpage without cleaning it. Malicious JavaScript then runs in another user's browser, potentially stealing session cookies.\n\nMain Types:\n-Stored XSS: The bad script is saved in the database (e.g., in a comment box) and runs whenever anyone views that page.\n- Reflected XSS: The bad script is bounced back immediately from a URL parameter or search query.\n- DOM-based XSS: The vulnerability lives directly in client-side JavaScript modifying the DOM unsafely.\n\nDefense: Output encoding (convert special characters like < and > into text entities), avoiding innerHTML, and using the HttpOnly flag on cookies.",
           "tldr": "XSS আটকাতে output safely encode করতে হবে। HttpOnly cookie XSS-এর ক্ষতি কমাতে সাহায্য করে।",
           "keyPoints": [
             "Stored XSS is stored in the database; Reflected XSS comes directly via request parameters.",
@@ -201,7 +201,7 @@
         {
           "id": "topic-7",
           "title": "PASSWORD HASHING, SALTS & HASHING VS ENCRYPTION",
-          "explanation": "Never store passwords in plaintext. Use slow, dedicated password hashing algorithms like bcrypt, Argon2, or PBKDF2.\n\nSalt: A unique random string added to the password before hashing. It ensures two users with the same password end up with completely different hashes, which blocks precomputed Rainbow Table attacks.\n\nHashing vs Encryption:\n- Hashing is a one-way process. You cannot turn a hash back into the original plain text.\n- Encryption is a two-way process. You can decrypt ciphertext back into the original plain text using the secret key.",
+          "explanation": "Never store passwords in plaintext. Use slow, dedicated password hashing algorithms like bcrypt, Argon2, or PBKDF2.\n\n-Salt: A unique random string added to the password before hashing. It ensures two users with the same password end up with completely different hashes, which blocks precomputed Rainbow Table attacks.\n\n-Hashing: Hashing is a one-way process. You cannot turn a hash back into the original plain text.\n- Encryption: Encryption is a two-way process. You can decrypt ciphertext back into the original plain text using the secret key.",
           "tldr": "Salt হলো random value, যা একই password-এর hash-ও আলাদা করে দেয়। Password-এর জন্য Hashing, secret data protect করার জন্য Encryption।",
           "keyPoints": [
             "Never use fast hashing algorithms like MD5 or SHA-1 for passwords.",
@@ -257,7 +257,7 @@
         {
           "id": "topic-8",
           "title": "COOKIES, RATE LIMITING, BRUTE FORCE & INPUT VALIDATION",
-          "explanation": "Secure Cookie Flags:\n- HttpOnly: Prevents JavaScript access, protecting cookies from XSS theft.\n- Secure: Tells browsers to send the cookie only over HTTPS.\n- SameSite: Controls cross-site cookie delivery to prevent CSRF.\n\nRate Limiting: Limits the number of requests a client can make in a given timeframe. Excess requests return HTTP 429 (Too Many Requests). It stops password guessing and API abuse.\n\nHTTPS & TLS: HTTPS encrypts data traveling between the client and server (Port 443). HTTP is unencrypted plain text (Port 80).\n\nInput Validation: Checks incoming data against expected types and ranges. Always validate on the server side because client-side checks can be turned off or bypassed.",
+          "explanation": "Secure Cookie Flags:\n- HttpOnly: Prevents JavaScript access, protecting cookies from XSS theft.\n- Secure: Tells browsers to send the cookie only over HTTPS.\n- SameSite: Controls cross-site cookie delivery to prevent CSRF.\n\n-Rate Limiting: Limits the number of requests a client can make in a given timeframe. Excess requests return HTTP 429 (Too Many Requests). It stops password guessing and API abuse.\n-HTTPS & TLS: HTTPS encrypts data traveling between the client and server (Port 443). HTTP is unencrypted plain text (Port 80).\n\n-Input Validation: Checks incoming data against expected types and ranges. Always validate on the server side because client-side checks can be turned off or bypassed.",
           "tldr": "Frontend validation bypass করা যায়, তাই server-side validation অবশ্যই দরকার। কেউ যেন খুব বেশি request পাঠিয়ে login abuse করতে না পারে সেজন্য rate limit করা হয়।",
           "keyPoints": [
             "Use HttpOnly, Secure, and SameSite flags on sensitive cookies.",

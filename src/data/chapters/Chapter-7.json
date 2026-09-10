@@ -3,7 +3,7 @@
   "chapterNumber": 7,
   "title": "Computer Networks",
   "description": "Interactive Interview Revision Cheat Sheet covering the URL navigation flow, conceptual network models, transport protocols, core internet concepts, HTTP status codes, addressing, browser storage, and web authentication.",
-  "estimatedMinutes": 45,
+  "estimatedMinutes": 60,
   "sections": [
     {
       "id": "section-1",
@@ -80,7 +80,7 @@
         {
           "id": "topic-2-2",
           "title": "OSI Model — 7 Layers",
-          "explanation": "The OSI Model is a conceptual networking model with 7 layers.\n\nLayer 7: Application Layer\nProvides network services to applications. Common protocols: HTTP, HTTPS, FTP, SMTP, DNS, SSH.\n\nLayer 6: Presentation Layer\nHandles: Data formatting, Encryption, Decryption, Compression.\n\nLayer 5: Session Layer\nManages communication sessions between devices. It can: Start sessions, Maintain sessions, End sessions.\n\nLayer 4: Transport Layer\nHandles communication between applications. Common protocols: TCP, UDP. Responsibilities include: Reliability, Flow control, Error handling, Segmentation, Port numbers.\nImportant Note: TCP does not simply 'break data into packets.' At the transport layer, TCP handles segments. Lower layers encapsulate the data into packets and frames.\n\nLayer 3: Network Layer\nHandles: IP addressing, Routing, Communication between networks. Example protocol: IP. Routers mainly operate at this layer.\n\nLayer 2: Data Link Layer\nHandles communication within a local network. Uses: MAC addresses, Frames. Common technologies: Ethernet, Wi-Fi. Switches commonly operate at this layer.\n\nLayer 1: Physical Layer\nTransmits raw bits using physical signals. Examples: Ethernet cables, Fiber optics, Radio signals, Network hardware.",
+          "explanation": "The OSI Model is a conceptual networking model with 7 layers.\n\n-Application Layer: Provides network services to applications. Common protocols: HTTP, HTTPS, FTP, SMTP, DNS, SSH.\n\n-Presentation Layer: Handles: Data formatting, Encryption, Decryption, Compression.\n\n-Session Layer: Manages communication sessions between devices. It can: Start sessions, Maintain sessions, End sessions.\n\n-Transport Layer: Handles communication between applications. Common protocols: TCP, UDP. Responsibilities include: Reliability, Flow control, Error handling, Segmentation, Port numbers. Important Note: TCP does not simply 'break data into packets.' At the transport layer, TCP handles segments. Lower layers encapsulate the data into packets and frames.\n\n- Network Layer: Handles: IP addressing, Routing, Communication between networks. Example protocol: IP. Routers mainly operate at this layer.\n\n-Data Link Layer: Handles communication within a local network. Uses: MAC addresses, Frames. Common technologies: Ethernet, Wi-Fi. Switches commonly operate at this layer.\n\n-Physical Layer: Transmits raw bits using physical signals. Examples: Ethernet cables, Fiber optics, Radio signals, Network hardware.",
           "tldr": "Application Layer application-কে network service ব্যবহার করতে দেয়। Data কীভাবে format, encrypt বা compress হবে তা Presentation Layer handle করে। Session Layer দুই device-এর communication session manage করে। Transport Layer data delivery এবং TCP/UDP communication handle করে। IP address ব্যবহার করে data কোন network path দিয়ে যাবে তা Network Layer handle করে। একই local network-এর device-এর মধ্যে MAC address ব্যবহার করে Data Link Layer-এ communication হয়। Physical Layer আসল signal বা raw bits transmit করে।",
           "keyPoints": [
             "Keypoints: ",
@@ -96,7 +96,7 @@
         {
           "id": "topic-2-3",
           "title": "TCP/IP Model — 4 Layers & Model Comparison",
-          "explanation": "The TCP/IP model is a more practical model used to describe Internet networking:\n4. Application (HTTP, HTTPS, DNS, SMTP, FTP)\n3. Transport (TCP, UDP - Handles communication between applications)\n2. Internet (IP - Handles routing between networks)\n1. Network Access (Ethernet, Wi-Fi - Handles network communication technologies)",
+          "explanation": "The TCP/IP model is a more practical model used to describe Internet networking:\n- Application (HTTP, HTTPS, DNS, SMTP, FTP):\n-Transport (TCP, UDP - Handles communication between applications):\n-Internet (IP - Handles routing between networks):\n-Network Access (Ethernet, Wi-Fi - Handles network communication technologies):",
           "tldr": "OSI শেখা ও troubleshooting-এর জন্য useful, TCP/IP বাস্তব Internet communication-এর জন্য বেশি practical।",
           "comparisons": [
             {
@@ -148,7 +148,7 @@
         {
           "id": "topic-3-1",
           "title": "TCP vs UDP",
-          "explanation": "TCP — Transmission Control Protocol:\nTCP is a reliable, connection-oriented transport protocol. It provides connection establishment, ordered delivery, error detection, retransmission, flow control, and congestion control.\nFlow: Application Data → Split into Segments → Send to Receiver → Receiver Confirms Delivery → Lost Data? → Retransmit if Necessary. Common uses: Web browsing, HTTPS, Email, File transfer, Database communication.\n\nUDP — User Datagram Protocol:\nUDP is a connectionless transport protocol designed for low-overhead communication. It generally does not provide connection establishment, guaranteed delivery, ordered delivery, or automatic retransmission. This reduces overhead and can reduce latency. Common uses: Online gaming, Voice calls, Video calls, Live streaming, DNS queries. Applications using UDP can implement their own reliability mechanisms if required.",
+          "explanation": "-Transmission Control Protocol: TCP is a reliable, connection-oriented transport protocol. It provides connection establishment, ordered delivery, error detection, retransmission, flow control, and congestion control.\nFlow: Application Data → Split into Segments → Send to Receiver → Receiver Confirms Delivery → Lost Data? → Retransmit if Necessary. Common uses: Web browsing, HTTPS, Email, File transfer, Database communication.\n\n- User Datagram Protocol: UDP is a connectionless transport protocol designed for low-overhead communication. It generally does not provide connection establishment, guaranteed delivery, ordered delivery, or automatic retransmission. This reduces overhead and can reduce latency. Common uses: Online gaming, Voice calls, Video calls, Live streaming, DNS queries. Applications using UDP can implement their own reliability mechanisms if required.",
           "tldr": "TCP reliable এবং ordered data delivery নিশ্চিত করে। UDP speed এবং low latency-এর জন্য ভালো, কিন্তু TCP-এর মতো delivery guarantee দেয় না।",
           "keyPoints": [
             "TCP is connection-oriented, reliable, maintains order, and retransmits lost packets.",
@@ -193,7 +193,7 @@
         {
           "id": "topic-4-1",
           "title": "IP Address (IPv4 vs IPv6)",
-          "explanation": "An IP Address is a logical address used to identify devices and route data across networks.\n\nIPv4:\nUses 32-bit addresses (e.g., 192.168.1.1). Structure: 8 bits . 8 bits . 8 bits . 8 bits. Total theoretical address space: 2³² ≈ 4.3 billion addresses.\n\nIPv6:\nUses 128-bit addresses (e.g., 2001:0db8:85a3:0000:0000:8a2e:0370:7334). Total theoretical address space: 2¹²⁸ addresses, providing an extremely large address space.",
+          "explanation": "An IP Address is a logical address used to identify devices and route data across networks.\n\n-IPv4: Uses 32-bit addresses (e.g., 192.168.1.1). Structure: 8 bits . 8 bits . 8 bits . 8 bits. Total theoretical address space: 2³² ≈ 4.3 billion addresses.\n\n-IPv6: Uses 128-bit addresses (e.g., 2001:0db8:85a3:0000:0000:8a2e:0370:7334). Total theoretical address space: 2¹²⁸ addresses, providing an extremely large address space.",
           "tldr": "IPv4-এর address কম, তাই ভবিষ্যতের জন্য IPv6 অনেক বড় address space দেয়।",
           "comparisons": [
             {
@@ -224,7 +224,7 @@
         {
           "id": "topic-4-2",
           "title": "DNS — Domain Name System",
-          "explanation": "DNS translates human-readable domain names into IP addresses (e.g., google.com → DNS → IP Address). Humans remember names like google.com, whereas computers route traffic using IP addresses.\nAnalogy: DNS is the Internet's phonebook (Name → Phone Number corresponds to Domain → IP Address).",
+          "explanation": "-Domain Name System: DNS translates human-readable domain names into IP addresses (e.g., google.com → DNS → IP Address). Humans remember names like google.com, whereas computers route traffic using IP addresses.\nAnalogy: DNS is the Internet's phonebook (Name → Phone Number corresponds to Domain → IP Address).",
           "tldr": "DNS website-এর নামকে IP address-এ convert করে।",
           "traps": [
             {
@@ -238,7 +238,7 @@
         {
           "id": "topic-4-3",
           "title": "HTTP vs HTTPS",
-          "explanation": "HTTP (HyperText Transfer Protocol) transfers data without TLS encryption. Potential risks include data interception, data modification by attackers, and lack of server identity verification.\n\nHTTPS (HTTP Secure) uses HTTP + TLS. It provides Encryption, Integrity, and Server authentication.\n\nImportant Interview Note:\nPeople often say 'HTTPS uses SSL.' Modern HTTPS primarily uses TLS. SSL is the older protocol family and is deprecated.",
+          "explanation": "-HTTP: HyperText Transfer Protocol transfers data without TLS encryption. Potential risks include data interception, data modification by attackers, and lack of server identity verification.\n\n-HTTPS (HTTP Secure): Uses HTTP + TLS. It provides Encryption, Integrity, and Server authentication.\n\nImportant Interview Note: People often say 'HTTPS uses SSL.' Modern HTTPS primarily uses TLS. SSL is the older protocol family and is deprecated.",
           "tldr": "HTTPS TLS ব্যবহার করে data encrypt এবং secure communication নিশ্চিত করে।",
           "traps": [
             {
@@ -285,7 +285,7 @@
         {
           "id": "topic-6-1",
           "title": "MAC Address vs IP Address",
-          "explanation": "MAC Address:\nA MAC Address is a hardware-level address associated with a network interface (e.g., 00:1A:2B:3C:4D:5E). MAC addresses are primarily used for communication on local networks at the data link layer.\n\nIP Address:\nAn IP Address is a logical network address used for routing data across networks at the network layer (e.g., 192.168.1.10). IP addresses may change depending on network configuration.",
+          "explanation": "-MAC Address: A MAC Address is a hardware-level address associated with a network interface (e.g., 00:1A:2B:3C:4D:5E). MAC addresses are primarily used for communication on local networks at the data link layer.\n\n-IP Address: An IP Address is a logical network address used for routing data across networks at the network layer (e.g., 192.168.1.10). IP addresses may change depending on network configuration.",
           "tldr": "MAC local network-এ device/interface identify করে, আর IP different network-এর মধ্যে routing-এর জন্য ব্যবহার হয়।",
           "comparisons": [
             {
@@ -330,7 +330,7 @@
         {
           "id": "topic-7-1",
           "title": "Cookies, LocalStorage, and Sessions",
-          "explanation": "Cookies:\nSmall pieces of data stored by the browser. Cookies can be automatically included with HTTP requests when applicable based on their attributes and request context. Common uses: Authentication, Session identifiers, Preferences, Tracking.\nImportant security flags:\n- HttpOnly: JavaScript cannot directly access the cookie. Useful for reducing token exposure to many XSS attacks.\n- Secure: Cookie should only be sent over HTTPS.\n- SameSite: Helps control when cookies are sent in cross-site requests. Useful for reducing CSRF risks.\n\nLocalStorage:\nBrowser storage accessible through JavaScript (e.g., localStorage.setItem('theme', 'dark')). Common uses: Theme preference, UI settings, Non-sensitive cached application data. LocalStorage is not automatically sent with HTTP requests.\n\nSession:\nA session-based authentication system usually stores user session data on the server. The browser stores a Session ID (usually as a cookie). The server receives the ID and looks up the actual user session data.",
+          "explanation": "-Cookies: Small pieces of data stored by the browser. Cookies can be automatically included with HTTP requests when applicable based on their attributes and request context. Common uses: Authentication, Session identifiers, Preferences, Tracking.\nImportant security flags:\n- HttpOnly: JavaScript cannot directly access the cookie. Useful for reducing token exposure to many XSS attacks.\n- Secure: Cookie should only be sent over HTTPS.\n- SameSite: Helps control when cookies are sent in cross-site requests. Useful for reducing CSRF risks.\n\n-LocalStorage: Browser storage accessible through JavaScript (e.g., localStorage.setItem('theme', 'dark')). Common uses: Theme preference, UI settings, Non-sensitive cached application data. LocalStorage is not automatically sent with HTTP requests.\n\n-Session: A session-based authentication system usually stores user session data on the server. The browser stores a Session ID (usually as a cookie). The server receives the ID and looks up the actual user session data.",
           "tldr": "LocalStorage JavaScript দিয়ে access করা যায়, কিন্তু HttpOnly cookie JavaScript দিয়ে পড়া যায় না। Session auth-এ browser শুধু session ID রাখে, আসল session data server-side থাকে।",
           "comparisons": [
             {
@@ -394,7 +394,7 @@
         {
           "id": "topic-8-1",
           "title": "Browser Cache vs LocalStorage",
-          "explanation": "Browser Cache:\nBrowser cache stores resources to improve performance. Examples: Images, CSS, JavaScript, Fonts, API responses in some caching strategies. On the first visit, CSS is downloaded; on the next visit, cached CSS is used.\n\nLocalStorage:\nStores key-value application data managed directly via JavaScript.",
+          "explanation": "-Browser Cache: Browser cache stores resources to improve performance. Examples: Images, CSS, JavaScript, Fonts.\n\n-LocalStorage: Stores key-value application data managed directly via JavaScript.",
           "tldr": "Cache speed বাড়ায়, LocalStorage application-এর data store করে।",
           "comparisons": [
             {
@@ -412,7 +412,7 @@
         {
           "id": "topic-9-1",
           "title": "GET vs POST",
-          "explanation": "GET:\nPrimarily used to retrieve data (e.g., GET /users). Query parameters can be included in the URL (e.g., /users?page=1).\n\nPOST:\nCommonly used to create or submit data (e.g., POST /users) sending data in the request body.\n\nSecurity & Limits:\nPOST data is not automatically encrypted without HTTPS. Also, there is no universal HTTP specification limit for URL length in GET; practical limits depend on browsers, servers, proxies, and infrastructure.",
+          "explanation": "-GET: Primarily used to retrieve data (e.g., GET /users). Query parameters can be included in the URL (e.g., /users?page=1).\n\n-POST: Commonly used to create or submit data (e.g., POST /users) sending data in the request body.\n\nSecurity & Limits:\n Note: POST data is not automatically encrypted without HTTPS. Also, there is no universal HTTP specification limit for URL length in GET; practical limits depend on browsers, servers, proxies, and infrastructure.",
           "tldr": "GET data retrieve করার জন্য, POST data submit বা create করার জন্য ব্যবহার হয়। Security-এর জন্য HTTPS দরকার।",
           "codeSnippets": [
             {
@@ -461,7 +461,7 @@
         {
           "id": "topic-10-1",
           "title": "Session-Based vs JWT-Based Authentication",
-          "explanation": "Session-Based Authentication Flow:\n1. User Logs In → 2. Server Verifies Credentials → 3. Server Creates Session → 4. Browser Stores Session ID → 5. Browser Sends Session ID → 6. Server Finds Session.\nBoth browser cookie and server session store work together to maintain login state.\n\nJWT-Based Authentication Flow:\n1. User Logs In → 2. Server Verifies Credentials → 3. Server Creates JWT → 4. Browser Stores JWT → 5. Browser Sends JWT → 6. Server Verifies JWT.\nThe JWT itself represents authentication information. As long as the token is valid, the user remains authenticated.\n\nWhere Should JWT Be Stored?\n- LocalStorage: Easy to use → Accessible to JavaScript → Potential XSS exposure.\n- HttpOnly Cookie: Not directly accessible to JavaScript → Can reduce token theft via XSS → Requires proper CSRF and cookie configuration.",
+          "explanation": "Session-Based Authentication Flow: 1. User Logs In → 2. Server Verifies Credentials → 3. Server Creates Session → 4. Browser Stores Session ID → 5. Browser Sends Session ID → 6. Server Finds Session.\nBoth browser cookie and server session store work together to maintain login state.\n\nJWT-Based Authentication Flow: 1. User Logs In → 2. Server Verifies Credentials → 3. Server Creates JWT → 4. Browser Stores JWT → 5. Browser Sends JWT → 6. Server Verifies JWT.\nThe JWT itself represents authentication information. As long as the token is valid, the user remains authenticated.\n\nWhere Should JWT Be Stored?\n- LocalStorage: Easy to use → Accessible to JavaScript → Potential XSS exposure.\n- HttpOnly Cookie: Not directly accessible to JavaScript → Can reduce token theft via XSS → Requires proper CSRF and cookie configuration.",
           "tldr": "JWT auth-এ server token verify করে। Session auth-এ server session ID দিয়ে session data খুঁজে বের করে।",
           "codeSnippets": [
             {
