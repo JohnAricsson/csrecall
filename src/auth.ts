@@ -11,6 +11,7 @@ class UnverifiedEmailError extends CredentialsSignin {
 }
 
 const config: NextAuthConfig = {
+  trustHost: true,
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -141,6 +142,18 @@ const config: NextAuthConfig = {
           typeof token.picture === "string" ? token.picture : null;
       }
       return session;
+    },
+
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      try {
+        if (new URL(url).origin === baseUrl) return url;
+      } catch {
+        // invalid URL format, fallback to baseUrl
+      }
+      return baseUrl;
     },
   },
 

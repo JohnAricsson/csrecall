@@ -57,8 +57,8 @@ export function ProfileClient({ user }: ProfileClientProps) {
     }
   };
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: "/" });
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: "/" });
   };
 
   const allBadges = [

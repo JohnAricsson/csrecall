@@ -62,8 +62,8 @@ MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/csrecall?retryWr
 # NextAuth Configuration & App URLs
 # (Keep Vercel deployment URLs separate from email sender configuration)
 AUTH_SECRET=your_super_secret_min_32_characters_here
-AUTH_URL=http://localhost:3000
-NEXTAUTH_URL=http://localhost:3000
+AUTH_URL=https://csrecall.vercel.app
+NEXTAUTH_URL=https://csrecall.vercel.app
 
 # Google OAuth (Optional)
 AUTH_GOOGLE_ID=your_google_client_id
