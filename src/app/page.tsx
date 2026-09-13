@@ -29,7 +29,7 @@ export default function HomePage() {
           className="pointer-events-none absolute bottom-10 right-1/4 w-80 h-80 bg-yellow-400/10 blur-[100px] rounded-full -z-10"
         />
 
-        <div className="max-w-6xl mx-auto px-6 lg:px-8 space-y-10">
+        <div className="max-w-6xl mx-auto px-3.5 sm:px-6 md:px-6 lg:px-8 space-y-8 sm:space-y-10">
           {/* "Your Next Move" / Active Mission Tracker */}
           <NextMoveWidget chapters={chapters} />
 

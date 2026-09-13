@@ -156,11 +156,11 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto pt-3 pb-6 px-4 flex flex-col justify-between overflow-x-hidden">
+    <div className="w-full max-w-6xl mx-auto pt-3 pb-6 px-4 flex flex-col justify-between overflow-x-hidden md:min-h-0 md:py-8 md:flex md:flex-col md:items-center md:justify-start lg:justify-between">
       {/* ── Main Split-Screen Container ── */}
-      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center my-auto">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center my-auto md:my-0 lg:my-auto">
         {/* ── Left Column: The Interview Arena Showcase ── */}
-        <div className="flex flex-col justify-center space-y-3 py-1">
+        <div className="flex flex-col justify-center space-y-3 py-1 md:max-w-xl md:mx-auto md:mb-4 md:flex md:flex-col md:items-center lg:max-w-none lg:mx-0 lg:mb-0 lg:items-stretch">
           {/* Brand & Headline */}
           <div>
             <div className="inline-block bg-yellow-300 text-black border-2 border-black px-2.5 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_#000] mb-1">
@@ -275,7 +275,7 @@ export default function LoginPage() {
           </div>
 
           {/* Marquee Ticker */}
-          <div className="my-2 sm:my-3">
+          <div className="my-2 sm:my-3 md:my-4 md:w-full md:max-w-2xl md:mx-auto lg:my-3 lg:max-w-none">
             <div className="overflow-hidden rounded-xl border-[2.5px] border-black bg-black py-1.5 shadow-[3px_3px_0px_0px_#000]">
               <motion.div
                 animate={{ x: [0, -750] }}
@@ -297,7 +297,7 @@ export default function LoginPage() {
         </div>
 
         {/* ── Right Column: Comic Authentication Card ── */}
-        <div className="w-full max-w-md mx-auto">
+        <div className="w-full max-w-md mx-auto md:w-full md:max-w-md md:mx-auto md:my-0">
           <Card className="p-4 sm:p-5 bg-[#fffdf7] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] relative overflow-hidden">
             {/* Top accent line */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-yellow-400 border-b-2 border-black" />

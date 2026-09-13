@@ -188,22 +188,22 @@ export function NextMoveWidget({ chapters = [] }: NextMoveWidgetProps) {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 24 }}
-      className="bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000] p-3.5 sm:p-6 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+      className="bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000] p-3.5 sm:p-5 md:p-6 mb-6 sm:mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
     >
-      <div className="flex items-start gap-4">
+      <div className="flex items-start gap-3 sm:gap-4">
         {/* Mission Icon */}
         <div
-          className={`flex-shrink-0 w-12 h-12 rounded-xl border-2 border-black ${missionData.iconBg} flex items-center justify-center shadow-[2px_2px_0px_0px_#000]`}
+          className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl border-2 border-black ${missionData.iconBg} flex items-center justify-center shadow-[2px_2px_0px_0px_#000]`}
         >
           <IconComponent
-            className={`w-6 h-6 ${missionData.iconColor}`}
+            className={`w-5 h-5 sm:w-6 sm:h-6 ${missionData.iconColor}`}
             strokeWidth={2.5}
           />
         </div>
 
         {/* Text Details */}
-        <div className="space-y-1.5">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="space-y-1.5 flex-1 min-w-0">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
             <span
               className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000] ${missionData.pillBg}`}
             >
@@ -218,19 +218,19 @@ export function NextMoveWidget({ chapters = [] }: NextMoveWidgetProps) {
             {missionData.headline}
           </h3>
 
-          <p className="text-sm sm:text-base font-medium text-stone-700 max-w-xl leading-relaxed max-sm:text-xs max-sm:line-clamp-2">
+          <p className="text-xs sm:text-sm md:text-base font-medium text-stone-700 max-w-xl leading-relaxed">
             {missionData.subtitle}
           </p>
         </div>
       </div>
 
       {/* CTA Button */}
-      <div className="flex-shrink-0 md:self-center mt-2 md:mt-0 max-sm:w-full">
-        <Link href={missionData.href} className="max-sm:w-full block">
+      <div className="flex-shrink-0 md:self-center mt-2 md:mt-0 w-full md:w-auto">
+        <Link href={missionData.href} className="w-full md:w-auto block">
           <Button
             variant="primary"
             size="md"
-            className="w-full md:w-auto font-black shadow-[3px_3px_0px_0px_#000] border-2 border-black hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform flex items-center gap-2 justify-center max-sm:w-full max-sm:py-2 max-sm:text-xs"
+            className="w-full md:w-auto font-black shadow-[3px_3px_0px_0px_#000] border-2 border-black hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform flex items-center gap-2 justify-center py-2.5 sm:py-3 text-xs sm:text-sm md:text-base"
           >
             <span>{missionData.buttonText}</span>
           </Button>

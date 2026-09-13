@@ -58,14 +58,14 @@ export function ForgotPasswordModal({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/70 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-stone-900/70 backdrop-blur-sm">
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             className="w-full max-w-md"
           >
-            <Card className="p-6 sm:p-8 space-y-5 bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[8px_8px_0px_0px_#000] relative overflow-hidden">
+            <Card className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 bg-[#fffdf7] border-[3px] border-black rounded-2xl shadow-[6px_6px_0px_0px_#000] sm:shadow-[8px_8px_0px_0px_#000] relative overflow-hidden">
               {/* Top colored accent line */}
               <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 border-b-2 border-black" />
 

@@ -121,7 +121,7 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
             </div>
 
             {/* Bottom hint pill */}
-            <div className="flex items-center justify-between text-xs font-black text-stone-600 pt-3 border-t-2 border-black/20">
+            <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-1 text-[11px] sm:text-xs font-black text-stone-600 pt-2.5 sm:pt-3 border-t-2 border-black/20 text-center sm:text-left">
               <span className="text-stone-700">
                 ⚡ উত্তর দেখতে কার্ডে ট্যাপ করুন
               </span>
@@ -161,7 +161,7 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
             </div>
 
             {/* Bottom hint */}
-            <div className="flex items-center justify-between text-xs font-black text-stone-900 pt-3 border-t-2 border-black/20">
+            <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-1 text-[11px] sm:text-xs font-black text-stone-900 pt-2.5 sm:pt-3 border-t-2 border-black/20 text-center sm:text-left">
               <span>প্রশ্ন দেখতে আবার ট্যাপ করুন 🔄</span>
               <span className="bg-[#fffdf7] text-stone-950 px-2 py-0.5 rounded border border-black shadow-[1px_1px_0px_0px_#000] uppercase tracking-wider font-black">
                 উল্টাতে ট্যাপ করুন 🔄
@@ -172,18 +172,18 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
       </div>
 
       {/* ── Arcade Navigation Controls Below Card ── */}
-      <div className="mt-8 flex items-center justify-center gap-4">
+      <div className="mt-6 sm:mt-8 flex items-center justify-center gap-2 sm:gap-4">
         <button
           type="button"
           disabled={currentIndex === 0}
           onClick={handlePrevious}
-          className="bg-stone-200 hover:bg-stone-300 disabled:opacity-40 disabled:cursor-not-allowed text-black font-black text-sm md:text-base px-5 py-2.5 rounded-xl border-[3px] border-black shadow-[3px_3px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center gap-2"
+          className="bg-stone-200 hover:bg-stone-300 disabled:opacity-40 disabled:cursor-not-allowed text-black font-black text-xs sm:text-sm md:text-base px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl border-[3px] border-black shadow-[3px_3px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center gap-1.5 sm:gap-2"
         >
           <span>←</span>
           <span>পূর্ববর্তী</span>
         </button>
 
-        <span className="text-xs sm:text-sm font-black text-stone-900 bg-[#fffdf7] px-3.5 py-2 rounded-xl border-2 border-black shadow-[2px_2px_0px_0px_#000]">
+        <span className="text-xs sm:text-sm font-black text-stone-900 bg-[#fffdf7] px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border-2 border-black shadow-[2px_2px_0px_0px_#000]">
           {toBengaliDigits(currentIndex + 1)} / {toBengaliDigits(totalCards)}
         </span>
 
@@ -191,7 +191,7 @@ export function PracticeMode({ chapter }: PracticeModeProps) {
           type="button"
           disabled={currentIndex === totalCards - 1}
           onClick={handleNext}
-          className="bg-amber-400 hover:bg-amber-300 disabled:opacity-40 disabled:cursor-not-allowed text-black font-black text-sm md:text-base px-6 py-2.5 rounded-xl border-[3px] border-black shadow-[3px_3px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center gap-2"
+          className="bg-amber-400 hover:bg-amber-300 disabled:opacity-40 disabled:cursor-not-allowed text-black font-black text-xs sm:text-sm md:text-base px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border-[3px] border-black shadow-[3px_3px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center gap-1.5 sm:gap-2"
         >
           <span>পরবর্তী</span>
           <span>→</span>

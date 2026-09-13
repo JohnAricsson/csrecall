@@ -12,8 +12,8 @@ export function Navbar() {
   const streakDays = useGameStore((s) => s.streakDays);
 
   return (
-    <header className="w-full mt-2 mb-3 sm:mt-3 sm:mb-4 z-50 max-w-6xl mx-auto px-4 sm:px-6 transition-all">
-      <div className="bg-[#fffdf7] border-[3px] border-black shadow-[5px_5px_0px_0px_#000] rounded-2xl w-full flex items-center justify-between px-3 py-2 sm:px-6 sm:py-3 sm:h-13 overflow-hidden">
+    <header className="w-full mt-2 mb-3 sm:mt-3 sm:mb-4 z-50 max-w-6xl mx-auto px-3.5 sm:px-6 transition-all">
+      <div className="bg-[#fffdf7] border-[3px] border-black shadow-[4px_4px_0px_0px_#000] sm:shadow-[5px_5px_0px_0px_#000] rounded-2xl w-full flex items-center justify-between px-2.5 py-1.5 sm:px-6 sm:py-3 sm:h-13 overflow-hidden">
         {/* Brand Logo */}
         <Link
           href="/"
@@ -34,27 +34,27 @@ export function Navbar() {
 
         {/* Auth / Player Vitals - User Cluster Container */}
         {status === "loading" ? (
-          <div className="w-24 sm:w-28 h-8 sm:h-9 bg-stone-200 animate-pulse rounded-xl border-2 border-black shrink-0" />
+          <div className="w-20 sm:w-28 h-8 sm:h-9 bg-stone-200 animate-pulse rounded-xl border-2 border-black shrink-0" />
         ) : session?.user ? (
-          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-1 sm:gap-2 md:gap-3 shrink-0">
             {streakDays > 0 && (
-              <div className="px-2 py-1 text-[11px] font-black h-8 flex items-center shrink-0 border-2 border-black rounded-lg bg-orange-300 text-orange-950 shadow-[1px_1px_0px_0px_#000] gap-1">
+              <div className="px-1.5 sm:px-2 py-1 text-[10px] sm:text-[11px] font-black h-8 flex items-center shrink-0 border-2 border-black rounded-lg bg-orange-300 text-orange-950 shadow-[1px_1px_0px_0px_#000] gap-1 max-[380px]:hidden">
                 <Flame className="w-3.5 h-3.5 text-orange-600 fill-orange-500 animate-pulse shrink-0" />
                 <span>{streakDays}d</span>
               </div>
             )}
-            <div className="px-2 py-1 text-[11px] sm:text-xs font-black h-8 flex items-center shrink-0 border-2 border-black rounded-lg bg-yellow-300 text-black shadow-[1px_1px_0px_0px_#000] gap-1">
+            <div className="px-1.5 sm:px-2 py-1 text-[10px] sm:text-xs font-black h-8 flex items-center shrink-0 border-2 border-black rounded-lg bg-yellow-300 text-black shadow-[1px_1px_0px_0px_#000] gap-1">
               <span>🪙</span>
               <span>{xp} XP</span>
             </div>
             <Link
               href="/profile"
-              className="px-2 py-1 text-[11px] font-bold h-8 flex items-center shrink-0 border-2 border-black rounded-lg max-w-[90px] sm:max-w-none truncate bg-[#fffdf7] hover:bg-yellow-50 text-black gap-1.5 shadow-[1px_1px_0px_0px_#000] cursor-pointer group transition-all"
+              className="px-1.5 sm:px-2 py-1 text-[10px] sm:text-[11px] font-bold h-8 flex items-center shrink-0 border-2 border-black rounded-lg max-w-[80px] sm:max-w-none truncate bg-[#fffdf7] hover:bg-yellow-50 text-black gap-1 sm:gap-1.5 shadow-[1px_1px_0px_0px_#000] cursor-pointer group transition-all"
             >
               <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-emerald-300 border border-black flex items-center justify-center shrink-0">
                 <User className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-black" />
               </div>
-              <span className="truncate max-w-[55px] sm:max-w-[100px]">
+              <span className="truncate max-w-[45px] sm:max-w-[100px]">
                 {session.user.name?.split(" ")[0] || "Player"}
               </span>
             </Link>

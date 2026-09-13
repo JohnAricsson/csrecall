@@ -451,9 +451,9 @@ export function HeroSection() {
             </motion.div>
 
             {/* Headline */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white drop-shadow-[3px_3px_0px_#000]">
-              CRACK THE INTERVIEW{" "}
-              <span className="inline-block mt-1 mb-2 px-3 py-1 bg-yellow-300 text-black border-[3px] border-black shadow-[4px_4px_0px_0px_#000] rounded-xl rotate-[-1deg]">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white drop-shadow-[3px_3px_0px_#000] flex flex-col lg:flex-row items-start lg:items-center gap-2">
+              <span>CRACK THE INTERVIEW</span>
+              <span className="inline-block px-3 py-1 bg-yellow-300 text-black border-[3px] border-black shadow-[4px_4px_0px_0px_#000] rounded-xl rotate-[-1deg]">
                 LEVEL UP YOUR MEMORY
               </span>
             </h1>
@@ -508,7 +508,7 @@ export function HeroSection() {
         </div>
 
         {/* ── Row 2: 3D Flip Feature Cards with Distinct Comic Colorways ── */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-2 sm:mt-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-5xl mx-auto mt-2 sm:mt-3">
           {STAT_ITEMS.map((item) => (
             <FeatureFlipCard key={item.title} {...item} />
           ))}

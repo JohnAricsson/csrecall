@@ -136,38 +136,38 @@ export function ProfileClient({ user }: ProfileClientProps) {
         </Card>
 
         {/* ── Stats Grid ── */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6">
+        <div className="grid grid-cols-3 gap-1.5 sm:gap-4 md:gap-6">
           <TiltCard>
-            <div className="h-full p-2 sm:p-4 md:p-6 flex flex-col items-center justify-center text-center gap-1 sm:gap-2 bg-yellow-300 border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000]">
+            <div className="h-full p-1.5 sm:p-4 md:p-6 flex flex-col items-center justify-center text-center gap-0.5 sm:gap-2 bg-yellow-300 border-[3px] border-black rounded-2xl shadow-[3px_3px_0px_0px_#000] sm:shadow-[5px_5px_0px_0px_#000]">
               <Zap className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 text-black fill-black mx-auto mb-0.5 sm:mb-1" />
-              <p className="text-base sm:text-2xl md:text-3xl font-black text-black">
+              <p className="text-sm sm:text-2xl md:text-3xl font-black text-black">
                 {xp}
               </p>
-              <p className="text-[9px] sm:text-xs font-bold sm:font-black uppercase tracking-wider text-black">
+              <p className="text-[8px] sm:text-xs font-bold sm:font-black uppercase tracking-wider text-black">
                 Total XP
               </p>
             </div>
           </TiltCard>
 
           <TiltCard>
-            <div className="h-full p-2 sm:p-4 md:p-6 flex flex-col items-center justify-center text-center gap-1 sm:gap-2 bg-emerald-300 border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000]">
+            <div className="h-full p-1.5 sm:p-4 md:p-6 flex flex-col items-center justify-center text-center gap-0.5 sm:gap-2 bg-emerald-300 border-[3px] border-black rounded-2xl shadow-[3px_3px_0px_0px_#000] sm:shadow-[5px_5px_0px_0px_#000]">
               <BookOpen className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 text-black mx-auto mb-0.5 sm:mb-1" />
-              <p className="text-base sm:text-2xl md:text-3xl font-black text-black">
+              <p className="text-sm sm:text-2xl md:text-3xl font-black text-black">
                 {completedChapterIds.length}
               </p>
-              <p className="text-[9px] sm:text-xs font-bold sm:font-black uppercase tracking-wider text-black">
+              <p className="text-[8px] sm:text-xs font-bold sm:font-black uppercase tracking-wider text-black">
                 Cleared
               </p>
             </div>
           </TiltCard>
 
           <TiltCard>
-            <div className="h-full p-2 sm:p-4 md:p-6 flex flex-col items-center justify-center text-center gap-1 sm:gap-2 bg-rose-300 border-[3px] border-black rounded-2xl shadow-[5px_5px_0px_0px_#000]">
+            <div className="h-full p-1.5 sm:p-4 md:p-6 flex flex-col items-center justify-center text-center gap-0.5 sm:gap-2 bg-rose-300 border-[3px] border-black rounded-2xl shadow-[3px_3px_0px_0px_#000] sm:shadow-[5px_5px_0px_0px_#000]">
               <ShieldAlert className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 text-black mx-auto mb-0.5 sm:mb-1" />
-              <p className="text-base sm:text-2xl md:text-3xl font-black text-black">
+              <p className="text-sm sm:text-2xl md:text-3xl font-black text-black">
                 {totalTrapsDefused}
               </p>
-              <p className="text-[9px] sm:text-xs font-bold sm:font-black uppercase tracking-wider text-black">
+              <p className="text-[8px] sm:text-xs font-bold sm:font-black uppercase tracking-wider text-black">
                 Defused
               </p>
             </div>

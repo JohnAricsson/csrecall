@@ -105,7 +105,7 @@ interface UnlockModalProps {
 
 function UnlockModal({ chapterId, onClose }: UnlockModalProps) {
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.92, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -113,7 +113,7 @@ function UnlockModal({ chapterId, onClose }: UnlockModalProps) {
         transition={{ type: "spring", stiffness: 320, damping: 26 }}
         className="w-full max-w-md"
       >
-        <div className="bg-[#fffdf7] border-[3px] border-black shadow-[6px_6px_0px_0px_#000] rounded-2xl p-6 max-w-md mx-auto text-stone-900 space-y-4">
+        <div className="bg-[#fffdf7] border-[3px] border-black shadow-[6px_6px_0px_0px_#000] rounded-2xl p-4 sm:p-6 md:p-8 max-w-md mx-auto text-stone-900 space-y-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-yellow-300 border-2 border-black flex items-center justify-center text-2xl shadow-[2px_2px_0px_0px_#000] flex-shrink-0">
               🔒
@@ -307,8 +307,8 @@ export function ChapterArena({ chapter }: ChapterArenaProps) {
       </AnimatePresence>
 
       {/* ── Secondary Control Bar (Floating Neo-Brutalist Panel, offset from Navbar) ── */}
-      <div className="sticky top-20 sm:top-24 z-30 px-4 sm:px-6 mb-4 sm:mb-5">
-        <div className="bg-[#fffdf7] text-stone-900 border-[3px] border-black shadow-[4px_4px_0px_0px_#000] rounded-2xl p-3 max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+      <div className="sticky top-16 sm:top-20 md:top-24 z-30 px-3.5 sm:px-6 mb-4 sm:mb-5">
+        <div className="bg-[#fffdf7] text-stone-900 border-[3px] border-black shadow-[4px_4px_0px_0px_#000] rounded-2xl p-2.5 sm:p-3 md:p-3.5 max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4">
           {/* Back + title row */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <Link

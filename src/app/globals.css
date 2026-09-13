@@ -35,6 +35,12 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 /* ─── Base Comic Canvas Background ────────────────────────────────────────── */
 body {
   background-color: #3b0b18;

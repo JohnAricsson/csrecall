@@ -30,8 +30,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -40,7 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} scroll-smooth antialiased`}
     >
-      <body className="min-h-screen flex flex-col text-stone-900 bg-[#3b0b18] relative selection:bg-yellow-300 selection:text-black">
+      <body className="min-h-screen w-full max-w-full overflow-x-hidden flex flex-col text-stone-900 bg-[#3b0b18] relative selection:bg-yellow-300 selection:text-black">
         <Providers>
           {/* Sticky app shell */}
           <Navbar />

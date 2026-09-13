@@ -277,19 +277,19 @@ const ChapterCard = memo(function ChapterCard({
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 280, damping: 24, delay }}
-      className="h-full"
+      className="w-full h-full"
     >
       {isLocked ? (
         <div
           onClick={() => onLockedClick(chapter)}
           role="button"
           tabIndex={0}
-          className="block h-full cursor-pointer"
+          className="block w-full h-full cursor-pointer"
         >
           {cardContent}
         </div>
       ) : (
-        <Link href={`/chapter/${chapter.id}`} className="block h-full">
+        <Link href={`/chapter/${chapter.id}`} className="block w-full h-full">
           {cardContent}
         </Link>
       )}
@@ -324,7 +324,7 @@ export function QuestMap({ chapters }: QuestMapProps) {
   return (
     <section id="quest-map" className="scroll-mt-12">
       {/* Section header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6 bg-[#fffdf7] p-3.5 sm:p-6 rounded-2xl border-[3px] border-black shadow-[5px_5px_0px_0px_#000]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6 bg-[#fffdf7] p-3.5 sm:p-5 md:p-6 rounded-2xl border-[3px] border-black shadow-[5px_5px_0px_0px_#000]">
         <div>
           <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
             <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-black tracking-tight flex items-center gap-1.5 sm:gap-2">
@@ -352,7 +352,7 @@ export function QuestMap({ chapters }: QuestMapProps) {
         </Badge>
       </div>
       {/* Grid of Chapter Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
         {chapters.map((chapter, i) => {
           const isCompleted =
             hydrated && completedChapterIds.includes(chapter.id);
