@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useCallback, memo } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Copy, Check, CheckCircle2, Lock } from "lucide-react";
+import {
+  ChevronDown,
+  Copy,
+  Check,
+  CheckCircle2,
+  Lock,
+  ArrowUp,
+} from "lucide-react";
 import type {
   Chapter,
   Topic,
@@ -432,6 +439,24 @@ interface LearnModeProps {
 }
 
 export function LearnMode({ chapter, isGuest, onRequireAuth }: LearnModeProps) {
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   let globalTopicIndex = 0;
 
   return (
@@ -468,6 +493,28 @@ export function LearnMode({ chapter, isGuest, onRequireAuth }: LearnModeProps) {
           </div>
         </section>
       ))}
+
+      {/* ── Floating Retro/Arcade "Back to Top" Button ── */}
+      <AnimatePresence>
+        {showBackToTop && (
+          <motion.button
+            type="button"
+            onClick={scrollToTop}
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            transition={{ duration: 0.15 }}
+            aria-label="Back to top"
+            className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-40 flex items-center gap-1.5 px-3 sm:px-3.5 py-2 sm:py-2.5 bg-yellow-300 hover:bg-yellow-400 text-black border-[3px] border-black rounded-xl font-black text-xs sm:text-sm tracking-wider uppercase shadow-[4px_4px_0px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none cursor-pointer hover:-translate-y-0.5 transition-all"
+          >
+            <ArrowUp
+              className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-black"
+              strokeWidth={3}
+            />
+            <span>উপরে যান</span>
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
